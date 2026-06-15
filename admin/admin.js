@@ -1125,8 +1125,80 @@ document.getElementById('confirmModal').addEventListener('click', e => {
 });
 
 // -----------------------------------------------
-// Publish All (unused currently but available)
+// Preview
+// -----------------------------------------------
+let previewOpen = false;
+
+function togglePreview() {
+  previewOpen = !previewOpen;
+  const container = document.getElementById('previewContainer');
+  container.classList.toggle('open', previewOpen);
+
+  if (previewOpen) {
+    refreshPreview();
+    if (window.innerWidth > 900) {
+      document.querySelector('.main').style.marginRight = '50%';
+    }
+  } else {
+    document.querySelector('.main').style.marginRight = '0';
+  }
+}
+
+function refreshPreview() {
+  const frame = document.getElementById('previewFrame');
+  const blob = new Blob([FILES.indexHtml], { type: 'text/html' });
+  frame.src = URL.createObjectURL(blob);
+}
+
+// -----------------------------------------------
+// FAQ Filter & Search
+// -----------------------------------------------
+let faqFilterCat = 'tots';
+
+function setFAQFilter(cat, btn) {
+  faqFilterCat = cat;
+  document.querySelectorAll('#faqFilterTabs .filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  filterFAQCards();
+}
+
+function filterFAQCards() {
+  const search = (document.getElementById('faqSearch')?.value || '').toLowerCase();
+  const cards = document.querySelectorAll('.faq-editor-card');
+  cards.forEach((card, i) => {
+    if (i >= FAQ_DATA.length) return;
+    const faq = FAQ_DATA[i];
+    const matchesCat = faqFilterCat === 'tots' || faq.cat === faqFilterCat;
+    const matchesSearch = !search || faq.q.toLowerCase().includes(search) || faq.a.toLowerCase().includes(search);
+    card.style.display = (matchesCat && matchesSearch) ? '' : 'none';
+  });
+}
+
+// -----------------------------------------------
+// Loading overlay
+// -----------------------------------------------
+function showLoading(text) {
+  document.getElementById('loadingText').textContent = text || 'Carregant...';
+  document.getElementById('loadingOverlay').style.display = 'flex';
+}
+
+function hideLoading() {
+  document.getElementById('loadingOverlay').style.display = 'none';
+}
+
+// -----------------------------------------------
+// Keyboard shortcuts
+// -----------------------------------------------
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+    e.preventDefault();
+    togglePreview();
+  }
+});
+
+// -----------------------------------------------
+// Publish All
 // -----------------------------------------------
 async function publishAll() {
-  toast('info', 'Funcionalitat de publicació global pendent.');
+  toast('info', 'Usa els botons "Desar canvis" de cada secció per publicar.');
 }

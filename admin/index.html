@@ -116,6 +116,16 @@
           </div>
           <div class="dashboard-grid" id="dashboardGrid"></div>
           <div class="dashboard-status" id="dashboardStatus"></div>
+          <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+            <button class="preview-toggle" onclick="togglePreview()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              Previsualitzar web
+            </button>
+            <a href="../index.html" target="_blank" class="preview-toggle" style="text-decoration:none">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Obrir web en una nova pestanya
+            </a>
+          </div>
         </section>
 
         <!-- HERO -->
@@ -313,6 +323,16 @@
               <button class="btn btn-primary btn-sm" onclick="saveSection('faq')">Desar canvis</button>
             </div>
           </div>
+          <div class="search-bar">
+            <input class="search-input" id="faqSearch" placeholder="Cercar FAQ..." oninput="filterFAQCards()" />
+            <div class="filter-tabs" id="faqFilterTabs">
+              <button class="filter-tab active" data-cat="tots" onclick="setFAQFilter('tots', this)">Totes</button>
+              <button class="filter-tab" data-cat="rgpd" onclick="setFAQFilter('rgpd', this)">RGPD</button>
+              <button class="filter-tab" data-cat="ia" onclick="setFAQFilter('ia', this)">IA</button>
+              <button class="filter-tab" data-cat="practic" onclick="setFAQFilter('practic', this)">Pràctic</button>
+              <button class="filter-tab" data-cat="glossari" onclick="setFAQFilter('glossari', this)">Glossari</button>
+            </div>
+          </div>
           <div id="faq-cards-container" class="faq-editor-grid"></div>
         </section>
 
@@ -364,6 +384,21 @@
 
       </div>
     </main>
+  </div>
+
+  <!-- PREVIEW PANEL -->
+  <div id="previewContainer" class="preview-frame-container">
+    <div class="preview-frame-header">
+      <span class="preview-frame-title">Previsualització</span>
+      <button class="preview-close" onclick="togglePreview()">&times;</button>
+    </div>
+    <iframe id="previewFrame" class="preview-frame" sandbox="allow-same-origin allow-scripts"></iframe>
+  </div>
+
+  <!-- LOADING OVERLAY -->
+  <div id="loadingOverlay" class="loading-overlay" style="display:none">
+    <div class="spinner"></div>
+    <span class="loading-text" id="loadingText">Carregant...</span>
   </div>
 
   <!-- TOAST -->
