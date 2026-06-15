@@ -315,7 +315,10 @@ function parseAllContent() {
   setVal('news-lead', stripHtml(newsLead ? newsLead[1].trim() : ''));
 
   NEWS_DATA = [];
-  const newsCards = [...h.matchAll(/<article class="news-card([^"]*)">\s*([\s\S]*?)\s*<\/article>/g)];
+  const newsGridStart = h.indexOf('<div class="news-grid">');
+  const newsGridEnd = h.indexOf('</div>', h.lastIndexOf('</article>', h.indexOf('<!-- ✏️ SECCIÓ: FOOTER')));
+  const newsGridHtml = newsGridStart !== -1 ? h.slice(newsGridStart, newsGridEnd + 6) : '';
+  const newsCards = [...newsGridHtml.matchAll(/<article class="news-card([^"]*)">\s*([\s\S]*?)\s*<\/article>/g)];
   newsCards.forEach(m => {
     const card = m[2];
     const tagMatch = card.match(/<span class="news-tag ([^"]+)">([^<]+)<\/span>/);
