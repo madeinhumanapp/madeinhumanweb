@@ -310,6 +310,12 @@ function parseAllContent() {
   parseFAQFromScript(s);
   renderFAQCards();
 
+  // Contact section texts
+  setVal('contact-title', extractContent(h, '<!-- ✏️ EDITABLE: titular de contacte -->', '<h2 class="section-title">', '</h2>'));
+  setVal('contact-desc', extractContent(h, '<!-- ✏️ EDITABLE: descripció de contacte -->', '<p class="section-lead">', '</p>'));
+  setVal('adeq-title', extractContent(h, '<!-- ✏️ EDITABLE: titular del formulari d\'adequació -->', '<h2 class="section-title">', '</h2>'));
+  setVal('adeq-desc', extractContent(h, '<!-- ✏️ EDITABLE: descripció del formulari -->', '<p class="section-lead">', '</p>'));
+
   // Footer
   setVal('footer-desc', extractContent(h, '<!-- ✏️ EDITABLE: descripció del footer -->', '<p class="footer-desc">', '</p>'));
   const emailMatch = h.match(/<!-- ✏️ EDITABLE: correu de contacte -->\s*<li><a href="mailto:([^"]+)">/);
@@ -383,8 +389,10 @@ function renderDashboard() {
     { id: 'method', icon: 'list', title: 'Mètode', meta: `${STEP_DATA.length} fases` },
     { id: 'news', icon: 'newspaper', title: 'Actualitat', meta: `${NEWS_DATA.length} notícies` },
     { id: 'faq', icon: 'help-circle', title: 'FAQ', meta: `${FAQ_DATA.length} preguntes` },
+    { id: 'contact', icon: 'mail', title: 'Contacte', meta: 'Textos de la secció contacte' },
     { id: 'footer', icon: 'footer', title: 'Footer', meta: 'Copyright, contacte, links' },
     { id: 'images', icon: 'image', title: 'Imatges', meta: 'Puja i gestiona imatges' },
+    { id: 'history', icon: 'clock', title: 'Historial', meta: 'Últims commits' },
   ];
 
   const grid = document.getElementById('dashboardGrid');
@@ -628,6 +636,13 @@ function collectHTMLChanges(section) {
     h = replaceNewsLead(h, getVal('news-lead'));
     collectNewsData();
     h = rebuildNewsCards(h);
+  }
+
+  if (section === 'contact') {
+    h = replaceTagAfterComment(h, '<!-- ✏️ EDITABLE: titular de contacte -->', 'h2', getVal('contact-title'));
+    h = replaceLeadAfterComment(h, '<!-- ✏️ EDITABLE: descripció de contacte -->', getVal('contact-desc'));
+    h = replaceTagAfterComment(h, '<!-- ✏️ EDITABLE: titular del formulari d\'adequació -->', 'h2', getVal('adeq-title'));
+    h = replaceLeadAfterComment(h, '<!-- ✏️ EDITABLE: descripció del formulari -->', getVal('adeq-desc'));
   }
 
   if (section === 'footer') {
@@ -928,10 +943,12 @@ function replaceFooterStatus(html, status) {
 // -----------------------------------------------
 function navigateTo(section) {
   document.querySelectorAll('.panel').forEach(p => p.style.display = 'none');
-  document.getElementById(`panel-${section}`).style.display = 'block';
+  const panel = document.getElementById(`panel-${section}`);
+  if (panel) panel.style.display = 'block';
   document.querySelectorAll('.sidebar-link[data-section]').forEach(l => {
     l.classList.toggle('active', l.dataset.section === section);
   });
+  if (section === 'history') loadHistory();
   if (window.innerWidth <= 900) closeSidebar();
 }
 
@@ -1123,6 +1140,62 @@ function closeConfirm(result) {
 document.getElementById('confirmModal').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeConfirm(false);
 });
+
+// -----------------------------------------------
+// Generic lead paragraph replace helper
+// -----------------------------------------------
+function replaceLeadAfterComment(html, comment, text) {
+  const ci = html.indexOf(comment);
+  if (ci === -1) return html;
+  const pStart = html.indexOf('<p class="section-lead">', ci);
+  if (pStart === -1) return html;
+  const cs = pStart + '<p class="section-lead">'.length;
+  const ce = html.indexOf('</p>', cs);
+  if (ce === -1) return html;
+  return html.slice(0, cs) + '\n          ' + text + '\n        ' + html.slice(ce);
+}
+
+// -----------------------------------------------
+// History
+// -----------------------------------------------
+async function loadHistory() {
+  const list = document.getElementById('historyList');
+  list.innerHTML = '<div style="padding:24px;text-align:center"><div class="spinner"></div></div>';
+
+  try {
+    const commits = await ghFetch(`/commits?sha=${GH.branch}&per_page=20`);
+    if (!commits.length) {
+      list.innerHTML = '<div class="empty-state"><p>Cap commit trobat.</p></div>';
+      return;
+    }
+    list.innerHTML = commits.map(c => {
+      const date = new Date(c.commit.author.date);
+      const ago = timeAgo(date);
+      return `<div class="history-item">
+        <span class="history-sha">${c.sha.slice(0, 7)}</span>
+        <span class="history-msg">${escHtml(c.commit.message.split('\n')[0])}</span>
+        <span class="history-meta">
+          <span class="history-author">${escHtml(c.commit.author.name)}</span><br />
+          ${ago}
+        </span>
+      </div>`;
+    }).join('');
+  } catch (err) {
+    list.innerHTML = `<div class="empty-state"><p>Error carregant historial: ${err.message}</p></div>`;
+  }
+}
+
+function timeAgo(date) {
+  const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (seconds < 60) return 'ara mateix';
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `fa ${minutes} min`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `fa ${hours} h`;
+  const days = Math.floor(hours / 24);
+  if (days < 30) return `fa ${days} dies`;
+  return date.toLocaleDateString('ca');
+}
 
 // -----------------------------------------------
 // Preview
