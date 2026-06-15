@@ -4,7 +4,7 @@
    ============================================= */
 
 let GH = { token: '', repo: '', branch: 'main', owner: '', repoName: '' };
-let FILES = { indexHtml: '', indexSha: '', scriptJs: '', scriptSha: '' };
+let FILES = { indexHtml: '', indexSha: '', scriptJs: '', scriptSha: '', cssCache: '' };
 let NEWS_DATA = [];
 let FAQ_DATA = [];
 let STEP_DATA = [];
@@ -132,15 +132,17 @@ async function loadContent() {
     el.innerHTML = '<span class="spinner"></span> Connectant...';
     el.disabled = true;
 
-    const [indexData, scriptData] = await Promise.all([
+    const [indexData, scriptData, cssData] = await Promise.all([
       ghGetFile('index.html'),
       ghGetFile('script.js'),
+      ghGetFile('styles.css').catch(() => ({ content: '' })),
     ]);
 
     FILES.indexHtml = indexData.content;
     FILES.indexSha = indexData.sha;
     FILES.scriptJs = scriptData.content;
     FILES.scriptSha = scriptData.sha;
+    FILES.cssCache = cssData.content;
 
     document.getElementById('authScreen').style.display = 'none';
     document.getElementById('app').style.display = 'grid';
@@ -561,6 +563,7 @@ async function saveSection(section) {
     } else {
       await saveHTML(section);
     }
+    clearChanged();
     toast('success', `Secció "${section}" publicada correctament.`);
   } catch (err) {
     toast('error', `Error publicant: ${err.message}`);
@@ -1245,7 +1248,15 @@ function togglePreview() {
 
 function refreshPreview() {
   const frame = document.getElementById('previewFrame');
-  const blob = new Blob([FILES.indexHtml], { type: 'text/html' });
+  let html = FILES.indexHtml;
+  if (FILES.cssCache) {
+    html = html.replace(
+      '<link rel="stylesheet" href="styles.css" />',
+      `<style>${FILES.cssCache}</style>`
+    );
+  }
+  html = html.replace('<script src="script.js"></script>', `<script>${FILES.scriptJs}<\/script>`);
+  const blob = new Blob([html], { type: 'text/html' });
   frame.src = URL.createObjectURL(blob);
 }
 
@@ -1335,6 +1346,7 @@ async function publishAll() {
     FILES.scriptSha = scriptResult.content.sha;
 
     hideLoading();
+    clearChanged();
     toast('success', 'Tots els canvis publicats correctament!');
   } catch (err) {
     hideLoading();
@@ -1343,11 +1355,28 @@ async function publishAll() {
 }
 
 // -----------------------------------------------
-// Unsaved changes warning
+// Change tracking
 // -----------------------------------------------
+function markChanged() {
+  HAS_CHANGES = true;
+  const bar = document.getElementById('publishBar');
+  if (bar) bar.classList.add('visible');
+}
+
+function clearChanged() {
+  HAS_CHANGES = false;
+  const bar = document.getElementById('publishBar');
+  if (bar) bar.classList.remove('visible');
+}
+
+document.addEventListener('input', e => {
+  if (e.target.closest('.admin-body') && (e.target.classList.contains('input') || e.target.classList.contains('textarea') || e.target.tagName === 'SELECT')) {
+    markChanged();
+  }
+});
+
 window.addEventListener('beforeunload', e => {
-  const inputs = document.querySelectorAll('.admin-body .input, .admin-body .textarea, .admin-body .select');
-  if (inputs.length > 0 && GH.token) {
+  if (HAS_CHANGES) {
     e.preventDefault();
     e.returnValue = '';
   }
