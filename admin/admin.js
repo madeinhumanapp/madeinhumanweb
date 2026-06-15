@@ -48,11 +48,21 @@ function doLogout() {
   document.getElementById('authScreen').style.display = 'flex';
 }
 
+function toggleTokenVisibility() {
+  const input = document.getElementById('tokenInput');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
 function showAuthError(msg) {
   const el = document.getElementById('authError');
   el.textContent = msg;
   el.style.display = 'block';
 }
+
+// Enter key to submit auth
+document.getElementById('tokenInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') doAuth(); });
+document.getElementById('repoInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') doAuth(); });
+document.getElementById('branchInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') doAuth(); });
 
 // Auto-login (check localStorage first, then sessionStorage)
 (function () {
