@@ -1142,6 +1142,32 @@ document.getElementById('confirmModal').addEventListener('click', e => {
 });
 
 // -----------------------------------------------
+// Reload content from GitHub
+// -----------------------------------------------
+async function reloadContent() {
+  try {
+    showLoading('Recarregant contingut des de GitHub...');
+    const [indexData, scriptData] = await Promise.all([
+      ghGetFile('index.html'),
+      ghGetFile('script.js'),
+    ]);
+    FILES.indexHtml = indexData.content;
+    FILES.indexSha = indexData.sha;
+    FILES.scriptJs = scriptData.content;
+    FILES.scriptSha = scriptData.sha;
+
+    parseAllContent();
+    renderDashboard();
+    loadImages();
+    hideLoading();
+    toast('success', 'Contingut recarregat des de GitHub.');
+  } catch (err) {
+    hideLoading();
+    toast('error', `Error recarregant: ${err.message}`);
+  }
+}
+
+// -----------------------------------------------
 // Generic lead paragraph replace helper
 // -----------------------------------------------
 function replaceLeadAfterComment(html, comment, text) {
@@ -1270,8 +1296,59 @@ document.addEventListener('keydown', e => {
 });
 
 // -----------------------------------------------
-// Publish All
+// Publish All — batch save
 // -----------------------------------------------
 async function publishAll() {
-  toast('info', 'Usa els botons "Desar canvis" de cada secció per publicar.');
+  const confirmed = await showConfirm(
+    'Publicar tots els canvis?',
+    'Això desarà les modificacions a index.html i script.js en un sol commit. Cloudflare desplegarà automàticament.'
+  );
+  if (!confirmed) return;
+
+  try {
+    showLoading('Publicant canvis...');
+
+    // Collect all HTML sections
+    ['hero', 'context', 'services', 'method', 'news', 'contact', 'footer'].forEach(section => {
+      collectHTMLChanges(section);
+    });
+
+    // Collect FAQ
+    collectFAQChanges();
+
+    // Commit index.html
+    const indexResult = await ghPutFile(
+      'index.html',
+      FILES.indexHtml,
+      FILES.indexSha,
+      'Actualització general del contingut'
+    );
+    FILES.indexSha = indexResult.content.sha;
+
+    // Commit script.js
+    const scriptResult = await ghPutFile(
+      'script.js',
+      FILES.scriptJs,
+      FILES.scriptSha,
+      'Actualització general (FAQ)'
+    );
+    FILES.scriptSha = scriptResult.content.sha;
+
+    hideLoading();
+    toast('success', 'Tots els canvis publicats correctament!');
+  } catch (err) {
+    hideLoading();
+    toast('error', `Error publicant: ${err.message}`);
+  }
 }
+
+// -----------------------------------------------
+// Unsaved changes warning
+// -----------------------------------------------
+window.addEventListener('beforeunload', e => {
+  const inputs = document.querySelectorAll('.admin-body .input, .admin-body .textarea, .admin-body .select');
+  if (inputs.length > 0 && GH.token) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
