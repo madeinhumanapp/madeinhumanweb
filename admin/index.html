@@ -27,7 +27,12 @@
         <label>Branca</label>
         <input class="input" id="branchInput" value="main" />
       </div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:20px" onclick="doAuth()">
+      <label class="privacy-check" style="margin-top:16px;font-size:13px">
+        <input type="checkbox" id="rememberToken" />
+        <span class="box"></span>
+        <span style="color:var(--text-dim)">Recordar el token en aquest dispositiu</span>
+      </label>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:12px" onclick="doAuth()">
         Connectar
         <span class="arrow" aria-hidden="true">&rarr;</span>
       </button>

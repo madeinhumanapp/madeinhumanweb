@@ -28,14 +28,21 @@ function doAuth() {
     return;
   }
   GH = { token, repo, branch, owner, repoName };
-  sessionStorage.setItem('gh_token', token);
-  sessionStorage.setItem('gh_repo', repo);
-  sessionStorage.setItem('gh_branch', branch);
+  const remember = document.getElementById('rememberToken')?.checked;
+  const store = remember ? localStorage : sessionStorage;
+  store.setItem('gh_token', token);
+  store.setItem('gh_repo', repo);
+  store.setItem('gh_branch', branch);
+  if (remember) localStorage.setItem('gh_remember', '1');
   loadContent();
 }
 
 function doLogout() {
   sessionStorage.clear();
+  localStorage.removeItem('gh_token');
+  localStorage.removeItem('gh_repo');
+  localStorage.removeItem('gh_branch');
+  localStorage.removeItem('gh_remember');
   GH = { token: '', repo: '', branch: 'main', owner: '', repoName: '' };
   document.getElementById('app').style.display = 'none';
   document.getElementById('authScreen').style.display = 'flex';
@@ -47,15 +54,19 @@ function showAuthError(msg) {
   el.style.display = 'block';
 }
 
-// Auto-login
+// Auto-login (check localStorage first, then sessionStorage)
 (function () {
-  const t = sessionStorage.getItem('gh_token');
-  const r = sessionStorage.getItem('gh_repo');
-  const b = sessionStorage.getItem('gh_branch');
+  const store = localStorage.getItem('gh_remember') ? localStorage : sessionStorage;
+  const t = store.getItem('gh_token');
+  const r = store.getItem('gh_repo');
+  const b = store.getItem('gh_branch');
   if (t && r) {
     document.getElementById('tokenInput').value = t;
     document.getElementById('repoInput').value = r;
     if (b) document.getElementById('branchInput').value = b;
+    if (localStorage.getItem('gh_remember')) {
+      document.getElementById('rememberToken').checked = true;
+    }
     doAuth();
   }
 })();
@@ -88,15 +99,22 @@ async function ghGetFile(path) {
 }
 
 async function ghPutFile(path, content, sha, message) {
-  return ghFetch(`/contents/${path}`, {
-    method: 'PUT',
-    body: JSON.stringify({
-      message,
-      content: encodeBase64(content),
-      sha,
-      branch: GH.branch,
-    }),
-  });
+  try {
+    return await ghFetch(`/contents/${path}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        message,
+        content: encodeBase64(content),
+        sha,
+        branch: GH.branch,
+      }),
+    });
+  } catch (err) {
+    if (err.message && err.message.includes('does not match')) {
+      throw new Error(`Conflicte: algú ha modificat "${path}" des que el vas carregar. Prem "Recarregar" al Dashboard i torna a fer els canvis.`);
+    }
+    throw err;
+  }
 }
 
 async function ghListDir(path) {
@@ -549,10 +567,22 @@ function removeFAQ(idx) {
 // -----------------------------------------------
 // Save Section — rebuild HTML and commit
 // -----------------------------------------------
+const SECTION_NAMES = {
+  hero: 'Hero',
+  context: 'Context',
+  services: 'Serveis',
+  method: 'Mètode',
+  news: 'Actualitat',
+  faq: 'FAQ',
+  contact: 'Contacte',
+  footer: 'Footer',
+};
+
 async function saveSection(section) {
+  const name = SECTION_NAMES[section] || section;
   const confirmed = await showConfirm(
-    `Publicar canvis a "${section}"?`,
-    'Això farà un commit al repositori de GitHub. Si Cloudflare Pages està connectat, es desplegarà automàticament en 1-2 minuts.'
+    `Publicar canvis a "${name}"?`,
+    `Això farà un commit al repositori de GitHub amb els canvis de la secció "${name}". Cloudflare Pages desplegarà la web automàticament en 1-2 minuts.`
   );
   if (!confirmed) return;
 
