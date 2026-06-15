@@ -233,6 +233,13 @@ function parseAllContent() {
   const h = FILES.indexHtml;
   const s = FILES.scriptJs;
 
+  // SEO
+  const titleMatch = h.match(/<title>(.*?)<\/title>/);
+  setVal('seo-title', titleMatch ? titleMatch[1] : '');
+  const descMatch = h.match(/<meta name="description" content="(.*?)"\s*\/>/);
+  setVal('seo-desc', descMatch ? descMatch[1] : '');
+  updateSEOCount();
+
   // Hero
   setVal('hero-eyebrow', extractContent(h, '<!-- ✏️ EDITABLE: subtítol del hero -->', '<span class="eyebrow">', '</span>'));
   setVal('hero-title', extractContent(h, '<!-- ✏️ EDITABLE: titular principal', '<h1 class="hero-title">', '</h1>'));
@@ -645,6 +652,12 @@ function collectHTMLChanges(section) {
   let h = FILES.indexHtml;
 
   if (section === 'hero') {
+    // SEO
+    const seoTitle = getVal('seo-title');
+    if (seoTitle) h = h.replace(/<title>.*?<\/title>/, `<title>${seoTitle}</title>`);
+    const seoDesc = getVal('seo-desc');
+    if (seoDesc) h = h.replace(/<meta name="description" content=".*?"\s*\/>/, `<meta name="description" content="${seoDesc.replace(/"/g, '&quot;')}" />`);
+
     h = replaceTagAfterComment(h, '<!-- ✏️ EDITABLE: subtítol del hero -->', 'span', getVal('hero-eyebrow'));
     h = replaceTagAfterComment(h, '<!-- ✏️ EDITABLE: titular principal', 'h1', getVal('hero-title'));
     h = replaceTagAfterComment(h, '<!-- ✏️ EDITABLE: descripció del hero -->', 'p', getVal('hero-desc'));
@@ -1200,6 +1213,22 @@ function closeConfirm(result) {
 // Close modal on overlay click
 document.getElementById('confirmModal').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeConfirm(false);
+});
+
+// -----------------------------------------------
+// SEO character counter
+// -----------------------------------------------
+function updateSEOCount() {
+  const el = document.getElementById('seo-desc');
+  const counter = document.getElementById('seo-desc-count');
+  if (el && counter) {
+    const len = el.value.length;
+    counter.textContent = `${len}/155 caràcters`;
+    counter.style.color = len > 155 ? '#ff6b6b' : 'var(--text-faint)';
+  }
+}
+document.addEventListener('input', e => {
+  if (e.target.id === 'seo-desc') updateSEOCount();
 });
 
 // -----------------------------------------------

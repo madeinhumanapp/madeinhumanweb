@@ -191,6 +191,18 @@
             <button class="btn btn-primary btn-sm" onclick="saveSection('hero')">Desar canvis</button>
           </div>
           <div class="editor-grid">
+            <div class="editor-card-group">
+              <h3 class="editor-group-title">SEO (Cercadors)</h3>
+              <div class="field">
+                <label class="editor-label">Títol de la pàgina (apareix a la pestanya del navegador i a Google)</label>
+                <input class="input" id="seo-title" />
+              </div>
+              <div class="field">
+                <label class="editor-label">Meta descripció (apareix als resultats de Google, max ~155 caràcters)</label>
+                <textarea class="textarea" id="seo-desc" rows="3" maxlength="200"></textarea>
+                <span class="editor-hint" id="seo-desc-count" style="margin-top:4px;display:block"></span>
+              </div>
+            </div>
             <div class="editor-card">
               <label class="editor-label">Subtítol (eyebrow)</label>
               <input class="input" id="hero-eyebrow" />
