@@ -92,6 +92,10 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           <span>Historial</span>
         </button>
+        <button class="sidebar-link" data-section="help">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>Ajuda</span>
+        </button>
       </nav>
       <div class="sidebar-footer">
         <button class="sidebar-link" onclick="doLogout()">
@@ -441,6 +445,57 @@
             <button class="btn btn-ghost btn-sm" onclick="loadHistory()">Actualitzar</button>
           </div>
           <div id="historyList" class="history-list"></div>
+        </section>
+
+        <!-- HELP -->
+        <section class="panel" id="panel-help" style="display:none">
+          <div class="panel-header">
+            <div>
+              <h1 class="panel-title">Ajuda</h1>
+              <p class="panel-desc">Guia ràpida d'ús del panell d'administració.</p>
+            </div>
+          </div>
+          <div class="editor-grid">
+            <div class="editor-card">
+              <h3 class="editor-group-title">Dreceres de teclat</h3>
+              <table class="help-table">
+                <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">S</span></td><td>Desar la secció activa</td></tr>
+                <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">P</span></td><td>Obrir/tancar previsualització</td></tr>
+              </table>
+            </div>
+            <div class="editor-card">
+              <h3 class="editor-group-title">Com funciona</h3>
+              <p style="color:var(--text-dim);font-size:14px;line-height:1.7;margin-top:8px">
+                El panell llegeix <code>index.html</code> i <code>script.js</code> del repositori de GitHub. Quan deses canvis, fa un commit directe al repositori. Si Cloudflare Pages està connectat, la web es desplegarà automàticament en 1-2 minuts.
+              </p>
+              <p style="color:var(--text-dim);font-size:14px;line-height:1.7;margin-top:12px">
+                Els camps del formulari de contacte i d'adequació <strong>no es poden modificar</strong> des d'aquí (els <code>name=""</code> són fixos per a l'API). Només pots canviar els textos de la secció.
+              </p>
+            </div>
+            <div class="editor-card">
+              <h3 class="editor-group-title">Imatges</h3>
+              <p style="color:var(--text-dim);font-size:14px;line-height:1.7;margin-top:8px">
+                Les imatges es pugen a la carpeta <code>img/</code> del repositori. Per usar una imatge a l'HTML, copia l'etiqueta <code>&lt;img&gt;</code> des de la galeria i enganxa-la on vulguis.
+              </p>
+            </div>
+            <div class="editor-card">
+              <h3 class="editor-group-title">FAQ</h3>
+              <p style="color:var(--text-dim);font-size:14px;line-height:1.7;margin-top:8px">
+                Les preguntes freqüents es guarden a <code>script.js</code> (no a <code>index.html</code>). Quan deses les FAQ, es modifica aquest fitxer. Categories disponibles: <strong>RGPD</strong>, <strong>IA</strong>, <strong>Pràctic</strong>, <strong>Glossari</strong>.
+              </p>
+            </div>
+            <div class="editor-card">
+              <h3 class="editor-group-title">Notícies</h3>
+              <p style="color:var(--text-dim);font-size:14px;line-height:1.7;margin-top:8px">
+                Pots afegir, eliminar i reordenar notícies arrossegant-les. Classes de tag disponibles:
+              </p>
+              <ul style="color:var(--text-dim);font-size:14px;line-height:1.8;margin-top:8px;list-style:none;padding:0">
+                <li><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--copper);vertical-align:-1px;margin-right:8px"></span> <strong>RGPD</strong> — notícies de protecció de dades</li>
+                <li><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--blue-elec);vertical-align:-1px;margin-right:8px"></span> <strong>AI Act</strong> — notícies del Reglament d'IA</li>
+                <li><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#6cc88a;vertical-align:-1px;margin-right:8px"></span> <strong>APDCat</strong> — notícies de Catalunya</li>
+              </ul>
+            </div>
+          </div>
         </section>
 
         <!-- IMAGES -->

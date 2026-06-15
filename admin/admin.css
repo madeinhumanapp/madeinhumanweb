@@ -1152,6 +1152,26 @@
   color: var(--text-dim);
 }
 
+/* --- Help table --- */
+.help-table {
+  width: 100%;
+  margin-top: 12px;
+  border-collapse: collapse;
+}
+.help-table td {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text-dim);
+}
+.help-table td:first-child {
+  width: 180px;
+  white-space: nowrap;
+}
+.help-table tr:last-child td {
+  border-bottom: none;
+}
+
 /* --- Publish bar --- */
 .publish-bar {
   position: fixed;
