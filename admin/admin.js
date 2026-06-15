@@ -435,7 +435,7 @@ function renderNewsCards() {
   const container = document.getElementById('news-cards-container');
   if (!container) return;
   container.innerHTML = NEWS_DATA.map((n, i) => `
-    <div class="news-editor-card" data-idx="${i}">
+    <div class="news-editor-card" data-idx="${i}" draggable="true" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="dropNews(event)" ondragend="dragEnd(event)">
       <button class="news-card-remove" onclick="removeNews(${i})" title="Eliminar notícia">&times;</button>
       <div class="editor-row-3">
         <div class="field">
@@ -475,7 +475,7 @@ function renderFAQCards() {
   const container = document.getElementById('faq-cards-container');
   if (!container) return;
   container.innerHTML = FAQ_DATA.map((f, i) => `
-    <div class="faq-editor-card" data-idx="${i}">
+    <div class="faq-editor-card" data-idx="${i}" draggable="true" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="dropFAQ(event)" ondragend="dragEnd(event)">
       <button class="faq-card-remove" onclick="removeFAQ(${i})" title="Eliminar FAQ">&times;</button>
       <div class="faq-editor-head">
         <span class="faq-cat-badge" data-cat="${f.cat}">${f.cat.toUpperCase()}</span>
@@ -1148,6 +1148,51 @@ function closeConfirm(result) {
 document.getElementById('confirmModal').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeConfirm(false);
 });
+
+// -----------------------------------------------
+// Drag and drop reorder (news & FAQ)
+// -----------------------------------------------
+let dragSrcIdx = null;
+
+function dragStart(e) {
+  dragSrcIdx = parseInt(e.currentTarget.dataset.idx);
+  e.currentTarget.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function dragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  const card = e.currentTarget;
+  card.classList.add('drag-over');
+}
+
+function dragEnd(e) {
+  e.currentTarget.classList.remove('dragging');
+  document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+}
+
+function dropNews(e) {
+  e.preventDefault();
+  const targetIdx = parseInt(e.currentTarget.dataset.idx);
+  if (dragSrcIdx === null || dragSrcIdx === targetIdx) return;
+  const [item] = NEWS_DATA.splice(dragSrcIdx, 1);
+  NEWS_DATA.splice(targetIdx, 0, item);
+  renderNewsCards();
+  markChanged();
+  toast('info', 'Notícia reordenada. Recorda desar els canvis.');
+}
+
+function dropFAQ(e) {
+  e.preventDefault();
+  const targetIdx = parseInt(e.currentTarget.dataset.idx);
+  if (dragSrcIdx === null || dragSrcIdx === targetIdx) return;
+  const [item] = FAQ_DATA.splice(dragSrcIdx, 1);
+  FAQ_DATA.splice(targetIdx, 0, item);
+  renderFAQCards();
+  markChanged();
+  toast('info', 'FAQ reordenada. Recorda desar els canvis.');
+}
 
 // -----------------------------------------------
 // Reload content from GitHub

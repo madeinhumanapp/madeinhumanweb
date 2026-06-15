@@ -31,6 +31,11 @@
   max-width: 480px;
   width: 100%;
   backdrop-filter: blur(20px);
+  animation: authCardIn 0.6s ease;
+}
+@keyframes authCardIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .auth-logo {
@@ -262,6 +267,50 @@
 .btn-sm {
   padding: 8px 16px !important;
   font-size: 13px !important;
+}
+
+/* --- Quick Start --- */
+.quick-start {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.qs-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  background: rgba(196,149,106,0.04);
+  border: 1px solid rgba(196,149,106,0.12);
+  border-radius: 10px;
+}
+.qs-card strong {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 3px;
+}
+.qs-card p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+.qs-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(196,149,106,0.15);
+  color: var(--copper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+@media (max-width: 900px) {
+  .quick-start { grid-template-columns: 1fr; }
 }
 
 /* --- Dashboard Grid --- */
