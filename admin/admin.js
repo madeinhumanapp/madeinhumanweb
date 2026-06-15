@@ -1007,6 +1007,7 @@ async function loadImages() {
             <div class="img-card-size">${formatSize(f.size)}</div>
             <div class="img-card-actions">
               <button class="img-action-btn" onclick="copyImgTag('${f.name}')">Copiar &lt;img&gt;</button>
+              <button class="img-action-btn" onclick="copyImgUrl('${f.name}')">Copiar ruta</button>
               <button class="img-action-btn danger" onclick="deleteImage('${f.name}', '${f.sha}')">Eliminar</button>
             </div>
           </div>
@@ -1026,7 +1027,14 @@ function formatSize(bytes) {
 function copyImgTag(name) {
   const tag = `<img src="img/${name}" alt="Descripció de la imatge" style="max-width:100%; border-radius:12px;" />`;
   navigator.clipboard.writeText(tag).then(() => {
-    toast('success', 'Etiqueta copiada al porta-retalls.');
+    toast('success', `Etiqueta <img> per a "${name}" copiada al porta-retalls.`);
+  });
+}
+
+function copyImgUrl(name) {
+  const url = `img/${name}`;
+  navigator.clipboard.writeText(url).then(() => {
+    toast('success', `Ruta "${url}" copiada al porta-retalls.`);
   });
 }
 
@@ -1347,12 +1355,74 @@ function hideLoading() {
 }
 
 // -----------------------------------------------
+// LocalStorage auto-backup
+// -----------------------------------------------
+let backupTimer = null;
+
+function scheduleBackup() {
+  if (backupTimer) clearTimeout(backupTimer);
+  backupTimer = setTimeout(() => {
+    try {
+      const backup = {
+        timestamp: Date.now(),
+        news: collectCurrentNewsData(),
+        faq: collectCurrentFAQData(),
+      };
+      localStorage.setItem('mih_admin_backup', JSON.stringify(backup));
+    } catch { /* localStorage full or unavailable */ }
+  }, 5000);
+}
+
+function collectCurrentNewsData() {
+  const data = [];
+  for (let i = 0; i < NEWS_DATA.length; i++) {
+    data.push({
+      tagClass: document.getElementById(`news-${i}-tag`)?.value || NEWS_DATA[i].tagClass,
+      tagText: document.getElementById(`news-${i}-tagtext`)?.value || NEWS_DATA[i].tagText,
+      date: document.getElementById(`news-${i}-date`)?.value || NEWS_DATA[i].date,
+      title: document.getElementById(`news-${i}-title`)?.value || NEWS_DATA[i].title,
+      body: document.getElementById(`news-${i}-body`)?.value || NEWS_DATA[i].body,
+      source: document.getElementById(`news-${i}-source`)?.value || NEWS_DATA[i].source,
+      cardClass: NEWS_DATA[i].cardClass,
+    });
+  }
+  return data;
+}
+
+function collectCurrentFAQData() {
+  const data = [];
+  for (let i = 0; i < FAQ_DATA.length; i++) {
+    data.push({
+      cat: document.getElementById(`faq-${i}-cat`)?.value || FAQ_DATA[i].cat,
+      q: document.getElementById(`faq-${i}-q`)?.value || FAQ_DATA[i].q,
+      a: document.getElementById(`faq-${i}-a`)?.value || FAQ_DATA[i].a,
+    });
+  }
+  return data;
+}
+
+// Trigger backup on input
+document.addEventListener('input', e => {
+  if (e.target.closest('.admin-body')) scheduleBackup();
+});
+
+// -----------------------------------------------
 // Keyboard shortcuts
 // -----------------------------------------------
 document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
     e.preventDefault();
     togglePreview();
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    const activePanel = document.querySelector('.panel[style=""]') || document.querySelector('.panel:not([style*="none"])');
+    if (activePanel) {
+      const section = activePanel.id.replace('panel-', '');
+      if (section !== 'dashboard' && section !== 'images' && section !== 'history') {
+        saveSection(section);
+      }
+    }
   }
 });
 
