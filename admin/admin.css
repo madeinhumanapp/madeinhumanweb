@@ -519,10 +519,32 @@
   gap: 12px;
 }
 
-.news-card-remove {
+.news-card-actions-top {
   position: absolute;
   top: 16px;
   right: 16px;
+  display: flex;
+  gap: 6px;
+}
+
+.news-card-dup {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: rgba(74,141,255,0.08);
+  border: 1px solid rgba(74,141,255,0.2);
+  color: var(--blue-elec);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.15s;
+}
+.news-card-dup:hover {
+  background: rgba(74,141,255,0.15);
+}
+
+.news-card-remove {
   width: 32px; height: 32px;
   border-radius: 8px;
   background: rgba(255,80,80,0.08);

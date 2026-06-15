@@ -474,7 +474,10 @@ function renderNewsCards() {
   if (!container) return;
   container.innerHTML = NEWS_DATA.map((n, i) => `
     <div class="news-editor-card" data-idx="${i}" draggable="true" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="dropNews(event)" ondragend="dragEnd(event)">
-      <button class="news-card-remove" onclick="removeNews(${i})" title="Eliminar notícia">&times;</button>
+      <div class="news-card-actions-top">
+        <button class="news-card-dup" onclick="duplicateNews(${i})" title="Duplicar notícia">&#9851;</button>
+        <button class="news-card-remove" onclick="removeNews(${i})" title="Eliminar notícia">&times;</button>
+      </div>
       <div class="editor-row-3">
         <div class="field">
           <label class="editor-label">Tag</label>
@@ -564,7 +567,18 @@ function addNews() {
 function removeNews(idx) {
   NEWS_DATA.splice(idx, 1);
   renderNewsCards();
+  markChanged();
   toast('info', 'Notícia eliminada. Recorda desar els canvis.');
+}
+
+function duplicateNews(idx) {
+  const orig = NEWS_DATA[idx];
+  collectNewsData();
+  const dup = { ...orig, title: orig.title + ' (còpia)' };
+  NEWS_DATA.splice(idx + 1, 0, dup);
+  renderNewsCards();
+  markChanged();
+  toast('info', 'Notícia duplicada. Recorda desar els canvis.');
 }
 
 function addFAQ() {
