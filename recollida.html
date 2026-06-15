@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recollida de dades RGPD — Madeinhuman</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="wizard.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo">Madein<span>human</span></a>
+      <div class="nav-links">
+        <a href="index.html#serveis">Serveis</a>
+        <a href="index.html#metode">Mètode</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="index.html#contacte">Contacte</a>
+      </div>
+      <a href="index.html#adequacio" class="nav-cta">Sol·licitar adequació</a>
+      <button class="nav-burger" aria-label="Menú" onclick="document.getElementById('navMobile').classList.toggle('open')">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <a href="index.html#serveis">Serveis</a>
+      <a href="index.html#metode">Mètode</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="index.html#contacte">Contacte</a>
+      <a href="index.html#adequacio">Sol·licitar adequació</a>
+    </div>
+  </nav>
+
+  <!-- WIZARD MOUNT POINT -->
+  <div id="app" style="min-height: 80vh; padding-top: 100px;"></div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Madein<span>human</span></a>
+        <p>Consultoria en protecció de dades i Intel·ligència Artificial per a pymes.</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html#serveis">Serveis</a>
+        <a href="index.html#metode">Mètode</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="index.html#contacte">Contacte</a>
+      </div>
+      <div class="footer-legal">
+        <a href="avis-legal.html">Avís legal</a> · <a href="politica-privacitat.html">Política de privacitat</a> · <a href="politica-cookies.html">Política de cookies</a>
+        <span>&copy; 2026 Madeinhuman. Tots els drets reservats.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDN: React 18 -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+  <!-- CDN: Babel standalone (JSX transpilation in-browser) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- CDN: SheetJS (Excel parsing) -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+
+  <!-- Wizard source files (order matters: data → components → steps → app) -->
+  <script type="text/babel" data-type="module" src="wizard/data.jsx"></script>
+  <script type="text/babel" data-type="module" src="wizard/components.jsx"></script>
+  <script type="text/babel" data-type="module" src="wizard/steps-1-2.jsx"></script>
+  <script type="text/babel" data-type="module" src="wizard/steps-3-6.jsx"></script>
+  <script type="text/babel" data-type="module" src="wizard/steps-7-10.jsx"></script>
+  <script type="text/babel" data-type="module" src="wizard/app.jsx"></script>
+
+</body>
+</html>

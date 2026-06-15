@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Madeinhuman — Protecció de dades i IA per a pymes</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="navbar">
+    <div class="container nav-inner">
+      <a href="#top" class="nav-logo">Madein<span>human</span></a>
+      <div class="nav-links">
+        <a href="#serveis">Serveis</a>
+        <a href="#metode">Mètode</a>
+        <a href="#faq">FAQ</a>
+        <a href="#actualitat">Actualitat</a>
+        <a href="#contacte">Contacte</a>
+      </div>
+      <a href="#adequacio" class="nav-cta">Sol·licitar adequació</a>
+      <button class="nav-burger" aria-label="Menú" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <a href="#serveis" onclick="toggleMenu()">Serveis</a>
+      <a href="#metode" onclick="toggleMenu()">Mètode</a>
+      <a href="#faq" onclick="toggleMenu()">FAQ</a>
+      <a href="#actualitat" onclick="toggleMenu()">Actualitat</a>
+      <a href="#contacte" onclick="toggleMenu()">Contacte</a>
+      <a href="#adequacio" onclick="toggleMenu()">Sol·licitar adequació</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="aurora"></div>
+    <div class="grid-lines"></div>
+    <div class="container hero-inner">
+      <!-- ✏️ EDITABLE: subtítol del hero -->
+      <span class="eyebrow">Consultoria en protecció de dades i IA</span>
+      <!-- ✏️ EDITABLE: titular principal (el <br /> fa el salt de línia, <em> fa la cursiva) -->
+      <h1 class="hero-title">
+        Protegir<br />
+        és <em>avançar.</em>
+      </h1>
+      <!-- ✏️ EDITABLE: descripció del hero -->
+      <p class="hero-sub">
+        Ajudem pymes a complir el RGPD i a preparar-se per al Reglament europeu d'Intel·ligència Artificial. Acompanyament pràctic, sense paperassa inútil.
+      </p>
+      <div class="cta-row">
+        <a href="#adequacio" class="btn btn-primary">
+          Sol·licitar adequació
+          <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <a href="#serveis" class="btn btn-ghost">
+          Descobrir serveis
+        </a>
+      </div>
+    </div>
+    <div class="scroll-ind">
+      <div class="line"></div>
+      <span>Scroll</span>
+    </div>
+    <div class="hero-meta">
+      <!-- ✏️ EDITABLE: etiquetes del hero (dates, organismes) -->
+      <span><b>RGPD</b> · vigent</span>
+      <span><b>AI Act</b> · 2025–2027</span>
+      <span><b>AEPD</b> · <b>APDCat</b></span>
+    </div>
+  </header>
+
+  <!-- ✏️ SECCIÓ: CONTEXT — xifres i dades clau -->
+  <section class="block statement">
+    <div class="container statement-grid">
+      <div class="statement-left">
+        <span class="eyebrow">El context</span>
+        <!-- ✏️ EDITABLE: titular de context -->
+        <h2 class="section-title" style="margin-top:18px">
+          Afecta totes<br />les empreses.
+        </h2>
+        <!-- ✏️ EDITABLE: paràgrafs de context (pots canviar dates, xifres, text) -->
+        <p>
+          El RGPD és una <strong>obligació vigent</strong> des de 2018. Qualsevol empresa que tracti dades personals — clients, treballadors, proveïdors — l'ha de complir. L'AEPD i l'APDCat supervisen el seu compliment a Espanya i Catalunya.
+        </p>
+        <p>
+          El Reglament europeu d'IA s'aplica progressivament entre 2025 i 2027. Per a les pymes que ja utilitzen eines d'IA, preparar-se amb temps és una <strong>decisió estratègica</strong>.
+        </p>
+      </div>
+      <!-- ✏️ EDITABLE: 3 mètriques (canvia xifres, dates i text lliurement) -->
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-key">RGPD</div>
+          <div class="metric-body">
+            <div class="metric-label">Protecció de dades</div>
+            <p>Obligació vigent des de 2018. El 72% de les sancions de l'AEPD el darrer exercici van anar dirigides a pymes i autònoms.</p>
+          </div>
+        </div>
+        <div class="metric">
+          <div class="metric-key">AI Act</div>
+          <div class="metric-body">
+            <div class="metric-label">Reglament europeu d'IA</div>
+            <p>Les regles de transparència entren en vigor l'agost de 2026. Els sistemes d'alt risc, al desembre de 2027.</p>
+          </div>
+        </div>
+        <div class="metric">
+          <div class="metric-key">72%</div>
+          <div class="metric-body">
+            <div class="metric-label">De les sancions, a pymes i autònoms</div>
+            <p>Les sancions més freqüents afecten videovigilància, tractament de dades de treballadors i males pràctiques digitals. La mida no exclou l'obligació.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✏️ SECCIÓ: SERVEIS — els 2 pilars i el servei transversal -->
+  <section class="block services" id="serveis">
+    <div class="container">
+      <div class="services-head-row">
+        <div class="section-head">
+          <span class="eyebrow">Serveis</span>
+          <!-- ✏️ EDITABLE: titular de serveis -->
+          <h2 class="section-title">
+            Dos àmbits, <em>un sol equip.</em>
+          </h2>
+          <p class="section-lead">
+            La protecció de dades i la regulació de la IA estan estretament relacionades. Treballem els dos àmbits de forma coordinada.
+          </p>
+        </div>
+      </div>
+
+      <div class="pillar-grid">
+        <!-- ✏️ EDITABLE: Pilar 1 — RGPD (títol, descripció, llista de serveis, nota "per a qui") -->
+        <article class="pillar">
+          <div class="pillar-inner">
+            <div class="pillar-head">
+              <span class="pillar-num">Pilar 01</span>
+              <span class="badge badge-vigent"><span class="dot"></span>Vigent</span>
+            </div>
+            <div class="pillar-eyebrow">Protecció de Dades · RGPD</div>
+            <h3>Adequació al RGPD. <em>Pas a pas, sense complicacions.</em></h3>
+            <p class="pillar-lede">
+              El RGPD és obligatori per a tota empresa que tracti dades personals. T'ajudem a complir-lo d'una forma pràctica i proporcionada a la teva mida.
+            </p>
+            <!-- ✏️ EDITABLE: llista de serveis RGPD (afegeix/elimina <li> per canviar la llista) -->
+            <ul class="svc-list">
+              <li>Adequació RGPD completa</li>
+              <li>Auditories de privacitat</li>
+              <li>Registre d'activitats de tractament (RAT)</li>
+              <li>Delegat de Protecció de Dades (DPO) extern</li>
+              <li>Clàusules i avisos legals</li>
+              <li>Acompanyament en inspeccions AEPD</li>
+              <li>Formació als equips</li>
+            </ul>
+            <div class="pillar-foot">
+              <strong>Per a qui:</strong> empreses i autònoms que tracten dades de clients, treballadors, proveïdors o visitants web. Pràcticament tothom.
+            </div>
+          </div>
+        </article>
+
+        <!-- ✏️ EDITABLE: Pilar 2 — AI Act (títol, descripció, llista de serveis, nota de calendari) -->
+        <article class="pillar pillar-blue">
+          <div class="pillar-inner">
+            <div class="pillar-head">
+              <span class="pillar-num">Pilar 02</span>
+              <span class="badge badge-prep"><span class="dot"></span>Preparació 2025–2027</span>
+            </div>
+            <div class="pillar-eyebrow">Reglament d'Intel·ligència Artificial</div>
+            <h3>Preparació per al <em>Reglament d'IA.</em></h3>
+            <p class="pillar-lede">
+              El Reglament d'IA s'aplica progressivament fins al 2027. Si la teva empresa ja utilitza eines d'IA — chatbots, CRM intel·ligent, automatitzacions — convé començar a preparar-se amb temps.
+            </p>
+            <!-- ✏️ EDITABLE: llista de serveis IA (afegeix/elimina <li>) -->
+            <ul class="svc-list">
+              <li>Avaluació de sistemes d'IA existents</li>
+              <li>Classificació de risc segons el Reglament</li>
+              <li>Anàlisi d'impacte sobre dades personals</li>
+              <li>Govern de models i agents d'IA</li>
+              <li>Preparació per a la supervisió regulatòria</li>
+            </ul>
+            <div class="pillar-foot">
+              <strong>Nota:</strong> el Reglament encara no és plenament vigent. Les regles de transparència s'apliquen des d'agost de 2026, i les d'alt risc des de desembre de 2027. La preparació demana mesos.
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- ✏️ EDITABLE: servei transversal (títol i descripció) -->
+      <div class="crossover">
+        <div>
+          <div class="crossover-label">Servei transversal</div>
+          <div class="crossover-title">Consultoria estratègica</div>
+        </div>
+        <p class="crossover-body">
+          Acompanyament executiu per integrar la privacitat i la IA dins l'estratègia de l'empresa. Privacy by Design, estratègia d'adopció d'IA, formació directiva.
+        </p>
+        <a href="#contacte" class="crossover-arrow" aria-label="Parlem-ne">&rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✏️ SECCIÓ: MÈTODE — les 4 fases de treball -->
+  <section class="block method" id="metode">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Mètode</span>
+        <!-- ✏️ EDITABLE: titular de mètode -->
+        <h2 class="section-title">
+          Com <em>treballem.</em>
+        </h2>
+        <p class="section-lead">
+          Un procés estructurat en quatre fases, pensat per ser clar, mesurable i sostenible al llarg del temps.
+        </p>
+      </div>
+      <!-- ✏️ EDITABLE: 4 passos del mètode (canvia títol i descripció de cada pas) -->
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-title">Diagnosi</div>
+          <div class="step-body">Analitzem la teva situació: quines dades tractes, quins sistemes d'IA uses i quins riscos existeixen. Una fotografia real del punt de partida.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-title">Pla d'acció</div>
+          <div class="step-body">Full de ruta prioritzat per risc i impacte. Cada lliurable és accionable, amb dates i responsables definits.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-title">Implementació</div>
+          <div class="step-body">Acompanyament pràctic amb els teus equips tècnics i jurídics. Treballem de forma iterativa fins que tot quedi en ordre.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div class="step-title">Govern continu</div>
+          <div class="step-body">La conformitat no és un projecte, és un estat. Manteniment anual, actualitzacions regulatòries i revisions periòdiques.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✏️ SECCIÓ: CONTACTE — formulari de contacte ràpid -->
+  <section class="block forms" id="contacte">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Parlem-ne</span>
+        <!-- ✏️ EDITABLE: titular de contacte -->
+        <h2 class="section-title">
+          Parla amb <em>nosaltres.</em>
+        </h2>
+        <!-- ✏️ EDITABLE: descripció de contacte -->
+        <p class="section-lead">
+          Si tens un dubte, escriu-nos. Per a una proposta personalitzada, utilitza el formulari d'adequació que trobaràs a continuació.
+        </p>
+      </div>
+
+      <div style="max-width:580px">
+        <form class="form-card" id="formContacte" novalidate>
+          <div class="form-eyebrow">Contacte ràpid</div>
+          <h3>Tens un dubte?</h3>
+          <p class="form-lede">Escriu-nos un missatge i et respondrem en menys de 24 hores laborals.</p>
+
+          <div class="field">
+            <label>Nom <span class="req">*</span></label>
+            <input class="input" name="nom" placeholder="Com et dius?" required />
+          </div>
+          <div class="field">
+            <label>Email <span class="req">*</span></label>
+            <input class="input" type="email" name="email" placeholder="tu@empresa.cat" required />
+          </div>
+          <div class="field">
+            <label>Empresa</label>
+            <input class="input" name="empresa" placeholder="Opcional" />
+          </div>
+          <div class="field">
+            <label>Missatge <span class="req">*</span></label>
+            <textarea class="textarea" name="missatge" placeholder="Explica'ns la teva situació" required></textarea>
+          </div>
+
+          <label class="privacy-check" id="cPriv">
+            <input type="checkbox" name="rgpd" required />
+            <span class="box"></span>
+            <span>He llegit i accepto la <a href="politica-privacitat.html" target="_blank">política de privacitat</a>.</span>
+          </label>
+          <label class="privacy-check">
+            <input type="checkbox" name="comunicacions" />
+            <span class="box"></span>
+            <span>Accepto rebre informació sobre les activitats, serveis i productes de MADEINHUMAN.</span>
+          </label>
+
+          <div class="form-rgpd-info">
+            <strong>Informació sobre el tractament de dades</strong> (Reglament (UE) 2016/679 i LO 3/2018)<br />
+            · Responsable del tractament: MADEINHUMAN, ESPJ · NIF ES-41534172-J<br />
+            · Finalitat: Oferir, informar i prestar els nostres serveis i productes.<br />
+            · Legitimació: Consentiment de l'interessat.<br />
+            · Destinataris: Les dades no es cediran a tercers, llevat que ho exigeixi una llei o sigui necessari per complir amb la finalitat del tractament.<br />
+            · Drets: Accedir, rectificar i suprimir dades, així com la resta que s'expliquen a la <a href="politica-privacitat.html" target="_blank">política de privacitat</a> (arts. 15–22 RGPD).<br />
+            · Més informació: <a href="mailto:info@madeinhuman.cat">info@madeinhuman.cat</a>
+          </div>
+
+          <button type="submit" class="btn btn-ghost form-submit">
+            Enviar missatge
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </button>
+          <div id="okContacte" style="display:none"></div>
+          <div id="errContacte" style="display:none"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✏️ SECCIÓ: ADEQUACIÓ — formulari de sol·licitud RGPD (⚠️ NO canviïs els name="" dels camps) -->
+  <section class="block adequacio" id="adequacio">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Formulari d'adequació</span>
+        <!-- ✏️ EDITABLE: titular del formulari d'adequació -->
+        <h2 class="section-title">
+          Sol·licitud d'adequació <em>al RGPD.</em>
+        </h2>
+        <!-- ✏️ EDITABLE: descripció del formulari -->
+        <p class="section-lead">
+          Omple el formulari per rebre una proposta personalitzada. La informació que facilitis ens permet dimensionar correctament el servei i calcular els honoraris.
+        </p>
+      </div>
+
+      <div class="adequacio-lede">
+        <strong>Tots els camps marcats amb * són obligatoris.</strong> Les dades facilitades seran tractades per Madeinhuman amb la finalitat exclusiva de preparar la proposta sol·licitada.
+      </div>
+
+      <form class="adequacio-form" id="formAdequacio" novalidate>
+
+        <!-- 01 — Dades identificatives -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-num">01</div>
+            <div>
+              <div class="form-section-title">Dades identificatives</div>
+              <div class="form-section-sub">Informació bàsica de l'organització</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="field-row">
+              <div class="field">
+                <label>Raó social <span class="req">*</span></label>
+                <input class="input" name="empresa" placeholder="Nom legal o comercial" required />
+              </div>
+              <div class="field">
+                <label>NIF / CIF <span class="req">*</span></label>
+                <input class="input" name="nif" placeholder="Ex: B17708033" required />
+              </div>
+            </div>
+            <div class="field">
+              <label>Activitat principal <span class="req">*</span></label>
+              <input class="input" name="activitat" placeholder="Ex: Clínica dental, assessoria laboral, distribució de materials..." required />
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Correu electrònic <span class="req">*</span></label>
+                <input class="input" type="email" name="email" placeholder="contacte@empresa.cat" required />
+              </div>
+              <div class="field">
+                <label>Telèfon <span class="req">*</span></label>
+                <input class="input" type="tel" name="telefon" placeholder="Ex: 972123456" required />
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Persona de contacte <span class="req">*</span></label>
+                <input class="input" name="personaContacte" placeholder="Nom i cognoms" required />
+              </div>
+              <div class="field">
+                <label>Adreça completa <span class="req">*</span></label>
+                <input class="input" name="adreca" placeholder="Carrer, número, CP, municipi" required />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 02 — Volum i factors de risc -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-num">02</div>
+            <div>
+              <div class="form-section-title">Volum i factors de risc</div>
+              <div class="form-section-sub">Permet dimensionar el servei i calcular els honoraris</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="field-row">
+              <div class="field">
+                <label>Nombre total de treballadors <span class="req">*</span></label>
+                <input class="input" type="number" name="numTreballadors" placeholder="Inclou-hi els de temps parcial i col·laboradors" min="0" required />
+              </div>
+              <div class="field">
+                <label>Proveïdors externs amb accés a dades <span class="req">*</span></label>
+                <input class="input" type="number" name="numET" placeholder="Gestor laboral, informàtic, cloud..." min="0" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Tracteu dades de salut, ideologia, sindicats o similars? <span class="req">*</span></label>
+              <div class="radio-row" id="riscArt9Group">
+                <label class="radio"><input type="radio" name="riscArt9" value="Sí" required /><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="riscArt9" value="No" /><span class="dot"></span><span>No</span></label>
+              </div>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Historials mèdics, discapacitats, orientació sindical, opinions polítiques, creences religioses...</div>
+            </div>
+
+            <div class="field">
+              <label>Feu servir eines amb servidors fora de la Unió Europea? <span class="req">*</span></label>
+              <div class="radio-row" id="riscCloudGroup">
+                <label class="radio"><input type="radio" name="riscCloud" value="Sí" required /><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="riscCloud" value="No" /><span class="dot"></span><span>No</span></label>
+                <label class="radio"><input type="radio" name="riscCloud" value="No ho sé" /><span class="dot"></span><span>No ho sé</span></label>
+              </div>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">WhatsApp (Meta/EUA), Mailchimp (EUA), Canva (Austràlia), Dropbox (EUA), Google Analytics, TikTok...</div>
+            </div>
+
+            <div class="field">
+              <label>Feu servir eines d'intel·ligència artificial? <span class="req">*</span></label>
+              <div class="radio-row" id="riscIAGroup">
+                <label class="radio"><input type="radio" name="riscIA" value="Sí" required /><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="riscIA" value="No" /><span class="dot"></span><span>No</span></label>
+              </div>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">ChatGPT, Microsoft Copilot, Google Gemini, Claude, eines d'IA en CRM o ERP, chatbots, generadors d'imatges...</div>
+            </div>
+
+            <div class="field">
+              <label>Teniu videovigilància o sistemes de control biomètric? <span class="req">*</span></label>
+              <div class="radio-row" id="riscBioGroup">
+                <label class="radio"><input type="radio" name="riscBio" value="Sí" required /><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="riscBio" value="No" /><span class="dot"></span><span>No</span></label>
+              </div>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Càmeres de seguretat, control d'accés per empremta dactilar, reconeixement facial...</div>
+            </div>
+
+            <div class="field">
+              <label>Sector d'activitat <span class="req">*</span></label>
+              <select class="select" name="riscSector" required>
+                <option value="">Selecciona el sector…</option>
+                <option value="Salut i serveis sanitaris">Salut i serveis sanitaris</option>
+                <option value="Educació i formació">Educació i formació</option>
+                <option value="Serveis financers o assegurances">Serveis financers o assegurances</option>
+                <option value="Serveis legals o notarials">Serveis legals o notarials</option>
+                <option value="Tecnologia i SaaS">Tecnologia i SaaS</option>
+                <option value="Comerç i retail">Comerç i retail</option>
+                <option value="Hostaleria i turisme">Hostaleria i turisme</option>
+                <option value="Indústria i manufactura">Indústria i manufactura</option>
+                <option value="Altres">Altres</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 03 — Presència digital -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-num">03</div>
+            <div>
+              <div class="form-section-title">Presència digital</div>
+              <div class="form-section-sub">Pàgina web i comerç electrònic</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="field">
+              <label>Teniu pàgina web? <span class="req">*</span></label>
+              <div class="radio-row" id="teWebGroup">
+                <label class="radio"><input type="radio" name="teWeb" value="si" required /><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="teWeb" value="no" /><span class="dot"></span><span>No</span></label>
+              </div>
+            </div>
+            <div class="field" id="webUrlField" style="display:none">
+              <label>URL de la pàgina web</label>
+              <input class="input" name="urlWeb" placeholder="https://www.empresa.cat" />
+            </div>
+            <div id="webExtras" style="display:none">
+              <div class="field">
+                <label>La web té comerç electrònic (botiga online)?</label>
+                <div class="radio-row" id="comercElectronicGroup">
+                  <label class="radio"><input type="radio" name="comercElectronic" value="si" /><span class="dot"></span><span>Sí</span></label>
+                  <label class="radio"><input type="radio" name="comercElectronic" value="no" /><span class="dot"></span><span>No</span></label>
+                </div>
+              </div>
+              <div class="field">
+                <label>La web permet enviar currículums o sol·licituds de feina?</label>
+                <div class="radio-row" id="enviaCVGroup">
+                  <label class="radio"><input type="radio" name="enviaCV" value="si" /><span class="dot"></span><span>Sí</span></label>
+                  <label class="radio"><input type="radio" name="enviaCV" value="no" /><span class="dot"></span><span>No</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 04 — Eines digitals -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-num">04</div>
+            <div>
+              <div class="form-section-title">Eines digitals i comunicació</div>
+              <div class="form-section-sub">Identifica proveïdors que poden necessitar contracte d'encarregat</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="field">
+              <label>Quines eines digitals feu servir? (marqueu totes les que apliquin)</label>
+              <div class="checkboxes" id="einesCheckboxes" style="margin-top:4px">
+                <label class="check"><input type="checkbox" name="eina" value="whatsapp" /><span class="box"></span><span>WhatsApp (clients o treballadors)</span></label>
+                <label class="check"><input type="checkbox" name="eina" value="newsletter" /><span class="box"></span><span>Mailchimp o altra newsletter</span></label>
+                <label class="check"><input type="checkbox" name="eina" value="google-workspace" /><span class="box"></span><span>Google Workspace (Gmail, Drive...)</span></label>
+                <label class="check"><input type="checkbox" name="eina" value="m365" /><span class="box"></span><span>Microsoft 365 (Outlook, Teams...)</span></label>
+                <label class="check"><input type="checkbox" name="eina" value="crm" /><span class="box"></span><span>CRM (Salesforce, HubSpot, Zoho...)</span></label>
+                <label class="check"><input type="checkbox" name="eina" value="ecommerce" /><span class="box"></span><span>E-commerce (Shopify, WooCommerce...)</span></label>
+                <label class="check"><input type="checkbox" name="eina" value="ia-generativa" /><span class="box"></span><span>IA generativa (ChatGPT, Copilot...)</span></label>
+                <label class="check"><input type="checkbox" name="eina" value="gestio-projectes" /><span class="box"></span><span>Gestió de projectes (Trello, Asana...)</span></label>
+              </div>
+            </div>
+            <div class="field">
+              <label>Envieu comunicacions comercials per correu o WhatsApp? <span class="req">*</span></label>
+              <div class="radio-row" id="enviaComunicacionsGroup">
+                <label class="radio"><input type="radio" name="enviaComunicacions" value="si" required /><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="enviaComunicacions" value="no" /><span class="dot"></span><span>No</span></label>
+              </div>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Newsletters, ofertes, novetats, recordatoris...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 05 — Estructura organitzativa -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-num">05</div>
+            <div>
+              <div class="form-section-title">Estructura organitzativa</div>
+              <div class="form-section-sub">Informació sobre l'estructura de l'empresa</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="field">
+              <label>Formeu part d'un grup empresarial? <span class="req">*</span></label>
+              <div class="radio-row" id="grupEmpresarialGroup">
+                <label class="radio"><input type="radio" name="grupEmpresarial" value="si" required /><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="grupEmpresarial" value="no" /><span class="dot"></span><span>No</span></label>
+              </div>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Societats matriu, filials o empreses germanes amb la mateixa propietat.</div>
+            </div>
+            <div class="field">
+              <label>Teniu diverses seus o centres de treball? <span class="req">*</span></label>
+              <div class="radio-row" id="diversesSeuseGroup">
+                <label class="radio"><input type="radio" name="diversesSeus" value="si" required /><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="diversesSeus" value="no" /><span class="dot"></span><span>No</span></label>
+              </div>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Oficines, magatzems, botigues o instal·lacions en ubicacions diferents.</div>
+            </div>
+            <div class="field">
+              <label>Observacions addicionals</label>
+              <textarea class="textarea" name="observacions" placeholder="Qualsevol informació que considereu rellevant: auditories prèvies, incidents passats, dubtes concrets, urgència..." style="min-height:140px"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <label class="privacy-check" id="adequacioPriv">
+          <input type="checkbox" name="rgpd" required />
+          <span class="box"></span>
+          <span>He llegit i accepto la <a href="politica-privacitat.html" target="_blank">política de privacitat</a>.</span>
+        </label>
+        <label class="privacy-check">
+          <input type="checkbox" name="comunicacions" />
+          <span class="box"></span>
+          <span>Accepto rebre informació sobre les activitats, serveis i productes de MADEINHUMAN.</span>
+        </label>
+
+        <div class="form-rgpd-info">
+          <strong>Informació sobre el tractament de dades</strong> (Reglament (UE) 2016/679 i LO 3/2018)<br />
+          · Responsable del tractament: MADEINHUMAN, ESPJ · NIF ES-41534172-J<br />
+          · Finalitat: Oferir, informar i prestar els nostres serveis i productes.<br />
+          · Legitimació: Consentiment de l'interessat.<br />
+          · Destinataris: Les dades no es cediran a tercers, llevat que ho exigeixi una llei o sigui necessari per complir amb la finalitat del tractament.<br />
+          · Drets: Accedir, rectificar i suprimir dades, així com la resta que s'expliquen a la <a href="politica-privacitat.html" target="_blank">política de privacitat</a> (arts. 15–22 RGPD).<br />
+          · Més informació: <a href="mailto:info@madeinhuman.cat">info@madeinhuman.cat</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px">
+          Enviar sol·licitud
+          <span class="arrow" aria-hidden="true">&rarr;</span>
+        </button>
+        <div id="okAdequacio" style="display:none"></div>
+        <div id="errAdequacio" style="display:none"></div>
+
+      </form>
+    </div>
+  </section>
+
+  <!-- ✏️ SECCIÓ: FAQ — preguntes freqüents (les preguntes es generen des de script.js) -->
+  <section class="block faq" id="faq">
+    <div class="container">
+      <div class="faq-header">
+        <span class="eyebrow">FAQ</span>
+        <!-- ✏️ EDITABLE: titular de FAQ -->
+        <h2 class="section-title" style="margin-top:18px">
+          Preguntes <em>habituals.</em>
+        </h2>
+        <!-- ✏️ EDITABLE: descripció de FAQ -->
+        <p class="section-lead">
+          Aclariments per a pymes i autònoms sense perfil jurídic especialitzat. El glossari recull els termes regulatoris més habituals.
+        </p>
+        <div class="tabs" id="faqTabs">
+          <button class="tab active" data-cat="tots">Totes</button>
+          <button class="tab" data-cat="rgpd">RGPD</button>
+          <button class="tab" data-cat="ia">IA</button>
+          <button class="tab" data-cat="practic">Pràctic</button>
+          <button class="tab" data-cat="glossari">Glossari</button>
+        </div>
+      </div>
+      <div class="faq-list" id="faqList">
+        <!-- FAQ items rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ✏️ SECCIÓ: ACTUALITAT — targetes de notícies -->
+  <!-- Per AFEGIR una notícia: copia un bloc <article class="news-card">...</article> i enganxa'l dins del <div class="news-grid">. -->
+  <!-- Per ELIMINAR una notícia: esborra tot el bloc <article>...</article> corresponent. -->
+  <!-- Classes de tag disponibles: news-tag-rgpd (coure), news-tag-ia (blau), news-tag-cat (verd) -->
+  <section class="block actualitat" id="actualitat">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Actualitat</span>
+        <!-- ✏️ EDITABLE: titular d'actualitat -->
+        <h2 class="section-title">
+          Novetats en protecció de dades <em>i IA.</em>
+        </h2>
+        <p class="section-lead">
+          Informació rellevant sobre normativa, resolucions i canvis regulatoris que poden afectar la teva empresa.
+        </p>
+      </div>
+      <div class="news-grid">
+        <!-- ✏️ EDITABLE: notícia 1 (tag, data, títol, cos, font) -->
+        <article class="news-card">
+          <div class="news-meta">
+            <span class="news-tag news-tag-rgpd">RGPD</span>
+            <span class="news-date">Maig 2026</span>
+          </div>
+          <h3 class="news-title">Les denúncies per protecció de dades creixen un 64% i se centren en pymes</h3>
+          <p class="news-body">
+            Segons dades de l'AEPD, durant el 2025 es van presentar un 64% més de reclamacions que l'any anterior — la xifra més alta de la sèrie històrica. El 72% de les multes van anar dirigides a petits negocis i autònoms, principalment per videovigilància, tractament de dades de treballadors i males pràctiques digitals.
+          </p>
+          <div class="news-source">Font: AEPD · autonomosyemprendedor.es</div>
+        </article>
+        <!-- ✏️ EDITABLE: notícia 2 -->
+        <article class="news-card news-card-ia">
+          <div class="news-meta">
+            <span class="news-tag news-tag-ia">AI Act</span>
+            <span class="news-date">Maig 2026</span>
+          </div>
+          <h3 class="news-title">La UE simplifica les normes sobre IA i fixa l'etiquetatge obligatori per a agost de 2026</h3>
+          <p class="news-body">
+            El Parlament Europeu i el Consell han acordat simplificar el Reglament d'IA per impulsar la innovació. A partir de l'agost de 2026, tot contingut generat o alterat per IA haurà d'estar etiquetat de forma explícita. Les regles per a sistemes d'alt risc (RRHH, educació, biometria) s'aplicaran des de desembre de 2027.
+          </p>
+          <div class="news-source">Font: Comissió Europea · Representació a Espanya</div>
+        </article>
+        <!-- ✏️ EDITABLE: notícia 3 -->
+        <article class="news-card">
+          <div class="news-meta">
+            <span class="news-tag news-tag-cat">APDCat</span>
+            <span class="news-date">2026</span>
+          </div>
+          <h3 class="news-title">L'APDCat desenvolupa una metodologia pionera per avaluar l'impacte de la IA sobre drets fonamentals</h3>
+          <p class="news-body">
+            L'Autoritat Catalana de Protecció de Dades ha impulsat, dins la comunitat 'DPD en xarxa', una metodologia per realitzar avaluacions d'impacte sobre drets fonamentals en l'ús d'intel·ligència artificial — un referent a nivell europeu.
+          </p>
+          <div class="news-source">Font: APDCat · apdcat.gencat.cat</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✏️ SECCIÓ: FOOTER — descripció, navegació, legal, copyright -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">Madein<span>human</span></div>
+          <!-- ✏️ EDITABLE: descripció del footer -->
+          <p class="footer-desc">
+            Consultoria especialitzada en protecció de dades i regulació d'Intel·ligència Artificial per a pymes.
+          </p>
+          <a href="#adequacio" class="btn btn-ghost" style="padding:12px 20px;font-size:14px">
+            Sol·licitar adequació
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Navegació</div>
+          <ul>
+            <li><a href="#serveis">Serveis</a></li>
+            <li><a href="#metode">Mètode</a></li>
+            <li><a href="#faq">Preguntes freqüents</a></li>
+            <li><a href="#actualitat">Actualitat</a></li>
+            <li><a href="#contacte">Contacte</a></li>
+            <li><a href="#adequacio">Formulari RGPD</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Legal i contacte</div>
+          <ul>
+            <!-- ✏️ EDITABLE: correu de contacte -->
+            <li><a href="mailto:info@madeinhuman.cat">info@madeinhuman.cat</a></li>
+            <li><a href="avis-legal.html">Avís legal</a></li>
+            <li><a href="politica-privacitat.html">Política de privacitat</a></li>
+            <li><a href="politica-cookies.html">Política de cookies</a></li>
+            <li><a href="https://apdcat.gencat.cat" target="_blank" rel="noopener">APDCat ↗</a></li>
+            <li><a href="https://www.aepd.es" target="_blank" rel="noopener">AEPD ↗</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <!-- ✏️ EDITABLE: copyright i ubicació -->
+        <span>© 2026 Madeinhuman · Barcelona, Catalunya</span>
+        <span class="made"><span class="dot-live"></span> RGPD vigent · AI Act 2025–2027</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
