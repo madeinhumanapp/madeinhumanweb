@@ -225,13 +225,12 @@ function parseAllContent() {
 
   // Metrics
   const metricsBlock = extractBetween(h, '<!-- ✏️ EDITABLE: 3 mètriques', '</section>');
-  const metrics = [...metricsBlock.matchAll(/<div class="metric">([\s\S]*?)<\/div>\s*<\/div>\s*<\/div>/g)];
+  const metrics = [...metricsBlock.matchAll(/<div class="metric">\s*<div class="metric-key">([\s\S]*?)<\/div>\s*<div class="metric-body">\s*<div class="metric-label">([\s\S]*?)<\/div>\s*<p>([\s\S]*?)<\/p>\s*<\/div>\s*<\/div>/g)];
   for (let i = 0; i < 3; i++) {
-    const block = metrics[i] ? metrics[i][1] : '';
-    setVal(`metric${i+1}-key`, extractContent(block, '', '<div class="metric-key">', '</div>'));
-    setVal(`metric${i+1}-label`, extractContent(block, '', '<div class="metric-label">', '</div>'));
-    const metricP = block.match(/<p>([\s\S]*?)<\/p>/);
-    setVal(`metric${i+1}-text`, stripHtml(metricP ? metricP[1].trim() : ''));
+    if (!metrics[i]) continue;
+    setVal(`metric${i+1}-key`, metrics[i][1].trim());
+    setVal(`metric${i+1}-label`, metrics[i][2].trim());
+    setVal(`metric${i+1}-text`, stripHtml(metrics[i][3].trim()));
   }
 
   // Services
@@ -273,7 +272,7 @@ function parseAllContent() {
   const methodLead = h.match(/Com <em>treballem\.<\/em>[\s\S]*?<p class="section-lead">\s*([\s\S]*?)\s*<\/p>/);
   setVal('method-lead', stripHtml(methodLead ? methodLead[1].trim() : ''));
 
-  const stepsBlock = extractBetween(h, '<!-- ✏️ EDITABLE: 4 passos', '</div>\n    </div>\n  </section>');
+  const stepsBlock = extractBetween(h, '<!-- ✏️ EDITABLE: 4 passos', '</div>\n      </div>\n    </div>\n  </section>');
   STEP_DATA = [];
   const stepMatches = [...stepsBlock.matchAll(/<div class="step">\s*<div class="step-num">(\d+)<\/div>\s*<div class="step-title">([\s\S]*?)<\/div>\s*<div class="step-body">([\s\S]*?)<\/div>\s*<\/div>/g)];
   stepMatches.forEach(m => {
@@ -282,7 +281,7 @@ function parseAllContent() {
   renderMethodSteps();
 
   // News
-  const newsSection = extractBetween(h, '<!-- ✏️ SECCIÓ: ACTUALITAT', '</section>\n\n  <!-- ✏️ SECCIÓ: FOOTER');
+  const newsSection = extractBetween(h, '<!-- ✏️ SECCIÓ: ACTUALITAT', '<!-- ✏️ SECCIÓ: FOOTER');
   setVal('news-title', extractContent(newsSection, '<!-- ✏️ EDITABLE: titular d\'actualitat -->', '<h2 class="section-title">', '</h2>'));
   const newsLead = newsSection.match(/<p class="section-lead">\s*([\s\S]*?)\s*<\/p>/);
   setVal('news-lead', stripHtml(newsLead ? newsLead[1].trim() : ''));
@@ -709,17 +708,21 @@ function replaceContextParagraphs(html, p1, p2) {
 }
 
 function replaceMetric(html, idx, key, label, text) {
-  const metrics = html.match(/<div class="metric">[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/g);
-  if (!metrics || !metrics[idx - 1]) return html;
-  const old = metrics[idx - 1];
-  const replacement = `<div class="metric">
+  const re = /<div class="metric">\s*<div class="metric-key">[\s\S]*?<\/div>\s*<div class="metric-body">\s*<div class="metric-label">[\s\S]*?<\/div>\s*<p>[\s\S]*?<\/p>\s*<\/div>\s*<\/div>/g;
+  let count = 0;
+  return html.replace(re, (match) => {
+    count++;
+    if (count === idx) {
+      return `<div class="metric">
           <div class="metric-key">${key}</div>
           <div class="metric-body">
             <div class="metric-label">${label}</div>
             <p>${text}</p>
           </div>
         </div>`;
-  return html.replace(old, replacement);
+    }
+    return match;
+  });
 }
 
 function replaceSvcTitle(html, title) {
@@ -825,7 +828,9 @@ function rebuildSteps(html) {
   const ci = html.indexOf(marker);
   if (ci === -1) return html;
   const stepsDiv = html.indexOf('<div class="steps">', ci);
-  const stepsEnd = html.indexOf('</div>\n    </div>\n  </section>', stepsDiv);
+  if (stepsDiv === -1) return html;
+  const stepsClose = html.indexOf('</div>\n      </div>\n    </div>\n  </section>', stepsDiv);
+  if (stepsClose === -1) return html;
 
   const newSteps = STEP_DATA.map(s => `        <div class="step">
           <div class="step-num">${s.num}</div>
@@ -833,7 +838,7 @@ function rebuildSteps(html) {
           <div class="step-body">${s.body}</div>
         </div>`).join('\n');
 
-  return html.slice(0, stepsDiv) + `<div class="steps">\n${newSteps}\n      </div>\n    ` + html.slice(stepsEnd);
+  return html.slice(0, stepsDiv) + `<div class="steps">\n${newSteps}\n      </div>\n      ` + html.slice(stepsClose);
 }
 
 function replaceNewsTitle(html, title) {
@@ -873,7 +878,7 @@ function rebuildNewsCards(html) {
   const gridStart = html.indexOf('<div class="news-grid">');
   if (gridStart === -1) return html;
   const contentStart = gridStart + '<div class="news-grid">'.length;
-  const gridEnd = html.indexOf('</div>\n    </div>\n  </section>\n\n  <!-- ✏️ SECCIÓ: FOOTER', contentStart);
+  const gridEnd = html.indexOf('</div>\n    </div>\n  </section>', contentStart);
 
   const cards = NEWS_DATA.map((n, i) => `
         <!-- ✏️ EDITABLE: notícia ${i + 1} -->
