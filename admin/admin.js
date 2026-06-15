@@ -593,7 +593,9 @@ async function saveSection(section) {
       await saveHTML(section);
     }
     clearChanged();
-    toast('success', `Secció "${section}" publicada correctament.`);
+    const name = SECTION_NAMES[section] || section;
+    toast('success', `Secció "${name}" publicada correctament. Cloudflare desplegarà en 1-2 min.`);
+    if (previewOpen) refreshPreview();
   } catch (err) {
     toast('error', `Error publicant: ${err.message}`);
   }
@@ -1497,7 +1499,9 @@ async function publishAll() {
 
     hideLoading();
     clearChanged();
-    toast('success', 'Tots els canvis publicats correctament!');
+    hideLoading();
+    toast('success', 'Tots els canvis publicats correctament! Cloudflare desplegarà en 1-2 min.');
+    if (previewOpen) refreshPreview();
   } catch (err) {
     hideLoading();
     toast('error', `Error publicant: ${err.message}`);

@@ -343,8 +343,13 @@
   background: var(--bg-card-hover);
   border-color: var(--border-strong);
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
 }
 .dash-card:hover::before { opacity: 1; }
+.dash-card:active {
+  transform: translateY(0);
+  transition-duration: 0.05s;
+}
 
 .dash-card-icon {
   width: 40px; height: 40px;
@@ -381,6 +386,13 @@
   gap: 10px;
 }
 .dashboard-status:empty { display: none; }
+
+/* --- Section divider --- */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 32px 0;
+}
 
 /* --- Editor Cards --- */
 .editor-grid {
