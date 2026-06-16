@@ -355,6 +355,23 @@ function parseAllContent() {
   setVal('adeq-title', extractContent(h, '<!-- ✏️ EDITABLE: titular del formulari d\'adequació -->', '<h2 class="section-title">', '</h2>'));
   setVal('adeq-desc', extractContent(h, '<!-- ✏️ EDITABLE: descripció del formulari -->', '<p class="section-lead">', '</p>'));
 
+  // Spots
+  const spotEnds = [
+    '<!-- ✏️ EDITABLE: spot 2 -->',
+    '<!-- ✏️ EDITABLE: spot 3 -->',
+    '<!-- ✏️ EDITABLE: spot 4 -->',
+    '<!-- ✏️ SPOTS 1-4 END -->',
+    '<!-- ✏️ SPOT 5 END -->',
+  ];
+  for (let n = 1; n <= 5; n++) {
+    const block = extractBetween(h, `<!-- ✏️ EDITABLE: spot ${n} title -->`, n <= 4 ? `<!-- ✏️ EDITABLE: spot ${n} text -->` : `<!-- ✏️ SPOT 5 END -->`);
+    const titleM = block.match(/<h2[^>]*>\s*([\s\S]*?)\s*<\/h2>/);
+    setVal(`spot${n}-title`, titleM ? titleM[1].trim() : '');
+    const textBlock = extractBetween(h, `<!-- ✏️ EDITABLE: spot ${n} text -->`, spotEnds[n - 1]);
+    const textM = textBlock.match(/<p[^>]*>\s*([\s\S]*?)\s*<\/p>/);
+    setVal(`spot${n}-text`, textM ? stripHtml(textM[1].trim()) : '');
+  }
+
   // Footer
   setVal('footer-desc', extractContent(h, '<!-- ✏️ EDITABLE: descripció del footer -->', '<p class="footer-desc">', '</p>'));
   const emailMatch = h.match(/<!-- ✏️ EDITABLE: correu de contacte -->\s*<li><a href="mailto:([^"]+)">/);
@@ -607,6 +624,7 @@ const SECTION_NAMES = {
   services: 'Serveis',
   method: 'Mètode',
   news: 'Actualitat',
+  spots: 'Spots',
   faq: 'FAQ',
   contact: 'Contacte',
   footer: 'Footer',
@@ -733,6 +751,13 @@ function collectHTMLChanges(section) {
     h = replaceFooterEmail(h, getVal('footer-email'));
     h = replaceFooterCopy(h, getVal('footer-copy'));
     h = replaceFooterStatus(h, getVal('footer-status'));
+  }
+
+  if (section === 'spots') {
+    for (let n = 1; n <= 5; n++) {
+      h = replaceSpotTitle(h, n, getVal(`spot${n}-title`));
+      h = replaceSpotText(h, n, getVal(`spot${n}-text`));
+    }
   }
 
   FILES.indexHtml = h;
@@ -920,6 +945,32 @@ function rebuildSteps(html) {
         </div>`).join('\n');
 
   return html.slice(0, stepsDiv) + `<div class="steps">\n${newSteps}\n      </div>\n      ` + html.slice(stepsClose);
+}
+
+function replaceSpotTitle(html, n, title) {
+  if (!title) return html;
+  const marker = `<!-- ✏️ EDITABLE: spot ${n} title -->`;
+  const ci = html.indexOf(marker);
+  if (ci === -1) return html;
+  const h2Start = html.indexOf('<h2', ci);
+  if (h2Start === -1) return html;
+  const contentStart = html.indexOf('>', h2Start) + 1;
+  const contentEnd = html.indexOf('</h2>', contentStart);
+  if (contentEnd === -1) return html;
+  return html.slice(0, contentStart) + '\n        ' + title + '\n      ' + html.slice(contentEnd);
+}
+
+function replaceSpotText(html, n, text) {
+  if (!text) return html;
+  const marker = `<!-- ✏️ EDITABLE: spot ${n} text -->`;
+  const ci = html.indexOf(marker);
+  if (ci === -1) return html;
+  const pStart = html.indexOf('<p', ci);
+  if (pStart === -1) return html;
+  const contentStart = html.indexOf('>', pStart) + 1;
+  const contentEnd = html.indexOf('</p>', contentStart);
+  if (contentEnd === -1) return html;
+  return html.slice(0, contentStart) + '\n        ' + text + '\n      ' + html.slice(contentEnd);
 }
 
 function replaceNewsTitle(html, title) {
@@ -1537,7 +1588,7 @@ async function publishAll() {
     showLoading('Publicant canvis...');
 
     // Collect all HTML sections
-    ['hero', 'context', 'services', 'method', 'news', 'contact', 'footer'].forEach(section => {
+    ['hero', 'context', 'services', 'spots', 'method', 'news', 'contact', 'footer'].forEach(section => {
       collectHTMLChanges(section);
     });
 
