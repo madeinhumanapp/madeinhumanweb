@@ -1269,7 +1269,7 @@ body::before {
 
 /* ===== SPOTS (full-screen push messages) ===== */
 .spot {
-  min-height: 100vh;
+  min-height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1327,13 +1327,13 @@ body::before {
   margin: 0 auto;
 }
 @media (max-width: 700px) {
-  .spot { min-height: 85vh; padding: 64px 0; }
+  .spot { min-height: 60vh; padding: 64px 0; }
   .spot-title { font-size: clamp(32px, 8vw, 48px); margin-bottom: 28px; }
   .spot-text { font-size: 16px; }
   .spot-num { font-size: 11px; margin-bottom: 20px; }
 }
 @media (max-width: 420px) {
-  .spot { min-height: 80vh; padding: 48px 0; }
+  .spot { min-height: 55vh; padding: 48px 0; }
   .spot-title { font-size: 30px; }
   .spot-text { font-size: 15px; }
 }
