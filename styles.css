@@ -121,6 +121,16 @@ input, textarea, select { font: inherit; color: inherit; }
   background: var(--copper);
 }
 
+/* ===== CTA Animations ===== */
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+@keyframes ctaGlow {
+  0%, 100% { box-shadow: 0 4px 20px -4px rgba(196, 149, 106, .4); }
+  50%      { box-shadow: 0 8px 36px -4px rgba(196, 149, 106, .7); }
+}
+
 /* ===== NAV ===== */
 .nav {
   position: fixed; top: 0; left: 0; right: 0;
@@ -146,12 +156,25 @@ input, textarea, select { font: inherit; color: inherit; }
   font-size: 14px;
   padding: 10px 18px;
   border-radius: 999px;
-  border: 1px solid var(--border-strong);
-  color: var(--text);
+  border: 1px solid var(--copper);
+  background: var(--copper);
+  color: #1a1208;
+  font-weight: 600;
   transition: all 200ms;
   display: inline-block;
+  position: relative;
+  overflow: hidden;
+  animation: ctaGlow 2.5s ease-in-out infinite;
 }
-.nav-cta:hover { border-color: var(--copper); color: var(--copper); }
+.nav-cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.3) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+.nav-cta:hover { background: var(--copper-bright); border-color: var(--copper-bright); color: #1a1208; transform: scale(1.05); }
 
 .nav-burger {
   display: none;
@@ -282,10 +305,22 @@ input, textarea, select { font: inherit; color: inherit; }
   background: var(--copper);
   color: #1a1208;
   border: 1px solid var(--copper);
-  box-shadow: 0 12px 32px -12px rgba(196, 149, 106, 0.55);
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+  animation: ctaGlow 2.5s ease-in-out infinite;
 }
-.btn-primary:hover { background: var(--copper-bright); transform: translateY(-1px); box-shadow: 0 18px 40px -14px rgba(196, 149, 106, 0.7); }
-.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.3) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+.btn-primary:hover { background: var(--copper-bright); transform: translateY(-2px); box-shadow: 0 18px 40px -14px rgba(196, 149, 106, 0.8); }
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; animation: none; }
 .btn-ghost {
   background: transparent;
   color: var(--text);
