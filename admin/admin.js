@@ -668,9 +668,18 @@ function collectHTMLChanges(section) {
   if (section === 'hero') {
     // SEO
     const seoTitle = getVal('seo-title');
-    if (seoTitle) h = h.replace(/<title>.*?<\/title>/, `<title>${seoTitle}</title>`);
+    if (seoTitle) {
+      h = h.replace(/<title>.*?<\/title>/, `<title>${seoTitle}</title>`);
+      h = h.replace(/<meta property="og:title" content=".*?"\s*\/>/, `<meta property="og:title" content="${seoTitle.replace(/"/g, '&quot;')}" />`);
+      h = h.replace(/<meta name="twitter:title" content=".*?"\s*\/>/, `<meta name="twitter:title" content="${seoTitle.replace(/"/g, '&quot;')}" />`);
+    }
     const seoDesc = getVal('seo-desc');
-    if (seoDesc) h = h.replace(/<meta name="description" content=".*?"\s*\/>/, `<meta name="description" content="${seoDesc.replace(/"/g, '&quot;')}" />`);
+    if (seoDesc) {
+      const safeDesc = seoDesc.replace(/"/g, '&quot;');
+      h = h.replace(/<meta name="description" content=".*?"\s*\/>/, `<meta name="description" content="${safeDesc}" />`);
+      h = h.replace(/<meta property="og:description" content=".*?"\s*\/>/, `<meta property="og:description" content="${safeDesc}" />`);
+      h = h.replace(/<meta name="twitter:description" content=".*?"\s*\/>/, `<meta name="twitter:description" content="${safeDesc}" />`);
+    }
 
     h = replaceTagAfterComment(h, '<!-- ✏️ EDITABLE: subtítol del hero -->', 'span', getVal('hero-eyebrow'));
     h = replaceTagAfterComment(h, '<!-- ✏️ EDITABLE: titular principal', 'h1', getVal('hero-title'));
