@@ -116,7 +116,7 @@ if (document.getElementById('faqTabs')) {
 // -----------------------------------------------
 const API_URL = window.location.hostname === 'localhost'
   ? 'http://localhost:3000'
-  : 'https://rgpdtool.madeinhuman.cat';
+  : 'https://rgpd.madeinhuman.cat';
 
 function parseEmpleats(val) {
   if (!val) return undefined;

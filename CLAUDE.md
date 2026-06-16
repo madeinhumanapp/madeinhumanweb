@@ -6,7 +6,7 @@ Static website for madeinhuman.cat — privacy consultancy (RGPD/AI Act).
 
 - Pure HTML/CSS/JS, no build step
 - Hosted on Cloudflare Pages (auto-deploy from `main` branch)
-- Forms POST to `https://api.madeinhuman.cat` via Cloudflare Tunnel (independent of Pages)
+- Forms POST to `https://rgpd.madeinhuman.cat` (app hosted on Render)
 - React (CDN) only for `recollida.html` wizard
 
 ## Key Files
@@ -18,7 +18,7 @@ Static website for madeinhuman.cat — privacy consultancy (RGPD/AI Act).
 - `wizard/` — React components for data collection wizard
 - `fonts/` — Self-hosted woff2 fonts
 
-## API Endpoints (via Cloudflare Tunnel)
+## API Endpoints (via Render — rgpd.madeinhuman.cat)
 
 - `POST /api/public/contacte` — Contact form
 - `POST /api/public/pressupost` — RGPD adequacy request

@@ -36,7 +36,7 @@ function showToast(msg) {
 // API URL (same pattern as script.js)
 var WIZARD_API_URL = window.location.hostname === 'localhost'
   ? 'http://localhost:3000'
-  : 'https://api.madeinhuman.cat';
+  : 'https://rgpd.madeinhuman.cat';
 
 // Download Excel template from rgpd-tool public/templates/
 function downloadTemplate(filename) {
