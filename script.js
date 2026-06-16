@@ -159,7 +159,16 @@ function showResult(formCard, type, msg) {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (!form.checkValidity()) { form.reportValidity(); return; }
+    if (!form.checkValidity()) {
+      const first = form.querySelector(':invalid');
+      if (first) {
+        first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        first.focus({ preventScroll: true });
+        const field = first.closest('.field');
+        if (field) field.classList.add('invalid');
+      }
+      return;
+    }
 
     const fd = new FormData(form);
     const body = {
@@ -200,7 +209,16 @@ function showResult(formCard, type, msg) {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (!form.checkValidity()) { form.reportValidity(); return; }
+    if (!form.checkValidity()) {
+      const first = form.querySelector(':invalid');
+      if (first) {
+        first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        first.focus({ preventScroll: true });
+        const field = first.closest('.field');
+        if (field) field.classList.add('invalid');
+      }
+      return;
+    }
 
     const fd = new FormData(form);
 
@@ -262,6 +280,205 @@ function showResult(formCard, type, msg) {
     } finally {
       setLoading(btn, false);
     }
+  });
+})();
+
+// -----------------------------------------------
+// Scroll progress bar
+// -----------------------------------------------
+(function () {
+  const bar = document.getElementById('scrollProgress');
+  if (!bar) return;
+  function update() {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = h > 0 ? (window.scrollY / h * 100) + '%' : '0%';
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+// -----------------------------------------------
+// Scroll-reveal (IntersectionObserver)
+// -----------------------------------------------
+(function () {
+  const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+  if (!els.length) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('revealed');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(el => obs.observe(el));
+})();
+
+// -----------------------------------------------
+// Active nav link on scroll
+// -----------------------------------------------
+(function () {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  if (!sections.length || !navLinks.length) return;
+
+  function update() {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+// -----------------------------------------------
+// Back to top button
+// -----------------------------------------------
+(function () {
+  const btn = document.getElementById('backToTop');
+  if (!btn) return;
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 600);
+  }, { passive: true });
+})();
+
+// -----------------------------------------------
+// Metric counter animation
+// -----------------------------------------------
+(function () {
+  const keys = document.querySelectorAll('.metric-key');
+  if (!keys.length) return;
+
+  function animateValue(el, text) {
+    const match = text.match(/^([\d.,]+)(.*)$/);
+    if (!match) return;
+    const target = parseFloat(match[1].replace(',', '.'));
+    const suffix = match[2] || '';
+    const isDecimal = match[1].includes(',') || match[1].includes('.');
+    const duration = 1200;
+    const start = performance.now();
+
+    function step(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - t, 3);
+      const val = Math.round(target * ease);
+      el.textContent = (isDecimal ? (target * ease).toFixed(0) : val) + suffix;
+      if (t < 1) requestAnimationFrame(step);
+      else el.textContent = text;
+    }
+    requestAnimationFrame(step);
+  }
+
+  const originals = [];
+  keys.forEach(k => {
+    originals.push(k.textContent.trim());
+    k.textContent = '';
+  });
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const idx = Array.from(keys).indexOf(e.target);
+        animateValue(e.target, originals[idx]);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  keys.forEach(k => obs.observe(k));
+})();
+
+// -----------------------------------------------
+// Adequació form progress bar
+// -----------------------------------------------
+(function () {
+  const form = document.getElementById('formAdequacio');
+  const fill = document.getElementById('formProgressFill');
+  const pct = document.getElementById('formProgressPct');
+  const dots = document.querySelectorAll('.form-progress-dot');
+  if (!form || !fill) return;
+
+  const sections = form.querySelectorAll('.form-section');
+  const totalSections = sections.length;
+
+  function updateProgress() {
+    let completed = 0;
+    sections.forEach((sec, i) => {
+      const required = sec.querySelectorAll('[required]');
+      const allFilled = Array.from(required).every(el => {
+        if (el.type === 'radio') {
+          return form.querySelector(`input[name="${el.name}"]:checked`);
+        }
+        return el.value && el.value.trim() !== '';
+      });
+      if (allFilled && required.length > 0) completed++;
+      if (dots[i]) dots[i].classList.toggle('active', allFilled && required.length > 0);
+    });
+    const percent = Math.round((completed / totalSections) * 100);
+    fill.style.width = percent + '%';
+    if (pct) pct.textContent = percent + '%';
+  }
+
+  form.addEventListener('input', updateProgress);
+  form.addEventListener('change', updateProgress);
+  updateProgress();
+})();
+
+// -----------------------------------------------
+// Inline field validation (blur)
+// -----------------------------------------------
+(function () {
+  document.addEventListener('blur', (e) => {
+    const input = e.target;
+    if (!input.matches('.input, .textarea, .select')) return;
+    const field = input.closest('.field');
+    if (!field) return;
+
+    if (!input.required && !input.value) {
+      field.classList.remove('valid', 'invalid');
+      return;
+    }
+
+    if (input.required && !input.value.trim()) {
+      field.classList.remove('valid');
+      field.classList.add('invalid');
+    } else if (input.type === 'email' && input.value && !input.validity.valid) {
+      field.classList.remove('valid');
+      field.classList.add('invalid');
+    } else if (input.value.trim()) {
+      field.classList.remove('invalid');
+      field.classList.add('valid');
+    }
+  }, true);
+
+  document.addEventListener('input', (e) => {
+    const input = e.target;
+    if (!input.matches('.input, .textarea, .select')) return;
+    const field = input.closest('.field');
+    if (field && field.classList.contains('invalid') && input.value.trim()) {
+      field.classList.remove('invalid');
+    }
+  });
+})();
+
+// -----------------------------------------------
+// Smooth scroll to first error on form submit
+// -----------------------------------------------
+(function () {
+  document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('invalid', (e) => {
+      e.preventDefault();
+      const first = form.querySelector(':invalid');
+      if (first) {
+        first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        first.focus({ preventScroll: true });
+        const field = first.closest('.field');
+        if (field) field.classList.add('invalid');
+      }
+    }, true);
   });
 })();
 

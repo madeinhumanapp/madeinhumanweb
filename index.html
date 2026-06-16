@@ -209,6 +209,9 @@
 </head>
 <body>
 
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
   <!-- NAV -->
   <nav class="nav" id="navbar">
     <div class="container nav-inner">
@@ -241,17 +244,17 @@
     <div class="grid-lines"></div>
     <div class="container hero-inner">
       <!-- ✏️ EDITABLE: subtítol del hero -->
-      <span class="eyebrow">Consultoria en protecció de dades i IA</span>
+      <span class="eyebrow reveal" style="transition-delay:.1s">Consultoria en protecció de dades i IA</span>
       <!-- ✏️ EDITABLE: titular principal (el <br /> fa el salt de línia, <em> fa la cursiva) -->
-      <h1 class="hero-title">
+      <h1 class="hero-title reveal" style="transition-delay:.2s">
         Protegir<br />
         és <em>avançar.</em>
       </h1>
       <!-- ✏️ EDITABLE: descripció del hero -->
-      <p class="hero-sub">
+      <p class="hero-sub reveal" style="transition-delay:.35s">
         Consultoria de protecció de dades i IA a Girona. Ajudem pymes a complir el RGPD i a preparar-se per al Reglament europeu d'Intel·ligència Artificial. Acompanyament pràctic, sense paperassa inútil.
       </p>
-      <div class="cta-row">
+      <div class="cta-row reveal" style="transition-delay:.5s">
         <a href="#adequacio" class="btn btn-primary">
           Sol·licitar adequació
           <span class="arrow" aria-hidden="true">&rarr;</span>
@@ -273,10 +276,12 @@
     </div>
   </header>
 
+  <div class="section-divider"></div>
+
   <!-- ✏️ SECCIÓ: CONTEXT — xifres i dades clau -->
   <section class="block statement">
     <div class="container statement-grid">
-      <div class="statement-left">
+      <div class="statement-left reveal-left">
         <span class="eyebrow">El context</span>
         <!-- ✏️ EDITABLE: titular de context -->
         <h2 class="section-title" style="margin-top:18px">
@@ -291,7 +296,7 @@
         </p>
       </div>
       <!-- ✏️ EDITABLE: 3 mètriques (canvia xifres, dates i text lliurement) -->
-      <div class="metrics">
+      <div class="metrics reveal-right">
         <div class="metric">
           <div class="metric-key">RGPD</div>
           <div class="metric-body">
@@ -317,10 +322,12 @@
     </div>
   </section>
 
+  <div class="section-divider"></div>
+
   <!-- ✏️ SECCIÓ: SERVEIS — els 2 pilars i el servei transversal -->
   <section class="block services" id="serveis">
     <div class="container">
-      <div class="services-head-row">
+      <div class="services-head-row reveal">
         <div class="section-head">
           <span class="eyebrow">Serveis</span>
           <!-- ✏️ EDITABLE: titular de serveis -->
@@ -335,7 +342,7 @@
 
       <div class="pillar-grid">
         <!-- ✏️ EDITABLE: Pilar 1 — RGPD (títol, descripció, llista de serveis, nota "per a qui") -->
-        <article class="pillar">
+        <article class="pillar reveal-scale" style="transition-delay:.1s">
           <div class="pillar-inner">
             <div class="pillar-head">
               <span class="pillar-num">Pilar 01</span>
@@ -363,7 +370,7 @@
         </article>
 
         <!-- ✏️ EDITABLE: Pilar 2 — AI Act (títol, descripció, llista de serveis, nota de calendari) -->
-        <article class="pillar pillar-blue">
+        <article class="pillar pillar-blue reveal-scale" style="transition-delay:.25s">
           <div class="pillar-inner">
             <div class="pillar-head">
               <span class="pillar-num">Pilar 02</span>
@@ -390,7 +397,7 @@
       </div>
 
       <!-- ✏️ EDITABLE: servei transversal (títol i descripció) -->
-      <div class="crossover">
+      <div class="crossover reveal">
         <div>
           <div class="crossover-label">Servei transversal</div>
           <div class="crossover-title">Consultoria estratègica</div>
@@ -403,10 +410,12 @@
     </div>
   </section>
 
+  <div class="section-divider"></div>
+
   <!-- ✏️ SECCIÓ: MÈTODE — les 4 fases de treball -->
   <section class="block method" id="metode">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <span class="eyebrow">Mètode</span>
         <!-- ✏️ EDITABLE: titular de mètode -->
         <h2 class="section-title">
@@ -418,22 +427,22 @@
       </div>
       <!-- ✏️ EDITABLE: 4 passos del mètode (canvia títol i descripció de cada pas) -->
       <div class="steps">
-        <div class="step">
+        <div class="step reveal" style="transition-delay:.05s">
           <div class="step-num">01</div>
           <div class="step-title">Diagnosi</div>
           <div class="step-body">Analitzem la teva situació: quines dades tractes, quins sistemes d'IA uses i quins riscos existeixen. Una fotografia real del punt de partida.</div>
         </div>
-        <div class="step">
+        <div class="step reveal" style="transition-delay:.15s">
           <div class="step-num">02</div>
           <div class="step-title">Pla d'acció</div>
           <div class="step-body">Full de ruta prioritzat per risc i impacte. Cada lliurable és accionable, amb dates i responsables definits.</div>
         </div>
-        <div class="step">
+        <div class="step reveal" style="transition-delay:.25s">
           <div class="step-num">03</div>
           <div class="step-title">Implementació</div>
           <div class="step-body">Acompanyament pràctic amb els teus equips tècnics i jurídics. Treballem de forma iterativa fins que tot quedi en ordre.</div>
         </div>
-        <div class="step">
+        <div class="step reveal" style="transition-delay:.35s">
           <div class="step-num">04</div>
           <div class="step-title">Govern continu</div>
           <div class="step-body">La conformitat no és un projecte, és un estat. Manteniment anual, actualitzacions regulatòries i revisions periòdiques.</div>
@@ -442,10 +451,12 @@
     </div>
   </section>
 
+  <div class="section-divider"></div>
+
   <!-- ✏️ SECCIÓ: CONTACTE — formulari de contacte ràpid -->
   <section class="block forms" id="contacte">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <span class="eyebrow">Parlem-ne</span>
         <!-- ✏️ EDITABLE: titular de contacte -->
         <h2 class="section-title">
@@ -457,7 +468,7 @@
         </p>
       </div>
 
-      <div style="max-width:580px">
+      <div style="max-width:580px" class="reveal-scale">
         <form class="form-card" id="formContacte" novalidate>
           <div class="form-eyebrow">Contacte ràpid</div>
           <h3>Tens un dubte?</h3>
@@ -512,11 +523,13 @@
     </div>
   </section>
 
+  <div class="section-divider"></div>
+
   <!-- ✏️ SECCIÓ: ADEQUACIÓ — formulari de sol·licitud RGPD (⚠️ NO canviïs els name="" dels camps) -->
   <section class="block adequacio" id="adequacio">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Formulari d'adequació</span>
+        <span class="eyebrow reveal">Formulari d'adequació</span>
         <!-- ✏️ EDITABLE: titular del formulari d'adequació -->
         <h2 class="section-title">
           Sol·licitud d'adequació <em>al RGPD.</em>
@@ -529,6 +542,23 @@
 
       <div class="adequacio-lede">
         <strong>Tots els camps marcats amb * són obligatoris.</strong> Les dades facilitades seran tractades per Madeinhuman amb la finalitat exclusiva de preparar la proposta sol·licitada.
+      </div>
+
+      <div class="form-progress" id="formProgress">
+        <div class="form-progress-label">
+          <span>Progrés del formulari</span>
+          <span id="formProgressPct">0%</span>
+        </div>
+        <div class="form-progress-track">
+          <div class="form-progress-fill" id="formProgressFill"></div>
+        </div>
+        <div class="form-progress-steps">
+          <div class="form-progress-dot" data-step="1"></div>
+          <div class="form-progress-dot" data-step="2"></div>
+          <div class="form-progress-dot" data-step="3"></div>
+          <div class="form-progress-dot" data-step="4"></div>
+          <div class="form-progress-dot" data-step="5"></div>
+        </div>
       </div>
 
       <form class="adequacio-form" id="formAdequacio" novalidate>
@@ -795,10 +825,12 @@
     </div>
   </section>
 
+  <div class="section-divider"></div>
+
   <!-- ✏️ SECCIÓ: FAQ — preguntes freqüents (les preguntes es generen des de script.js) -->
   <section class="block faq" id="faq">
     <div class="container">
-      <div class="faq-header">
+      <div class="faq-header reveal">
         <span class="eyebrow">FAQ</span>
         <!-- ✏️ EDITABLE: titular de FAQ -->
         <h2 class="section-title" style="margin-top:18px">
@@ -826,9 +858,10 @@
   <!-- Per AFEGIR una notícia: copia un bloc <article class="news-card">...</article> i enganxa'l dins del <div class="news-grid">. -->
   <!-- Per ELIMINAR una notícia: esborra tot el bloc <article>...</article> corresponent. -->
   <!-- Classes de tag disponibles: news-tag-rgpd (coure), news-tag-ia (blau), news-tag-cat (verd) -->
+  <div class="section-divider"></div>
   <section class="block actualitat" id="actualitat">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <span class="eyebrow">Actualitat</span>
         <!-- ✏️ EDITABLE: titular d'actualitat -->
         <h2 class="section-title">
@@ -927,6 +960,11 @@
       </div>
     </div>
   </footer>
+
+  <!-- Back to top button -->
+  <a href="#top" class="back-to-top" id="backToTop" aria-label="Tornar a dalt">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </a>
 
   <!-- WhatsApp floating button -->
   <a href="https://wa.me/34644032721" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Contacta'ns per WhatsApp">
