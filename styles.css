@@ -1267,6 +1267,77 @@ body::before {
   box-shadow: 0 0 40px rgba(74, 141, 255, .12), inset 0 0 40px rgba(74, 141, 255, .04);
 }
 
+/* ===== SPOTS (full-screen push messages) ===== */
+.spot {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 80px 0;
+  overflow: hidden;
+}
+.spot-alt {
+  background: var(--bg-deep);
+}
+.spot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(196, 149, 106, .04), transparent 70%);
+  pointer-events: none;
+}
+.spot-alt::before {
+  background: radial-gradient(ellipse at 50% 50%, rgba(74, 141, 255, .03), transparent 70%);
+}
+.spot-inner {
+  text-align: center;
+  max-width: 900px;
+  position: relative;
+  z-index: 1;
+}
+.spot-num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: .2em;
+  color: var(--copper);
+  opacity: .5;
+  margin-bottom: 28px;
+}
+.spot-title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(38px, 6.5vw, 76px);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  margin-bottom: 36px;
+  color: var(--text);
+}
+.spot-title em {
+  color: var(--copper);
+  font-style: italic;
+  font-weight: 400;
+}
+.spot-text {
+  font-size: clamp(17px, 1.8vw, 21px);
+  color: var(--text-dim);
+  line-height: 1.65;
+  max-width: 680px;
+  margin: 0 auto;
+}
+@media (max-width: 700px) {
+  .spot { min-height: 85vh; padding: 64px 0; }
+  .spot-title { font-size: clamp(32px, 8vw, 48px); margin-bottom: 28px; }
+  .spot-text { font-size: 16px; }
+  .spot-num { font-size: 11px; margin-bottom: 20px; }
+}
+@media (max-width: 420px) {
+  .spot { min-height: 80vh; padding: 48px 0; }
+  .spot-title { font-size: 30px; }
+  .spot-text { font-size: 15px; }
+}
+
 /* ===== Section gradient dividers ===== */
 .section-divider {
   height: 1px;
