@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- ✏️ EDITABLE: títol i descripció (SEO) -->
+  <title>Diagnòstic RGPD gratuït — Quin és el risc de la vostra empresa? | Madeinhuman</title>
+  <meta name="description" content="Responeu 11 preguntes i rebeu en un minut un informe PDF gratuït amb el nivell de risc en protecció de dades de la vostra empresa, els punts més exposats i per on començar." />
+  <link rel="canonical" href="https://madeinhuman.cat/diagnostic.html" />
+  <meta property="og:title" content="Diagnòstic RGPD gratuït · Madeinhuman" />
+  <meta property="og:description" content="11 preguntes, 4 minuts i un informe PDF amb el vostre nivell de risc en protecció de dades." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://madeinhuman.cat/diagnostic.html" />
+  <meta property="og:locale" content="ca_ES" />
+  <meta name="theme-color" content="#0A0E1A" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    @font-face{font-family:"DM Sans";font-style:normal;font-weight:300 700;font-display:swap;src:url(fonts/dm-sans-latin.woff2) format("woff2")}
+    @font-face{font-family:"Playfair Display";font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/playfair-display-latin.woff2) format("woff2")}
+    @font-face{font-family:"Playfair Display";font-style:italic;font-weight:400 700;font-display:swap;src:url(fonts/playfair-display-italic-latin.woff2) format("woff2")}
+    @font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:400 500;font-display:swap;src:url(fonts/jetbrains-mono-latin.woff2) format("woff2")}
+    :root{
+      --bg:#0A0E1A;--card:rgba(255,255,255,.035);--card-h:rgba(255,255,255,.06);
+      --border:rgba(255,255,255,.08);--border-s:rgba(255,255,255,.16);
+      --copper:#C4956A;--copper-b:#D9A878;--copper-d:#8E6A48;
+      --text:#F5F5F5;--dim:#8899AA;--faint:#5C6B7D;
+      --baix:#6FA287;--mitja:#D9A878;--alt:#D0694E;
+      --serif:"Playfair Display",Georgia,serif;--sans:"DM Sans",-apple-system,"Segoe UI",Helvetica,sans-serif;--mono:"JetBrains Mono",Menlo,monospace;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.55}
+    body{display:flex;flex-direction:column;min-height:100vh;-webkit-font-smoothing:antialiased}
+    a{color:inherit}
+    .top{display:flex;justify-content:space-between;align-items:center;padding:18px clamp(16px,5vw,48px);border-bottom:1px solid var(--border)}
+    .logo{font-family:var(--serif);font-size:20px;text-decoration:none;color:var(--text)}
+    .logo span{color:var(--copper);font-style:italic}
+    .count{font-family:var(--mono);font-size:12px;color:var(--faint)}
+    .bar{height:3px;background:var(--border)}
+    .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--copper-d),var(--copper-b));transition:width .35s ease}
+    main{flex:1;display:flex;justify-content:center;padding:clamp(28px,6vh,64px) 16px 40px}
+    .wrap{width:100%;max-width:640px}
+    .step{display:none;animation:in .3s ease}
+    .step.on{display:block}
+    @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    @media (prefers-reduced-motion:reduce){.step{animation:none}.bar i{transition:none}}
+    .kicker{font-family:var(--mono);font-size:12px;color:var(--copper);letter-spacing:.08em;margin-bottom:14px}
+    h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,5vw,44px);line-height:1.12;margin-bottom:16px}
+    h1 em{font-style:italic;color:var(--copper-b)}
+    h2{font-family:var(--serif);font-weight:500;font-size:clamp(23px,3.6vw,30px);line-height:1.2;margin-bottom:8px}
+    h2:focus{outline:none}
+    .help{color:var(--dim);font-size:15px;margin-bottom:24px;min-height:1em}
+    .intro p{color:var(--dim);font-size:17px;margin-bottom:22px;max-width:540px}
+    .points{list-style:none;display:grid;gap:10px;margin:0 0 30px}
+    .points li{display:flex;gap:12px;font-size:15px}
+    .points li::before{content:"";flex:0 0 6px;height:6px;margin-top:9px;border-radius:50%;background:var(--copper)}
+    .opts{display:grid;gap:10px}
+    .opts.cols{grid-template-columns:1fr 1fr}
+    @media(max-width:520px){.opts.cols{grid-template-columns:1fr}}
+    .opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--card);border:1px solid var(--border);color:var(--text);font:inherit;font-size:15.5px;padding:15px 18px;border-radius:12px;cursor:pointer;transition:background .15s,border-color .15s;min-height:52px}
+    .opt:hover{background:var(--card-h);border-color:var(--border-s)}
+    .opt:focus-visible,.btn:focus-visible,.back:focus-visible{outline:2px solid var(--copper-b);outline-offset:2px}
+    .opt .mk{flex:0 0 20px;height:20px;border:1.5px solid var(--border-s);border-radius:50%;display:flex;align-items:center;justify-content:center}
+    .opt[aria-checked] .mk{border-radius:5px}
+    .opt.sel{border-color:var(--copper);background:rgba(196,149,106,.09)}
+    .opt.sel .mk{border-color:var(--copper);background:var(--copper)}
+    .opt.sel .mk::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--bg)}
+    .opt[aria-checked].sel .mk::after{width:9px;height:5px;border-radius:0;background:none;border-left:2px solid var(--bg);border-bottom:2px solid var(--bg);transform:rotate(-45deg) translate(1px,-1px)}
+    .opt.dk{color:var(--dim);font-size:14.5px}
+    .nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;gap:12px}
+    .btn{background:var(--copper);color:var(--bg);border:0;font:inherit;font-weight:700;font-size:15px;padding:14px 26px;border-radius:10px;cursor:pointer;display:inline-flex;gap:10px;align-items:center;text-decoration:none}
+    .btn:hover{background:var(--copper-b)}
+    .btn:disabled{opacity:.35;cursor:not-allowed}
+    .back{background:none;border:0;color:var(--dim);font:inherit;font-size:14px;cursor:pointer;padding:10px 0}
+    .back:hover{color:var(--text)}
+    .field{margin-bottom:14px}
+    .field label{display:block;font-size:13px;color:var(--dim);margin-bottom:6px}
+    .field input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 15px;color:var(--text);font:inherit;font-size:16px}
+    .field input:focus{outline:none;border-color:var(--copper)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:520px){.row{grid-template-columns:1fr}}
+    .check{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--dim);margin:14px 0;cursor:pointer}
+    .check input{margin-top:3px;accent-color:var(--copper);width:18px;height:18px;flex:0 0 18px}
+    .check a{color:var(--copper-b)}
+    .check b{color:var(--text);font-weight:600}
+    .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+    #turnstile{margin:16px 0 4px;min-height:0}
+    .err{display:none;margin-top:14px;padding:12px 14px;border-radius:10px;background:rgba(208,105,78,.12);border:1px solid rgba(208,105,78,.4);color:#F2B6A6;font-size:14px}
+    .err.on{display:block}
+    .res{text-align:center}
+    .gauge{position:relative;width:min(300px,80vw);margin:6px auto 0}
+    .gauge .n{position:absolute;left:0;right:0;bottom:6px;font-family:var(--serif);font-size:54px;line-height:1}
+    .gauge .n small{font-family:var(--sans);font-size:15px;color:var(--faint)}
+    .pill{display:inline-block;margin:14px 0 24px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:20px;padding:5px 14px}
+    .pill.alt{background:rgba(208,105,78,.16);color:var(--alt)}.pill.mitja{background:rgba(217,168,120,.16);color:var(--mitja)}.pill.baix{background:rgba(111,162,135,.16);color:var(--baix)}
+    .tops{list-style:none;text-align:left;display:grid;gap:10px;margin:0 auto 26px;max-width:520px}
+    .tops li{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:15px}
+    .tops li span{font-family:var(--mono);font-size:12px;color:var(--copper)}
+    .sent{border:1px solid rgba(196,149,106,.35);background:rgba(196,149,106,.06);border-radius:12px;padding:18px 20px;text-align:left;font-size:15px;color:var(--dim);margin-bottom:22px}
+    .sent b{color:var(--text)}
+    .cta{display:flex;flex-direction:column;align-items:center;gap:8px}
+    .cta small{color:var(--faint);font-size:12.5px}
+    footer{padding:18px 16px;text-align:center;font-size:12px;color:var(--faint);border-top:1px solid var(--border)}
+    footer a{color:var(--dim)}
+    noscript p{color:var(--dim)}
+  </style>
+</head>
+<body>
+  <div class="top">
+    <a href="/" class="logo">Madein<span>human</span></a>
+    <span class="count" id="count" aria-live="polite">Diagnòstic RGPD</span>
+  </div>
+  <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+
+  <main>
+    <div class="wrap" id="app">
+      <!-- INTRO -->
+      <section class="step on intro" data-id="intro">
+        <!-- ✏️ EDITABLE: textos d'entrada -->
+        <div class="kicker">DIAGNÒSTIC GRATUÏT · 4 MINUTS</div>
+        <h1>Quin és el <em>risc</em> real de la vostra empresa en protecció de dades?</h1>
+        <p>Responeu 11 preguntes senzilles i rebreu un informe en PDF amb el vostre nivell de risc, els punts més exposats i per on començar.</p>
+        <ul class="points">
+          <li>Sense tecnicismes: si no sabeu una resposta, marqueu «No ho sé».</li>
+          <li>L'informe us arriba per correu electrònic en un minut.</li>
+          <li>Ningú us trucarà si no ho demaneu.</li>
+        </ul>
+        <button class="btn" data-go="next" type="button">Començar el diagnòstic →</button>
+        <noscript><p style="margin-top:20px">Cal JavaScript per fer el diagnòstic. També ens podeu escriure a info@madeinhuman.cat.</p></noscript>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    Madeinhuman · Girona · <a href="politica-privacitat.html">Política de privacitat</a> · <a href="avis-legal.html">Avís legal</a>
+  </footer>
+
+  <script src="diagnostic.js"></script>
+</body>
+</html>
