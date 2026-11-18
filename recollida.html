@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Recollida de dades RGPD — Madeinhuman</title>
+  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/playfair-display-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="marca.css" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="wizard.css" />
 </head>
@@ -56,15 +59,16 @@
     </div>
   </footer>
 
-  <!-- CDN: React 18 -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Llibreries allotjades a vendor/ (versions fixades, cap petició a tercers): vegeu vendor/LLEGEIX-ME.md -->
+  <!-- React 18 -->
+  <script src="vendor/react-18.3.1.production.min.js"></script>
+  <script src="vendor/react-dom-18.3.1.production.min.js"></script>
 
-  <!-- CDN: Babel standalone (JSX transpilation in-browser) -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Babel standalone (transpila el JSX al navegador) -->
+  <script src="vendor/babel-standalone-8.1.2.min.js"></script>
 
-  <!-- CDN: SheetJS (Excel parsing) -->
-  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+  <!-- SheetJS (lectura de fitxers Excel) -->
+  <script src="vendor/xlsx-0.20.2.full.min.js"></script>
 
   <!-- Wizard source files (order matters: data → components → steps → app) -->
   <script type="text/babel" data-type="module" src="wizard/data.jsx"></script>

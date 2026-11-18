@@ -4,7 +4,7 @@
    ============================================= */
 
 let GH = { token: '', repo: '', branch: 'main', owner: '', repoName: '' };
-let FILES = { indexHtml: '', indexSha: '', scriptJs: '', scriptSha: '', cssCache: '' };
+let FILES = { indexHtml: '', indexSha: '', scriptJs: '', scriptSha: '', cssCache: '', marcaCssCache: '' };
 let NEWS_DATA = [];
 let FAQ_DATA = [];
 let STEP_DATA = [];
@@ -160,10 +160,11 @@ async function loadContent() {
     el.innerHTML = '<span class="spinner"></span> Connectant...';
     el.disabled = true;
 
-    const [indexData, scriptData, cssData] = await Promise.all([
+    const [indexData, scriptData, cssData, marcaCssData] = await Promise.all([
       ghGetFile('index.html'),
       ghGetFile('script.js'),
       ghGetFile('styles.css').catch(() => ({ content: '' })),
+      ghGetFile('marca.css').catch(() => ({ content: '' })),
     ]);
 
     FILES.indexHtml = indexData.content;
@@ -171,6 +172,7 @@ async function loadContent() {
     FILES.scriptJs = scriptData.content;
     FILES.scriptSha = scriptData.sha;
     FILES.cssCache = cssData.content;
+    FILES.marcaCssCache = marcaCssData.content;
 
     document.getElementById('authScreen').style.display = 'none';
     document.getElementById('app').style.display = 'grid';
@@ -1461,6 +1463,12 @@ function refreshPreview() {
     html = html.replace(
       '<link rel="stylesheet" href="styles.css" />',
       `<style>${FILES.cssCache}</style>`
+    );
+  }
+  if (FILES.marcaCssCache) {
+    html = html.replace(
+      '<link rel="stylesheet" href="marca.css" />',
+      `<style>${FILES.marcaCssCache}</style>`
     );
   }
   html = html.replace('<script src="script.js"></script>', `<script>${FILES.scriptJs}<\/script>`);

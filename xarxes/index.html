@@ -6,22 +6,21 @@
 <title>Madeinhuman · Enllaços</title>
 <meta name="description" content="Protecció de dades i IA per a pimes, startups i botigues online. La IA hi ajuda. Una persona en respon.">
 <meta name="robots" content="noindex">
+<!-- Tipografies i tokens de marca, allotjats al mateix servidor: cap petició a tercers -->
+<link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/playfair-display-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/playfair-display-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/marca.css">
 <style>
-  /* Tipografies allotjades al mateix servidor: cap petició a tercers */
-  @font-face{font-family:PF;font-weight:500;src:url(fonts/playfair-display-latin-500-normal.woff2) format('woff2');font-display:swap}
-  @font-face{font-family:PF;font-style:italic;font-weight:400;src:url(fonts/playfair-display-latin-400-italic.woff2) format('woff2');font-display:swap}
-  @font-face{font-family:SANS;font-weight:400;src:url(fonts/dm-sans-latin-400-normal.woff2) format('woff2');font-display:swap}
-  @font-face{font-family:SANS;font-weight:700;src:url(fonts/dm-sans-latin-700-normal.woff2) format('woff2');font-display:swap}
-  @font-face{font-family:MONO;font-weight:500;src:url(fonts/dm-mono-latin-500-normal.woff2) format('woff2');font-display:swap}
   :root{--nit:#0A0E1A;--daurat:#C4956A;--crema:#F3EFE8;--gris:#A3AABA}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--nit);color:var(--crema);font-family:SANS,system-ui,sans-serif;min-height:100vh;display:flex;justify-content:center}
+  body{background:var(--nit);color:var(--crema);font-family:var(--font-sans);min-height:100vh;display:flex;justify-content:center}
   main{width:100%;max-width:460px;padding:56px 24px 40px}
   .logo{width:112px;height:112px;background:var(--crema);position:relative}
-  .logo .mi{position:absolute;left:11px;top:12px;font-family:MONO;font-weight:500;font-size:8.5px;letter-spacing:2px;color:var(--nit)}
-  .logo .h{position:absolute;left:10px;bottom:7px;font-family:PF;font-style:italic;font-size:28px;line-height:1;color:var(--nit);display:flex;align-items:center}
+  .logo .mi{position:absolute;left:11px;top:12px;font-family:var(--font-mono);font-weight:500;font-size:8.5px;letter-spacing:2px;color:var(--nit)}
+  .logo .h{position:absolute;left:10px;bottom:7px;font-family:var(--font-serif);font-style:italic;font-size:28px;line-height:1;color:var(--nit);display:flex;align-items:center}
   .logo .h span{display:inline-block;width:10.5px;height:2.7px;background:var(--daurat);margin-left:2px;align-self:flex-end;margin-bottom:5px}
-  h1{font-family:PF;font-weight:500;font-size:34px;line-height:1.15;margin-top:34px}
+  h1{font-family:var(--font-serif);font-weight:500;font-size:34px;line-height:1.15;margin-top:34px}
   h1 i{color:var(--daurat);font-weight:400}
   p.sub{color:var(--gris);font-size:17px;line-height:1.5;margin-top:14px}
   nav{margin-top:34px;display:flex;flex-direction:column;gap:14px}
@@ -30,7 +29,7 @@
   a.btn:hover,a.btn:focus-visible{border-color:var(--daurat);outline:none}
   a.btn.principal{background:var(--daurat);border-color:var(--daurat);color:var(--nit)}
   a.btn.principal small{color:var(--nit);opacity:.8}
-  footer{margin-top:40px;font-family:MONO;font-size:12px;letter-spacing:2px;color:var(--gris)}
+  footer{margin-top:40px;font-family:var(--font-mono);font-size:12px;letter-spacing:2px;color:var(--gris)}
   footer a{color:var(--gris)}
 </style>
 </head>

@@ -14,18 +14,17 @@
   <meta property="og:locale" content="ca_ES" />
   <meta name="theme-color" content="#0A0E1A" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/playfair-display-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="marca.css" />
   <style>
-    @font-face{font-family:"DM Sans";font-style:normal;font-weight:300 700;font-display:swap;src:url(fonts/dm-sans-latin.woff2) format("woff2")}
-    @font-face{font-family:"Playfair Display";font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/playfair-display-latin.woff2) format("woff2")}
-    @font-face{font-family:"Playfair Display";font-style:italic;font-weight:400 700;font-display:swap;src:url(fonts/playfair-display-italic-latin.woff2) format("woff2")}
-    @font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:400 500;font-display:swap;src:url(fonts/jetbrains-mono-latin.woff2) format("woff2")}
     :root{
       --bg:#0A0E1A;--card:rgba(255,255,255,.035);--card-h:rgba(255,255,255,.06);
       --border:rgba(255,255,255,.08);--border-s:rgba(255,255,255,.16);
       --copper:#C4956A;--copper-b:#D9A878;--copper-d:#8E6A48;
       --text:#F5F5F5;--dim:#8899AA;--faint:#5C6B7D;
       --baix:#6FA287;--mitja:#D9A878;--alt:#D0694E;
-      --serif:"Playfair Display",Georgia,serif;--sans:"DM Sans",-apple-system,"Segoe UI",Helvetica,sans-serif;--mono:"JetBrains Mono",Menlo,monospace;
+      --serif:var(--font-serif);--sans:var(--font-sans);--mono:var(--font-mono);
     }
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.55}
