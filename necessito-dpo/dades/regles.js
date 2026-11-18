@@ -6,7 +6,7 @@
 // a NOTES-AGENT.md i continua. La lògica (src/avaluar.js) i la interfície
 // (src/app.js) han de llegir-ho tot d'aquí.
 //
-// Revisió jurídica: pendent (Albert). Fonts:
+// Revisió jurídica: feta (Albert, 18/11/2026). Fonts:
 //   · RGPD (Reglament (UE) 2016/679), arts. 37, 38 i 39.
 //   · LOPDGDD (Llei orgànica 3/2018), art. 34.
 //   · Directrius del GT29 sobre els DPD (WP 243 rev.01), per a «activitat
