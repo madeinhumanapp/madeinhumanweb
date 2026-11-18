@@ -1479,3 +1479,23 @@ body::before {
     font-size: max(16px, 1em) !important;
   }
 }
+
+/* Peu amb quatre columnes (portada i pàgines interiors) */
+.footer-grid.footer-grid-4 { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+@media (max-width: 1023px) { .footer-grid.footer-grid-4 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 767px) { .footer-grid.footer-grid-4 { grid-template-columns: 1fr; } }
+footer address { font-style: normal; color: var(--text-dim); font-size: 14.5px; line-height: 1.6; }
+.nav-links .nav-idioma, .nav-mobile .nav-idioma { font-family: var(--font-mono); font-size: 12px; }
+
+/* Enllaços a les pàgines de servei, sota els pilars */
+.serveis-detall { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 28px; }
+.serveis-detall-titol { font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); margin-right: 6px; }
+.serveis-detall a { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 16px; border: 1px solid var(--border-strong); border-radius: 999px; font-size: 14.5px; color: var(--text-dim); transition: border-color 180ms, color 180ms; }
+.serveis-detall a:hover { border-color: var(--copper); color: var(--text); }
+
+/* Mòbil: l'animació d'entrada lateral no ha d'eixamplar la pàgina, i les taules
+   legals amples es desplacen dins el seu contenidor en lloc de tallar-se */
+html { overflow-x: clip; }
+@media (max-width: 767px) {
+  .legal-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
