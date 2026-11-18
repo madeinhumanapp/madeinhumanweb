@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Madeinhuman · Enllaços</title>
+<meta name="description" content="Protecció de dades i IA per a pimes, startups i botigues online. La IA hi ajuda. Una persona en respon.">
+<meta name="robots" content="noindex">
+<style>
+  /* Tipografies allotjades al mateix servidor: cap petició a tercers */
+  @font-face{font-family:PF;font-weight:500;src:url(fonts/playfair-display-latin-500-normal.woff2) format('woff2');font-display:swap}
+  @font-face{font-family:PF;font-style:italic;font-weight:400;src:url(fonts/playfair-display-latin-400-italic.woff2) format('woff2');font-display:swap}
+  @font-face{font-family:SANS;font-weight:400;src:url(fonts/dm-sans-latin-400-normal.woff2) format('woff2');font-display:swap}
+  @font-face{font-family:SANS;font-weight:700;src:url(fonts/dm-sans-latin-700-normal.woff2) format('woff2');font-display:swap}
+  @font-face{font-family:MONO;font-weight:500;src:url(fonts/dm-mono-latin-500-normal.woff2) format('woff2');font-display:swap}
+  :root{--nit:#0A0E1A;--daurat:#C4956A;--crema:#F3EFE8;--gris:#A3AABA}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--nit);color:var(--crema);font-family:SANS,system-ui,sans-serif;min-height:100vh;display:flex;justify-content:center}
+  main{width:100%;max-width:460px;padding:56px 24px 40px}
+  .logo{width:112px;height:112px;background:var(--crema);position:relative}
+  .logo .mi{position:absolute;left:11px;top:12px;font-family:MONO;font-weight:500;font-size:8.5px;letter-spacing:2px;color:var(--nit)}
+  .logo .h{position:absolute;left:10px;bottom:7px;font-family:PF;font-style:italic;font-size:28px;line-height:1;color:var(--nit);display:flex;align-items:center}
+  .logo .h span{display:inline-block;width:10.5px;height:2.7px;background:var(--daurat);margin-left:2px;align-self:flex-end;margin-bottom:5px}
+  h1{font-family:PF;font-weight:500;font-size:34px;line-height:1.15;margin-top:34px}
+  h1 i{color:var(--daurat);font-weight:400}
+  p.sub{color:var(--gris);font-size:17px;line-height:1.5;margin-top:14px}
+  nav{margin-top:34px;display:flex;flex-direction:column;gap:14px}
+  a.btn{display:block;text-decoration:none;color:var(--crema);border:1.5px solid rgba(243,239,232,.22);border-radius:16px;padding:18px 20px;font-size:17px;font-weight:700;transition:border-color .15s}
+  a.btn small{display:block;font-weight:400;color:var(--gris);font-size:14.5px;margin-top:4px}
+  a.btn:hover,a.btn:focus-visible{border-color:var(--daurat);outline:none}
+  a.btn.principal{background:var(--daurat);border-color:var(--daurat);color:var(--nit)}
+  a.btn.principal small{color:var(--nit);opacity:.8}
+  footer{margin-top:40px;font-family:MONO;font-size:12px;letter-spacing:2px;color:var(--gris)}
+  footer a{color:var(--gris)}
+</style>
+</head>
+<body>
+<main>
+  <div class="logo" role="img" aria-label="Logo de madeinhuman"><div class="mi">MADE IN</div><div class="h">human<span></span></div></div>
+  <h1>La IA hi ajuda.<br><i>Una persona en respon.</i></h1>
+  <p class="sub">Protecció de dades i IA per a pimes, startups i botigues online. Des de Girona.</p>
+  <nav>
+    <a class="btn principal" data-utm href="/diagnostic.html">Diagnòstic gratuït · 4 min<small>Sabràs on ets i per on començar</small></a>
+    <a class="btn" data-utm href="/#adequacio">Demana una proposta<small>Adequació al RGPD i preparació per al Reglament d'IA</small></a>
+    <a class="btn" data-utm href="/#serveis">Serveis<small>RGPD, IA, formularis web, formació per a equips, DPO extern</small></a>
+    <a class="btn" data-utm href="/#contacte">Tens un dubte?<small>Escriu-nos i et responem en menys de 24 hores laborables</small></a>
+    <a class="btn" href="https://wa.me/34614425759">WhatsApp<small>614 42 57 59</small></a>
+  </nav>
+  <footer>MADEINHUMAN · <a data-utm href="/">MADEINHUMAN.CAT</a> · <a href="/politica-privacitat.html">PRIVACITAT</a></footer>
+</main>
+<script>
+  // Afegeix etiquetes UTM pròpies als enllaços de la web segons d'on ve la visita (?o=ig, ?o=tt, ?o=gbp).
+  // No hi ha cap rastrejador de tercers: només paràmetres que llegeix la teva pròpia web.
+  (function () {
+    var fonts = { ig: "instagram", tt: "tiktok", gbp: "google" };
+    var o = new URLSearchParams(location.search).get("o");
+    var font = fonts[o] || "xarxes";
+    document.querySelectorAll("a[data-utm]").forEach(function (a) {
+      var url = new URL(a.href);
+      url.searchParams.set("utm_source", font);
+      url.searchParams.set("utm_medium", font === "google" ? "organic" : "social");
+      url.searchParams.set("utm_campaign", "llancament-2026");
+      url.searchParams.set("utm_content", "pagina-enllacos");
+      a.href = url.toString();
+    });
+  })();
+</script>
+</body>
+</html>
