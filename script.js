@@ -54,7 +54,7 @@ document.addEventListener('change', (e) => {
 const FAQ_DATA = [
   { cat: "rgpd", q: "La meva empresa de 5 treballadors necessita adequar-se al RGPD?", a: "Sí, sense excepcions. El RGPD s'aplica a qualsevol organització que tracti dades personals — i tractar dades vol dir tenir clients, treballadors, proveïdors o fins i tot un formulari de contacte al web. La diferència respecte a una multinacional és el volum i la complexitat, no l'obligació. Per a una pyme, l'adequació és més senzilla i assequible del que sembla." },
   { cat: "rgpd", q: "Què és un DPO i quan és obligatori tenir-ne un?", a: "El Delegat de Protecció de Dades (DPO) és la figura que supervisa el compliment del RGPD a l'organització. És obligatori si tractes dades a gran escala, dades sensibles (salut, ideologia, biometria), o si fas observació sistemàtica. Moltes pymes no necessiten DPO obligatori, però sí algú que assumeixi la responsabilitat de privacitat. Oferim DPO extern quan cal." },
-  { cat: "ia", q: "Uso ChatGPT a la meva empresa. M'afecta el Reglament d'IA?", a: "Probablement sí, encara que de manera lleugera. El Reglament classifica els sistemes d'IA per nivell de risc. Eines d'ús general com ChatGPT tenen obligacions de transparència: has d'informar les persones quan interactuen amb IA, i no pots tractar dades personals sense base legal. Si la fas servir per decisions amb impacte (RRHH, crèdits, selecció), les obligacions augmenten significativament." },
+  { cat: "ia", q: "Uso ChatGPT a la meva empresa. M'afecta el Reglament d'IA?", a: "Probablement sí, de manera lleugera. Si la teva empresa fa servir eines d'IA, ha de prendre mesures per formar l'equip que les utilitza. Si poses un xatbot de cara al públic o publiques continguts generats amb IA, s'apliquen obligacions de transparència des de l'agost de 2026. I, com sempre, no pots tractar dades personals sense base legal. Si fas servir la IA per prendre decisions sobre persones (selecció de personal, crèdits...), les obligacions augmenten amb el règim d'alt risc, a partir de desembre de 2027." },
   { cat: "ia", q: "Qui supervisa el compliment del Reglament d'IA a Espanya?", a: "L'AESIA (Agencia Española de Supervisión de la Inteligencia Artificial) és l'organisme encarregat de supervisar el Reglament d'IA a nivell estatal. En matèria de protecció de dades, l'AEPD i l'APDCat (a Catalunya) segueixen tenint un paper clau, ja que la majoria de sistemes d'IA tracten dades personals." },
   { cat: "practic", q: "Quant costa adequar-se al RGPD?", a: "Depèn del punt de partida i de la complexitat del tractament. Per a una pyme estàndard, una adequació completa se situa habitualment entre 2.000 i 6.000 €, amb una quota de manteniment anual inferior. Comencem amb una diagnosi inicial per oferir-te un pressupost concret abans de començar." },
   { cat: "practic", q: "Quant temps porta el procés?", a: "Una adequació RGPD per a pyme es completa habitualment en 4–8 setmanes des de la diagnosi fins a la implementació. La preparació per al Reglament d'IA depèn del nombre de sistemes a avaluar — comptem entre 2 i 4 mesos per a un projecte estàndard. Treballem per fases per no aturar la teva activitat." },
@@ -349,41 +349,52 @@ function showResult(formCard, type, msg) {
 // -----------------------------------------------
 // Metric counter animation
 // -----------------------------------------------
+// Format català: el punt separa els milers i la coma, els decimals
+// («30.931», «4,5», «64%»). Les claus no numèriques («RGPD») no es toquen.
 (function () {
-  const keys = document.querySelectorAll('.metric-key');
+  const NUM = /^(\d{1,3}(?:\.\d{3})+|\d+)(?:,(\d+))?(.*)$/;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  const keys = Array.from(document.querySelectorAll('.metric-key'))
+    .filter(k => NUM.test(k.textContent.trim()));
   if (!keys.length) return;
 
+  function format(n, decimals, grouped) {
+    const [int, dec] = n.toFixed(decimals).split('.');
+    const intFmt = grouped ? int.replace(/\B(?=(\d{3})+(?!\d))/g, '.') : int;
+    return dec ? intFmt + ',' + dec : intFmt;
+  }
+
   function animateValue(el, text) {
-    const match = text.match(/^([\d.,]+)(.*)$/);
-    if (!match) return;
-    const target = parseFloat(match[1].replace(',', '.'));
-    const suffix = match[2] || '';
-    const isDecimal = match[1].includes(',') || match[1].includes('.');
+    const [, intPart, decPart = '', suffix] = text.match(NUM);
+    const decimals = decPart.length;
+    const grouped = intPart.includes('.');
+    const target = parseFloat(intPart.replace(/\./g, '') + (decimals ? '.' + decPart : ''));
     const duration = 1200;
     const start = performance.now();
 
     function step(now) {
       const t = Math.min((now - start) / duration, 1);
       const ease = 1 - Math.pow(1 - t, 3);
-      const val = Math.round(target * ease);
-      el.textContent = (isDecimal ? (target * ease).toFixed(0) : val) + suffix;
+      el.textContent = format(target * ease, decimals, grouped) + suffix;
       if (t < 1) requestAnimationFrame(step);
       else el.textContent = text;
     }
     requestAnimationFrame(step);
   }
 
-  const originals = [];
+  const originals = new Map();
   keys.forEach(k => {
-    originals.push(k.textContent.trim());
-    k.textContent = '';
+    const text = k.textContent.trim();
+    originals.set(k, text);
+    const [, , decPart = '', suffix] = text.match(NUM);
+    k.textContent = format(0, decPart.length, false) + suffix;
   });
 
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        const idx = Array.from(keys).indexOf(e.target);
-        animateValue(e.target, originals[idx]);
+        animateValue(e.target, originals.get(e.target));
         obs.unobserve(e.target);
       }
     });

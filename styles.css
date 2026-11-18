@@ -396,6 +396,7 @@ section.block { padding: 120px 0; position: relative; }
 .metric-key { font-family: var(--font-serif); font-size: 44px; font-weight: 500; line-height: 1; letter-spacing: -0.02em; color: var(--text); min-width: 110px; }
 .metric-body .metric-label { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--copper); margin-bottom: 6px; }
 .metric-body p { color: var(--text-dim); font-size: 15px; line-height: 1.5; }
+.metric-body .metric-source { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); letter-spacing: 0.06em; margin-top: 8px; }
 
 /* ===== SERVICES (two pillars) ===== */
 .services-head-row { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-bottom: 64px; flex-wrap: wrap; }

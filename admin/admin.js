@@ -260,12 +260,13 @@ function parseAllContent() {
 
   // Metrics
   const metricsBlock = extractBetween(h, '<!-- ✏️ EDITABLE: 3 mètriques', '</section>');
-  const metrics = [...metricsBlock.matchAll(/<div class="metric">\s*<div class="metric-key">([\s\S]*?)<\/div>\s*<div class="metric-body">\s*<div class="metric-label">([\s\S]*?)<\/div>\s*<p>([\s\S]*?)<\/p>\s*<\/div>\s*<\/div>/g)];
+  const metrics = [...metricsBlock.matchAll(/<div class="metric">\s*<div class="metric-key">([\s\S]*?)<\/div>\s*<div class="metric-body">\s*<div class="metric-label">([\s\S]*?)<\/div>\s*<p>([\s\S]*?)<\/p>(?:\s*<div class="metric-source">([\s\S]*?)<\/div>)?\s*<\/div>\s*<\/div>/g)];
   for (let i = 0; i < 3; i++) {
     if (!metrics[i]) continue;
     setVal(`metric${i+1}-key`, metrics[i][1].trim());
     setVal(`metric${i+1}-label`, metrics[i][2].trim());
     setVal(`metric${i+1}-text`, stripHtml(metrics[i][3].trim()));
+    setVal(`metric${i+1}-source`, stripHtml((metrics[i][4] || '').trim()));
   }
 
   // Services
@@ -710,7 +711,7 @@ function collectHTMLChanges(section) {
     h = replaceTagAfterComment(h, '<!-- ✏️ EDITABLE: titular de context -->', 'h2', getVal('ctx-title'));
     h = replaceContextParagraphs(h, getVal('ctx-p1'), getVal('ctx-p2'));
     for (let i = 1; i <= 3; i++) {
-      h = replaceMetric(h, i, getVal(`metric${i}-key`), getVal(`metric${i}-label`), getVal(`metric${i}-text`));
+      h = replaceMetric(h, i, getVal(`metric${i}-key`), getVal(`metric${i}-label`), getVal(`metric${i}-text`), getVal(`metric${i}-source`));
     }
   }
 
@@ -813,8 +814,8 @@ function replaceContextParagraphs(html, p1, p2) {
   return html.slice(0, firstP) + newParagraphs + html.slice(endMarker);
 }
 
-function replaceMetric(html, idx, key, label, text) {
-  const re = /<div class="metric">\s*<div class="metric-key">[\s\S]*?<\/div>\s*<div class="metric-body">\s*<div class="metric-label">[\s\S]*?<\/div>\s*<p>[\s\S]*?<\/p>\s*<\/div>\s*<\/div>/g;
+function replaceMetric(html, idx, key, label, text, source) {
+  const re = /<div class="metric">\s*<div class="metric-key">[\s\S]*?<\/div>\s*<div class="metric-body">\s*<div class="metric-label">[\s\S]*?<\/div>\s*<p>[\s\S]*?<\/p>(?:\s*<div class="metric-source">[\s\S]*?<\/div>)?\s*<\/div>\s*<\/div>/g;
   let count = 0;
   return html.replace(re, (match) => {
     count++;
@@ -823,7 +824,8 @@ function replaceMetric(html, idx, key, label, text) {
           <div class="metric-key">${key}</div>
           <div class="metric-body">
             <div class="metric-label">${label}</div>
-            <p>${text}</p>
+            <p>${text}</p>${source ? `
+            <div class="metric-source">${source}</div>` : ''}
           </div>
         </div>`;
     }
