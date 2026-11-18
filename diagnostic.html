@@ -12,18 +12,26 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://madeinhuman.cat/diagnostic.html" />
   <meta property="og:locale" content="ca_ES" />
+  <meta property="og:image" content="https://madeinhuman.cat/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Logo de madeinhuman i el lema «Protegir és avançar.»" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#0A0E1A" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/playfair-display-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="marca.css" />
   <style>
     :root{
-      --bg:#0A0E1A;--card:rgba(255,255,255,.035);--card-h:rgba(255,255,255,.06);
+      /* Àlies locals: els valors són a marca.css */
+      --bg:var(--nit);--card:rgba(255,255,255,.035);--card-h:rgba(255,255,255,.06);
       --border:rgba(255,255,255,.08);--border-s:rgba(255,255,255,.16);
-      --copper:#C4956A;--copper-b:#D9A878;--copper-d:#8E6A48;
-      --text:#F5F5F5;--dim:#8899AA;--faint:#5C6B7D;
-      --baix:#6FA287;--mitja:#D9A878;--alt:#D0694E;
+      --copper:var(--daurat);--copper-b:var(--daurat-clar);--copper-d:var(--daurat-fosc);
+      --text:var(--crema);--dim:var(--gris-clar);--faint:var(--gris-terciari);
+      --baix:var(--risc-baix);--mitja:var(--daurat-clar);--alt:var(--risc-alt);
       --serif:var(--font-serif);--sans:var(--font-sans);--mono:var(--font-mono);
     }
     *{box-sizing:border-box;margin:0;padding:0}
@@ -60,7 +68,7 @@
     .opt:focus-visible,.btn:focus-visible,.back:focus-visible{outline:2px solid var(--copper-b);outline-offset:2px}
     .opt .mk{flex:0 0 20px;height:20px;border:1.5px solid var(--border-s);border-radius:50%;display:flex;align-items:center;justify-content:center}
     .opt[aria-checked] .mk{border-radius:5px}
-    .opt.sel{border-color:var(--copper);background:rgba(196,149,106,.09)}
+    .opt.sel{border-color:var(--copper);background:color-mix(in srgb, var(--daurat) 9%, transparent)}
     .opt.sel .mk{border-color:var(--copper);background:var(--copper)}
     .opt.sel .mk::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--bg)}
     .opt[aria-checked].sel .mk::after{width:9px;height:5px;border-radius:0;background:none;border-left:2px solid var(--bg);border-bottom:2px solid var(--bg);transform:rotate(-45deg) translate(1px,-1px)}
@@ -83,18 +91,18 @@
     .check b{color:var(--text);font-weight:600}
     .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
     #turnstile{margin:16px 0 4px;min-height:0}
-    .err{display:none;margin-top:14px;padding:12px 14px;border-radius:10px;background:rgba(208,105,78,.12);border:1px solid rgba(208,105,78,.4);color:#F2B6A6;font-size:14px}
+    .err{display:none;margin-top:14px;padding:12px 14px;border-radius:10px;background:color-mix(in srgb, var(--risc-alt) 12%, transparent);border:1px solid color-mix(in srgb, var(--risc-alt) 40%, transparent);color:var(--risc-alt-clar);font-size:14px}
     .err.on{display:block}
     .res{text-align:center}
     .gauge{position:relative;width:min(300px,80vw);margin:6px auto 0}
     .gauge .n{position:absolute;left:0;right:0;bottom:6px;font-family:var(--serif);font-size:54px;line-height:1}
     .gauge .n small{font-family:var(--sans);font-size:15px;color:var(--faint)}
     .pill{display:inline-block;margin:14px 0 24px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:20px;padding:5px 14px}
-    .pill.alt{background:rgba(208,105,78,.16);color:var(--alt)}.pill.mitja{background:rgba(217,168,120,.16);color:var(--mitja)}.pill.baix{background:rgba(111,162,135,.16);color:var(--baix)}
+    .pill.alt{background:color-mix(in srgb, var(--risc-alt) 16%, transparent);color:var(--alt)}.pill.mitja{background:color-mix(in srgb, var(--daurat-clar) 16%, transparent);color:var(--mitja)}.pill.baix{background:color-mix(in srgb, var(--risc-baix) 16%, transparent);color:var(--baix)}
     .tops{list-style:none;text-align:left;display:grid;gap:10px;margin:0 auto 26px;max-width:520px}
     .tops li{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:15px}
     .tops li span{font-family:var(--mono);font-size:12px;color:var(--copper)}
-    .sent{border:1px solid rgba(196,149,106,.35);background:rgba(196,149,106,.06);border-radius:12px;padding:18px 20px;text-align:left;font-size:15px;color:var(--dim);margin-bottom:22px}
+    .sent{border:1px solid color-mix(in srgb, var(--daurat) 35%, transparent);background:color-mix(in srgb, var(--daurat) 6%, transparent);border-radius:12px;padding:18px 20px;text-align:left;font-size:15px;color:var(--dim);margin-bottom:22px}
     .sent b{color:var(--text)}
     .cta{display:flex;flex-direction:column;align-items:center;gap:8px}
     .cta small{color:var(--faint);font-size:12.5px}

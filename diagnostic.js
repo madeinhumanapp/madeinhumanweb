@@ -225,7 +225,7 @@
       '<div class="gauge"><svg viewBox="0 0 200 112" role="img" aria-label="Índex de risc ' + d.index + ' sobre 100">' +
         '<path d="M18 100 A82 82 0 0 1 182 100" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="14" stroke-linecap="round"/>' +
         '<path d="M18 100 A82 82 0 0 1 182 100" fill="none" stroke="url(#gg)" stroke-width="14" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100" id="arc"/>' +
-        '<defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" stop-color="#6FA287"/><stop offset=".5" stop-color="#D9A878"/><stop offset="1" stop-color="#D0694E"/></linearGradient></defs></svg>' +
+        '<defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" style="stop-color:var(--risc-baix)"/><stop offset=".5" style="stop-color:var(--daurat-clar)"/><stop offset="1" style="stop-color:var(--risc-alt)"/></linearGradient></defs></svg>' +
         '<div class="n">' + d.index + '<small> / 100</small></div></div>' +
       '<span class="pill ' + esc(d.nivell) + '">' + L[d.nivell] + '</span>' +
       '<ul class="tops">' + d.top.map(function (t, i) { return '<li><span>0' + (i + 1) + '</span>' + esc(t) + '</li>'; }).join('') + '</ul>' +

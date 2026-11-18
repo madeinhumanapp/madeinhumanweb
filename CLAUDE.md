@@ -22,6 +22,7 @@ Static website for madeinhuman.cat — privacy consultancy (RGPD/AI Act).
 - `vendor/` — Third-party JS for `recollida.html` (see `vendor/LLEGEIX-ME.md`)
 - `xarxes/` — Links page for social profiles (`?o=ig|tt|gbp` adds UTM); `noindex`, not in the sitemap
 - `marca/generador/` — Brand image generator (Python + Playwright); not deployed (`.assetsignore`)
+- `favicon.svg`, `favicon.ico`, `apple-touch-icon.png` — Simplified logo (h + gold cursor); `og-image.png` is generated with `python marca/generador/og.py`
 
 ## API Endpoints (via Render — rgpd.madeinhuman.cat)
 

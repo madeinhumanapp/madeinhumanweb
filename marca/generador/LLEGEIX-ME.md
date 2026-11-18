@@ -29,6 +29,7 @@ python nova.py p10 "El formulari de contacte: 4 errors"   # crea contingut/p10-.
 python generar.py                              # totes les publicacions de contingut/
 python generar.py contingut/p10-el-formulari-de-contacte-4-errors.yaml   # només una
 python guia.py                                 # torna a generar la guia de marca
+python og.py                                   # imatge per compartir de la web (og-image.png, 1200×630)
 ```
 
 `nova.py` admet `--pilar "Errors habituals"` i `--enllac diagnostic|adequacio|contacte|serveis|web`. Crea el fitxer amb una portada, tres punts i el tancament: omple'l i genera'n les imatges.
@@ -44,6 +45,7 @@ Les imatges surten a `sortida/<id>/`: `01.png`, `02.png`… i `text.txt`. La gui
 | `generar.py` | Llegeix els YAML, genera les imatges i escriu `text.txt`. |
 | `guia.py` | Genera la guia de marca. |
 | `nova.py` | Crea una publicació nova a `contingut/` a partir de la plantilla. |
+| `og.py` | Genera `og-image.png` (la imatge que surt en compartir la web) a l'arrel del repositori. Admet `--titol`, `--peu` i `--sortida`. |
 | `requirements.txt` | Dependències de Python (playwright i pyyaml). |
 | `contingut/` | Una publicació per fitxer YAML. Copia'n una i adapta-la. |
 | `fonts/` | Tipografies (llicència SIL Open Font License). |

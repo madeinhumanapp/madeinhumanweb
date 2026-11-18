@@ -13,10 +13,11 @@ import math
 import random
 import re
 
-from marca import WEB, font_face_css, tema
+from marca import CREMA, DAURAT, NIT, WEB, font_face_css, tema
 
 W, H = 1080, 1350          # carrusel 4:5
 SW, SH = 1080, 1920        # story / portada de vídeo 9:16
+OW, OH = 1200, 630         # imatge per compartir (og:image)
 
 
 # ---------- traços fets a mà -------------------------------------------------
@@ -234,6 +235,19 @@ def portada_video(d):
            f"<div style='position:absolute;left:110px;bottom:420px;display:flex;align-items:center;gap:20px'>{logo_mini(70, t)}"
            f"<span style='font-family:MONO;font-size:28px;letter-spacing:2px;color:{t['sec']}'>{WEB}</span></div>")
     return marc(cos, t, w=SW, h=SH, peu=False)
+
+
+def og(d=None):
+    """Imatge per compartir enllaços (og:image, 1200×630): fons blau nit, el quadrat
+    en versió crema i el lema. `d` pot portar `titol` (amb marcatge) i `peu`."""
+    d = d or {}
+    t = tema(True)
+    titol = d.get("titol", "Protegir és\n*avançar*.")
+    cos = (f"<div style='position:absolute;left:100px;right:90px;top:0;bottom:0;display:flex;align-items:center;gap:76px'>"
+           f"{logo_bloc(300, CREMA, NIT, DAURAT)}"
+           f"<div><div style='font-family:PF;font-weight:500;font-size:96px;line-height:1.06;letter-spacing:-1px'>{md(titol, t, True, 7)}</div>"
+           f"<div style='font-family:MONO;font-size:24px;letter-spacing:3px;color:{t['sec']};margin-top:40px'>{html.escape(d.get('peu', WEB))}</div></div></div>")
+    return marc(cos, t, w=OW, h=OH, peu=False)
 
 
 TIPUS = dict(portada=portada, punt=punt, dada=dada, llista=llista, mite=mite, tancament=tancament)

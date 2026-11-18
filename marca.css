@@ -77,6 +77,57 @@
 }
 
 :root {
+  /* ── Paleta de marca (marca/generador/marca.py) ───────────────── */
+  --nit: #0A0E1A;        /* blau nit: fons fosc i text sobre crema (16,8:1) */
+  --daurat: #C4956A;     /* daurat: accent NOMÉS sobre blau nit (7,2:1) */
+  --crema: #F3EFE8;      /* crema: fons clar i text sobre blau nit (16,8:1) */
+  --bronze: #7F6044;     /* bronze: accent i text destacat sobre fons clar (5,0:1) */
+  --gris: #5F6675;       /* gris: text secundari sobre crema (5,0:1) */
+  --gris-clar: #A3AABA;  /* gris clar: text secundari sobre blau nit (8,3:1) */
+
+  /* El daurat sobre crema només arriba a 2,3:1: sobre un fons clar, cap text
+     en daurat. Fes servir l'accent que toca segons el fons: */
+  --accent-sobre-fosc: var(--daurat);
+  --accent-sobre-clar: var(--bronze);
+
+  /* ── Derivats per a la web (fons fosc) ──────────────────────────── */
+  --nit-profund: #060A14;    /* seccions alternes i peu */
+  --nit-elevat: #0F1426;     /* desplegables i capes elevades */
+  --daurat-clar: #D9A878;    /* daurat en estat hover (9,0:1 sobre blau nit) */
+  --daurat-fosc: #8E6A48;    /* només decoratiu (barres), mai per a text */
+  --gris-terciari: #7E8594;  /* text terciari: entre gris i gris clar, 5,2:1 sobre blau nit */
+  --blau: #4A8DFF;           /* accent secundari del pilar d'IA */
+  --blau-clar: #8FB6FF;
+  --verd: #4ADE80;           /* estat «en línia» i etiquetes APDCat */
+  --verd-clar: #7ADEA0;
+  --vermell: #FF5050;        /* errors */
+  --vermell-clar: #FF8888;
+  --vermell-viu: #F87171;
+  --corall: #FF9C8F;
+  --ambre: #FFB450;          /* avisos */
+  --ambre-clar: #FFBA5C;
+  --whatsapp: #25D366;       /* color de WhatsApp (botó flotant) */
+  --risc-baix: #6FA287;      /* diagnòstic: nivells de risc */
+  --risc-alt: #D0694E;
+  --risc-alt-clar: #F2B6A6;
+
+  /* ── Àlies semàntics que fan servir styles.css i wizard.css ─────── */
+  --bg: var(--nit);
+  --bg-deep: var(--nit-profund);
+  --bg-elev: var(--nit-elevat);
+  --bg-card: rgba(255, 255, 255, 0.035);
+  --bg-card-hover: rgba(255, 255, 255, 0.055);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --copper: var(--daurat);
+  --copper-bright: var(--daurat-clar);
+  --copper-deep: var(--daurat-fosc);
+  --blue-elec: var(--blau);
+  --text: var(--crema);
+  --text-dim: var(--gris-clar);
+  --text-faint: var(--gris-terciari);
+  --text-sobre-daurat: var(--nit);   /* text dels botons daurats (7,2:1) */
+
   /* Tipografies */
   --font-serif: "Playfair Display", "Iowan Old Style", Georgia, serif;
   --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, sans-serif;
