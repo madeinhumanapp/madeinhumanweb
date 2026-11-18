@@ -1,0 +1,51 @@
+id: p01
+pilar: Presentació
+quan: Setmana 1 · dimarts
+enllac: diagnostic
+slides:
+  - tipus: portada
+    titol: "La IA hi ajuda. ==Una persona== en respon."
+    subtitol: "Som madeinhuman: protecció de dades i IA per a empreses que volen avançar sense sustos."
+    nota: "hola!"
+  - tipus: punt
+    titol: "Què *fem*"
+    text: "Ajudem startups, botigues online i pimes a complir el **RGPD** i a fer servir la **intel·ligència artificial** amb garanties.\n\nSense paperassa inútil. I explicat en clar."
+  - tipus: llista
+    titol: "Per a qui *treballem*"
+    items:
+      - "**Startups** que volen la privacitat ben feta des del primer dia"
+      - "**Botigues online**: web, cookies, formularis i newsletters"
+      - "**Empreses que comencen amb IA** amb el seu equip"
+      - "**Pimes i autònoms** de Girona i d'arreu"
+  - tipus: punt
+    titol: "Per què ((made in human))"
+    text: "Fem servir eines digitals i IA per treballar millor. Però cada document el **revisa, el decideix i el signa una persona**.\n\nTecnologia, sí. Amb criteri humà."
+  - tipus: llista
+    titol: "Què hi trobaràs *aquí*"
+    items:
+      - "La normativa, explicada en clar"
+      - "Errors habituals i com arreglar-los"
+      - "La IA a la feina, amb normes clares"
+      - "Com treballem, sense lletra petita"
+  - tipus: tancament
+    titol: "Vols saber *com estàs*?"
+    text: "Fes el diagnòstic gratuït: en 4 minuts sabràs per on començar."
+peu: |
+  La IA hi ajuda. Una persona en respon. 👋
+
+  Som madeinhuman, consultoria de protecció de dades i intel·ligència artificial a Girona.
+
+  Ajudem startups, botigues online i pimes a complir el RGPD i a fer servir la IA amb garanties. Sense paperassa inútil i explicat en clar.
+
+  Per aquí publicarem dos cops per setmana: normativa en clar, errors habituals i com portar la IA al teu equip amb normes clares.
+
+  👉 Vols saber com estàs? Diagnòstic gratuït de 4 minuts: enllaç al perfil.
+
+  #RGPD #ProteccióDeDades #IA #Girona #pimes
+story:
+  etiqueta: Hola!
+  titol: "Som *madeinhuman*."
+  text: "Protecció de dades i IA, explicades en clar. Fes el diagnòstic gratuït de 4 minuts."
+video:
+  etiqueta: Presentació
+  titol: "La IA hi ajuda. ==Una persona== en respon."

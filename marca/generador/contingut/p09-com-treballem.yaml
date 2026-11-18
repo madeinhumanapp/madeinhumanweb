@@ -1,0 +1,50 @@
+id: p09
+pilar: Com treballem
+quan: Setmana 5 · dimarts
+enllac: adequacio
+slides:
+  - tipus: portada
+    titol: "Com treballem, ==en 4 passos=="
+    subtitol: "Clar, mesurable i sense aturar la teva activitat."
+  - tipus: punt
+    num: 1
+    titol: "Diagnosi"
+    text: "Quines dades tractes, quines eines d'IA feu servir i on són els riscos. Una fotografia real del punt de partida."
+  - tipus: punt
+    num: 2
+    titol: "Pla d'acció"
+    text: "Prioritzat per risc i impacte. Cada tasca té una data i un responsable."
+  - tipus: punt
+    num: 3
+    titol: "Implementació"
+    text: "Ho fem amb el teu equip: documents, textos web, contractes amb proveïdors i formació. I t'expliquem tot el que t'entreguem."
+  - tipus: punt
+    num: 4
+    titol: "Govern continu"
+    text: "La normativa canvia. Revisions periòdiques, actualitzacions i algú a qui preguntar quan tens un dubte."
+  - tipus: llista
+    titol: "I, quan cal, *a més*"
+    items:
+      - "Textos legals i formularis web"
+      - "Assessorament en IA, puntual o continu"
+      - "Formació per a l'equip"
+      - "Delegat de protecció de dades (DPO) extern"
+  - tipus: tancament
+    titol: "Parlem del *teu cas*?"
+    text: "Demana una proposta d'adequació, o comença pel diagnòstic gratuït."
+    boto: "Sol·licitar proposta"
+peu: |
+  Com treballem a madeinhuman, en 4 passos:
+
+  1. Diagnosi: on ets i quins riscos tens.
+  2. Pla d'acció: prioritzat, amb dates i responsables.
+  3. Implementació: amb el teu equip, i t'expliquem tot el que t'entreguem.
+  4. Govern continu: la normativa canvia i nosaltres hi som.
+
+  I, quan cal: textos legals i formularis web, assessorament en IA, formació per a l'equip i DPO extern.
+
+  Si no ho entens, no estàs complint. Per això ho expliquem tot.
+
+  👉 Demana la teva proposta: enllaç al perfil.
+
+  #RGPD #IA #consultoria #Girona #pimes

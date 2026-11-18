@@ -1,0 +1,51 @@
+id: p06
+pilar: En clar
+quan: Setmana 3 · dijous
+enllac: diagnostic
+fonts:
+  - "AEPD, Memòria anual 2025 (presentada el 6 de maig de 2026): 30.931 reclamacions (+64%), 48.108.765 € en sancions, 19.836.603 € (40%) per bretxes de seguretat"
+slides:
+  - tipus: portada
+    titol: "2025: rècord de ==reclamacions== a l'AEPD"
+    subtitol: "Tres xifres de la memòria oficial. I què en pots treure per a la teva empresa."
+  - tipus: dada
+    xifra: "30.931"
+    etiqueta: "reclamacions el 2025"
+    text: "La xifra més alta de la història de l'Agència: un **64% més** que l'any anterior."
+    font: "AEPD, MEMÒRIA 2025"
+  - tipus: dada
+    xifra: "48,1 M€"
+    mida: 180
+    etiqueta: "en sancions"
+    text: "És l'import total de les multes que va imposar l'AEPD durant l'any."
+    font: "AEPD, MEMÒRIA 2025"
+  - tipus: dada
+    xifra: "40%"
+    etiqueta: "per bretxes de seguretat"
+    text: "Gairebé **20 milions d'euros** en sancions van correspondre a bretxes de dades: fuites, accessos indeguts, pèrdues."
+    font: "AEPD, MEMÒRIA 2025"
+  - tipus: llista
+    titol: "Què en traiem *en clar*"
+    items:
+      - "No és per espantar: és per **prioritzar**"
+      - "Tingues un protocol de bretxes: hi ha **72 hores** per notificar-les"
+      - "Revisa els fronts habituals: web, càmeres, proveïdors"
+      - "Documenta-ho tot: cal poder demostrar que compleixes"
+  - tipus: tancament
+    titol: "Comencem pel *diagnòstic*?"
+    text: "4 minuts per saber on tens els riscos més grans."
+peu: |
+  2025 va ser un any rècord a l'AEPD. 📊
+
+  Tres xifres de la memòria oficial:
+  · 30.931 reclamacions, un 64% més que el 2024.
+  · 48,1 milions d'euros en sancions.
+  · El 40% d'aquest import, per bretxes de seguretat.
+
+  No t'ho expliquem per espantar-te, sinó per ajudar-te a prioritzar: protocol de bretxes, revisió de web i càmeres, i documentació al dia.
+
+  Font: AEPD, Memòria anual 2025.
+
+  👉 Diagnòstic gratuït de 4 minuts: enllaç al perfil.
+
+  #RGPD #AEPD #ProteccióDeDades #ciberseguretat #pimes

@@ -11,3 +11,10 @@ Thumbs.db
 
 # Node (in case of future tooling)
 node_modules/
+
+# Generador de marca (marca/generador): imatges generades i fitxers de Python
+marca/generador/sortida/
+__pycache__/
+*.pyc
+.venv/
+venv/

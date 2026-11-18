@@ -1,0 +1,61 @@
+id: p05
+pilar: En clar
+quan: Setmana 3 · dimarts
+enllac: diagnostic
+fonts:
+  - "Reglament (UE) 2016/679 (RGPD), arts. 25, 28, 30, 37 i 44 a 46"
+slides:
+  - tipus: portada
+    titol: "Startup? La privacitat, ==des del primer dia=="
+    subtitol: "Arreglar-ho després sempre surt més car. 5 decisions que convé prendre ara."
+  - tipus: punt
+    num: 1
+    titol: "Privacitat des del disseny"
+    text: "El RGPD (art. 25) demana pensar en la protecció de dades quan dissenyes el producte, no quan ja funciona. Recull només les dades que necessites."
+  - tipus: punt
+    num: 2
+    titol: "Registre d'activitats"
+    text: "Quines dades tractes, per a què i amb qui les comparteixes. Si el tractament és habitual, l'has de tenir encara que siguis petit (art. 30)."
+  - tipus: punt
+    num: 3
+    titol: "Contractes amb els proveïdors"
+    text: "Allotjament web, CRM, analítica, correu… Cada proveïdor que accedeix a dades personals necessita un **contracte d'encarregat del tractament** (art. 28)."
+  - tipus: punt
+    num: 4
+    titol: "On són les dades"
+    text: "Si un proveïdor guarda dades fora de la UE, comprova en què es basa la transferència: país amb decisió d'adequació, empresa adherida al marc UE-EUA o clàusules contractuals tipus."
+  - tipus: punt
+    num: 5
+    titol: "DPO? Potser *encara no*"
+    text: "És obligatori si el teu negoci consisteix a observar persones o a tractar dades sensibles **a gran escala** (art. 37). Si no, pots tenir-ne un d'extern quan creixis."
+  - tipus: tancament
+    titol: "Que l'inversor *ho trobi fet*"
+    text: "Adequació a mida de startup: ràpida, proporcionada i preparada per créixer."
+peu: |
+  Startup? La privacitat també és producte. 🚀
+
+  5 decisions per prendre des del primer dia:
+  1. Privacitat des del disseny: només les dades que necessites.
+  2. Registre d'activitats de tractament, encara que siguis petit.
+  3. Contracte d'encarregat amb cada proveïdor que toca dades.
+  4. Saber on són les dades i amb quina base surten de la UE.
+  5. DPO: obligatori només en alguns casos; si no, quan creixis.
+
+  Quan arribin els primers clients grans o el primer inversor, ho agrairàs.
+
+  👉 Diagnòstic gratuït de 4 minuts: enllaç al perfil.
+
+  #startups #RGPD #privacitat #ProteccióDeDades #emprenedoria
+peu_es: |
+  ¿Startup? La privacidad también es producto. 🚀
+
+  5 decisiones para tomar desde el primer día:
+  1. Privacidad desde el diseño: solo los datos que necesitas.
+  2. Registro de actividades de tratamiento, aunque seas pequeño.
+  3. Contrato de encargado con cada proveedor que toca datos.
+  4. Saber dónde están los datos y con qué base salen de la UE.
+  5. DPO: obligatorio solo en algunos casos; si no, cuando crezcas.
+
+  👉 Diagnóstico gratuito de 4 minutos: enlace en el perfil.
+
+  #startups #RGPD #privacidad #emprendimiento

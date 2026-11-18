@@ -1,0 +1,51 @@
+id: p07
+pilar: IA amb criteri
+quan: Setmana 4 · dimarts
+enllac: diagnostic
+fonts:
+  - "Reglament (UE) 2024/1689 (Reglament d'IA), arts. 4, 5, 50 i 113"
+  - "Reglament (UE) 2026/1744 (Òmnibus digital sobre IA), DOUE 24/7/2026, en vigor des del 27/7/2026"
+slides:
+  - tipus: portada
+    titol: "Reglament d'IA: què ==ja s'aplica== (i què encara no)"
+    subtitol: "El calendari, actualitzat amb la reforma de juliol de 2026."
+  - tipus: punt
+    titol: "*Febrer de 2025*"
+    text: "**Pràctiques prohibides**, com la puntuació social o la manipulació de persones. I l'obligació de prendre mesures per **formar l'equip** que fa servir IA."
+  - tipus: punt
+    titol: "*Agost de 2026*"
+    text: "**Transparència**: deixar clar quan algú parla amb una IA, i etiquetar els *deepfakes* i certs textos generats amb IA. Ja és aplicable."
+    nota: "ja hi som"
+  - tipus: punt
+    titol: "*Desembre de 2027*"
+    text: "Sistemes d'**alt risc** en àmbits com la selecció de personal, l'educació o la biometria. Estava previst per a l'agost de 2026, però la reforma ho ha ajornat."
+  - tipus: punt
+    titol: "*Agost de 2028*"
+    text: "Sistemes d'alt risc **integrats en productes regulats**, com maquinària o productes sanitaris."
+  - tipus: llista
+    titol: "I tu, *què pots fer ara*?"
+    items:
+      - "Fes inventari de les eines d'IA que feu servir"
+      - "Forma l'equip i deixa'n constància"
+      - "Revisa xatbots i continguts generats amb IA"
+      - "Si fas servir IA per contractar, prepara't ja"
+  - tipus: tancament
+    titol: "Et fem *l'inventari*?"
+    text: "Revisem les eines, et diem què t'afecta i preparem l'equip."
+peu: |
+  Reglament d'IA: què ja s'aplica i què encara no. 🗓️
+
+  · Febrer de 2025: pràctiques prohibides i obligació de formar l'equip que fa servir IA.
+  · Agost de 2026: transparència (xatbots, deepfakes i certs textos generats). Ja és aplicable.
+  · Desembre de 2027: alt risc en àmbits com la selecció de personal o l'educació (ajornat per la reforma de juliol de 2026).
+  · Agost de 2028: alt risc integrat en productes regulats.
+
+  El primer pas és senzill: saber quines eines d'IA feu servir.
+
+  👉 Diagnòstic gratuït de 4 minuts: enllaç al perfil.
+
+  #ReglamentIA #AIAct #IA #IAalaFeina #pimes
+story:
+  etiqueta: Nou carrusel
+  titol: "Reglament d'IA: el ==calendari== actualitzat"
+  text: "Què ja s'aplica i què encara no, després de la reforma de juliol."

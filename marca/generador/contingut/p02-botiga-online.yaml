@@ -1,0 +1,65 @@
+id: p02
+pilar: En clar
+quan: Setmana 1 · dijous
+enllac: diagnostic
+fonts:
+  - "Llei 34/2002 (LSSI), arts. 10, 21 i 22"
+  - "Reglament (UE) 2016/679 (RGPD), art. 13 i considerant 32"
+  - "AEPD, Guia sobre l'ús de les galetes (cookies)"
+slides:
+  - tipus: portada
+    titol: "La teva botiga online: 5 coses que ==no poden faltar=="
+    mida: 100
+    subtitol: "La web és el primer que mira un client. I també el primer que es revisa si algú posa una reclamació."
+    nota: "guarda-ho"
+  - tipus: punt
+    num: 1
+    titol: "Avís legal"
+    text: "Qui hi ha darrere la web: nom o raó social, NIF, adreça i contacte. Ho exigeix la **LSSI** (art. 10) a qualsevol web que vengui o faci publicitat."
+  - tipus: punt
+    num: 2
+    titol: "Política de privacitat"
+    text: "Què fas amb les dades, per què, quant temps les guardes i com es poden exercir els drets. És el que demana l'**article 13 del RGPD**. I en un llenguatge que s'entengui."
+  - tipus: punt
+    num: 3
+    titol: "Cookies amb un *rebutjar* de veritat"
+    text: "Per a les cookies d'analítica o publicitat necessites consentiment. I rebutjar ha de ser **tan fàcil com acceptar**, des de la primera pantalla del bàner."
+  - tipus: punt
+    num: 4
+    titol: "Formularis que informen"
+    text: "Al costat de cada formulari, la informació bàsica: qui tracta les dades, per a què i com exercir els drets. I cap casella ==premarcada==."
+  - tipus: punt
+    num: 5
+    titol: "Newsletter amb permís"
+    text: "Per enviar publicitat per correu cal **consentiment previ** (LSSI, art. 21), tret que ja sigui client i li ofereixis productes similars. I a cada correu, una baixa fàcil."
+  - tipus: tancament
+    titol: "Vols que *la revisem*?"
+    text: "Fes el diagnòstic gratuït i et direm per on començar."
+peu: |
+  La teva botiga online pot vendre molt bé… i no complir. 🛒
+
+  5 coses que la web no pot deixar de tenir:
+  1. Avís legal amb les dades de qui hi ha darrere.
+  2. Política de privacitat clara.
+  3. Bàner de cookies on rebutjar sigui tan fàcil com acceptar.
+  4. Formularis que informen, sense caselles premarcades.
+  5. Newsletter només amb permís, i amb baixa fàcil a cada correu.
+
+  Guarda-ho i repassa-ho amb calma. Si en falla alguna, té fàcil solució.
+
+  👉 Diagnòstic gratuït de 4 minuts: enllaç al perfil.
+
+  #ecommerce #botigaonline #RGPD #LSSI #pimes
+peu_es: |
+  Tu tienda online puede vender muy bien… y no cumplir. 🛒
+
+  5 cosas que tu web no puede dejar de tener:
+  1. Aviso legal con los datos de quién está detrás.
+  2. Política de privacidad clara.
+  3. Banner de cookies donde rechazar sea tan fácil como aceptar.
+  4. Formularios que informan, sin casillas premarcadas.
+  5. Newsletter solo con permiso y con baja fácil en cada correo.
+
+  👉 Diagnóstico gratuito de 4 minutos: enlace en el perfil.
+
+  #ecommerce #tiendaonline #RGPD #LSSI #pymes

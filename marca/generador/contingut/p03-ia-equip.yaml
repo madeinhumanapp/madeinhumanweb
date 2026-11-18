@@ -1,0 +1,53 @@
+id: p03
+pilar: IA amb criteri
+quan: Setmana 2 · dimarts
+enllac: diagnostic
+fonts:
+  - "Reglament (UE) 2024/1689 (Reglament d'IA), art. 4, en la redacció del Reglament (UE) 2026/1744"
+  - "Reglament (UE) 2024/1689, art. 50 (aplicable des del 2 d'agost de 2026)"
+slides:
+  - tipus: portada
+    titol: "El teu equip ja fa servir IA. ==Té normes?=="
+    subtitol: "5 regles senzilles perquè la IA sumi i no et fiqui en un embolic."
+  - tipus: punt
+    num: 1
+    titol: "Cap dada personal en eines no aprovades"
+    text: "Ni noms de clients, ni nòmines, ni historials. Si no saps on van les dades ni què en fa el proveïdor, aquella eina no les rep."
+  - tipus: punt
+    num: 2
+    titol: "Una persona *revisa* el resultat"
+    text: "La IA s'equivoca amb molta seguretat. Tot el que surt cap a fora (un correu, un informe, una oferta) ho revisa algú abans d'enviar-ho."
+    nota: "sempre!"
+  - tipus: punt
+    num: 3
+    titol: "Una llista d'eines aprovades"
+    text: "Decideix quines eines es poden fer servir i amb quin compte, millor d'empresa que personal. El que no és a la llista no es fa servir amb dades de la feina."
+  - tipus: punt
+    num: 4
+    titol: "Formació, encara que sigui breu"
+    text: "El Reglament d'IA demana a les empreses que fan servir IA que **prenguin mesures per formar l'equip**. No et demanen un títol: et demanen haver-ho fet."
+  - tipus: punt
+    num: 5
+    titol: "Transparència amb els clients"
+    text: "Si un client parla amb un xatbot, ha de saber que és una IA. Des del **2 d'agost de 2026**, el Reglament d'IA ho exigeix."
+  - tipus: tancament
+    titol: "Et preparem la *política d'IA*?"
+    text: "Normes d'ús, formació per a l'equip i assessorament quan el necessitis."
+peu: |
+  El teu equip ja fa servir IA. La pregunta és si té normes. 🤖
+
+  5 regles per començar:
+  1. Cap dada personal en eines no aprovades.
+  2. Una persona revisa tot el que surt cap a fora.
+  3. Una llista d'eines aprovades, amb comptes d'empresa.
+  4. Formació per a l'equip, encara que sigui breu: el Reglament d'IA demana prendre mesures per formar-lo.
+  5. Si un client parla amb un xatbot, ha de saber que és una IA.
+
+  La IA hi ajuda. Una persona en respon.
+
+  👉 Diagnòstic gratuït de 4 minuts: enllaç al perfil.
+
+  #IA #IAalaFeina #ReglamentIA #RGPD #pimes
+video:
+  etiqueta: IA amb criteri
+  titol: "El teu equip ja fa servir IA. ==Té normes?=="

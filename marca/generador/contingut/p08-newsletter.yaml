@@ -1,0 +1,53 @@
+id: p08
+pilar: Errors habituals
+quan: Setmana 4 · dijous
+enllac: diagnostic
+fonts:
+  - "Reglament (UE) 2016/679 (RGPD), art. 7 i considerant 32"
+  - "Llei 34/2002 (LSSI), arts. 21 i 22"
+slides:
+  - tipus: portada
+    titol: "Newsletter: 3 errors que ==surten cars=="
+    subtitol: "L'email màrqueting funciona. Fet malament, també: per rebre una reclamació."
+  - tipus: punt
+    num: 1
+    titol: "La casella *premarcada*"
+    text: "El consentiment ha de ser una acció clara de la persona. Una casella ja marcada o un «si continues, acceptes» no serveixen (RGPD, considerant 32)."
+  - tipus: punt
+    num: 2
+    titol: "Llistes comprades o importades"
+    text: "Contactes d'una fira, d'una base de dades comprada o de la teva agenda: si no han donat permís per rebre publicitat, no els pots enviar campanyes."
+  - tipus: punt
+    num: 3
+    titol: "Sense baixa fàcil"
+    text: "Cada correu comercial ha d'incloure una manera **senzilla i gratuïta** de donar-se de baixa (LSSI, art. 22). I la baixa s'ha de respectar de veritat."
+  - tipus: mite
+    mite: "Si ja és client, li puc enviar el que vulgui."
+    realitat: "Li pots enviar ofertes de **productes o serveis similars** als que t'ha comprat, si l'en vas informar i li ofereixes la baixa (LSSI, art. 21.2). Per a la resta, cal consentiment."
+  - tipus: tancament
+    titol: "Revisem el teu *email màrqueting*?"
+    text: "Formularis, consentiments i textos, perquè cada enviament sumi."
+peu: |
+  La newsletter és una gran eina… si no comets aquests 3 errors. ✉️
+
+  1. Caselles premarcades: el consentiment ha de ser una acció clara.
+  2. Llistes comprades o importades sense permís.
+  3. Correus sense una baixa senzilla i gratuïta.
+
+  I un mite: «si ja és client, li puc enviar el que vulgui». Només ofertes similars al que t'ha comprat, amb baixa fàcil. La resta, amb consentiment.
+
+  👉 Diagnòstic gratuït de 4 minuts: enllaç al perfil.
+
+  #emailmarketing #newsletter #ecommerce #RGPD #LSSI
+peu_es: |
+  La newsletter es una gran herramienta… si no cometes estos 3 errores. ✉️
+
+  1. Casillas premarcadas: el consentimiento debe ser una acción clara.
+  2. Listas compradas o importadas sin permiso.
+  3. Correos sin una baja sencilla y gratuita.
+
+  Y un mito: «si ya es cliente, le puedo enviar lo que quiera». Solo ofertas similares a lo que te compró, con baja fácil. El resto, con consentimiento.
+
+  👉 Diagnóstico gratuito de 4 minutos: enlace en el perfil.
+
+  #emailmarketing #newsletter #ecommerce #RGPD #LSSI

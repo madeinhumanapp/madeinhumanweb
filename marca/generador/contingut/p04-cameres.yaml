@@ -1,0 +1,55 @@
+id: p04
+pilar: Errors habituals
+quan: Setmana 2 · dijous
+enllac: diagnostic
+fonts:
+  - "Llei orgànica 3/2018 (LOPDGDD), arts. 22 i 89"
+  - "AEPD, Memòria anual 2025: àrees amb més procediments sancionadors i d'advertiment finalitzats"
+slides:
+  - tipus: portada
+    titol: "Càmeres al negoci: 4 errors que ==veig sovint=="
+    subtitol: "La videovigilància és l'àrea amb més procediments de l'AEPD. I la majoria d'errors s'arreglen en una tarda."
+  - tipus: dada
+    xifra: "81"
+    etiqueta: "procediments per videovigilància"
+    text: "Va ser l'àrea amb **més procediments** sancionadors i d'advertiment finalitzats per l'AEPD el 2025."
+    font: "AEPD, MEMÒRIA 2025"
+  - tipus: punt
+    num: 1
+    titol: "Sense cartell, o amb un de genèric"
+    text: "Cal un cartell visible que digui **qui és el responsable** i com exercir els drets (LOPDGDD, art. 22.4). El de «zona vigilada» comprat a la ferreteria no és suficient."
+  - tipus: punt
+    num: 2
+    titol: "Gravar el carrer"
+    text: "La càmera només pot captar la part de la via pública **imprescindible** per a la seguretat del local (art. 22.2). La vorera sencera o la porta del veí, no."
+  - tipus: punt
+    num: 3
+    titol: "Guardar les imatges massa temps"
+    text: "S'han d'esborrar en un **màxim d'un mes** (art. 22.3), tret que calgui conservar-les per acreditar un fet contra persones, béns o instal·lacions."
+  - tipus: punt
+    num: 4
+    titol: "Càmeres on no toca"
+    text: "Mai en lavabos, vestidors o espais de descans de l'equip (art. 89.2). I els treballadors han de saber-ho **abans** que hi hagi càmeres."
+    nota: "important"
+  - tipus: tancament
+    titol: "Revisem les *teves càmeres*?"
+    text: "Cartell, contracte amb l'empresa de seguretat, registre i informació a l'equip. Ho deixem enllestit."
+peu: |
+  Si tens càmeres al negoci, aquest post és per a tu. 📹
+
+  La videovigilància va ser l'àrea amb més procediments sancionadors i d'advertiment de l'AEPD el 2025. Els errors que més veig:
+
+  1. Cartell inexistent o genèric, sense dir qui és el responsable.
+  2. Càmeres que graven molt més carrer del necessari.
+  3. Imatges guardades més d'un mes sense motiu.
+  4. Càmeres en zones de descans, o equip que no n'ha estat informat.
+
+  Bona notícia: tot té solució i sol ser ràpida.
+
+  👉 Diagnòstic gratuït de 4 minuts: enllaç al perfil.
+
+  #videovigilància #RGPD #comerç #Girona #pimes
+story:
+  etiqueta: Nou carrusel
+  titol: "Càmeres al negoci: 4 errors que ==veig sovint=="
+  text: "Mira'l al perfil i comprova si en fas algun."

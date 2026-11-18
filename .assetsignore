@@ -6,3 +6,6 @@ CLAUDE.md
 .assetsignore
 .gitignore
 wrangler.jsonc
+marca/
+.venv/
+venv/
