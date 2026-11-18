@@ -563,6 +563,11 @@
 
       <div style="max-width:580px" class="reveal-scale">
         <form class="form-card" id="formContacte" novalidate>
+          <!-- Origen de la visita (UTM): utm.js els omple en enviar, a partir de l'URL. No es desa res al dispositiu. -->
+          <input type="hidden" name="utm_source" />
+          <input type="hidden" name="utm_medium" />
+          <input type="hidden" name="utm_campaign" />
+          <input type="hidden" name="utm_content" />
           <div class="form-eyebrow">Contacte ràpid</div>
           <h3>Tens un dubte?</h3>
           <p class="form-lede">Escriu-nos un missatge i et respondrem en menys de 24 hores laborals.</p>
@@ -655,6 +660,11 @@
       </div>
 
       <form class="adequacio-form" id="formAdequacio" novalidate>
+        <!-- Origen de la visita (UTM): utm.js els omple en enviar, a partir de l'URL. No es desa res al dispositiu. -->
+        <input type="hidden" name="utm_source" />
+        <input type="hidden" name="utm_medium" />
+        <input type="hidden" name="utm_campaign" />
+        <input type="hidden" name="utm_content" />
 
         <!-- 01 — Dades identificatives -->
         <div class="form-section">
@@ -1068,6 +1078,7 @@
     <span class="whatsapp-pulse"></span>
   </a>
 
+  <script src="utm.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

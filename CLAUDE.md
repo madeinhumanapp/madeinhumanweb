@@ -31,6 +31,8 @@ Static website for madeinhuman.cat — privacy consultancy (RGPD/AI Act).
 - `POST /api/public/diagnostic` — Free RGPD diagnostic (`diagnostic.html`)
 - `POST /api/public/recollida/*` — Wizard endpoints
 
+The contact, adequacy and diagnostic forms also send `utm_source`, `utm_medium`, `utm_campaign` and `utm_content`, read from the page URL at submit time by `utm.js` (whitelist `[a-z0-9._-]`, max 100). Never store attribution data on the visitor's device (no cookies, localStorage or sessionStorage: LSSI art. 22.2).
+
 ## Rules
 
 - Never change `name=""` attributes on form fields

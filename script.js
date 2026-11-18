@@ -129,6 +129,15 @@ function serveisSeleccionats(form) {
   return Array.from(form.querySelectorAll('input[name="svc"]:checked')).map(el => el.value);
 }
 
+// Camps ocults utm_* (omplerts per utm.js); els buits no s'envien
+function utmDelFormulari(fd) {
+  const utm = {};
+  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(k => {
+    if (fd.get(k)) utm[k] = fd.get(k);
+  });
+  return utm;
+}
+
 function setLoading(btn, loading) {
   btn.disabled = loading;
   if (!btn.dataset.orig) btn.dataset.orig = btn.innerHTML;
@@ -170,12 +179,14 @@ function showResult(formCard, type, msg) {
       return;
     }
 
+    if (window.MIH_UTM) window.MIH_UTM.omplir(form);  // origen de la visita (utm.js)
     const fd = new FormData(form);
     const body = {
       nom: fd.get('nom'),
       email: fd.get('email'),
       empresa: fd.get('empresa') || undefined,
       missatge: fd.get('missatge'),
+      ...utmDelFormulari(fd),
     };
     Object.keys(body).forEach(k => body[k] === undefined && delete body[k]);
 
@@ -220,6 +231,7 @@ function showResult(formCard, type, msg) {
       return;
     }
 
+    if (window.MIH_UTM) window.MIH_UTM.omplir(form);  // origen de la visita (utm.js)
     const fd = new FormData(form);
 
     // Eines digitals — array → JSON string
@@ -258,6 +270,7 @@ function showResult(formCard, type, msg) {
       grupEmpresarial: boolVal('grupEmpresarial'),
       diversesSeus: boolVal('diversesSeus'),
       observacions: fd.get('observacions') || undefined,
+      ...utmDelFormulari(fd),
     };
     Object.keys(body).forEach(k => body[k] === undefined && delete body[k]);
 

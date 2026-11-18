@@ -45,14 +45,11 @@
   var DK = ['nsnc', 'No ho sé'];
 
   // ── Origen (gestoria / campanya) ─────────────────────────────────
-  var params = new URLSearchParams(window.location.search);
-  var origen = {};
-  try { origen = JSON.parse(sessionStorage.getItem('mih_diag_origen') || '{}'); } catch (e) { origen = {}; }
-  if (params.get('ref')) origen.ref = params.get('ref').replace(/[^\w.-]/g, '').slice(0, 60);
-  ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) {
-    if (params.get(k)) { origen.utm = origen.utm || {}; origen.utm[k] = params.get(k).slice(0, 100); }
-  });
-  try { sessionStorage.setItem('mih_diag_origen', JSON.stringify(origen)); } catch (e) { /* res */ }
+  // Es llegeix de l'URL en el moment d'enviar i no es desa res al dispositiu (vegeu utm.js).
+  // El diagnòstic no canvia de pàgina, així que l'URL es manté durant totes les preguntes.
+  function refGestoria() {
+    return (new URLSearchParams(window.location.search).get('ref') || '').replace(/[^\w.-]/g, '').slice(0, 60);
+  }
 
   // ── Utilitats ─────────────────────────────────────────────────────
   function esc(s) {
@@ -95,6 +92,7 @@
         '<div class="row"><div class="field"><label for="d-email">Correu electrònic *</label><input id="d-email" name="email" type="email" required autocomplete="email" maxlength="200"></div>' +
         '<div class="field"><label for="d-tel">Telèfon (opcional)</label><input id="d-tel" name="telefon" type="tel" autocomplete="tel" maxlength="30"></div></div>' +
         '<div class="hp" aria-hidden="true"><label>Web <input name="web_url" tabindex="-1" autocomplete="off"></label></div>' +
+        '<input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_campaign"><input type="hidden" name="utm_content">' +
         '<label class="check"><input type="checkbox" name="privacitat" required><span>He llegit la <a href="politica-privacitat.html" target="_blank" rel="noopener">política de privacitat</a> i accepto que tracteu les meves dades per enviar-me l\'informe. *</span></label>' +
         '<label class="check"><input type="checkbox" name="comercial"><span><b>Vull rebre consells i novetats de madeinhuman</b> per correu. Us en podeu donar de baixa en qualsevol moment. <i>(Opcional)</i></span></label>' +
         '<div id="turnstile"></div>' +
@@ -187,12 +185,15 @@
     send.disabled = true;
     var orig = send.innerHTML;
     send.innerHTML = 'Calculant…';
+    if (window.MIH_UTM) window.MIH_UTM.omplir(f);  // origen de la visita (utm.js)
     var body = {
       respostes: A,
       nom: f.nom.value.trim(), empresa: f.empresa.value.trim(), email: f.email.value.trim(),
       telefon: f.telefon.value.trim(),
       privacitat: true, comercial: f.comercial.checked,
-      ref: origen.ref || '', utm: origen.utm,
+      ref: refGestoria(),
+      utm_source: f.utm_source.value || undefined, utm_medium: f.utm_medium.value || undefined,
+      utm_campaign: f.utm_campaign.value || undefined, utm_content: f.utm_content.value || undefined,
       turnstile: turnstileToken || undefined,
       web_url: f.web_url.value
     };
@@ -240,6 +241,5 @@
         a.setAttribute('stroke-dasharray', d.index + ' 100');
       }, 80);
     });
-    try { sessionStorage.removeItem('mih_diag_origen'); } catch (e) { /* res */ }
   }
 })();
