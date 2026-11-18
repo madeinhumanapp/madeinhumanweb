@@ -8,5 +8,9 @@
 /xarxes/*
   X-Robots-Tag: noindex
 
+# Eina «Necessito DPO?»: no s'indexa fins que el contingut jurídic estigui revisat
+/necessito-dpo/*
+  X-Robots-Tag: noindex
+
 /*
   X-Content-Type-Options: nosniff
