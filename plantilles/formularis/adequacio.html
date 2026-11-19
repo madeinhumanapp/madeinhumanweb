@@ -1,0 +1,299 @@
+<section class="block adequacio" id="adequacio">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow reveal">Formulari d'adequació</span>
+        <!-- ✏️ EDITABLE: titular del formulari d'adequació -->
+        <h2 class="section-title">{{titol}}</h2>
+        <!-- ✏️ EDITABLE: descripció del formulari -->
+        <p class="section-lead">{{entradeta}}</p>
+      </div>
+
+      <div class="adequacio-lede">
+        <strong>Tots els camps marcats amb * són obligatoris.</strong> Les dades facilitades seran tractades per Madeinhuman amb la finalitat exclusiva de preparar la proposta sol·licitada.
+      </div>
+
+      <div class="form-progress" id="formProgress">
+        <div class="form-progress-label">
+          <span>Progrés del formulari</span>
+          <span id="formProgressPct">0%</span>
+        </div>
+        <div class="form-progress-track">
+          <div class="form-progress-fill" id="formProgressFill"></div>
+        </div>
+        <div class="form-progress-steps">
+          <div class="form-progress-dot" data-step="1"></div>
+          <div class="form-progress-dot" data-step="2"></div>
+          <div class="form-progress-dot" data-step="3"></div>
+          <div class="form-progress-dot" data-step="4"></div>
+          <div class="form-progress-dot" data-step="5"></div>
+        </div>
+      </div>
+
+      <form class="adequacio-form" id="formAdequacio" novalidate="">
+        <!-- Origen de la visita (UTM): utm.js els omple en enviar, a partir de l'URL. No es desa res al dispositiu. -->
+        <input type="hidden" name="utm_source">
+        <input type="hidden" name="utm_medium">
+        <input type="hidden" name="utm_campaign">
+        <input type="hidden" name="utm_content">
+
+        <!-- 01 — Dades identificatives -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-num">01</div>
+            <div>
+              <div class="form-section-title">Dades identificatives</div>
+              <div class="form-section-sub">Informació bàsica de l'organització</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="field-row">
+              <div class="field">
+                <label>Raó social <span class="req">*</span></label>
+                <input class="input" name="empresa" placeholder="Nom legal o comercial" required="">
+              </div>
+              <div class="field">
+                <label>NIF / CIF <span class="req">*</span></label>
+                <input class="input" name="nif" placeholder="Ex: B17708033" required="">
+              </div>
+            </div>
+            <div class="field">
+              <label>Activitat principal <span class="req">*</span></label>
+              <input class="input" name="activitat" placeholder="Ex: Clínica dental, assessoria laboral, distribució de materials..." required="">
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Correu electrònic <span class="req">*</span></label>
+                <input class="input" type="email" name="email" placeholder="contacte@empresa.cat" required="">
+              </div>
+              <div class="field">
+                <label>Telèfon <span class="req">*</span></label>
+                <input class="input" type="tel" name="telefon" placeholder="Ex: 972123456" required="">
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Persona de contacte <span class="req">*</span></label>
+                <input class="input" name="personaContacte" placeholder="Nom i cognoms" required="">
+              </div>
+              <div class="field">
+                <label>Adreça completa <span class="req">*</span></label>
+                <input class="input" name="adreca" placeholder="Carrer, número, CP, municipi" required="">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 02 — Volum i factors de risc -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-num">02</div>
+            <div>
+              <div class="form-section-title">Volum i factors de risc</div>
+              <div class="form-section-sub">Permet dimensionar el servei i calcular els honoraris</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="field-row">
+              <div class="field">
+                <label>Nombre total de treballadors <span class="req">*</span></label>
+                <input class="input" type="number" name="numTreballadors" placeholder="Inclou-hi els de temps parcial i col·laboradors" min="0" required="">
+              </div>
+              <div class="field">
+                <label>Proveïdors externs amb accés a dades <span class="req">*</span></label>
+                <input class="input" type="number" name="numET" placeholder="Gestor laboral, informàtic, cloud..." min="0" required="">
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Tracteu dades de salut, ideologia, sindicats o similars? <span class="req">*</span></label>
+              <div class="radio-row" id="riscArt9Group">
+                <label class="radio"><input type="radio" name="riscArt9" value="Sí" required=""><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="riscArt9" value="No"><span class="dot"></span><span>No</span></label>
+              </div>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Historials mèdics, discapacitats, orientació sindical, opinions polítiques, creences religioses...</div>
+            </div>
+
+            <div class="field">
+              <label>Feu servir eines amb servidors fora de la Unió Europea? <span class="req">*</span></label>
+              <div class="radio-row" id="riscCloudGroup">
+                <label class="radio"><input type="radio" name="riscCloud" value="Sí" required=""><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="riscCloud" value="No"><span class="dot"></span><span>No</span></label>
+                <label class="radio"><input type="radio" name="riscCloud" value="No ho sé"><span class="dot"></span><span>No ho sé</span></label>
+              </div>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">WhatsApp (Meta/EUA), Mailchimp (EUA), Canva (Austràlia), Dropbox (EUA), Google Analytics, TikTok...</div>
+            </div>
+
+            <div class="field">
+              <label>Feu servir eines d'intel·ligència artificial? <span class="req">*</span></label>
+              <div class="radio-row" id="riscIAGroup">
+                <label class="radio"><input type="radio" name="riscIA" value="Sí" required=""><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="riscIA" value="No"><span class="dot"></span><span>No</span></label>
+              </div>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">ChatGPT, Microsoft Copilot, Google Gemini, Claude, eines d'IA en CRM o ERP, chatbots, generadors d'imatges...</div>
+            </div>
+
+            <div class="field">
+              <label>Teniu videovigilància o sistemes de control biomètric? <span class="req">*</span></label>
+              <div class="radio-row" id="riscBioGroup">
+                <label class="radio"><input type="radio" name="riscBio" value="Sí" required=""><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="riscBio" value="No"><span class="dot"></span><span>No</span></label>
+              </div>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Càmeres de seguretat, control d'accés per empremta dactilar, reconeixement facial...</div>
+            </div>
+
+            <div class="field">
+              <label>Sector d'activitat <span class="req">*</span></label>
+              <select class="select" name="riscSector" required="">
+                <option value="">Selecciona el sector…</option>
+                <option value="Salut i serveis sanitaris">Salut i serveis sanitaris</option>
+                <option value="Educació i formació">Educació i formació</option>
+                <option value="Serveis financers o assegurances">Serveis financers o assegurances</option>
+                <option value="Serveis legals o notarials">Serveis legals o notarials</option>
+                <option value="Tecnologia i SaaS">Tecnologia i SaaS</option>
+                <option value="Comerç i retail">Comerç i retail</option>
+                <option value="Hostaleria i turisme">Hostaleria i turisme</option>
+                <option value="Indústria i manufactura">Indústria i manufactura</option>
+                <option value="Altres">Altres</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 03 — Presència digital -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-num">03</div>
+            <div>
+              <div class="form-section-title">Presència digital</div>
+              <div class="form-section-sub">Pàgina web i comerç electrònic</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="field">
+              <label>Teniu pàgina web? <span class="req">*</span></label>
+              <div class="radio-row" id="teWebGroup">
+                <label class="radio"><input type="radio" name="teWeb" value="si" required=""><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="teWeb" value="no"><span class="dot"></span><span>No</span></label>
+              </div>
+            </div>
+            <div class="field" id="webUrlField" style="display:none">
+              <label>URL de la pàgina web</label>
+              <input class="input" name="urlWeb" placeholder="https://www.empresa.cat">
+            </div>
+            <div id="webExtras" style="display:none">
+              <div class="field">
+                <label>La web té comerç electrònic (botiga online)?</label>
+                <div class="radio-row" id="comercElectronicGroup">
+                  <label class="radio"><input type="radio" name="comercElectronic" value="si"><span class="dot"></span><span>Sí</span></label>
+                  <label class="radio"><input type="radio" name="comercElectronic" value="no"><span class="dot"></span><span>No</span></label>
+                </div>
+              </div>
+              <div class="field">
+                <label>La web permet enviar currículums o sol·licituds de feina?</label>
+                <div class="radio-row" id="enviaCVGroup">
+                  <label class="radio"><input type="radio" name="enviaCV" value="si"><span class="dot"></span><span>Sí</span></label>
+                  <label class="radio"><input type="radio" name="enviaCV" value="no"><span class="dot"></span><span>No</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 04 — Eines digitals -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-num">04</div>
+            <div>
+              <div class="form-section-title">Eines digitals i comunicació</div>
+              <div class="form-section-sub">Identifica proveïdors que poden necessitar contracte d'encarregat</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="field">
+              <label>Quines eines digitals feu servir? (marqueu totes les que apliquin)</label>
+              <div class="checkboxes" id="einesCheckboxes" style="margin-top:4px">
+                <label class="check"><input type="checkbox" name="eina" value="whatsapp"><span class="box"></span><span>WhatsApp (clients o treballadors)</span></label>
+                <label class="check"><input type="checkbox" name="eina" value="newsletter"><span class="box"></span><span>Mailchimp o altra newsletter</span></label>
+                <label class="check"><input type="checkbox" name="eina" value="google-workspace"><span class="box"></span><span>Google Workspace (Gmail, Drive...)</span></label>
+                <label class="check"><input type="checkbox" name="eina" value="m365"><span class="box"></span><span>Microsoft 365 (Outlook, Teams...)</span></label>
+                <label class="check"><input type="checkbox" name="eina" value="crm"><span class="box"></span><span>CRM (Salesforce, HubSpot, Zoho...)</span></label>
+                <label class="check"><input type="checkbox" name="eina" value="ecommerce"><span class="box"></span><span>E-commerce (Shopify, WooCommerce...)</span></label>
+                <label class="check"><input type="checkbox" name="eina" value="ia-generativa"><span class="box"></span><span>IA generativa (ChatGPT, Copilot...)</span></label>
+                <label class="check"><input type="checkbox" name="eina" value="gestio-projectes"><span class="box"></span><span>Gestió de projectes (Trello, Asana...)</span></label>
+              </div>
+            </div>
+            <div class="field">
+              <label>Envieu comunicacions comercials per correu o WhatsApp? <span class="req">*</span></label>
+              <div class="radio-row" id="enviaComunicacionsGroup">
+                <label class="radio"><input type="radio" name="enviaComunicacions" value="si" required=""><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="enviaComunicacions" value="no"><span class="dot"></span><span>No</span></label>
+              </div>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Newsletters, ofertes, novetats, recordatoris...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 05 — Estructura organitzativa -->
+        <div class="form-section">
+          <div class="form-section-header">
+            <div class="form-section-num">05</div>
+            <div>
+              <div class="form-section-title">Estructura organitzativa</div>
+              <div class="form-section-sub">Informació sobre l'estructura de l'empresa</div>
+            </div>
+          </div>
+          <div class="form-section-body">
+            <div class="field">
+              <label>Formeu part d'un grup empresarial? <span class="req">*</span></label>
+              <div class="radio-row" id="grupEmpresarialGroup">
+                <label class="radio"><input type="radio" name="grupEmpresarial" value="si" required=""><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="grupEmpresarial" value="no"><span class="dot"></span><span>No</span></label>
+              </div>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Societats matriu, filials o empreses germanes amb la mateixa propietat.</div>
+            </div>
+            <div class="field">
+              <label>Teniu diverses seus o centres de treball? <span class="req">*</span></label>
+              <div class="radio-row" id="diversesSeuseGroup">
+                <label class="radio"><input type="radio" name="diversesSeus" value="si" required=""><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="diversesSeus" value="no"><span class="dot"></span><span>No</span></label>
+              </div>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Oficines, magatzems, botigues o instal·lacions en ubicacions diferents.</div>
+            </div>
+            <div class="field">
+              <label>Observacions addicionals</label>
+              <textarea class="textarea" name="observacions" placeholder="Qualsevol informació que considereu rellevant: auditories prèvies, incidents passats, dubtes concrets, urgència..." style="min-height:140px"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <label class="privacy-check" id="adequacioPriv">
+          <input type="checkbox" name="rgpd" required="">
+          <span class="box"></span>
+          <span>He llegit i accepto la <a href="politica-privacitat.html" target="_blank">política de privacitat</a>.</span>
+        </label>
+        <label class="privacy-check">
+          <input type="checkbox" name="comunicacions">
+          <span class="box"></span>
+          <span>Accepto rebre informació sobre les activitats, serveis i productes de MADEINHUMAN.</span>
+        </label>
+
+        <div class="form-rgpd-info">
+          <strong>Informació sobre el tractament de dades</strong> (Reglament (UE) 2016/679 i LO 3/2018)<br>
+          · Responsable del tractament: MADEINHUMAN, ESPJ · NIF ES-41534172-J<br>
+          · Finalitat: Oferir, informar i prestar els nostres serveis i productes.<br>
+          · Legitimació: Consentiment de l'interessat.<br>
+          · Destinataris: Les dades no es cediran a tercers, llevat que ho exigeixi una llei o sigui necessari per complir amb la finalitat del tractament.<br>
+          · Drets: Accedir, rectificar i suprimir dades, així com la resta que s'expliquen a la <a href="politica-privacitat.html" target="_blank">política de privacitat</a> (arts. 15–22 RGPD).<br>
+          · Més informació: <a href="mailto:info@madeinhuman.cat">info@madeinhuman.cat</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px">
+          Enviar sol·licitud
+          <span class="arrow" aria-hidden="true">→</span>
+        </button>
+        <div id="okAdequacio" style="display:none"></div>
+        <div id="errAdequacio" style="display:none"></div>
+
+      </form>
+    </div>
+  </section>

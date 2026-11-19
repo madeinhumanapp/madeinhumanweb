@@ -9,3 +9,10 @@ wrangler.jsonc
 marca/
 .venv/
 venv/
+# Generador i proves del panell: no es publiquen
+contingut/
+plantilles/
+esquema/
+eines/
+proves/
+dist/

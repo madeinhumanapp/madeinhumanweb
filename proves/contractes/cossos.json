@@ -1,0 +1,97 @@
+{
+  "contacte": {
+    "metode": "POST",
+    "cami": "/api/public/contacte",
+    "cos": {
+      "nom": "Prova nom",
+      "email": "prova@exemple.cat",
+      "empresa": "Prova empresa",
+      "missatge": "Text de prova del contracte.",
+      "utm_source": "instagram",
+      "utm_medium": "social",
+      "utm_campaign": "prova-contracte",
+      "utm_content": "enllac-bio"
+    }
+  },
+  "adequacio": {
+    "metode": "POST",
+    "cami": "/api/public/pressupost",
+    "cos": {
+      "nom": "Prova personaContacte",
+      "email": "prova@exemple.cat",
+      "empresa": "Prova empresa",
+      "nif": "Prova nif",
+      "activitat": "Prova activitat",
+      "telefon": "600000000",
+      "personaContacte": "Prova personaContacte",
+      "adreca": "Prova adreca",
+      "numTreballadors": 7,
+      "numET": 7,
+      "riscArt9": "Sí",
+      "riscCloud": "Sí",
+      "riscIA": "Sí",
+      "riscBio": "Sí",
+      "riscSector": "Salut i serveis sanitaris",
+      "teWeb": true,
+      "urlWeb": "Prova urlWeb",
+      "comercElectronic": true,
+      "enviaCV": true,
+      "einesCloud": "[\"whatsapp\",\"newsletter\"]",
+      "enviaComunicacions": true,
+      "grupEmpresarial": true,
+      "diversesSeus": true,
+      "observacions": "Text de prova del contracte.",
+      "utm_source": "instagram",
+      "utm_medium": "social",
+      "utm_campaign": "prova-contracte",
+      "utm_content": "enllac-bio"
+    }
+  },
+  "diagnostic": {
+    "metode": "POST",
+    "cami": "/api/public/diagnostic",
+    "cos": {
+      "respostes": {
+        "sector": "salut",
+        "mida": "1",
+        "sensibles": [
+          "salut",
+          "menors"
+        ],
+        "cameres": "si",
+        "web": "no",
+        "comunicacions": "si",
+        "proveidors": [
+          "gestoria",
+          "informatic"
+        ],
+        "copies": "auto",
+        "2fa": "si",
+        "normes": "si",
+        "docs": [
+          "politica",
+          "rat"
+        ]
+      },
+      "nom": "Prova Contracte",
+      "empresa": "Exemple SL",
+      "email": "prova@exemple.cat",
+      "telefon": "600000000",
+      "privacitat": true,
+      "comercial": true,
+      "ref": "gestoria-prova",
+      "utm_source": "instagram",
+      "utm_medium": "social",
+      "utm_campaign": "prova-contracte",
+      "utm_content": "enllac-bio",
+      "web_url": ""
+    }
+  },
+  "recollidaToken": {
+    "metode": "POST",
+    "cami": "/api/public/recollida/validate-token",
+    "cos": {
+      "token": "MIH-AAAA-BBBB-CCCC"
+    }
+  }
+}

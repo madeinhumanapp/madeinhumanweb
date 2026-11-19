@@ -1,0 +1,398 @@
+{
+  "pagina": "portada",
+  "idioma": "ca",
+  "ruta": "/",
+  "fitxer": "index.html",
+  "cap": {
+    "titol": "Madeinhuman — Protecció de dades RGPD i IA a Girona | Consultoria per a pymes",
+    "descripcio": "Consultoria de protecció de dades (RGPD, LOPDGDD) i IA a Girona per a pimes: adequació al RGPD, DPO extern, auditories, textos legals web i Reglament d'IA.",
+    "paraulesClau": "RGPD Girona, protecció de dades Girona, implantar IA Girona, consultoria RGPD Catalunya, adequació RGPD pymes, DPO extern Girona, auditoria privacitat Girona, AI Act Espanya, regulació intel·ligència artificial, LOPD Girona, protecció de dades pymes, compliment RGPD, assessoria RGPD, implantació IA empreses, reglament europeu IA, AEPD, APDCat, privacitat dades personals",
+    "canonica": "https://madeinhuman.cat/",
+    "alternatives": [
+      {
+        "idioma": "ca",
+        "href": "https://madeinhuman.cat/"
+      },
+      {
+        "idioma": "es",
+        "href": "https://madeinhuman.cat/es/"
+      },
+      {
+        "idioma": "x-default",
+        "href": "https://madeinhuman.cat/"
+      }
+    ],
+    "og": {
+      "titol": "Madeinhuman — Protecció de dades RGPD i IA a Girona",
+      "descripcio": "Consultoria RGPD i AI Act per a pimes a Girona i Catalunya. T'ajudem a complir amb la normativa de protecció de dades i a implantar l'IA amb garanties.",
+      "tipus": "website",
+      "url": "https://madeinhuman.cat"
+    },
+    "twitter": {
+      "titol": "Madeinhuman — RGPD i IA a Girona",
+      "descripcio": "Consultoria de protecció de dades i intel·ligència artificial per a pymes a Girona i Catalunya."
+    },
+    "jsonld": [
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "@id": "https://madeinhuman.cat/#empresa",
+        "name": "Madeinhuman",
+        "alternateName": "MADEINHUMAN ESPJ",
+        "description": "Consultoria especialitzada en protecció de dades (RGPD/LOPDGDD) i regulació d'Intel·ligència Artificial (AI Act) per a pymes i autònoms a Girona, Catalunya i Espanya.",
+        "url": "https://madeinhuman.cat/",
+        "telephone": "+34614425759",
+        "email": "info@madeinhuman.cat",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Carrer Camp d'Or, 65",
+          "addressLocality": "Girona",
+          "postalCode": "17007",
+          "addressRegion": "Girona",
+          "addressCountry": "ES"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 41.9794,
+          "longitude": 2.8214
+        },
+        "areaServed": [
+          {
+            "@type": "AdministrativeArea",
+            "name": "Girona"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Gironès"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Baix Empordà"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Alt Empordà"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "la Selva"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Pla de l'Estany"
+          },
+          {
+            "@type": "State",
+            "name": "Catalunya"
+          },
+          {
+            "@type": "Country",
+            "name": "Espanya"
+          }
+        ],
+        "serviceArea": {
+          "@type": "GeoCircle",
+          "geoMidpoint": {
+            "@type": "GeoCoordinates",
+            "latitude": 41.9794,
+            "longitude": 2.8214
+          },
+          "geoRadius": "200000"
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Serveis de protecció de dades i IA",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Adequació al RGPD",
+                "description": "Consultoria RGPD a Girona: adequació al RGPD i a la LOPDGDD (l'antiga LOPD) per a pimes, autònoms i botigues online. Pràctica, proporcionada i explicada en clar.",
+                "url": "https://madeinhuman.cat/serveis/adequacio-rgpd-girona/"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "DPO extern",
+                "description": "Servei de delegat de protecció de dades (DPO) extern a Girona. Quan és obligatori segons el RGPD i la LOPDGDD, i com t'hi podem ajudar.",
+                "url": "https://madeinhuman.cat/serveis/dpo-extern/"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Auditoria de protecció de dades",
+                "description": "Auditoria de protecció de dades i privacitat a Girona: revisem el teu compliment del RGPD i la LOPDGDD i et donem un pla d'acció prioritzat.",
+                "url": "https://madeinhuman.cat/serveis/auditoria-proteccio-dades/"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Reglament d'IA i ús de la IA",
+                "description": "Preparació per al Reglament europeu d'IA (AI Act) a Girona: inventari d'eines, política d'ús d'IA per a l'equip, formació i assessorament, amb la protecció de dades integrada.",
+                "url": "https://madeinhuman.cat/serveis/reglament-ia-empreses/"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Textos legals i formularis web",
+                "description": "Avís legal, política de privacitat, política de cookies i formularis web que compleixen el RGPD i la LSSI, per a botigues online i empreses de Girona.",
+                "url": "https://madeinhuman.cat/serveis/textos-legals-web/"
+              }
+            }
+          ]
+        },
+        "knowsAbout": [
+          "RGPD",
+          "LOPDGDD",
+          "Protecció de dades",
+          "GDPR",
+          "AI Act",
+          "Reglament Intel·ligència Artificial",
+          "DPO",
+          "Delegat Protecció Dades",
+          "AEPD",
+          "APDCat",
+          "Privacitat",
+          "Compliance",
+          "Auditoria privacitat",
+          "RAT",
+          "EIPD",
+          "Privacy by Design"
+        ],
+        "priceRange": "€€",
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "09:00",
+          "closes": "18:00"
+        },
+        "sameAs": [],
+        "image": "https://madeinhuman.cat/og-image.png"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "La meva empresa de 5 treballadors necessita adequar-se al RGPD?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí, sense excepcions. El RGPD s'aplica a qualsevol organització que tracti dades personals — i tractar dades vol dir tenir clients, treballadors, proveïdors o fins i tot un formulari de contacte al web."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Què és un DPO i quan és obligatori tenir-ne un?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "El Delegat de Protecció de Dades (DPO) és la figura que supervisa el compliment del RGPD a l'organització. És obligatori si tractes dades a gran escala, dades sensibles, o si fas observació sistemàtica."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Uso ChatGPT a la meva empresa. M'afecta el Reglament d'IA?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Probablement sí, encara que de manera lleugera. El Reglament classifica els sistemes d'IA per nivell de risc. Eines d'ús general com ChatGPT tenen obligacions de transparència."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Quant costa adequar-se al RGPD?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Per a una pyme estàndard, una adequació completa se situa habitualment entre 2.000 i 6.000 €, amb una quota de manteniment anual inferior."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Quant temps porta el procés d'adequació RGPD?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Una adequació RGPD per a pyme es completa habitualment en 4-8 setmanes des de la diagnosi fins a la implementació."
+            }
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inici",
+            "item": "https://madeinhuman.cat/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Serveis",
+            "item": "https://madeinhuman.cat/#serveis"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Contacte",
+            "item": "https://madeinhuman.cat/#contacte"
+          }
+        ]
+      }
+    ]
+  },
+  "blocs": [
+    {
+      "tipus": "hero",
+      "subtitol": "Consultoria en protecció de dades i IA",
+      "titol": "Protegir\nés *avançar.*",
+      "text": "Ajudem pimes a complir amb la normativa de protecció de dades i a implantar la IA amb garanties.",
+      "botons": [
+        {
+          "text": "Sol·licitar adequació",
+          "href": "/#adequacio",
+          "estil": "primari",
+          "fletxa": true
+        },
+        {
+          "text": "Diagnòstic gratuït · 4 min",
+          "href": "/diagnostic.html",
+          "estil": "secundari"
+        }
+      ],
+      "etiquetes": [
+        "**RGPD** · vigent",
+        "**AI Act** · 2025–2028",
+        "**AEPD** · **APDCat**"
+      ]
+    },
+    {
+      "tipus": "separador"
+    },
+    {
+      "tipus": "html",
+      "html": "<section class=\"block statement\">\n    <div class=\"container statement-grid\">\n      <div class=\"statement-left reveal-left\">\n        <span class=\"eyebrow\">El context</span>\n        <!-- ✏️ EDITABLE: titular de context -->\n        <h2 class=\"section-title\" style=\"margin-top:18px\">\n          Afecta totes<br>les empreses.\n        </h2>\n        <!-- ✏️ EDITABLE: paràgrafs de context (pots canviar dates, xifres, text) -->\n        <p>\n          El RGPD és una <strong>obligació vigent</strong> des de 2018. Qualsevol empresa que tracti dades personals — clients, treballadors, proveïdors — l'ha de complir. L'AEPD i l'APDCat supervisen el seu compliment a Espanya i Catalunya.\n        </p>\n        <p>\n          El Reglament europeu d'IA s'aplica progressivament entre 2025 i 2028. Per a les pymes que ja utilitzen eines d'IA, preparar-se amb temps és una <strong>decisió estratègica</strong>.\n        </p>\n      </div>\n      <!-- ✏️ EDITABLE: 3 mètriques (canvia xifres, dates i text lliurement) -->\n      <div class=\"metrics reveal-right\">\n        <div class=\"metric\">\n          <div class=\"metric-key\">RGPD</div>\n          <div class=\"metric-body\">\n            <div class=\"metric-label\">Protecció de dades</div>\n            <p>Obligació vigent des de 2018. El 2025, l'AEPD va rebre 30.931 reclamacions, la xifra més alta de la seva història.</p>\n          </div>\n        </div>\n        <div class=\"metric\">\n          <div class=\"metric-key\">AI Act</div>\n          <div class=\"metric-body\">\n            <div class=\"metric-label\">Reglament europeu d'IA</div>\n            <p>Les regles de transparència s'apliquen des de l'agost de 2026. Els sistemes d'alt risc, des del desembre de 2027 (o l'agost de 2028 si van integrats en productes regulats).</p>\n          </div>\n        </div>\n        <div class=\"metric\">\n          <div class=\"metric-key\">30.931</div>\n          <div class=\"metric-body\">\n            <div class=\"metric-label\">Reclamacions a l'AEPD el 2025 (+64%)</div>\n            <p>La videovigilància va ser l'àrea amb més procediments sancionadors. La mida de l'empresa no exclou l'obligació.</p>\n            <div class=\"metric-source\">Font: AEPD, Memòria anual 2025</div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </section>"
+    },
+    {
+      "tipus": "spot",
+      "alternat": false,
+      "num": "01",
+      "titol": "Des del disseny\ni *per defecte.*",
+      "text": "Ho fem amb un enfocament pràctic, útil i adaptat a un marc normatiu en constant evolució, sense que la burocràcia es converteixi en un obstacle."
+    },
+    {
+      "tipus": "spot",
+      "alternat": true,
+      "num": "02",
+      "titol": "Només allò\nque *necessites.*",
+      "text": "Analitzem l'activitat de la teva empresa i establim un pla d'actuació centrat en les teves necessitats. Ni més ni menys."
+    },
+    {
+      "tipus": "spot",
+      "alternat": false,
+      "num": "03",
+      "titol": "Complir i\n*demostrar-ho.*",
+      "text": "La teva adequació és molt més que un tràmit: és confiança davant clients i administracions. Rebràs documentació tècnica i jurídica, però també resums executius per demostrar que «ho estàs fent bé»."
+    },
+    {
+      "tipus": "spot",
+      "alternat": true,
+      "num": "04",
+      "titol": "Si no ho entens,\n*no estàs complint.*",
+      "text": "T'expliquem tot el que t'entreguem, ho acompanyem de guies i restem a la teva disposició. Formació per a directius i equips sota demanda."
+    },
+    {
+      "tipus": "html",
+      "html": "<section class=\"block services\" id=\"serveis\">\n    <div class=\"container\">\n      <div class=\"services-head-row reveal\">\n        <div class=\"section-head\">\n          <span class=\"eyebrow\">Serveis</span>\n          <!-- ✏️ EDITABLE: titular de serveis -->\n          <h2 class=\"section-title\">\n            Dos àmbits, <em>un sol equip.</em>\n          </h2>\n          <p class=\"section-lead\">\n            La protecció de dades i la regulació de la IA estan estretament relacionades. Treballem els dos àmbits de forma coordinada.\n          </p>\n        </div>\n      </div>\n\n      <div class=\"pillar-grid\">\n        <!-- ✏️ EDITABLE: Pilar 1 — RGPD (títol, descripció, llista de serveis, nota \"per a qui\") -->\n        <article class=\"pillar reveal-scale\" style=\"transition-delay:.1s\">\n          <div class=\"pillar-inner\">\n            <div class=\"pillar-head\">\n              <span class=\"pillar-num\">Pilar 01</span>\n              <span class=\"badge badge-vigent\"><span class=\"dot\"></span>Vigent</span>\n            </div>\n            <div class=\"pillar-eyebrow\">Protecció de Dades · RGPD</div>\n            <h3>Adequació al RGPD. <em>Pas a pas, sense complicacions.</em></h3>\n            <p class=\"pillar-lede\">\n              El RGPD és obligatori per a tota empresa que tracti dades personals. T'ajudem a complir-lo d'una forma pràctica i proporcionada a la teva mida.\n            </p>\n            <!-- ✏️ EDITABLE: llista de serveis RGPD (afegeix/elimina <li> per canviar la llista) -->\n            <ul class=\"svc-list\">\n              <li>Adequació RGPD completa</li>\n              <li>Auditories de privacitat</li>\n              <li>Registre d'activitats de tractament (RAT)</li>\n              <li>Delegat de Protecció de Dades (DPO) extern</li>\n              <li>Clàusules i avisos legals</li>\n              <li>Acompanyament en inspeccions AEPD</li>\n              <li>Formació als equips</li>\n            </ul>\n            <div class=\"pillar-foot\">\n              <strong>Per a qui:</strong> empreses i autònoms que tracten dades de clients, treballadors, proveïdors o visitants web. Pràcticament tothom.\n            </div>\n          </div>\n        </article>\n\n        <!-- ✏️ EDITABLE: Pilar 2 — AI Act (títol, descripció, llista de serveis, nota de calendari) -->\n        <article class=\"pillar pillar-blue reveal-scale\" style=\"transition-delay:.25s\">\n          <div class=\"pillar-inner\">\n            <div class=\"pillar-head\">\n              <span class=\"pillar-num\">Pilar 02</span>\n              <span class=\"badge badge-prep\"><span class=\"dot\"></span>Preparació 2025–2028</span>\n            </div>\n            <div class=\"pillar-eyebrow\">Reglament d'Intel·ligència Artificial</div>\n            <h3>Preparació per al <em>Reglament d'IA.</em></h3>\n            <p class=\"pillar-lede\">\n              El Reglament d'IA s'aplica progressivament fins al 2028. Si la teva empresa ja utilitza eines d'IA — chatbots, CRM intel·ligent, automatitzacions — convé començar a preparar-se amb temps.\n            </p>\n            <!-- ✏️ EDITABLE: llista de serveis IA (afegeix/elimina <li>) -->\n            <ul class=\"svc-list\">\n              <li>Avaluació de sistemes d'IA existents</li>\n              <li>Classificació de risc segons el Reglament</li>\n              <li>Anàlisi d'impacte sobre dades personals</li>\n              <li>Govern de models i agents d'IA</li>\n              <li>Preparació per a la supervisió regulatòria</li>\n            </ul>\n            <div class=\"pillar-foot\">\n              <strong>Nota:</strong> el Reglament ja s'aplica en part: les pràctiques prohibides i la formació de l'equip des de febrer de 2025, i la transparència des d'agost de 2026. L'alt risc arriba el desembre de 2027 (agost de 2028 per a productes regulats). La preparació demana mesos.\n            </div>\n          </div>\n        </article>\n      </div>\n\n      <!-- ✏️ EDITABLE: servei transversal (títol i descripció) -->\n      <div class=\"crossover reveal\">\n        <div>\n          <div class=\"crossover-label\">Servei transversal</div>\n          <div class=\"crossover-title\">Consultoria estratègica</div>\n        </div>\n        <p class=\"crossover-body\">\n          Acompanyament executiu per integrar la privacitat i la IA dins l'estratègia de l'empresa. Privacy by Design, estratègia d'adopció d'IA, formació directiva.\n        </p>\n        <a href=\"#contacte\" class=\"crossover-arrow\" aria-label=\"Parlem-ne\">→</a>\n      </div>\n      <!-- Enllaços a les pàgines de cada servei (generades amb marca/pagines/generar.py) -->\n      <nav class=\"serveis-detall\" aria-label=\"Serveis en detall\">\n        <span class=\"serveis-detall-titol\">En detall</span>\n        <a href=\"/serveis/adequacio-rgpd-girona/\">Adequació al RGPD</a>\n        <a href=\"/serveis/dpo-extern/\">DPO extern</a>\n        <a href=\"/serveis/auditoria-proteccio-dades/\">Auditoria de protecció de dades</a>\n        <a href=\"/serveis/reglament-ia-empreses/\">Reglament d'IA i ús de la IA</a>\n        <a href=\"/serveis/textos-legals-web/\">Textos legals i formularis web</a>\n      </nav>\n    </div>\n  </section>"
+    },
+    {
+      "tipus": "separador"
+    },
+    {
+      "tipus": "spot",
+      "alternat": false,
+      "num": "05",
+      "titol": "Acostumats\nal *canvi.*",
+      "text": "Projecte jove, professionals amb recorregut. Hem vist l'evolució del marc legal i estem preparats pel canvi que suposa la intel·ligència artificial."
+    },
+    {
+      "tipus": "separador"
+    },
+    {
+      "tipus": "metode",
+      "ancora": "metode",
+      "etiqueta": "Mètode",
+      "titol": "Com *treballem.*",
+      "entradeta": "Un procés estructurat en quatre fases, pensat per ser clar, mesurable i sostenible al llarg del temps.",
+      "passos": [
+        {
+          "titol": "Diagnosi",
+          "text": "Analitzem la teva situació: quines dades tractes, quins sistemes d'IA uses i quins riscos existeixen. Una fotografia real del punt de partida."
+        },
+        {
+          "titol": "Pla d'acció",
+          "text": "Full de ruta prioritzat per risc i impacte. Cada lliurable és accionable, amb dates i responsables definits."
+        },
+        {
+          "titol": "Implementació",
+          "text": "Acompanyament pràctic amb els teus equips tècnics i jurídics. Treballem de forma iterativa fins que tot quedi en ordre."
+        },
+        {
+          "titol": "Govern continu",
+          "text": "La conformitat no és un projecte, és un estat. Manteniment anual, actualitzacions regulatòries i revisions periòdiques."
+        }
+      ]
+    },
+    {
+      "tipus": "separador"
+    },
+    {
+      "tipus": "formulari",
+      "formulari": "contacte",
+      "titol": "Parla amb *nosaltres.*",
+      "entradeta": "Si tens un dubte, escriu-nos. Per a una proposta personalitzada, utilitza el formulari d'adequació que trobaràs a continuació."
+    },
+    {
+      "tipus": "separador"
+    },
+    {
+      "tipus": "formulari",
+      "formulari": "adequacio",
+      "titol": "Sol·licitud d'adequació *al RGPD.*",
+      "entradeta": "Omple el formulari per rebre una proposta personalitzada. La informació que facilitis ens permet dimensionar correctament el servei i calcular els honoraris."
+    },
+    {
+      "tipus": "separador"
+    },
+    {
+      "tipus": "html",
+      "html": "<section class=\"block faq\" id=\"faq\">\n    <div class=\"container\">\n      <div class=\"faq-header reveal\">\n        <span class=\"eyebrow\">FAQ</span>\n        <!-- ✏️ EDITABLE: titular de FAQ -->\n        <h2 class=\"section-title\" style=\"margin-top:18px\">\n          Preguntes <em>habituals.</em>\n        </h2>\n        <!-- ✏️ EDITABLE: descripció de FAQ -->\n        <p class=\"section-lead\">\n          Aclariments per a pymes i autònoms sense perfil jurídic especialitzat. El glossari recull els termes regulatoris més habituals.\n        </p>\n        <div class=\"tabs\" id=\"faqTabs\">\n          <button class=\"tab active\" data-cat=\"tots\">Totes</button>\n          <button class=\"tab\" data-cat=\"rgpd\">RGPD</button>\n          <button class=\"tab\" data-cat=\"ia\">IA</button>\n          <button class=\"tab\" data-cat=\"practic\">Pràctic</button>\n          <button class=\"tab\" data-cat=\"glossari\">Glossari</button>\n        </div>\n      </div>\n      <div class=\"faq-list\" id=\"faqList\">\n        <!-- FAQ items rendered by JS -->\n      </div>\n    </div>\n  </section>"
+    },
+    {
+      "tipus": "separador"
+    },
+    {
+      "tipus": "html",
+      "html": "<section class=\"block actualitat\" id=\"actualitat\">\n    <div class=\"container\">\n      <div class=\"section-head reveal\">\n        <span class=\"eyebrow\">Actualitat</span>\n        <!-- ✏️ EDITABLE: titular d'actualitat -->\n        <h2 class=\"section-title\">\n          Novetats en protecció de dades <em>i IA.</em>\n        </h2>\n        <p class=\"section-lead\">\n          Informació rellevant sobre normativa, resolucions i canvis regulatoris que poden afectar la teva empresa.\n        </p>\n      </div>\n      <div class=\"news-grid\">\n        <!-- ✏️ EDITABLE: notícia 1 (tag, data, títol, cos, font) -->\n        <article class=\"news-card\">\n          <div class=\"news-meta\">\n            <span class=\"news-tag news-tag-rgpd\">RGPD</span>\n            <span class=\"news-date\">Maig 2026</span>\n          </div>\n          <h3 class=\"news-title\">L'AEPD rep 30.931 reclamacions el 2025, la xifra més alta de la seva història</h3>\n          <p class=\"news-body\">\n            Segons la Memòria anual 2025 de l'AEPD, les reclamacions van créixer un 64% respecte al 2024. Les sancions van sumar 48,1 milions d'euros, i el 40% d'aquest import va correspondre a bretxes de seguretat. La videovigilància torna a ser l'àrea amb més procediments sancionadors.\n          </p>\n          <div class=\"news-source\">Font: AEPD · Memòria anual 2025 (aepd.es)</div>\n        </article>\n        <!-- ✏️ EDITABLE: notícia 2 -->\n        <article class=\"news-card news-card-ia\">\n          <div class=\"news-meta\">\n            <span class=\"news-tag news-tag-ia\">AI Act</span>\n            <span class=\"news-date\">Juliol 2026</span>\n          </div>\n          <h3 class=\"news-title\">S'aprova l'Òmnibus digital sobre IA: l'alt risc s'ajorna</h3>\n          <p class=\"news-body\">\n            El Reglament (UE) 2026/1744 ajorna les obligacions dels sistemes d'alt risc al desembre de 2027 (agost de 2028 per a productes regulats) i converteix la formació en IA en una obligació de mitjans. Les obligacions de transparència de l'article 50 (xatbots, deepfakes i certs continguts generats) s'apliquen des del 2 d'agost de 2026.\n          </p>\n          <div class=\"news-source\">Font: Diari Oficial de la UE, 24/7/2026</div>\n        </article>\n        <!-- ✏️ EDITABLE: notícia 3 -->\n        <article class=\"news-card\">\n          <div class=\"news-meta\">\n            <span class=\"news-tag news-tag-cat\">APDCat</span>\n            <span class=\"news-date\">2026</span>\n          </div>\n          <h3 class=\"news-title\">L'APDCat desenvolupa una metodologia pionera per avaluar l'impacte de la IA sobre drets fonamentals</h3>\n          <p class=\"news-body\">\n            L'Autoritat Catalana de Protecció de Dades ha impulsat, dins la comunitat 'DPD en xarxa', una metodologia per realitzar avaluacions d'impacte sobre drets fonamentals en l'ús d'intel·ligència artificial — un referent a nivell europeu.\n          </p>\n          <div class=\"news-source\">Font: APDCat · apdcat.gencat.cat</div>\n        </article>\n      </div>\n    </div>\n  </section>"
+    }
+  ],
+  "scripts": [
+    "utm.js",
+    "script.js"
+  ]
+}

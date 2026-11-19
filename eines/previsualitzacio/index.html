@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Vista prèvia</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #0A0E1A; }
+    iframe { border: 0; width: 100%; height: 100%; display: block; }
+    #errors { display: none; position: fixed; inset: auto 12px 12px 12px; padding: 10px 14px; border-radius: 8px;
+      background: #FFBA5C; color: #0A0E1A; font: 14px/1.4 system-ui, sans-serif; z-index: 2; }
+  </style>
+</head>
+<body>
+  <!-- Vista prèvia del panell: rep el contingut de rgpd.madeinhuman.cat per postMessage i el
+       pinta amb les mateixes plantilles que la web publicada. No desa ni envia res. -->
+  <div id="errors" role="alert"></div>
+  <iframe id="marc" title="Vista prèvia de la pàgina"></iframe>
+  <script type="module" src="app.mjs"></script>
+</body>
+</html>
