@@ -17,6 +17,11 @@ const t0 = Date.now();
 fs.rmSync(SORTIDA, { recursive: true, force: true });
 fs.mkdirSync(SORTIDA, { recursive: true });
 
+// Pàgines que genera el port de les pàgines de servei (WEB-H04): si existeix, no es copien mai,
+// de manera que si el port no les genera totes (o a la ruta bona) la paritat ho detecta
+const DEL_PORT_SERVEIS = [/^serveis\/[^/]+\/index\.html$/, /^es\/servicios\/[^/]+\/index\.html$/, /^es\/index\.html$/];
+const AMB_PORT_SERVEIS = fs.existsSync(path.join(ARREL, 'plantilles/serveis.mjs'));
+
 // 1. Fitxers estàtics (CSS, JS, tipografies, imatges i pàgines encara no migrades)
 let copiats = 0;
 (function copia(dir, rel = '') {
@@ -24,6 +29,7 @@ let copiats = 0;
     const r = path.join(rel, e.name);
     if (!rel && NO_PUBLICAR.has(e.name)) continue;
     if (e.isDirectory()) { fs.mkdirSync(path.join(SORTIDA, r), { recursive: true }); copia(dir, r); }
+    else if (AMB_PORT_SERVEIS && DEL_PORT_SERVEIS.some(x => x.test(r.split(path.sep).join('/')))) continue;
     else { fs.copyFileSync(path.join(dir, r), path.join(SORTIDA, r)); copiats++; }
   }
 })(ARREL);
@@ -45,7 +51,7 @@ for (const f of fs.readdirSync(path.join(ARREL, 'contingut/pagines'))) {
 }
 // 2b. Pàgines de servei i portada en castellà (port de marca/pagines/generar.py, encàrrec WEB-H04):
 //     plantilles/serveis.mjs exporta paginesServei(lloc, dades) → [[ruta relativa, html], …]
-if (fs.existsSync(path.join(ARREL, 'plantilles/serveis.mjs'))) {
+if (AMB_PORT_SERVEIS) {
   const { paginesServei } = await import('../plantilles/serveis.mjs');
   const dades = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/serveis.json'), 'utf8'));
   for (const [rel, html] of paginesServei(lloc, dades)) {

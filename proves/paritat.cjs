@@ -59,10 +59,11 @@ async function textEstable(p) {
 }
 
 (async () => {
-  const pagines = opt('--pagines', null)?.split(',') ?? totesLesPagines(A).filter(x => fs.existsSync(path.join(B, x)));
+  const pagines = opt('--pagines', null)?.split(',') ?? totesLesPagines(A);
   const navegador = await chromium.launch();
   let diferents = 0;
-  for (const pag of pagines) {
+  for (const pag of pagines.filter(x => !fs.existsSync(path.join(B, x)))) { diferents++; console.log(`✗ ${pag}: falta a ${path.relative(process.cwd(), B) || B}`); }
+  for (const pag of pagines.filter(x => fs.existsSync(path.join(B, x)))) {
     // Fitxer idèntic byte a byte: no cal obrir-lo
     if (fs.readFileSync(path.join(A, pag)).equals(fs.readFileSync(path.join(B, pag)))) { console.log(`✓ ${pag} (fitxer idèntic)`); continue; }
     const [pa, pb] = [await obre(navegador, A, pag, false), await obre(navegador, B, pag, false)];
