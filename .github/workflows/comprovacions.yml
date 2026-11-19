@@ -1,0 +1,35 @@
+# Comprovacions del generador i dels connectors amb rgpd-tool (pla del panell, WEB-H09).
+# No publica res: diu si la web generada és idèntica a l'actual, si els formularis envien a
+# rgpd-tool exactament el mateix i si la vista prèvia del panell és segura.
+name: Comprovacions
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Navegador per a les proves (Playwright)
+        run: |
+          npm install --no-save --no-package-lock playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Generar dist/
+        run: node eines/construir.mjs
+      - name: Paritat amb la web actual
+        run: node proves/paritat.cjs --a . --b dist
+      - name: Contractes dels formularis amb rgpd-tool
+        run: node proves/formularis.cjs --arrel dist
+      - name: Vista prèvia del panell
+        run: node proves/previsualitzacio.cjs
