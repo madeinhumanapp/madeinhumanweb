@@ -16,7 +16,6 @@ Static website for madeinhuman.cat — privacy consultancy (RGPD/AI Act).
 - `script.js` — Form handlers, FAQ data, cookie banner
 - `marca.css` — Single source of truth: brand tokens (colors from `marca/generador/marca.py`) and `@font-face`. Load it before any other stylesheet
 - `styles.css` — All styles of the main pages (uses the tokens from `marca.css`)
-- `admin/` — Visual admin panel (GitHub API CMS, zero backend)
 - `wizard/` — React components for data collection wizard
 - `fonts/` — Self-hosted woff2 fonts (DM Sans, Playfair Display, DM Mono)
 - `vendor/` — Third-party JS for `recollida.html` (see `vendor/LLEGEIX-ME.md`)
@@ -37,5 +36,4 @@ The contact, adequacy and diagnostic forms also send `utm_source`, `utm_medium`,
 
 - Never change `name=""` attributes on form fields
 - Never modify files in `wizard/` or `fonts/` without explicit request
-- The admin panel reads/writes via GitHub API — keep it zero-backend
 - All text in Catalan
