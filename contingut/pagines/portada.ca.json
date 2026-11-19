@@ -285,8 +285,31 @@
       "tipus": "separador"
     },
     {
-      "tipus": "html",
-      "html": "<section class=\"block statement\">\n    <div class=\"container statement-grid\">\n      <div class=\"statement-left reveal-left\">\n        <span class=\"eyebrow\">El context</span>\n        <!-- ✏️ EDITABLE: titular de context -->\n        <h2 class=\"section-title\" style=\"margin-top:18px\">\n          Afecta totes<br>les empreses.\n        </h2>\n        <!-- ✏️ EDITABLE: paràgrafs de context (pots canviar dates, xifres, text) -->\n        <p>\n          El RGPD és una <strong>obligació vigent</strong> des de 2018. Qualsevol empresa que tracti dades personals — clients, treballadors, proveïdors — l'ha de complir. L'AEPD i l'APDCat supervisen el seu compliment a Espanya i Catalunya.\n        </p>\n        <p>\n          El Reglament europeu d'IA s'aplica progressivament entre 2025 i 2028. Per a les pymes que ja utilitzen eines d'IA, preparar-se amb temps és una <strong>decisió estratègica</strong>.\n        </p>\n      </div>\n      <!-- ✏️ EDITABLE: 3 mètriques (canvia xifres, dates i text lliurement) -->\n      <div class=\"metrics reveal-right\">\n        <div class=\"metric\">\n          <div class=\"metric-key\">RGPD</div>\n          <div class=\"metric-body\">\n            <div class=\"metric-label\">Protecció de dades</div>\n            <p>Obligació vigent des de 2018. El 2025, l'AEPD va rebre 30.931 reclamacions, la xifra més alta de la seva història.</p>\n          </div>\n        </div>\n        <div class=\"metric\">\n          <div class=\"metric-key\">AI Act</div>\n          <div class=\"metric-body\">\n            <div class=\"metric-label\">Reglament europeu d'IA</div>\n            <p>Les regles de transparència s'apliquen des de l'agost de 2026. Els sistemes d'alt risc, des del desembre de 2027 (o l'agost de 2028 si van integrats en productes regulats).</p>\n          </div>\n        </div>\n        <div class=\"metric\">\n          <div class=\"metric-key\">30.931</div>\n          <div class=\"metric-body\">\n            <div class=\"metric-label\">Reclamacions a l'AEPD el 2025 (+64%)</div>\n            <p>La videovigilància va ser l'àrea amb més procediments sancionadors. La mida de l'empresa no exclou l'obligació.</p>\n            <div class=\"metric-source\">Font: AEPD, Memòria anual 2025</div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </section>"
+      "tipus": "context",
+      "etiqueta": "El context",
+      "titol": "Afecta totes\nles empreses.",
+      "paragrafs": [
+        "El RGPD és una **obligació vigent** des de 2018. Qualsevol empresa que tracti dades personals — clients, treballadors, proveïdors — l'ha de complir. L'AEPD i l'APDCat supervisen el seu compliment a Espanya i Catalunya.",
+        "El Reglament europeu d'IA s'aplica progressivament entre 2025 i 2028. Per a les pymes que ja utilitzen eines d'IA, preparar-se amb temps és una **decisió estratègica**."
+      ],
+      "xifres": [
+        {
+          "clau": "RGPD",
+          "etiqueta": "Protecció de dades",
+          "text": "Obligació vigent des de 2018. El 2025, l'AEPD va rebre 30.931 reclamacions, la xifra més alta de la seva història."
+        },
+        {
+          "clau": "AI Act",
+          "etiqueta": "Reglament europeu d'IA",
+          "text": "Les regles de transparència s'apliquen des de l'agost de 2026. Els sistemes d'alt risc, des del desembre de 2027 (o l'agost de 2028 si van integrats en productes regulats)."
+        },
+        {
+          "clau": "30.931",
+          "etiqueta": "Reclamacions a l'AEPD el 2025 (+64%)",
+          "text": "La videovigilància va ser l'àrea amb més procediments sancionadors. La mida de l'empresa no exclou l'obligació.",
+          "font": "Font: AEPD, Memòria anual 2025"
+        }
+      ]
     },
     {
       "tipus": "spot",

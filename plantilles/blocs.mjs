@@ -50,6 +50,27 @@ export const BLOCS = {
   </div>
 </section>`,
 
+  context: d => `
+<section class="block statement">
+  <div class="container statement-grid">
+    <div class="statement-left reveal-left">
+      <span class="eyebrow">${esc(d.etiqueta)}</span>
+      <h2 class="section-title" style="margin-top:18px">${enriquit(d.titol)}</h2>
+      ${d.paragrafs.map(t => `<p>${enriquit(t)}</p>`).join('\n')}
+    </div>
+    <div class="metrics reveal-right">${d.xifres.map(x => `
+      <div class="metric">
+        <div class="metric-key">${esc(x.clau)}</div>
+        <div class="metric-body">
+          <div class="metric-label">${esc(x.etiqueta)}</div>
+          <p>${enriquit(x.text)}</p>${x.font ? `
+          <div class="metric-source">${esc(x.font)}</div>` : ''}
+        </div>
+      </div>`).join('\n')}
+    </div>
+  </div>
+</section>`,
+
   metode: d => `
 <section class="block method"${attr('id', d.ancora)}>
   <div class="container">

@@ -34,6 +34,23 @@ export const ESQUEMA = {
       alternat: { tipus: 'bool', etiqueta: 'Fons alternat' },
     },
   },
+  context: {
+    nom: 'Context i xifres',
+    camps: {
+      etiqueta: text('Etiqueta', 30),
+      titol: enriquit('Titular', 60),
+      paragrafs: { tipus: 'llista', etiqueta: 'Paràgrafs', min: 1, max: 3, element: enriquit('Paràgraf', 350) },
+      xifres: {
+        tipus: 'llista', etiqueta: 'Xifres', min: 1, max: 4,
+        element: {
+          clau: text('Xifra o sigla', 12, { ajuda: 'Si és un nombre (30.931), s\'anima en aparèixer' }),
+          etiqueta: text('Etiqueta', 60),
+          text: enriquit('Explicació', 230),
+          font: { tipus: 'text', etiqueta: 'Font', max: 80, ajuda: 'Opcional: d\'on surt la xifra' },
+        },
+      },
+    },
+  },
   metode: {
     nom: 'Mètode (passos)',
     camps: {

@@ -147,6 +147,18 @@ const extret = await p.evaluate(() => {
       tipus: 'spot', alternat: e.classList.contains('spot-alt'),
       num: e.querySelector('.spot-num').textContent.trim(), titol: mini(e.querySelector('.spot-title')), text: mini(e.querySelector('.spot-text')),
     }), el);
+    else if (el.matches('section.block.statement')) bloc = prova(e => ({
+      tipus: 'context',
+      etiqueta: e.querySelector('.statement-left .eyebrow').textContent.trim(),
+      titol: mini(e.querySelector('.statement-left .section-title')),
+      paragrafs: [...e.querySelectorAll('.statement-left > p')].map(mini),
+      xifres: [...e.querySelectorAll('.metric')].map(m => ({
+        clau: m.querySelector('.metric-key').textContent.trim(),
+        etiqueta: m.querySelector('.metric-label').textContent.trim(),
+        text: mini(m.querySelector('.metric-body > p')),
+        ...(m.querySelector('.metric-source') ? { font: m.querySelector('.metric-source').textContent.trim() } : {}),
+      })),
+    }), el);
     else if (el.matches('section.method')) bloc = prova(e => ({
       tipus: 'metode', ancora: e.id || undefined,
       etiqueta: e.querySelector('.section-head .eyebrow')?.textContent.trim(),
