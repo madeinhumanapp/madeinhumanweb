@@ -51,6 +51,27 @@ export const ESQUEMA = {
       },
     },
   },
+  actualitat: {
+    nom: 'Actualitat (notícies)',
+    camps: {
+      ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'Enllaços com /#actualitat hi apunten' },
+      etiqueta: text('Etiqueta', 20),
+      titol: enriquit('Titular', 50),
+      entradeta: enriquit('Entradeta', 140),
+      noticies: {
+        tipus: 'llista', etiqueta: 'Notícies', min: 1, max: 6,
+        element: {
+          variant: { tipus: 'seleccio', etiqueta: 'Color del tag', opcions: ['rgpd', 'ia', 'cat'], obligatori: true,
+            ajuda: 'rgpd: coure · ia: blau (targeta destacada) · cat: verd' },
+          tag: text('Etiqueta del tag', 10),
+          data: text('Data', 20),
+          titol: enriquit('Títol', 130),
+          cos: enriquit('Text', 440),
+          font: { tipus: 'text', etiqueta: 'Font', max: 60, ajuda: "Opcional: d'on surt la notícia" },
+        },
+      },
+    },
+  },
   metode: {
     nom: 'Mètode (passos)',
     camps: {
