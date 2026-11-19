@@ -44,12 +44,27 @@ const forma = p => p.evaluate(([src]) => {
   return { cap: canonic(document.head, location.href), blocs: [...document.body.children].map(e => canonic(e, location.href)) };
 }, [canonicSrc]);
 const textVisible = p => p.evaluate(() => [...document.body.children].map(e => (e.innerText || '').replace(/[ \t]+\n/g, '\n').trim()));
+// Les pàgines amb aplicacions (recollida, diagnòstic) es pinten amb JavaScript: s'espera que el text
+// visible deixi de canviar abans de comparar-lo (si no, la comparació depèn de la velocitat de càrrega)
+async function textEstable(p) {
+  await p.waitForLoadState('networkidle').catch(() => {});
+  let anterior = null;
+  for (let i = 0; i < 25; i++) {
+    const ara = JSON.stringify(await textVisible(p));
+    if (ara === anterior) return JSON.parse(ara);
+    anterior = ara;
+    await p.waitForTimeout(200);
+  }
+  return JSON.parse(anterior);
+}
 
 (async () => {
   const pagines = opt('--pagines', null)?.split(',') ?? totesLesPagines(A).filter(x => fs.existsSync(path.join(B, x)));
   const navegador = await chromium.launch();
   let diferents = 0;
   for (const pag of pagines) {
+    // Fitxer idèntic byte a byte: no cal obrir-lo
+    if (fs.readFileSync(path.join(A, pag)).equals(fs.readFileSync(path.join(B, pag)))) { console.log(`✓ ${pag} (fitxer idèntic)`); continue; }
     const [pa, pb] = [await obre(navegador, A, pag, false), await obre(navegador, B, pag, false)];
     const [fa, fb] = [await forma(pa), await forma(pb)];
     const errors = [];
@@ -64,7 +79,7 @@ const textVisible = p => p.evaluate(() => [...document.body.children].map(e => (
     await pa.close(); await pb.close();
     // Text tal com es veu (amb CSS i JS): detecta espais o salts que la forma canònica no veu
     const [ta, tb] = [await obre(navegador, A, pag, true), await obre(navegador, B, pag, true)];
-    const [xa, xb] = [await textVisible(ta), await textVisible(tb)];
+    const [xa, xb] = [await textEstable(ta), await textEstable(tb)];
     xa.forEach((t, i) => { if (t !== xb[i]) errors.push(`text visible del bloc ${i} diferent`); });
     await ta.close(); await tb.close();
     if (errors.length) { diferents++; console.log(`✗ ${pag}\n    ${errors.slice(0, 6).join('\n    ')}`); }
