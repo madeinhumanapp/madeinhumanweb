@@ -43,6 +43,18 @@ for (const f of fs.readdirSync(path.join(ARREL, 'contingut/pagines'))) {
   fs.writeFileSync(path.join(SORTIDA, p.fitxer), pagina(lloc, p, formularis));
   generades++;
 }
+// 2b. Pàgines de servei i portada en castellà (port de marca/pagines/generar.py, encàrrec WEB-H04):
+//     plantilles/serveis.mjs exporta paginesServei(lloc, dades) → [[ruta relativa, html], …]
+if (fs.existsSync(path.join(ARREL, 'plantilles/serveis.mjs'))) {
+  const { paginesServei } = await import('../plantilles/serveis.mjs');
+  const dades = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/serveis.json'), 'utf8'));
+  for (const [rel, html] of paginesServei(lloc, dades)) {
+    if (!/^[a-z0-9/_-]+\.html$/.test(rel)) { errors.push(`ruta de servei no vàlida: ${rel}`); continue; }
+    fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
+    fs.writeFileSync(path.join(SORTIDA, rel), html);
+    generades++;
+  }
+}
 if (errors.length) { console.error('El contingut no és vàlid:\n  ' + errors.join('\n  ')); process.exit(1); }
 
 // 3. Vista prèvia del panell: les mateixes plantilles, servides al navegador
