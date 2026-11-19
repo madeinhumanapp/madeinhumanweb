@@ -2,10 +2,11 @@
 // Ús: node eines/construir.mjs [--sortida dist]
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { pagina } from '../plantilles/base.mjs';
 import { validarPagina, ESQUEMA } from '../esquema/blocs.mjs';
 
-const ARREL = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
 const SORTIDA = path.resolve(ARREL, args.includes('--sortida') ? args[args.indexOf('--sortida') + 1] : 'dist');
 

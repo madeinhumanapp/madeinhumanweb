@@ -226,7 +226,7 @@ async function main() {
     const nou = JSON.stringify(dades, null, 2) + '\n';
     if (DESAR) { fs.writeFileSync(f, nou); console.log('desat', path.relative(process.cwd(), f)); continue; }
     if (!fs.existsSync(f)) { console.log(`FALTA ${nom}: executa amb --desar`); diferencies++; continue; }
-    const vell = fs.readFileSync(f, 'utf8');
+    const vell = fs.readFileSync(f, 'utf8').replace(/\r\n/g, '\n'); // Windows (autocrlf): mateix contingut
     if (vell === nou) { console.log(`ok   ${nom}`); continue; }
     diferencies++;
     console.log(`DIFERENT ${nom}`);

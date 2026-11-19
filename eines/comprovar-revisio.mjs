@@ -3,10 +3,11 @@
 // Ús: npm run revisio -- docs/revisio/WEB-L01a-revisio.md
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const fitxer = process.argv[2];
 if (!fitxer || !fs.existsSync(fitxer)) { console.error('Indica el fitxer de revisió: npm run revisio -- docs/revisio/WEB-L01a-revisio.md'); process.exit(1); }
-const ARREL = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const net = s => s.trim().replace(/^`+|`+$/g, '').replace(/\\\|/g, '|');
 
 let files = 0, errors = 0;

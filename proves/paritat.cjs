@@ -20,7 +20,7 @@ function totesLesPagines(arrel) {
     for (const e of fs.readdirSync(path.join(arrel, rel), { withFileTypes: true })) {
       const x = path.join(rel, e.name);
       if (e.isDirectory()) { if (!['node_modules', '.git', 'marca', 'admin', 'proves', 'eines', 'plantilles', 'contingut', 'docs', 'dist'].includes(e.name)) r(x); }
-      else if (e.name.endsWith('.html')) out.push(x);
+      else if (e.name.endsWith('.html')) out.push(x.split(path.sep).join('/'));
     }
   })('');
   return out.sort();

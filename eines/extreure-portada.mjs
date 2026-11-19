@@ -8,6 +8,7 @@
 // Ús: node eines/extreure-portada.mjs
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { BLOCS } from '../plantilles/blocs.mjs';
 
@@ -15,7 +16,7 @@ const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 const { canonicSrc } = require('../proves/canonic.cjs');
 
-const ARREL = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ORIGEN = 'https://madeinhuman.cat';
 const URL_PROVA = `${ORIGEN}/?utm_source=paritat`;
 const TIPUS = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript' };
