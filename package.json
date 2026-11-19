@@ -1,0 +1,18 @@
+{
+  "name": "madeinhumanweb",
+  "private": true,
+  "description": "Web de madeinhuman.cat: generador i comprovacions (pla del panell). La web publicada no en depèn fins al tall (WEB-H10).",
+  "scripts": {
+    "construir": "node eines/construir.mjs",
+    "paritat": "node proves/paritat.cjs --a . --b dist",
+    "contractes": "node proves/formularis.cjs --arrel dist",
+    "previsualitzacio": "node proves/previsualitzacio.cjs",
+    "comprovar": "npm run construir && npm run paritat && npm run contractes && npm run previsualitzacio",
+    "extreure-portada": "node eines/extreure-portada.mjs",
+    "navegador": "playwright install chromium",
+    "revisio": "node eines/comprovar-revisio.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}

@@ -16,3 +16,7 @@ esquema/
 eines/
 proves/
 dist/
+docs/
+AGENTS.md
+package.json
+package-lock.json

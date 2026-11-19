@@ -10,7 +10,7 @@ const args = process.argv.slice(2);
 const SORTIDA = path.resolve(ARREL, args.includes('--sortida') ? args[args.indexOf('--sortida') + 1] : 'dist');
 
 // El que no es publica: fonts del generador, proves, eines i fitxers del repositori
-const NO_PUBLICAR = new Set(['contingut', 'plantilles', 'esquema', 'eines', 'proves', 'marca', 'docs', 'dist',
+const NO_PUBLICAR = new Set(['contingut', 'plantilles', 'esquema', 'eines', 'proves', 'marca', 'docs', 'dist', 'AGENTS.md',
   'node_modules', '.git', '.github', '.wrangler', 'CLAUDE.md', '.assetsignore', '.gitignore', 'package.json', 'package-lock.json']);
 
 const t0 = Date.now();

@@ -21,15 +21,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Navegador per a les proves (Playwright)
+          cache: npm
+      - name: Eines de comprovació (Playwright)
         run: |
-          npm install --no-save --no-package-lock playwright@1.63.0
+          npm ci
           npx playwright install --with-deps chromium
       - name: Generar dist/
-        run: node eines/construir.mjs
+        run: npm run construir
       - name: Paritat amb la web actual
-        run: node proves/paritat.cjs --a . --b dist
+        run: npm run paritat
       - name: Contractes dels formularis amb rgpd-tool
-        run: node proves/formularis.cjs --arrel dist
+        run: npm run contractes
       - name: Vista prèvia del panell
-        run: node proves/previsualitzacio.cjs
+        run: npm run previsualitzacio

@@ -17,14 +17,17 @@ són a `.assetsignore` i no surten a la web.
 ## Ordres
 
 ```bash
-node eines/construir.mjs                          # genera dist/ (sense dependències, ~20 ms)
-node proves/paritat.cjs --a . --b dist            # dist/ ha de ser idèntic a la web actual
-node proves/formularis.cjs --arrel dist           # els formularis envien a rgpd-tool el mateix que abans
-node proves/previsualitzacio.cjs                  # vista prèvia: plantilles, injecció, cap lead fals
-node proves/formularis.cjs --desar                # NOMÉS si un canvi de contracte és volgut (i s'ha fet a rgpd-tool)
+npm ci && npm run navegador      # el primer cop: Playwright i el navegador de proves
+npm run construir                # genera dist/ (sense dependències, ~25 ms)
+npm run paritat                  # dist/ ha de ser idèntic a la web actual (19/19)
+npm run contractes               # els formularis envien a rgpd-tool el mateix que abans (4 «ok»)
+npm run previsualitzacio         # vista prèvia: plantilles, injecció, cap lead fals (7/7)
+npm run comprovar                # les quatre seguides (és el que fa GitHub Actions)
+node proves/formularis.cjs --desar   # NOMÉS si un canvi de contracte és volgut (i s'ha fet primer a rgpd-tool)
 ```
 
-Les proves fan servir Playwright (`require('playwright')`) i no surten a internet: tot es serveix en local.
+Les proves fan servir Playwright i no surten a internet: tot es serveix en local.
+Encàrrecs per a Mistral: `docs/encarrecs/` i `AGENTS.md`.
 
 ## Text enriquit al contingut
 
