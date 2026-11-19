@@ -167,7 +167,7 @@ const extret = await p.evaluate(() => {
 
 // ── Verificació bloc a bloc i escriptura ──
 fs.mkdirSync(path.join(ARREL, 'plantilles/formularis'), { recursive: true });
-const ctx = { ruta: '/', idioma: 'ca' };
+const ctx = { ruta: '/', idioma: 'ca', formularis: {} };
 const blocs = [];
 const informe = [];
 for (const [i, { bloc, html }] of extret.candidats.entries()) {
@@ -175,6 +175,7 @@ for (const [i, { bloc, html }] of extret.candidats.entries()) {
   if (bloc.tipus === 'html') { informe.push(`bloc ${i}: html (sense plantilla encara) · ${html.slice(0, 60).replace(/\s+/g, ' ')}…`); blocs.push({ tipus: 'html', html }); continue; }
   if (bloc._plantilla) {
     fs.writeFileSync(path.join(ARREL, 'plantilles/formularis', `${bloc.formulari}.html`), bloc._plantilla + '\n');
+    ctx.formularis[bloc.formulari] = bloc._plantilla;
     delete bloc._plantilla;
   }
   const generat = BLOCS[bloc.tipus](bloc, ctx);
