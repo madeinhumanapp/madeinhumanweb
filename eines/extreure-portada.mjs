@@ -245,7 +245,10 @@ await navegador.close();
 
 const pagina = { pagina: 'portada', idioma: 'ca', ruta: '/', fitxer: 'index.html', cap: extret.cap, blocs, scripts: ['utm.js', 'script.js'] };
 fs.mkdirSync(path.join(ARREL, 'contingut/pagines'), { recursive: true });
-fs.writeFileSync(path.join(ARREL, 'contingut/lloc.json'), JSON.stringify(extret.lloc, null, 2) + '\n');
+// Conserva els camps que no surten de la portada (p. ex. «nom», que fan servir les pàgines de servei)
+const FITXER_LLOC = path.join(ARREL, 'contingut/lloc.json');
+const llocAnterior = fs.existsSync(FITXER_LLOC) ? JSON.parse(fs.readFileSync(FITXER_LLOC, 'utf8')) : {};
+fs.writeFileSync(FITXER_LLOC, JSON.stringify({ ...llocAnterior, ...extret.lloc }, null, 2) + '\n');
 fs.writeFileSync(path.join(ARREL, 'contingut/pagines/portada.ca.json'), JSON.stringify(pagina, null, 2) + '\n');
 console.log(informe.join('\n'));
 const n = t => blocs.filter(b => b.tipus === t).length;

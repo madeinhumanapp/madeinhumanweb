@@ -84,7 +84,7 @@ export const ESQUEMA = {
         element: {
           variant: { tipus: 'seleccio', etiqueta: 'Color del pilar', opcions: ['estàndard', 'blau'], obligatori: true,
             ajuda: 'blau: pilar destacat' },
-          retard: text('Retard de la transició', 10, { ajuda: 'Ex.: .1s (style="transition-delay:.1s")' }),
+          retard: text('Retard de la transició', 10, { bloquejat: true, ajuda: 'Tècnic: no s\'edita des del panell' }),
           num: text('Número', 20, { ajuda: 'Pilar 01, Pilar 02…' }),
           insigniaVariant: { tipus: 'seleccio', etiqueta: 'Color de la insignia', opcions: ['vigent', 'prep'], obligatori: true,
             ajuda: 'vigent: coure · prep: blau' },
