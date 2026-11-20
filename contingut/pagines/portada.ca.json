@@ -410,8 +410,37 @@
       "tipus": "separador"
     },
     {
-      "tipus": "html",
-      "html": "<section class=\"block actualitat\" id=\"actualitat\">\n    <div class=\"container\">\n      <div class=\"section-head reveal\">\n        <span class=\"eyebrow\">Actualitat</span>\n        <!-- ✏️ EDITABLE: titular d'actualitat -->\n        <h2 class=\"section-title\">\n          Novetats en protecció de dades <em>i IA.</em>\n        </h2>\n        <p class=\"section-lead\">\n          Informació rellevant sobre normativa, resolucions i canvis regulatoris que poden afectar la teva empresa.\n        </p>\n      </div>\n      <div class=\"news-grid\">\n        <!-- ✏️ EDITABLE: notícia 1 (tag, data, títol, cos, font) -->\n        <article class=\"news-card\">\n          <div class=\"news-meta\">\n            <span class=\"news-tag news-tag-rgpd\">RGPD</span>\n            <span class=\"news-date\">Maig 2026</span>\n          </div>\n          <h3 class=\"news-title\">L'AEPD rep 30.931 reclamacions el 2025, la xifra més alta de la seva història</h3>\n          <p class=\"news-body\">\n            Segons la Memòria anual 2025 de l'AEPD, les reclamacions van créixer un 64% respecte al 2024. Les sancions van sumar 48,1 milions d'euros, i el 40% d'aquest import va correspondre a bretxes de seguretat. La videovigilància torna a ser l'àrea amb més procediments sancionadors.\n          </p>\n          <div class=\"news-source\">Font: AEPD · Memòria anual 2025 (aepd.es)</div>\n        </article>\n        <!-- ✏️ EDITABLE: notícia 2 -->\n        <article class=\"news-card news-card-ia\">\n          <div class=\"news-meta\">\n            <span class=\"news-tag news-tag-ia\">AI Act</span>\n            <span class=\"news-date\">Juliol 2026</span>\n          </div>\n          <h3 class=\"news-title\">S'aprova l'Òmnibus digital sobre IA: l'alt risc s'ajorna</h3>\n          <p class=\"news-body\">\n            El Reglament (UE) 2026/1744 ajorna les obligacions dels sistemes d'alt risc al desembre de 2027 (agost de 2028 per a productes regulats) i converteix la formació en IA en una obligació de mitjans. Les obligacions de transparència de l'article 50 (xatbots, deepfakes i certs continguts generats) s'apliquen des del 2 d'agost de 2026.\n          </p>\n          <div class=\"news-source\">Font: Diari Oficial de la UE, 24/7/2026</div>\n        </article>\n        <!-- ✏️ EDITABLE: notícia 3 -->\n        <article class=\"news-card\">\n          <div class=\"news-meta\">\n            <span class=\"news-tag news-tag-cat\">APDCat</span>\n            <span class=\"news-date\">2026</span>\n          </div>\n          <h3 class=\"news-title\">L'APDCat desenvolupa una metodologia pionera per avaluar l'impacte de la IA sobre drets fonamentals</h3>\n          <p class=\"news-body\">\n            L'Autoritat Catalana de Protecció de Dades ha impulsat, dins la comunitat 'DPD en xarxa', una metodologia per realitzar avaluacions d'impacte sobre drets fonamentals en l'ús d'intel·ligència artificial — un referent a nivell europeu.\n          </p>\n          <div class=\"news-source\">Font: APDCat · apdcat.gencat.cat</div>\n        </article>\n      </div>\n    </div>\n  </section>"
+      "tipus": "actualitat",
+      "ancora": "actualitat",
+      "etiqueta": "Actualitat",
+      "titol": "Novetats en protecció de dades *i IA.*",
+      "entradeta": "Informació rellevant sobre normativa, resolucions i canvis regulatoris que poden afectar la teva empresa.",
+      "noticies": [
+        {
+          "variant": "rgpd",
+          "tag": "RGPD",
+          "data": "Maig 2026",
+          "titol": "L'AEPD rep 30.931 reclamacions el 2025, la xifra més alta de la seva història",
+          "cos": "Segons la Memòria anual 2025 de l'AEPD, les reclamacions van créixer un 64% respecte al 2024. Les sancions van sumar 48,1 milions d'euros, i el 40% d'aquest import va correspondre a bretxes de seguretat. La videovigilància torna a ser l'àrea amb més procediments sancionadors.",
+          "font": "Font: AEPD · Memòria anual 2025 (aepd.es)"
+        },
+        {
+          "variant": "ia",
+          "tag": "AI Act",
+          "data": "Juliol 2026",
+          "titol": "S'aprova l'Òmnibus digital sobre IA: l'alt risc s'ajorna",
+          "cos": "El Reglament (UE) 2026/1744 ajorna les obligacions dels sistemes d'alt risc al desembre de 2027 (agost de 2028 per a productes regulats) i converteix la formació en IA en una obligació de mitjans. Les obligacions de transparència de l'article 50 (xatbots, deepfakes i certs continguts generats) s'apliquen des del 2 d'agost de 2026.",
+          "font": "Font: Diari Oficial de la UE, 24/7/2026"
+        },
+        {
+          "variant": "cat",
+          "tag": "APDCat",
+          "data": "2026",
+          "titol": "L'APDCat desenvolupa una metodologia pionera per avaluar l'impacte de la IA sobre drets fonamentals",
+          "cos": "L'Autoritat Catalana de Protecció de Dades ha impulsat, dins la comunitat 'DPD en xarxa', una metodologia per realitzar avaluacions d'impacte sobre drets fonamentals en l'ús d'intel·ligència artificial — un referent a nivell europeu.",
+          "font": "Font: APDCat · apdcat.gencat.cat"
+        }
+      ]
     }
   ],
   "scripts": [

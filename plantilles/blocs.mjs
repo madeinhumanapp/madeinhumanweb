@@ -71,6 +71,24 @@ export const BLOCS = {
   </div>
 </section>`,
 
+  actualitat: d => `
+<section class="block actualitat"${attr('id', d.ancora)}>
+  <div class="container">
+    ${capSeccio(d)}
+    <div class="news-grid">${d.noticies.map(n => `
+      <article class="news-card${n.variant === 'ia' ? ' news-card-ia' : ''}">
+        <div class="news-meta">
+          <span class="news-tag news-tag-${n.variant}">${esc(n.tag)}</span>
+          <span class="news-date">${esc(n.data)}</span>
+        </div>
+        <h3 class="news-title">${enriquit(n.titol)}</h3>
+        <p class="news-body">${enriquit(n.cos)}</p>${n.font ? `
+        <div class="news-source">${esc(n.font)}</div>` : ''}
+      </article>`).join('\n')}
+    </div>
+  </div>
+</section>`,
+
   metode: d => `
 <section class="block method"${attr('id', d.ancora)}>
   <div class="container">

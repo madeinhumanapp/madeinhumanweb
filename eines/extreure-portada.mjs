@@ -160,6 +160,20 @@ const extret = await p.evaluate(() => {
         ...(m.querySelector('.metric-source') ? { font: m.querySelector('.metric-source').textContent.trim() } : {}),
       })),
     }), el);
+    else if (el.matches('section.block.actualitat')) bloc = prova(e => ({
+      tipus: 'actualitat', ancora: e.id || undefined,
+      etiqueta: e.querySelector('.section-head .eyebrow').textContent.trim(),
+      titol: mini(e.querySelector('.section-head .section-title')),
+      entradeta: mini(e.querySelector('.section-head .section-lead')),
+      noticies: [...e.querySelectorAll('.news-card')].map(n => ({
+        variant: (n.querySelector('.news-tag').className.match(/news-tag-([a-z]+)/) || [])[1],
+        tag: n.querySelector('.news-tag').textContent.trim(),
+        data: n.querySelector('.news-date').textContent.trim(),
+        titol: mini(n.querySelector('.news-title')),
+        cos: mini(n.querySelector('.news-body')),
+        ...(n.querySelector('.news-source') ? { font: n.querySelector('.news-source').textContent.trim() } : {}),
+      })),
+    }), el);
     else if (el.matches('section.method')) bloc = prova(e => ({
       tipus: 'metode', ancora: e.id || undefined,
       etiqueta: e.querySelector('.section-head .eyebrow')?.textContent.trim(),
