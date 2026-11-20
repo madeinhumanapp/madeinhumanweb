@@ -174,6 +174,29 @@ const extret = await p.evaluate(() => {
         ...(n.querySelector('.news-source') ? { font: n.querySelector('.news-source').textContent.trim() } : {}),
       })),
     }), el);
+    else if (el.matches('section.block.services')) bloc = prova(e => ({
+      tipus: 'serveis', ancora: e.id || undefined,
+      etiqueta: e.querySelector('.section-head .eyebrow').textContent.trim(),
+      titol: mini(e.querySelector('.section-head .section-title')),
+      entradeta: mini(e.querySelector('.section-head .section-lead')),
+      pilars: [...e.querySelectorAll('.pillar-grid > .pillar')].map(p => ({
+        variant: p.classList.contains('pillar-blue') ? 'blau' : 'estàndard',
+        retard: (p.getAttribute('style') || '').match(/transition-delay:\s*([^;]+)/)?.[1],
+        num: p.querySelector('.pillar-num').textContent.trim(),
+        insigniaVariant: (p.querySelector('.badge').className.match(/badge-([a-z]+)/) || [])[1],
+        insignia: net([...p.querySelector('.badge').childNodes].filter(n => n.nodeType === 3).map(n => n.data).join('')),
+        subtitol: p.querySelector('.pillar-eyebrow').textContent.trim(),
+        titol: mini(p.querySelector('h3')),
+        descripcio: mini(p.querySelector('.pillar-lede')),
+        llista: [...p.querySelectorAll('.svc-list li')].map(mini),
+        peu: mini(p.querySelector('.pillar-foot')),
+      })),
+      transversalEtiqueta: e.querySelector('.crossover-label').textContent.trim(),
+      transversalTitol: e.querySelector('.crossover-title').textContent.trim(),
+      transversalText: mini(e.querySelector('.crossover-body')),
+      enllacosTitol: e.querySelector('.serveis-detall-titol').textContent.trim(),
+      enllacos: [...e.querySelectorAll('.serveis-detall a')].map(a => ({ text: a.textContent.trim(), href: canonEnllac(a.getAttribute('href')) })),
+    }), el);
     else if (el.matches('section.method')) bloc = prova(e => ({
       tipus: 'metode', ancora: e.id || undefined,
       etiqueta: e.querySelector('.section-head .eyebrow')?.textContent.trim(),

@@ -89,6 +89,48 @@ export const BLOCS = {
   </div>
 </section>`,
 
+  serveis: (d, ctx) => `
+<section class="block services"${attr('id', d.ancora)}>
+  <div class="container">
+    <div class="services-head-row reveal">
+      <div class="section-head">
+        <span class="eyebrow">${esc(d.etiqueta)}</span>
+        <h2 class="section-title">${enriquit(d.titol)}</h2>
+        <p class="section-lead">${enriquit(d.entradeta)}</p>
+      </div>
+    </div>
+    <div class="pillar-grid">${d.pilars.map(p => `
+      <article class="pillar${p.variant === 'blau' ? ' pillar-blue' : ''} reveal-scale"${attr('style', `transition-delay:${p.retard}`)}>
+        <div class="pillar-inner">
+          <div class="pillar-head">
+            <span class="pillar-num">${esc(p.num)}</span>
+            <span class="badge badge-${p.insigniaVariant}"><span class="dot"></span>${esc(p.insignia)}</span>
+          </div>
+          <div class="pillar-eyebrow">${esc(p.subtitol)}</div>
+          <h3>${enriquit(p.titol)}</h3>
+          <p class="pillar-lede">${enriquit(p.descripcio)}</p>
+          <ul class="svc-list">
+${p.llista.map(i => `            <li>${enriquit(i)}</li>`).join('\n')}
+          </ul>
+          <div class="pillar-foot">${enriquit(p.peu)}</div>
+        </div>
+      </article>`).join('\n')}
+    </div>
+    <div class="crossover reveal">
+      <div>
+        <div class="crossover-label">${esc(d.transversalEtiqueta)}</div>
+        <div class="crossover-title">${esc(d.transversalTitol)}</div>
+      </div>
+      <p class="crossover-body">${enriquit(d.transversalText)}</p>
+      <a href="#contacte" class="crossover-arrow" aria-label="Parlem-ne">&rarr;</a>
+    </div>
+    <nav class="serveis-detall" aria-label="Serveis en detall">
+      <span class="serveis-detall-titol">${esc(d.enllacosTitol)}</span>
+${d.enllacos.map(e => `      <a href="${esc(enllac(e.href, ctx))}">${esc(e.text)}</a>`).join('\n')}
+    </nav>
+  </div>
+</section>`,
+
   metode: d => `
 <section class="block method"${attr('id', d.ancora)}>
   <div class="container">
