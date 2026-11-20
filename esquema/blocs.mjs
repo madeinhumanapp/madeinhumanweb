@@ -72,6 +72,40 @@ export const ESQUEMA = {
       },
     },
   },
+  serveis: {
+    nom: 'Serveis (pilars, transversal i enllaços)',
+    camps: {
+      ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'Enllaços com /#serveis hi apunten' },
+      etiqueta: text('Etiqueta', 10),
+      titol: enriquit('Titular', 40),
+      entradeta: enriquit('Entradeta', 160),
+      pilars: {
+        tipus: 'llista', etiqueta: 'Pilars', min: 1, max: 3,
+        element: {
+          variant: { tipus: 'seleccio', etiqueta: 'Color del pilar', opcions: ['estàndard', 'blau'], obligatori: true,
+            ajuda: 'blau: pilar destacat' },
+          retard: text('Retard de la transició', 10, { ajuda: 'Ex.: .1s (style="transition-delay:.1s")' }),
+          num: text('Número', 20, { ajuda: 'Pilar 01, Pilar 02…' }),
+          insigniaVariant: { tipus: 'seleccio', etiqueta: 'Color de la insignia', opcions: ['vigent', 'prep'], obligatori: true,
+            ajuda: 'vigent: coure · prep: blau' },
+          insignia: text('Text de la insignia', 30),
+          subtitol: text('Subtítol', 50),
+          titol: enriquit('Títol', 70),
+          descripcio: enriquit('Descripció', 250),
+          llista: { tipus: 'llista', etiqueta: 'Llista de serveis', min: 1, max: 10, element: enriquit('Servei', 60) },
+          peu: enriquit('Nota del peu', 350, { ajuda: '**Per a qui:** … o **Nota:** …' }),
+        },
+      },
+      transversalEtiqueta: text('Etiqueta del servei transversal', 30),
+      transversalTitol: text('Títol del servei transversal', 30),
+      transversalText: enriquit('Descripció del servei transversal', 210),
+      enllacosTitol: text('Títol dels enllaços', 20),
+      enllacos: {
+        tipus: 'llista', etiqueta: 'Enllaços en detall', min: 1, max: 8,
+        element: { text: text('Text de l’enllaç', 50), href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true } },
+      },
+    },
+  },
   metode: {
     nom: 'Mètode (passos)',
     camps: {

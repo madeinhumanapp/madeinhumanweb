@@ -340,8 +340,77 @@
       "text": "T'expliquem tot el que t'entreguem, ho acompanyem de guies i restem a la teva disposició. Formació per a directius i equips sota demanda."
     },
     {
-      "tipus": "html",
-      "html": "<section class=\"block services\" id=\"serveis\">\n    <div class=\"container\">\n      <div class=\"services-head-row reveal\">\n        <div class=\"section-head\">\n          <span class=\"eyebrow\">Serveis</span>\n          <!-- ✏️ EDITABLE: titular de serveis -->\n          <h2 class=\"section-title\">\n            Dos àmbits, <em>un sol equip.</em>\n          </h2>\n          <p class=\"section-lead\">\n            La protecció de dades i la regulació de la IA estan estretament relacionades. Treballem els dos àmbits de forma coordinada.\n          </p>\n        </div>\n      </div>\n\n      <div class=\"pillar-grid\">\n        <!-- ✏️ EDITABLE: Pilar 1 — RGPD (títol, descripció, llista de serveis, nota \"per a qui\") -->\n        <article class=\"pillar reveal-scale\" style=\"transition-delay:.1s\">\n          <div class=\"pillar-inner\">\n            <div class=\"pillar-head\">\n              <span class=\"pillar-num\">Pilar 01</span>\n              <span class=\"badge badge-vigent\"><span class=\"dot\"></span>Vigent</span>\n            </div>\n            <div class=\"pillar-eyebrow\">Protecció de Dades · RGPD</div>\n            <h3>Adequació al RGPD. <em>Pas a pas, sense complicacions.</em></h3>\n            <p class=\"pillar-lede\">\n              El RGPD és obligatori per a tota empresa que tracti dades personals. T'ajudem a complir-lo d'una forma pràctica i proporcionada a la teva mida.\n            </p>\n            <!-- ✏️ EDITABLE: llista de serveis RGPD (afegeix/elimina <li> per canviar la llista) -->\n            <ul class=\"svc-list\">\n              <li>Adequació RGPD completa</li>\n              <li>Auditories de privacitat</li>\n              <li>Registre d'activitats de tractament (RAT)</li>\n              <li>Delegat de Protecció de Dades (DPO) extern</li>\n              <li>Clàusules i avisos legals</li>\n              <li>Acompanyament en inspeccions AEPD</li>\n              <li>Formació als equips</li>\n            </ul>\n            <div class=\"pillar-foot\">\n              <strong>Per a qui:</strong> empreses i autònoms que tracten dades de clients, treballadors, proveïdors o visitants web. Pràcticament tothom.\n            </div>\n          </div>\n        </article>\n\n        <!-- ✏️ EDITABLE: Pilar 2 — AI Act (títol, descripció, llista de serveis, nota de calendari) -->\n        <article class=\"pillar pillar-blue reveal-scale\" style=\"transition-delay:.25s\">\n          <div class=\"pillar-inner\">\n            <div class=\"pillar-head\">\n              <span class=\"pillar-num\">Pilar 02</span>\n              <span class=\"badge badge-prep\"><span class=\"dot\"></span>Preparació 2025–2028</span>\n            </div>\n            <div class=\"pillar-eyebrow\">Reglament d'Intel·ligència Artificial</div>\n            <h3>Preparació per al <em>Reglament d'IA.</em></h3>\n            <p class=\"pillar-lede\">\n              El Reglament d'IA s'aplica progressivament fins al 2028. Si la teva empresa ja utilitza eines d'IA — chatbots, CRM intel·ligent, automatitzacions — convé començar a preparar-se amb temps.\n            </p>\n            <!-- ✏️ EDITABLE: llista de serveis IA (afegeix/elimina <li>) -->\n            <ul class=\"svc-list\">\n              <li>Avaluació de sistemes d'IA existents</li>\n              <li>Classificació de risc segons el Reglament</li>\n              <li>Anàlisi d'impacte sobre dades personals</li>\n              <li>Govern de models i agents d'IA</li>\n              <li>Preparació per a la supervisió regulatòria</li>\n            </ul>\n            <div class=\"pillar-foot\">\n              <strong>Nota:</strong> el Reglament ja s'aplica en part: les pràctiques prohibides i la formació de l'equip des de febrer de 2025, i la transparència des d'agost de 2026. L'alt risc arriba el desembre de 2027 (agost de 2028 per a productes regulats). La preparació demana mesos.\n            </div>\n          </div>\n        </article>\n      </div>\n\n      <!-- ✏️ EDITABLE: servei transversal (títol i descripció) -->\n      <div class=\"crossover reveal\">\n        <div>\n          <div class=\"crossover-label\">Servei transversal</div>\n          <div class=\"crossover-title\">Consultoria estratègica</div>\n        </div>\n        <p class=\"crossover-body\">\n          Acompanyament executiu per integrar la privacitat i la IA dins l'estratègia de l'empresa. Privacy by Design, estratègia d'adopció d'IA, formació directiva.\n        </p>\n        <a href=\"#contacte\" class=\"crossover-arrow\" aria-label=\"Parlem-ne\">→</a>\n      </div>\n      <!-- Enllaços a les pàgines de cada servei (generades amb marca/pagines/generar.py) -->\n      <nav class=\"serveis-detall\" aria-label=\"Serveis en detall\">\n        <span class=\"serveis-detall-titol\">En detall</span>\n        <a href=\"/serveis/adequacio-rgpd-girona/\">Adequació al RGPD</a>\n        <a href=\"/serveis/dpo-extern/\">DPO extern</a>\n        <a href=\"/serveis/auditoria-proteccio-dades/\">Auditoria de protecció de dades</a>\n        <a href=\"/serveis/reglament-ia-empreses/\">Reglament d'IA i ús de la IA</a>\n        <a href=\"/serveis/textos-legals-web/\">Textos legals i formularis web</a>\n      </nav>\n    </div>\n  </section>"
+      "tipus": "serveis",
+      "ancora": "serveis",
+      "etiqueta": "Serveis",
+      "titol": "Dos àmbits, *un sol equip.*",
+      "entradeta": "La protecció de dades i la regulació de la IA estan estretament relacionades. Treballem els dos àmbits de forma coordinada.",
+      "pilars": [
+        {
+          "variant": "estàndard",
+          "retard": ".1s",
+          "num": "Pilar 01",
+          "insigniaVariant": "vigent",
+          "insignia": "Vigent",
+          "subtitol": "Protecció de Dades · RGPD",
+          "titol": "Adequació al RGPD. *Pas a pas, sense complicacions.*",
+          "descripcio": "El RGPD és obligatori per a tota empresa que tracti dades personals. T'ajudem a complir-lo d'una forma pràctica i proporcionada a la teva mida.",
+          "llista": [
+            "Adequació RGPD completa",
+            "Auditories de privacitat",
+            "Registre d'activitats de tractament (RAT)",
+            "Delegat de Protecció de Dades (DPO) extern",
+            "Clàusules i avisos legals",
+            "Acompanyament en inspeccions AEPD",
+            "Formació als equips"
+          ],
+          "peu": "**Per a qui:** empreses i autònoms que tracten dades de clients, treballadors, proveïdors o visitants web. Pràcticament tothom."
+        },
+        {
+          "variant": "blau",
+          "retard": ".25s",
+          "num": "Pilar 02",
+          "insigniaVariant": "prep",
+          "insignia": "Preparació 2025–2028",
+          "subtitol": "Reglament d'Intel·ligència Artificial",
+          "titol": "Preparació per al *Reglament d'IA.*",
+          "descripcio": "El Reglament d'IA s'aplica progressivament fins al 2028. Si la teva empresa ja utilitza eines d'IA — chatbots, CRM intel·ligent, automatitzacions — convé començar a preparar-se amb temps.",
+          "llista": [
+            "Avaluació de sistemes d'IA existents",
+            "Classificació de risc segons el Reglament",
+            "Anàlisi d'impacte sobre dades personals",
+            "Govern de models i agents d'IA",
+            "Preparació per a la supervisió regulatòria"
+          ],
+          "peu": "**Nota:** el Reglament ja s'aplica en part: les pràctiques prohibides i la formació de l'equip des de febrer de 2025, i la transparència des d'agost de 2026. L'alt risc arriba el desembre de 2027 (agost de 2028 per a productes regulats). La preparació demana mesos."
+        }
+      ],
+      "transversalEtiqueta": "Servei transversal",
+      "transversalTitol": "Consultoria estratègica",
+      "transversalText": "Acompanyament executiu per integrar la privacitat i la IA dins l'estratègia de l'empresa. Privacy by Design, estratègia d'adopció d'IA, formació directiva.",
+      "enllacosTitol": "En detall",
+      "enllacos": [
+        {
+          "text": "Adequació al RGPD",
+          "href": "/serveis/adequacio-rgpd-girona/"
+        },
+        {
+          "text": "DPO extern",
+          "href": "/serveis/dpo-extern/"
+        },
+        {
+          "text": "Auditoria de protecció de dades",
+          "href": "/serveis/auditoria-proteccio-dades/"
+        },
+        {
+          "text": "Reglament d'IA i ús de la IA",
+          "href": "/serveis/reglament-ia-empreses/"
+        },
+        {
+          "text": "Textos legals i formularis web",
+          "href": "/serveis/textos-legals-web/"
+        }
+      ]
     },
     {
       "tipus": "separador"
