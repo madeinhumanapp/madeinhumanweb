@@ -1,0 +1,260 @@
+// Port a Node de marca/pagines/generar.py (encàrrec WEB-H04): mateixes funcions,
+// mateix ordre i mateix HTML. Les dades de contacte (NAP) no estan aquí: surten de
+// contingut/lloc.json (font única), que arriba com a `lloc`.
+
+const CARPETA = { ca: 'serveis', es: 'es/servicios' };
+
+export function paginesServei(lloc, dades) {
+  const { COMU, ZONA, SERVEIS, SLUG, PAGINES, PORTADA_ES } = dades;
+  const WEB = lloc.web;
+  const NAP = {
+    nom: lloc.nom,
+    carrer: lloc.contacte.carrer,
+    cp: lloc.contacte.cp,
+    ciutat: lloc.contacte.ciutat,
+    telefon: lloc.contacte.telefon,
+    telefon_visible: lloc.contacte.telefonVisible,
+    correu: lloc.contacte.correu,
+  };
+
+  function url_servei(lang, clau) {
+    return `/${CARPETA[lang]}/${SLUG[lang][clau]}/`;
+  }
+
+  // html.escape(t, quote=True) de Python: també converteix l'apòstrof en &#x27;
+  function e(t) {
+    return String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;' }[c]));
+  }
+
+  function zona_text(lang) {
+    const llista = ZONA.slice(1, -1).join(', ') + (lang === 'ca' ? ' i ' : ' y ') + ZONA[ZONA.length - 1];
+    return COMU[lang].zona_text.replace('{zona}', () => llista);
+  }
+
+  function empresa_ld() {
+    return {
+      '@type': 'ProfessionalService',
+      '@id': `${WEB}/#empresa`,
+      name: NAP.nom,
+      url: WEB + '/',
+      telephone: NAP.telefon,
+      email: NAP.correu,
+      image: `${WEB}/og-image.png`,
+      address: { '@type': 'PostalAddress', streetAddress: NAP.carrer, postalCode: NAP.cp,
+                 addressLocality: NAP.ciutat, addressRegion: 'Girona', addressCountry: 'ES' },
+      areaServed: ZONA.map(z => ({ '@type': 'AdministrativeArea', name: z })),
+    };
+  }
+
+  function cap(lang, titol, descripcio, canonical, alternates, ld) {
+    const c = COMU[lang];
+    const alt = alternates.map(([l, u]) => `  <link rel="alternate" hreflang="${l}" href="${WEB}${u}" />\n`).join('');
+    return `<!DOCTYPE html>
+<html lang="${c.lang}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Pàgina generada amb marca/pagines/generar.py: edita contingut.py, no aquest fitxer -->
+  <title>${e(titol)}</title>
+  <meta name="description" content="${e(descripcio)}" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="${WEB}${canonical}" />
+${alt}  <meta property="og:title" content="${e(titol)}" />
+  <meta property="og:description" content="${e(descripcio)}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="${WEB}${canonical}" />
+  <meta property="og:locale" content="${c.locale}" />
+  <meta property="og:site_name" content="Madeinhuman" />
+  <meta property="og:image" content="${WEB}/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0A0E1A" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/playfair-display-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/marca.css" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/pagines.css" />
+  <script type="application/ld+json">
+${JSON.stringify(ld, null, 2)}
+  </script>
+</head>
+<body class="pagina-interior">
+`;
+  }
+
+  function nav(lang, url_altre) {
+    const c = COMU[lang];
+    const enllacos = c.nav.map(([t, u]) => `<a href="${u}">${e(t)}</a>`).join('');
+    const [idioma_t, idioma_l] = c.altre_idioma;
+    const idioma = `<a href="${url_altre}" hreflang="${idioma_l}" lang="${idioma_l}" class="nav-idioma">${e(idioma_t)}</a>`;
+    const mobil = c.nav.map(([t, u]) => `<a href="${u}">${e(t)}</a>`).join('');
+    return `  <nav class="nav scrolled" id="navbar">
+    <div class="container nav-inner">
+      <a href="${c.home}" class="nav-logo">Madein<span>human</span></a>
+      <div class="nav-links">${enllacos}${idioma}</div>
+      <a href="${c.cta_nav[1]}" class="nav-cta">${e(c.cta_nav[0])}</a>
+      <button class="nav-burger" aria-label="${lang === 'ca' ? 'Menú' : 'Menú'}" onclick="document.getElementById('navMobile').classList.toggle('open')">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="navMobile">${mobil}<a href="${c.cta_nav[1]}">${e(c.cta_nav[0])}</a>${idioma}</div>
+  </nav>
+`;
+  }
+
+  function peu(lang) {
+    const c = COMU[lang];
+    const serveis = SERVEIS.map(k => `<li><a href="${url_servei(lang, k)}">${e(PAGINES[k][lang].curt)}</a></li>`).join('');
+    const eines = c.peu_eines.map(([t, u]) => `<li><a href="${u}">${e(t)}</a></li>`).join('');
+    const legal = c.legal.map(([t, u]) => `<li><a href="${u}">${e(t)}</a></li>`).join('');
+    return `  <footer>
+    <div class="container">
+      <div class="footer-grid footer-grid-4">
+        <div>
+          <div class="footer-logo">Madein<span>human</span></div>
+          <p class="footer-desc">${e(c.peu_desc)}</p>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">${e(c.peu_serveis)}</div>
+          <ul>${serveis}${eines}</ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">${e(c.peu_contacte)}</div>
+          <ul>
+            <li><a href="mailto:${NAP.correu}">${NAP.correu}</a></li>
+            <li><a href="tel:${NAP.telefon}">${NAP.telefon_visible}</a> · <a href="https://wa.me/${NAP.telefon.replace(/^\++/, '')}" target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><address>${e(NAP.carrer)}<br>${NAP.cp} ${NAP.ciutat}</address></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">${e(c.peu_legal)}</div>
+          <ul>${legal}</ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>${e(c.copy)}</span>
+        <span class="made"><span class="dot-live"></span> RGPD · LOPDGDD · AI Act 2025–2028</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
+`;
+  }
+
+  function bloc_final(lang, clau_actual = null) {
+    const c = COMU[lang];
+    const passos = c.metode.map(([t, d], i) => `<li><span class="pas-num">${String(i + 1).padStart(2, '0')}</span><strong>${e(t)}</strong><span>${e(d)}</span></li>`).join('');
+    const altres = SERVEIS.filter(k => k !== clau_actual)
+      .map(k => `<li><a href="${url_servei(lang, k)}">${e(PAGINES[k][lang].curt)}</a></li>`).join('');
+    return `      <section class="pagina-seccio">
+        <h2>${e(c.metode_titol)}</h2>
+        <ol class="passos-metode">${passos}</ol>
+      </section>
+      <section class="pagina-seccio">
+        <h2>${e(c.zona_titol)}</h2>
+        <p>${e(zona_text(lang))}</p>
+      </section>
+      <aside class="pagina-cta">
+        <h2>${e(c.cta_titol)}</h2>
+        <p>${e(c.cta_text)}</p>
+        <div class="pagina-cta-botons">
+          <a class="btn btn-primary" href="${c.cta_1[1]}">${e(c.cta_1[0])}</a>
+          <a class="btn btn-ghost" href="${c.cta_2[1]}">${e(c.cta_2[0])}</a>
+        </div>
+      </aside>
+      <nav class="pagina-seccio" aria-label="${e(c.altres)}">
+        <h2>${e(c.altres)}</h2>
+        <ul class="pagina-altres">${altres}</ul>
+      </nav>
+`;
+  }
+
+  function pagina_servei(lang, clau) {
+    const p = PAGINES[clau][lang];
+    const c = COMU[lang];
+    const altre = lang === 'ca' ? 'es' : 'ca';
+    const url = url_servei(lang, clau);
+    const url_altre = url_servei(altre, clau);
+    const alternates = [['ca', url_servei('ca', clau)], ['es', url_servei('es', clau)], ['x-default', url_servei('ca', clau)]];
+    const ld = { '@context': 'https://schema.org', '@graph': [
+      empresa_ld(),
+      { '@type': 'Service', name: p.curt, description: p.descripcio, url: WEB + url,
+        serviceType: p.curt, provider: { '@id': `${WEB}/#empresa` },
+        areaServed: ZONA.map(z => ({ '@type': 'AdministrativeArea', name: z })), inLanguage: lang },
+      { '@type': 'BreadcrumbList', itemListElement: [
+        { '@type': 'ListItem', position: 1, name: c.inici, item: WEB + c.home },
+        { '@type': 'ListItem', position: 2, name: c.serveis, item: WEB + c.breadcrumb_serveis },
+        { '@type': 'ListItem', position: 3, name: p.curt, item: WEB + url }] },
+    ] };
+    const seccions = p.seccions.map(([t, cos]) => `      <section class="pagina-seccio">
+        <h2>${e(t)}</h2>
+        ${cos}
+      </section>
+`).join('');
+    const cos = `  <main class="pagina">
+    <div class="container pagina-contingut legal-content">
+      <nav class="molles" aria-label="${lang === 'ca' ? 'Ruta' : 'Ruta'}"><a href="${c.home}">${e(c.inici)}</a> › <a href="${c.breadcrumb_serveis}">${e(c.serveis)}</a> › <span aria-current="page">${e(p.curt)}</span></nav>
+      <span class="eyebrow">${e(p.eyebrow)}</span>
+      <h1 class="section-title pagina-h1">${p.h1}</h1>
+      <p class="pagina-lede">${e(p.lede)}</p>
+${seccions}${bloc_final(lang, clau)}    </div>
+  </main>
+`;
+    return cap(lang, p.titol_seo, p.descripcio, url, alternates, ld) + nav(lang, url_altre) + cos + peu(lang);
+  }
+
+  function portada_es() {
+    const p = PORTADA_ES;
+    const ld = { '@context': 'https://schema.org', '@graph': [{ ...empresa_ld(), description: p.descripcio, inLanguage: 'es' }] };
+    const alternates = [['ca', '/'], ['es', '/es/'], ['x-default', '/']];
+    const targetes = SERVEIS.map(
+      k => `<li><a href="${url_servei('es', k)}"><strong>${e(PAGINES[k].es.curt)}</strong><span>${e(PAGINES[k].es.lede)}</span></a></li>`)
+      .join('');
+    const c = COMU.es;
+    const passos = c.metode.map(([t, d], i) => `<li><span class="pas-num">${String(i + 1).padStart(2, '0')}</span><strong>${e(t)}</strong><span>${e(d)}</span></li>`).join('');
+    const cos = `  <main class="pagina">
+    <div class="container pagina-contingut legal-content">
+      <span class="eyebrow">${e(p.eyebrow)}</span>
+      <h1 class="section-title pagina-h1 pagina-h1-gran">${p.h1}</h1>
+      <p class="pagina-lede">${e(p.lede)}</p>
+      <section class="pagina-seccio" id="servicios">
+        <h2>${e(p.serveis_titol)}</h2>
+        <ul class="pagina-serveis">${targetes}</ul>
+      </section>
+      <section class="pagina-seccio" id="metodo">
+        <h2>${e(c.metode_titol)}</h2>
+        <ol class="passos-metode">${passos}</ol>
+      </section>
+      <section class="pagina-seccio">
+        <h2>${e(c.zona_titol)}</h2>
+        <p>${e(zona_text('es'))}</p>
+      </section>
+      <aside class="pagina-cta" id="contacto">
+        <h2>${e(p.contacte_titol)}</h2>
+        <p>${e(p.contacte_text)}</p>
+        <p><a href="mailto:${NAP.correu}">${NAP.correu}</a> · <a href="tel:${NAP.telefon}">${NAP.telefon_visible}</a> · ${e(NAP.carrer)}, ${NAP.cp} ${NAP.ciutat}</p>
+        <div class="pagina-cta-botons">
+          <a class="btn btn-primary" href="mailto:${NAP.correu}">Escríbenos</a>
+          <a class="btn btn-ghost" href="https://wa.me/${NAP.telefon.replace(/^\++/, '')}" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+`;
+    return cap('es', p.titol_seo, p.descripcio, '/es/', alternates, ld) + nav('es', '/') + cos + peu('es');
+  }
+
+  const pagines = [];
+  for (const lang of ['ca', 'es']) {
+    for (const clau of SERVEIS) {
+      pagines.push([`${CARPETA[lang]}/${SLUG[lang][clau]}/index.html`, pagina_servei(lang, clau)]);
+    }
+  }
+  pagines.push(['es/index.html', portada_es()]);
+  return pagines;
+}
