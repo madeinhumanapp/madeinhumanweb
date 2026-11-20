@@ -5,9 +5,9 @@ Un encàrrec per bloc. **Fes només el subencàrrec que t'han indicat.**
 | Subencàrrec | Bloc a `index.html` | Tipus nou | Branca de treball | Estat |
 |---|---|---|---|---|
 | WEB-H03a | `section.block.statement` (context i 3 xifres) | `context` | — | ☑ fet per Claude: **és l'exemple** |
-| WEB-H03b | `section.block.actualitat` (notícies) | `actualitat` | `mistral/WEB-H03b` | ▶ |
+| WEB-H03b | `section.block.actualitat` (notícies) | `actualitat` | `mistral/WEB-H03b` | ☑ integrat: segon exemple |
 | WEB-H03c | `section.block.faq` | `faq` | — | Claude (el text és a `script.js`) |
-| WEB-H03d | `section.block.services` (2 pilars, transversal i enllaços) | `serveis` | `mistral/WEB-H03d` | després de H03b |
+| WEB-H03d | `section.block.services` (2 pilars, transversal i enllaços) | `serveis` | `mistral/WEB-H03d` | ▶ |
 
 **Branca base:** `claude/website-control-panel-iz6s7h`.
 
