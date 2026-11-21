@@ -209,9 +209,31 @@ export function validarPagina(p) {
     if (p.cos && !/^legal\/[a-z0-9-]+\.md$/.test(p.cos)) errors.push('pàgina legal: «cos» ha de ser legal/<nom>.md');
     return errors;
   }
+  if (p.plantilla === 'xarxes') {
+    if (!p.cap?.descripcio) errors.push('falta «cap.descripcio»');
+    Object.entries(CAMPS_XARXES).forEach(([k, d]) => validarCamp(d, p[k], k, errors));
+    return errors;
+  }
   (p.blocs || []).forEach((b, i) => errors.push(...validarBloc(b, `blocs[${i}] (${b.tipus})`)));
   return errors;
 }
+
+// contingut/pagines/xarxes.json (pàgina d'enllaços dels perfils socials). El botó de WhatsApp pren el telèfon de lloc.json.
+export const CAMPS_XARXES = {
+  titol: enriquit('Titular', 70),
+  subtitol: text('Subtítol', 140),
+  botons: {
+    tipus: 'llista', etiqueta: 'Botons', min: 1, max: 6,
+    element: {
+      text: text('Text del botó', 40),
+      detall: text('Explicació', 80),
+      href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true },
+      principal: { tipus: 'bool', etiqueta: 'Botó destacat' },
+      utm: { tipus: 'bool', etiqueta: 'Afegeix l\'origen (utm) segons la xarxa', ajuda: 'Només per a enllaços de madeinhuman.cat' },
+    },
+  },
+  ambWhatsapp: { tipus: 'bool', etiqueta: 'Botó de WhatsApp al final (telèfon de les dades del lloc)' },
+};
 
 // contingut/faq.json: [{ cat, pregunta, resposta, destacada? }]. Les destacades van al JSON-LD (Google).
 export const CAMPS_FAQ = {

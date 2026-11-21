@@ -5,7 +5,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { pagina } from '../plantilles/base.mjs';
 import { paginaLegal } from '../plantilles/legal.mjs';
-import { validarPagina, validarFaq, validarNoticia, ESQUEMA, CAMPS_NOTICIA } from '../esquema/blocs.mjs';
+import { paginaXarxes } from '../plantilles/xarxes.mjs';
+import { validarPagina, validarFaq, validarNoticia, ESQUEMA, CAMPS_NOTICIA, CAMPS_XARXES } from '../esquema/blocs.mjs';
 import { llegirNoticia, publicades, targeta, paginesActualitat, ambNoticiesAlMapa } from '../plantilles/actualitat.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -67,8 +68,8 @@ for (const f of fs.readdirSync(path.join(ARREL, 'contingut/pagines'))) {
   if (e.length) { errors.push(...e.map(x => `${f}: ${x}`)); continue; }
   fs.mkdirSync(path.dirname(path.join(SORTIDA, p.fitxer)), { recursive: true });
   // Pàgines legals: marc propi i cos en Markdown (contingut/legal/*.md)
-  const html = p.plantilla === 'legal'
-    ? paginaLegal(lloc, p, fs.readFileSync(path.join(ARREL, 'contingut', p.cos), 'utf8'))
+  const html = p.plantilla === 'legal' ? paginaLegal(lloc, p, fs.readFileSync(path.join(ARREL, 'contingut', p.cos), 'utf8'))
+    : p.plantilla === 'xarxes' ? paginaXarxes(lloc, p)
     : pagina(lloc, p, formularis, faq, targetes);
   fs.writeFileSync(path.join(SORTIDA, p.fitxer), html);
   generades++;
@@ -112,7 +113,8 @@ fs.writeFileSync(path.join(PREV, 'lloc.json'), JSON.stringify(lloc));
 fs.writeFileSync(path.join(PREV, 'faq.json'), JSON.stringify(faq));
 // L'esquema són dades: el panell en genera els formularis sense dependre del codi de la web
 fs.writeFileSync(path.join(PREV, 'esquema.json'), JSON.stringify(ESQUEMA, null, 2));
-fs.writeFileSync(path.join(PREV, 'esquema-noticia.json'), JSON.stringify(CAMPS_NOTICIA, null, 2));
+// Esquemes dels continguts que no són blocs de pàgina (els formularis del panell en surten igual)
+fs.writeFileSync(path.join(PREV, 'esquema-continguts.json'), JSON.stringify({ noticia: CAMPS_NOTICIA, xarxes: CAMPS_XARXES }, null, 2));
 const programades = totes.filter(n => n.cap.estat === 'publicat' && n.cap.data > AVUI).length;
 console.log(`dist/: ${generades} pàgines generades, ${copiats} fitxers copiats, ${Date.now() - t0} ms`
   + (totes.length ? ` · notícies: ${noticies.length} publicades${programades ? `, ${programades} programades` : ''}` : ''));

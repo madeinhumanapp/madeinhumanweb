@@ -1,0 +1,20 @@
+{
+  "pagina": "xarxes",
+  "plantilla": "xarxes",
+  "idioma": "ca",
+  "ruta": "/xarxes/",
+  "fitxer": "xarxes/index.html",
+  "cap": {
+    "titol": "Madeinhuman · Enllaços",
+    "descripcio": "Protecció de dades i IA per a pimes, startups i botigues online. La IA hi ajuda. Una persona en respon."
+  },
+  "titol": "La IA hi ajuda.\n*Una persona en respon.*",
+  "subtitol": "Protecció de dades i IA per a pimes, startups i botigues online. Des de Girona.",
+  "botons": [
+    { "text": "Diagnòstic gratuït · 4 min", "detall": "Sabràs on ets i per on començar", "href": "/diagnostic.html", "principal": true, "utm": true },
+    { "text": "Demana una proposta", "detall": "Adequació al RGPD i preparació per al Reglament d'IA", "href": "/#adequacio", "utm": true },
+    { "text": "Serveis", "detall": "RGPD, IA, formularis web, formació per a equips, DPO extern", "href": "/#serveis", "utm": true },
+    { "text": "Tens un dubte?", "detall": "Escriu-nos i et responem en menys de 24 hores laborables", "href": "/#contacte", "utm": true }
+  ],
+  "ambWhatsapp": true
+}

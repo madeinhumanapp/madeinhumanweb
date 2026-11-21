@@ -64,7 +64,7 @@ font_text: "Font: Organisme · document"
 
 ```
 npm run sense-html     → «cap HTML al contingut»
-npm run construir      → «16 pàgines generades, … · notícies: 3 publicades»
+npm run construir      → «17 pàgines generades, … · notícies: 3 publicades»
 npm run actualitat     → «totes les comprovacions de l'actualitat correctes»
 npm run paritat        → «19/19 pàgines idèntiques»
 npm run contractes     → 4 línies «ok»

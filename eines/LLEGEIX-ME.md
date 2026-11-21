@@ -78,3 +78,10 @@ Notes de revisió: tot el que hi ha després d'aquesta línia no es publica mai.
   la web cada matí (WEB-A03).
 - `data_text` i `font_text` només serveixen perquè les notícies migrades (WEB-A02) es vegin igual que abans.
 - El repositori de la web és públic: els esborranys es preparen a rgpdtool (`docs/panell-web/esborranys/`), no aquí.
+
+## Pàgines que no surten del contingut
+
+- `diagnostic.html`, `necessito-dpo/` i `recollida.html` són aplicacions: el seu text és dins del seu JavaScript
+  o de les seves dades, i el diagnòstic i la recollida són connectors amb rgpd-tool. El generador les copia tal
+  qual; la paritat i els contractes les vigilen. El panell no les edita (decisió C-09).
+- `xarxes/` sí que surt del contingut (`contingut/pagines/xarxes.json`, plantilla `plantilles/xarxes.mjs`).
