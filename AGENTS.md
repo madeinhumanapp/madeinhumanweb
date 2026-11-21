@@ -71,7 +71,7 @@ respon que necessites l'ID de l'encàrrec i atura't.
 | `npm run construir` | genera la web a `dist/` des de `contingut/` i `plantilles/` | `dist/: N pàgines generades, …` |
 | `npm run paritat` | compara `dist/` amb la web actual (estructura i text visible) | `19/19 pàgines idèntiques` |
 | `npm run contractes` | omple els formularis i comprova què s'envia a rgpd-tool | 4 línies `ok` |
-| `npm run previsualitzacio` | seguretat de la vista prèvia del panell | `7/7 comprovacions correctes` |
+| `npm run previsualitzacio` | seguretat de la vista prèvia del panell | `9/9 comprovacions correctes` |
 | `npm run comprovar` | totes les comprovacions seguides | tot el que diu aquesta taula |
 | `npm run sense-html` | cap HTML dins de `contingut/` | `cap HTML al contingut` |
 | `npm run serveis` | esquema de les pàgines de servei (`contingut/serveis.json`) | `totes les comprovacions dels serveis correctes` |

@@ -12,6 +12,14 @@ const path = require('path');
 const ARREL = path.resolve(__dirname, '..');
 const DIST = path.join(ARREL, 'dist');
 const TIPUS = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json', '.woff2': 'font/woff2', '.svg': 'image/svg+xml', '.png': 'image/png' };
+// Les capçaleres de la vista prèvia surten del _headers real (el que aplica Cloudflare)
+const CSP_PREVIA = (() => {
+  const t = fs.readFileSync(path.join(DIST, '_headers'), 'utf8');
+  const m = /\/_previsualitzacio\/\*\n((?:[ \t]+.*\n?)+)/.exec(t);
+  const linia = m && m[1].split('\n').find(l => /content-security-policy:/i.test(l));
+  if (!linia) throw new Error('_headers no protegeix /_previsualitzacio/ (frame-ancestors)');
+  return linia.split(':').slice(1).join(':').trim();
+})();
 const resultats = [];
 const ok = (nom, cond, detall = '') => { resultats.push([cond, nom]); console.log(`${cond ? '✓' : '✗'} ${nom}${detall ? ' — ' + detall : ''}`); };
 
@@ -28,7 +36,7 @@ const ok = (nom, cond, detall = '') => { resultats.push([cond, nom]); console.lo
       const f = path.join(DIST, u.pathname.endsWith('/') ? u.pathname + 'index.html' : u.pathname);
       // Emula _headers: la vista prèvia només es pot inserir des del panell
       const h = u.pathname.startsWith('/_previsualitzacio/')
-        ? { 'content-security-policy': 'frame-ancestors https://rgpd.madeinhuman.cat', 'access-control-allow-origin': 'https://rgpd.madeinhuman.cat' }
+        ? { 'content-security-policy': CSP_PREVIA }
         : {};
       return serveix(f, h);
     }
@@ -103,6 +111,24 @@ const ok = (nom, cond, detall = '') => { resultats.push([cond, nom]); console.lo
   await q.evaluate(pg => window.postMessage({ tipus: 'previsualitzar', pagina: pg }, '*'), pag);
   await q.waitForTimeout(500);
   ok('ignora missatges que no vénen del panell', (await q.evaluate(() => document.getElementById('marc').src)) === '');
+
+  // 6. Pàgines que no són de blocs: una de servei (serveis.json) i la d'enllaços (xarxes)
+  const envia = async (missatge, esperat) => {
+    await p.evaluate(m => document.getElementById('previa').contentWindow.postMessage(m, 'https://madeinhuman.cat'), missatge);
+    for (let i = 0; i < 40; i++) {
+      await p.waitForTimeout(100);
+      const fr = p.frames().find(x => x.url().startsWith('blob:'));
+      const text = fr && await fr.evaluate(() => document.body.innerText).catch(() => '');
+      if (text && text.includes(esperat)) return true;
+    }
+    return false;
+  };
+  const serveis = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/serveis.json'), 'utf8'));
+  serveis.PAGINES.dpo.ca.lede = 'Entradeta canviada a la vista prèvia.';
+  ok('la vista prèvia pinta una pàgina de servei amb el canvi', await envia({ tipus: 'previsualitzar', serveis, ruta: 'serveis/dpo-extern/index.html' }, 'Entradeta canviada a la vista prèvia.'));
+  const xarxes = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/pagines/xarxes.json'), 'utf8'));
+  xarxes.subtitol = 'Subtítol de prova de la vista prèvia.';
+  ok('la vista prèvia pinta la pàgina d\'enllaços', await envia({ tipus: 'previsualitzar', pagina: xarxes }, 'Subtítol de prova de la vista prèvia.'));
 
   ok('sense errors de JavaScript al panell', errorsJs.length === 0, errorsJs.join(' | '));
   await navegador.close();

@@ -2,5 +2,10 @@
 /xarxes/*
   X-Robots-Tag: noindex
 
+# Vista prèvia del panell: només es pot inserir des de rgpd-tool i no s'indexa
+/_previsualitzacio/*
+  Content-Security-Policy: frame-ancestors https://rgpd.madeinhuman.cat
+  X-Robots-Tag: noindex
+
 /*
   X-Content-Type-Options: nosniff

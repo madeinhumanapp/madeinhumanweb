@@ -21,7 +21,7 @@ npm ci && npm run navegador      # el primer cop: Playwright i el navegador de p
 npm run construir                # genera dist/ (sense dependències, ~25 ms)
 npm run paritat                  # dist/ ha de ser idèntic a la web actual (19/19)
 npm run contractes               # els formularis envien a rgpd-tool el mateix que abans (4 «ok»)
-npm run previsualitzacio         # vista prèvia: plantilles, injecció, cap lead fals (7/7)
+npm run previsualitzacio         # vista prèvia: plantilles, injecció, cap lead fals, serveis i xarxes (9/9)
 npm run actualitat               # notícies: llistat, pàgines, RSS, programació i validacions (sense navegador)
 npm run serveis                  # esquema de contingut/serveis.json (URL fixes, sense HTML, límits)
 npm run sense-html               # cap etiqueta HTML dins de contingut/
