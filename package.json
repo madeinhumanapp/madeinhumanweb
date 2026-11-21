@@ -7,12 +7,14 @@
     "paritat": "node proves/paritat.cjs --a . --b dist",
     "contractes": "node proves/formularis.cjs --arrel dist",
     "previsualitzacio": "node proves/previsualitzacio.cjs",
-    "comprovar": "npm run sense-html && npm run construir && npm run actualitat && npm run serveis && npm run paritat && npm run contractes && npm run previsualitzacio",
+    "comprovar": "npm run sense-html && npm run construir && npm run actualitat && npm run serveis && npm run tall && npm run paritat && npm run contractes && npm run previsualitzacio",
     "extreure-portada": "node eines/extreure-portada.mjs",
     "navegador": "playwright install chromium",
     "revisio": "node eines/comprovar-revisio.mjs",
     "actualitat": "node proves/actualitat.mjs",
     "serveis": "node proves/serveis.mjs",
+    "tall": "node proves/tall.mjs",
+    "captures": "node proves/captures.cjs",
     "sense-html": "node eines/sense-html.mjs"
   },
   "devDependencies": {
