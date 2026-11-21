@@ -4,9 +4,9 @@
   "ruta": "/",
   "fitxer": "index.html",
   "cap": {
-    "titol": "Madeinhuman — Protecció de dades RGPD i IA a Girona | Consultoria per a pymes",
+    "titol": "Madeinhuman — Protecció de dades RGPD i IA a Girona | Consultoria per a pimes",
     "descripcio": "Consultoria de protecció de dades (RGPD, LOPDGDD) i IA a Girona per a pimes: adequació al RGPD, DPO extern, auditories, textos legals web i Reglament d'IA.",
-    "paraulesClau": "RGPD Girona, protecció de dades Girona, implantar IA Girona, consultoria RGPD Catalunya, adequació RGPD pymes, DPO extern Girona, auditoria privacitat Girona, AI Act Espanya, regulació intel·ligència artificial, LOPD Girona, protecció de dades pymes, compliment RGPD, assessoria RGPD, implantació IA empreses, reglament europeu IA, AEPD, APDCat, privacitat dades personals",
+    "paraulesClau": "RGPD Girona, protecció de dades Girona, implantar IA Girona, consultoria RGPD Catalunya, adequació RGPD pimes, DPO extern Girona, auditoria privacitat Girona, AI Act Espanya, regulació intel·ligència artificial, LOPD Girona, protecció de dades pimes, compliment RGPD, assessoria RGPD, implantació IA empreses, reglament europeu IA, AEPD, APDCat, privacitat dades personals",
     "canonica": "https://madeinhuman.cat/",
     "alternatives": [
       {
@@ -30,7 +30,7 @@
     },
     "twitter": {
       "titol": "Madeinhuman — RGPD i IA a Girona",
-      "descripcio": "Consultoria de protecció de dades i intel·ligència artificial per a pymes a Girona i Catalunya."
+      "descripcio": "Consultoria de protecció de dades i intel·ligència artificial per a pimes a Girona i Catalunya."
     },
     "jsonld": [
       {
@@ -39,7 +39,7 @@
         "@id": "https://madeinhuman.cat/#empresa",
         "name": "Madeinhuman",
         "alternateName": "MADEINHUMAN ESPJ",
-        "description": "Consultoria especialitzada en protecció de dades (RGPD/LOPDGDD) i regulació d'Intel·ligència Artificial (AI Act) per a pymes i autònoms a Girona, Catalunya i Espanya.",
+        "description": "Consultoria especialitzada en protecció de dades (RGPD/LOPDGDD) i regulació d'intel·ligència artificial (AI Act) per a pimes i autònoms a Girona, Catalunya i Espanya.",
         "url": "https://madeinhuman.cat/",
         "telephone": "+34614425759",
         "email": "info@madeinhuman.cat",
@@ -247,8 +247,8 @@
       "etiqueta": "El context",
       "titol": "Afecta totes\nles empreses.",
       "paragrafs": [
-        "El RGPD és una **obligació vigent** des de 2018. Qualsevol empresa que tracti dades personals — clients, treballadors, proveïdors — l'ha de complir. L'AEPD i l'APDCat supervisen el seu compliment a Espanya i Catalunya.",
-        "El Reglament europeu d'IA s'aplica progressivament entre 2025 i 2028. Per a les pymes que ja utilitzen eines d'IA, preparar-se amb temps és una **decisió estratègica**."
+        "El RGPD és una **obligació vigent** des de 2018. Qualsevol empresa que tracti dades personals — clients, treballadors, proveïdors — l'ha de complir. L'Agència Espanyola de Protecció de Dades (AEPD) i l'Autoritat Catalana de Protecció de Dades (APDCat) supervisen el seu compliment a Espanya i Catalunya.",
+        "El Reglament europeu d'IA s'aplica progressivament entre 2025 i 2028. Per a les pimes que ja utilitzen eines d'IA, preparar-se amb temps és una **decisió estratègica**."
       ],
       "xifres": [
         {
@@ -288,7 +288,7 @@
       "alternat": false,
       "num": "03",
       "titol": "Complir i\n*demostrar-ho.*",
-      "text": "La teva adequació és molt més que un tràmit: és confiança davant clients i administracions. Rebràs documentació tècnica i jurídica, però també resums executius per demostrar que «ho estàs fent bé»."
+      "text": "La teva adequació és molt més que un tràmit: és confiança davant dels clients i les administracions. Rebràs documentació tècnica i jurídica, però també resums executius per demostrar que «ho estàs fent bé»."
     },
     {
       "tipus": "spot",
@@ -310,14 +310,14 @@
           "num": "Pilar 01",
           "insigniaVariant": "vigent",
           "insignia": "Vigent",
-          "subtitol": "Protecció de Dades · RGPD",
+          "subtitol": "Protecció de dades · RGPD",
           "titol": "Adequació al RGPD. *Pas a pas, sense complicacions.*",
           "descripcio": "El RGPD és obligatori per a tota empresa que tracti dades personals. T'ajudem a complir-lo d'una forma pràctica i proporcionada a la teva mida.",
           "llista": [
             "Adequació RGPD completa",
             "Auditories de privacitat",
             "Registre d'activitats de tractament (RAT)",
-            "Delegat de Protecció de Dades (DPO) extern",
+            "Delegat de protecció de dades (DPO) extern",
             "Clàusules i avisos legals",
             "Acompanyament en inspeccions AEPD",
             "Formació als equips"
@@ -330,7 +330,7 @@
           "num": "Pilar 02",
           "insigniaVariant": "prep",
           "insignia": "Preparació 2025–2028",
-          "subtitol": "Reglament d'Intel·ligència Artificial",
+          "subtitol": "Reglament d'intel·ligència artificial",
           "titol": "Preparació per al *Reglament d'IA.*",
           "descripcio": "El Reglament d'IA s'aplica progressivament fins al 2028. Si la teva empresa ja utilitza eines d'IA — chatbots, CRM intel·ligent, automatitzacions — convé començar a preparar-se amb temps.",
           "llista": [
@@ -434,7 +434,7 @@
       "ancora": "faq",
       "etiqueta": "FAQ",
       "titol": "Preguntes *habituals.*",
-      "entradeta": "Aclariments per a pymes i autònoms sense perfil jurídic especialitzat. El glossari recull els termes regulatoris més habituals.",
+      "entradeta": "Aclariments per a pimes i autònoms sense perfil jurídic especialitzat. El glossari recull els termes regulatoris més habituals.",
       "pestanyes": [
         {
           "cat": "tots",
@@ -489,7 +489,7 @@
           "tag": "APDCat",
           "data": "2026",
           "titol": "L'APDCat desenvolupa una metodologia pionera per avaluar l'impacte de la IA sobre drets fonamentals",
-          "cos": "L'Autoritat Catalana de Protecció de Dades ha impulsat, dins la comunitat 'DPD en xarxa', una metodologia per realitzar avaluacions d'impacte sobre drets fonamentals en l'ús d'intel·ligència artificial — un referent a nivell europeu.",
+          "cos": "L'Autoritat Catalana de Protecció de Dades ha impulsat, dins la comunitat «DPD en xarxa», una metodologia per realitzar avaluacions d'impacte sobre drets fonamentals en l'ús d'intel·ligència artificial — un referent a nivell europeu.",
           "font": "Font: APDCat · apdcat.gencat.cat"
         }
       ]

@@ -87,6 +87,19 @@ Per comparar només una pàgina: `npm run paritat -- --pagines index.html`.
 | `docs/encarrecs/` | Els encàrrecs. `docs/encarrecs/LLEGEIX-ME.md` diu quins hi ha i en quin estat |
 | `*.html`, `serveis/`, `es/` | La web actual, la que es compara. No la toquis si l'encàrrec no ho diu |
 
+## Termes i estil (glossari aprovat, WEB-L02)
+
+- **pimes** als textos en català; **pymes** només als textos en castellà.
+- **DPO** com a sigla; al text, «delegat de protecció de dades (DPO)», en minúscules.
+- **intel·ligència artificial** en minúscules (nom comú); **IA** com a sigla. Per al Reglament: «Reglament d'IA» o
+  «Reglament europeu d'IA»; «AI Act» només com a sigla.
+- **RGPD** i **LOPDGDD**; «LOPD» només per parlar de la llei antiga. La Llei 34/2002 és la **LSSI-CE**.
+- **AEPD** i **APDCat**: desplegades a la primera menció visible d'una pàgina.
+- Noms comuns en minúscula («protecció de dades», «política de privacitat» dins del text).
+- Cometes catalanes «…», mai rectes "…". Rangs amb guió llarg: «4–8 setmanes». «p. ex.», no «ex:».
+- Registre: encara no hi ha decisió (la portada i els serveis tracten de «tu»; el diagnòstic, de «vosaltres»).
+  Mantén el registre que ja té cada pàgina.
+
 ## Resum final (escriu-lo sempre en acabar, també si no has acabat)
 
 ```

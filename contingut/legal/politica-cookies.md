@@ -22,7 +22,7 @@ Una cookie és un petit fitxer de text que el teu navegador emmagatzema al dispo
 
 - **Tècniques o necessàries:** imprescindibles per al funcionament del lloc. No requereixen consentiment.
 - **De preferències o personalització:** recorden les teves opcions (idioma, regió, etc.).
-- **D'anàlisi o mesurament:** recullen dades agregades sobre com els usuaris naveguen (ex: Google Analytics).
+- **D'anàlisi o mesurament:** recullen dades agregades sobre com els usuaris naveguen (p. ex.: Google Analytics).
 - **Publicitàries:** mostren anuncis adaptats als teus interessos.
 - **De xarxes socials:** permeten compartir contingut a plataformes com Instagram, Facebook o YouTube.
 
@@ -42,7 +42,7 @@ Les cookies de xarxes socials de tercers (Meta, Google/YouTube, etc.) tenen les 
 
 Tens el dret de donar, modificar o retirar el teu consentiment en qualsevol moment. Tens dues vies per fer-ho:
 
-- **Banner de cookies:** pots canviar les teves preferències en qualsevol moment fent clic a l'enllaç "Configurar cookies" que trobaràs al peu de la pàgina.
+- **Banner de cookies:** pots canviar les teves preferències en qualsevol moment fent clic a l'enllaç «Configurar cookies» que trobaràs al peu de la pàgina.
 - **Configuració del navegador:** pots desactivar o esborrar les cookies des de les opcions del teu navegador (veure instruccions a continuació).
 
 ## Com desactivar les cookies al teu navegador?
@@ -80,7 +80,7 @@ Les cookies que requereixen consentiment impliquen el tractament de dades person
 | **Responsable** | MADEINHUMAN, ESPJ · NIF ES-41534172-J |
 | **Finalitat** | Gestionar les preferències de cookies i, si s'escau, analitzar l'ús del lloc web. |
 | **Legitimació** | Consentiment de l'interessat (art. 6.1.a RGPD) per a cookies no tècniques. Interès legítim (art. 6.1.f RGPD) per a cookies estrictament necessàries. |
-| **Destinataris** | No es cediran dades a tercers, llevat d'obligació legal o necessitat per complir la finalitat (veure taula de cookies). |
+| **Destinataris** | No es cediran dades a tercers, llevat d'obligació legal o de necessitat de complir la finalitat (veure taula de cookies). |
 | **Drets** | Accés, rectificació, supressió, oposició, limitació i portabilitat (arts. 15–22 RGPD). Contacte: [info@madeinhuman.cat](mailto:info@madeinhuman.cat) |
 
 ## Podem canviar aquesta política?

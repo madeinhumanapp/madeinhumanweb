@@ -9,11 +9,11 @@ El responsable del tractament de les teves dades és:
 | **Domicili** | Carrer Camp d'Or, 65, 17007 Girona |
 | **Contacte** | [info@madeinhuman.cat](mailto:info@madeinhuman.cat) |
 
-Com a empresa responsable, assumim els compromisos següents: no sol·licitarem mai més informació de la estrictament necessària; no la compartirem amb tercers sense una base legal que ho justifiqui; i no l'emprarem per a cap altra finalitat no indicada en aquesta política.
+Com a empresa responsable, assumim els compromisos següents: no sol·licitarem mai més informació que la estrictament necessària; no la compartirem amb tercers sense una base legal que ho justifiqui; i no l'emprarem per a cap altra finalitat no indicada en aquesta política.
 
-Actuem de conformitat amb el Reglament (UE) 2016/679 (RGPD), la Llei Orgànica 3/2018 de Protecció de Dades Personals i Garantia dels Drets Digitals (LOPDGDD), i la Llei 34/2002 de Serveis de la Societat de la Informació (LSSICE). Hem implementat les mesures tècniques i organitzatives necessàries per garantir la confidencialitat, integritat i disponibilitat de totes les dades tractades.
+Actuem de conformitat amb el Reglament (UE) 2016/679 (RGPD), la Llei Orgànica 3/2018 de protecció de dades personals i garantia dels drets digitals (LOPDGDD), i la Llei 34/2002 de serveis de la societat de la informació (LSSI-CE). Hem implementat les mesures tècniques i organitzatives necessàries per garantir la confidencialitat, integritat i disponibilitat de totes les dades tractades.
 
-Si tens qualsevol dubte sobre com tractem les teves dades, posa't en contacte amb nosaltres a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) indicant a l'assumpte "PROTECCIÓ DE DADES".
+Si tens qualsevol dubte sobre com tractem les teves dades, posa't en contacte amb nosaltres a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) indicant a l'assumpte «PROTECCIÓ DE DADES».
 
 ## 2. Per a quines finalitats tractem les teves dades?
 
@@ -31,7 +31,7 @@ Tractem les teves dades personals únicament per a les finalitats que detallem a
 - **Finalitat:** atendre les teves consultes i proporcionar-te la informació sol·licitada.
 - **Base legal:** consentiment de l'interessat (art. 6.1.a RGPD).
 
-Pots revocar el teu consentiment en qualsevol moment enviant un correu a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) amb l'assumpte "BAIXA".
+Pots revocar el teu consentiment en qualsevol moment enviant un correu a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) amb l'assumpte «BAIXA».
 
 ### 2.3 Atenció al client via WhatsApp
 
@@ -39,7 +39,7 @@ Pots revocar el teu consentiment en qualsevol moment enviant un correu a [info@m
 - **Finalitat:** gestionar les consultes rebudes a través de WhatsApp i la comunicació administrativa del servei.
 - **Base legal:** consentiment de l'interessat (art. 6.1.a RGPD) en iniciar la comunicació.
 
-Informació detallada a l'apartat específic de "WhatsApp" d'aquesta política.
+Informació detallada a l'apartat específic de «WhatsApp» d'aquesta política.
 
 <!-- ✏️ REVISAR: esborrany afegit amb el diagnòstic gratuït (novembre 2026) -->
 ### 2.4 Diagnòstic gratuït de protecció de dades
@@ -53,7 +53,7 @@ Informació detallada a l'apartat específic de "WhatsApp" d'aquesta política.
 
 - **Dades tractades:** nom, empresa i correu electrònic.
 - **Finalitat:** enviar-te consells i informació sobre els nostres serveis, només si ho has marcat expressament i ho has confirmat des de l'enllaç que t'enviem (doble confirmació).
-- **Base legal:** consentiment de l'interessat (art. 6.1.a RGPD i art. 21 LSSICE).
+- **Base legal:** consentiment de l'interessat (art. 6.1.a RGPD i art. 21 LSSI-CE).
 
 Pots donar-te de baixa en qualsevol moment des de l'enllaç que hi ha al peu de cada correu.
 
@@ -94,7 +94,7 @@ En qualsevol cas, conservarem les teves dades el temps que estableixi la normati
 
 ## 5. Quins drets tens i com pots exercir-los?
 
-Com a interessat, tens reconeguts els drets que detallem a continuació. Per exercir-los, envia'ns un escrit a Carrer Camp d'Or, 65, 17007 Girona, o un correu electrònic a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) indicant a l'assumpte "PROTECCIÓ DE DADES: EXERCICI DE DRETS".
+Com a interessat, tens reconeguts els drets que detallem a continuació. Per exercir-los, envia'ns un escrit a Carrer Camp d'Or, 65, 17007 Girona, o un correu electrònic a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) indicant a l'assumpte «PROTECCIÓ DE DADES: EXERCICI DE DRETS».
 
 | Dret | Descripció |
 |---|---|
@@ -158,4 +158,4 @@ En cas de contradicció entre versions d'aquesta política en idiomes diferents,
 
 ### Legislació i jurisdicció aplicables
 
-Les relacions entre MADEINHUMAN, ESPJ i els usuaris dels seus serveis es regeixen per la legislació espanyola. Per a la resolució de qualsevol conflicte derivat o relacionat amb l'ús dels nostres serveis, les parts se sotmeten expressament a la jurisdicció dels Jutjats i Tribunals de Girona, llevat que la normativa aplicable en matèria de consumidors i usuaris estableixi un fur diferent.
+Les relacions entre MADEINHUMAN, ESPJ i els usuaris dels seus serveis es regeixen per la legislació espanyola. Per a la resolució de qualsevol conflicte derivat o relacionat amb l'ús dels nostres serveis, les parts se sotmeten expressament a la jurisdicció dels jutjats i tribunals de Girona, llevat que la normativa aplicable en matèria de consumidors i usuaris estableixi un fur diferent.

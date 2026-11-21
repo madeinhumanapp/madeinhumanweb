@@ -1,6 +1,6 @@
 ## Identificació del titular (Art. 10 LSSI-CE)
 
-D'acord amb l'article 10 de la Llei 34/2002 de Serveis de la Societat de la Informació i del Comerç Electrònic (LSSI-CE), el titular d'aquest lloc web és:
+D'acord amb l'article 10 de la Llei 34/2002 de serveis de la societat de la informació i del comerç electrònic (LSSI-CE), el titular d'aquest lloc web és:
 
 | **Denominació** | MADEINHUMAN, ESPJ |
 | **NIF** | ES-41534172-J |
@@ -65,7 +65,7 @@ Per a qualsevol consulta sobre drets de propietat intel·lectual o per notificar
 
 MADEINHUMAN, ESPJ tracta les dades personals dels usuaris d'acord amb el Reglament (UE) 2016/679 (RGPD) i la normativa espanyola vigent en matèria de protecció de dades.
 
-Consulta la nostra [Política de Privacitat](politica-privacitat.html) per a la informació completa sobre quines dades recollim, per a quina finalitat, quant de temps les conservem i com pots exercir els teus drets (accés, rectificació, supressió, oposició, limitació i portabilitat).
+Consulta la nostra [Política de privacitat](politica-privacitat.html) per a la informació completa sobre quines dades recollim, per a quina finalitat, quant de temps les conservem i com pots exercir els teus drets (accés, rectificació, supressió, oposició, limitació i portabilitat).
 
 ## Presència a xarxes socials
 

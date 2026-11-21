@@ -10,7 +10,7 @@ Estat: ▶ a punt · ◐ en curs · ☑ integrat · ☐ encara no (depèn d'una 
 | WEB-H04 | [Port del generador de Python](WEB-H04-port-serveis.md) | ☑ | `mistral/WEB-H04` | — | H03b, L01 |
 | WEB-H03b | [Bloc «actualitat» a dades](WEB-H03-bloc-a-dades.md) | ☑ | `mistral/WEB-H03b` | — | H04, L01 |
 | WEB-H03d | [Bloc «serveis» a dades](WEB-H03-bloc-a-dades.md) | ☑ | `mistral/WEB-H03d` | H03b integrat (mateixos fitxers) | H04, L01 |
-| WEB-L01 | [Revisió lingüística i de to](WEB-L01-revisio-linguistica.md) | ☑ (lots A i B; falta la teva aprovació) | `mistral/WEB-L01` | — | tots |
+| WEB-L01 | [Revisió lingüística i de to](WEB-L01-revisio-linguistica.md) | ☑ aplicat (WEB-L02) | `mistral/WEB-L01` | — | tots |
 | WEB-L03 | [Esborrany en castellà de la FAQ](WEB-L03-faq-castella.md) | ☑ | `mistral/WEB-L03` | — | tots |
 | WEB-H05b | [Pàgines legals a Markdown](WEB-H05b-pagines-legals.md) | ☑ | `mistral/WEB-H05b` | — | tots |
 | WEB-L04 | [Esborrany en castellà de les pàgines legals](WEB-L04-legal-castella.md) | ▶ | `mistral/WEB-L04` | — | tots |
