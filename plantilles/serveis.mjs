@@ -3,6 +3,7 @@
 // contingut/lloc.json (font única), que arriba com a `lloc`.
 import { enriquit } from './text.mjs';
 import { markdown } from './markdown.mjs';
+import { menu, peu as peuComu } from './marc.mjs';
 
 const CARPETA = { ca: 'serveis', es: 'es/servicios' };
 
@@ -88,61 +89,14 @@ ${JSON.stringify(ld, null, 2)}
 `;
   }
 
-  function nav(lang, url_altre) {
-    const c = COMU[lang];
-    const enllacos = c.nav.map(([t, u]) => `<a href="${u}">${e(t)}</a>`).join('');
-    const [idioma_t, idioma_l] = c.altre_idioma;
-    const idioma = `<a href="${url_altre}" hreflang="${idioma_l}" lang="${idioma_l}" class="nav-idioma">${e(idioma_t)}</a>`;
-    const mobil = c.nav.map(([t, u]) => `<a href="${u}">${e(t)}</a>`).join('');
-    return `  <nav class="nav scrolled" id="navbar">
-    <div class="container nav-inner">
-      <a href="${c.home}" class="nav-logo">Madein<span>human</span></a>
-      <div class="nav-links">${enllacos}${idioma}</div>
-      <a href="${c.cta_nav[1]}" class="nav-cta">${e(c.cta_nav[0])}</a>
-      <button class="nav-burger" aria-label="${lang === 'ca' ? 'Menú' : 'Menú'}" onclick="document.getElementById('navMobile').classList.toggle('open')">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-    <div class="nav-mobile" id="navMobile">${mobil}<a href="${c.cta_nav[1]}">${e(c.cta_nav[0])}</a>${idioma}</div>
-  </nav>
-`;
+  // Menú i peu: els comuns de tota la web (plantilles/marc.mjs, WEB-H07)
+  function nav(lang, url_altre, ruta = null) {
+    return menu(lloc, { idioma: lang, ruta, urlAltre: url_altre }) + '\n';
   }
 
   function peu(lang) {
-    const c = COMU[lang];
-    const serveis = SERVEIS.map(k => `<li><a href="${url_servei(lang, k)}">${e(PAGINES[k][lang].curt)}</a></li>`).join('');
-    const eines = c.peu_eines.map(([t, u]) => `<li><a href="${u}">${e(t)}</a></li>`).join('');
-    const legal = c.legal.map(([t, u]) => `<li><a href="${u}">${e(t)}</a></li>`).join('');
-    return `  <footer>
-    <div class="container">
-      <div class="footer-grid footer-grid-4">
-        <div>
-          <div class="footer-logo">Madein<span>human</span></div>
-          <p class="footer-desc">${e(c.peu_desc)}</p>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title">${e(c.peu_serveis)}</div>
-          <ul>${serveis}${eines}</ul>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title">${e(c.peu_contacte)}</div>
-          <ul>
-            <li><a href="mailto:${NAP.correu}">${NAP.correu}</a></li>
-            <li><a href="tel:${NAP.telefon}">${NAP.telefon_visible}</a> · <a href="https://wa.me/${NAP.telefon.replace(/^\++/, '')}" target="_blank" rel="noopener">WhatsApp</a></li>
-            <li><address>${e(NAP.carrer)}<br>${NAP.cp} ${NAP.ciutat}</address></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-title">${e(c.peu_legal)}</div>
-          <ul>${legal}</ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>${e(c.copy)}</span>
-        <span class="made"><span class="dot-live"></span> RGPD · LOPDGDD · AI Act 2025–2028</span>
-      </div>
-    </div>
-  </footer>
+    return `${peuComu(lloc, { idioma: lang, ruta: null })}
+<script src="/menu.js" defer></script>
 </body>
 </html>
 `;
@@ -255,7 +209,7 @@ ${seccions}${bloc_final(lang, clau)}    </div>
     </div>
   </main>
 `;
-    return cap('es', p.titol_seo, p.descripcio, '/es/', alternates, ld) + nav('es', '/') + cos + peu('es');
+    return cap('es', p.titol_seo, p.descripcio, '/es/', alternates, ld) + nav('es', '/', '/es/') + cos + peu('es');
   }
 
   const pagines = [];

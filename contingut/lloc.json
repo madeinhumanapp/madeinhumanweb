@@ -80,6 +80,32 @@
         "href": "/#adequacio"
       },
       "whatsappEtiqueta": "Contacta'ns per WhatsApp"
+    },
+    "es": {
+      "enllacos": [
+        [
+          "Servicios",
+          "/es/#servicios"
+        ],
+        [
+          "Método",
+          "/es/#metodo"
+        ],
+        [
+          "Contacto",
+          "/es/#contacto"
+        ]
+      ],
+      "altreIdioma": {
+        "text": "Català",
+        "href": "/",
+        "idioma": "ca"
+      },
+      "crida": {
+        "text": "Pedir propuesta",
+        "href": "/es/#contacto"
+      },
+      "whatsappEtiqueta": "Escríbenos por WhatsApp"
     }
   },
   "peu": {
@@ -191,6 +217,91 @@
       ],
       "copyright": "© 2026 Madeinhuman · Girona, Catalunya",
       "estat": "RGPD vigent · AI Act 2025–2028"
+    },
+    "es": {
+      "descripcio": "Consultoría de protección de datos e inteligencia artificial en Girona, para pymes, startups y tiendas online.",
+      "boto": {
+        "text": "Pedir propuesta",
+        "href": "/es/#contacto"
+      },
+      "columnes": [
+        {
+          "titol": "Servicios",
+          "elements": [
+            {
+              "text": "Adecuación al RGPD",
+              "href": "/es/servicios/adecuacion-rgpd-girona/"
+            },
+            {
+              "text": "DPO externo",
+              "href": "/es/servicios/dpo-externo/"
+            },
+            {
+              "text": "Auditoría de protección de datos",
+              "href": "/es/servicios/auditoria-proteccion-datos/"
+            },
+            {
+              "text": "Reglamento de IA y uso de la IA",
+              "href": "/es/servicios/reglamento-ia-empresas/"
+            },
+            {
+              "text": "Textos legales y formularios web",
+              "href": "/es/servicios/textos-legales-web/"
+            },
+            {
+              "text": "Diagnóstico gratuito (catalán)",
+              "href": "/diagnostic.html"
+            },
+            {
+              "text": "¿Necesito un DPO? (catalán)",
+              "href": "/necessito-dpo/"
+            }
+          ]
+        },
+        {
+          "titol": "Contacto",
+          "elements": [
+            {
+              "tipus": "correu"
+            },
+            {
+              "tipus": "whatsapp"
+            },
+            {
+              "tipus": "adreca"
+            }
+          ]
+        },
+        {
+          "titol": "Legal",
+          "elements": [
+            {
+              "text": "Aviso legal (catalán)",
+              "href": "/avis-legal.html"
+            },
+            {
+              "text": "Política de privacidad (catalán)",
+              "href": "/politica-privacitat.html"
+            },
+            {
+              "text": "Política de cookies (catalán)",
+              "href": "/politica-cookies.html"
+            },
+            {
+              "text": "APDCat ↗",
+              "href": "https://apdcat.gencat.cat",
+              "extern": true
+            },
+            {
+              "text": "AEPD ↗",
+              "href": "https://www.aepd.es",
+              "extern": true
+            }
+          ]
+        }
+      ],
+      "copyright": "© 2026 Madeinhuman · Girona, Cataluña",
+      "estat": "RGPD vigente · AI Act 2025–2028"
     }
   },
   "icones": {

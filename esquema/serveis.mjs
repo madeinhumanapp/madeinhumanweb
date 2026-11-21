@@ -38,8 +38,7 @@ export const CAMPS_PORTADA_ES = {
   contacte_text: text('Text del contacte', 160),
 };
 
-// Textos comuns de les pàgines interiors. El menú, el peu i els enllaços (nav, legal, peu_eines…) seran
-// les dades del lloc quan s'unifiquin (WEB-H07): aquí només es comprova que hi són i que són segurs.
+// Textos comuns de les pàgines interiors. El menú i el peu són els de tota la web (contingut/lloc.json, WEB-H07).
 export const CAMPS_COMU = {
   inici: text('Molles: inici', 20),
   serveis: text('Molles: serveis', 20),
@@ -51,11 +50,8 @@ export const CAMPS_COMU = {
   zona_titol: text('Zona: títol', 40),
   zona_text: text('Zona: text', 200, { ajuda: '{zona} es canvia per la llista de comarques' }),
   altres: text('Títol «altres serveis»', 30),
-  peu_desc: text('Peu: descripció', 200),
-  copy: text('Peu: drets', 80),
 };
-const PARELLES = ['nav', 'legal', 'peu_eines'];
-const UNA_PARELLA = ['cta_nav', 'cta_1', 'cta_2', 'altre_idioma'];
+const UNA_PARELLA = ['cta_1', 'cta_2'];
 const URL_SEGURA = /^(\/|#|https:\/\/|mailto:|tel:)/;
 
 export function validarServeis(d) {
@@ -69,11 +65,10 @@ export function validarServeis(d) {
     const c = d.COMU[lang];
     if (!c) { errors.push(`COMU.${lang}: falta`); continue; }
     Object.entries(CAMPS_COMU).forEach(([k, def]) => validarCamp(def, c[k], `COMU.${lang}.${k}`, errors));
-    for (const k of PARELLES) {
-      if (!Array.isArray(c[k]) || !c[k].length) { errors.push(`COMU.${lang}.${k}: falta`); continue; }
-      c[k].forEach(([t, u], i) => { if (!t || /[<>]/.test(t) || !URL_SEGURA.test(u || '')) errors.push(`COMU.${lang}.${k}[${i}]: text o enllaç no vàlid`); });
+    for (const k of UNA_PARELLA) {
+      const [t, u] = Array.isArray(c[k]) ? c[k] : [];
+      if (!t || /[<>]/.test(t) || !URL_SEGURA.test(u || '')) errors.push(`COMU.${lang}.${k}: ha de ser [text, enllaç] amb un enllaç vàlid`);
     }
-    for (const k of UNA_PARELLA) if (!Array.isArray(c[k]) || c[k].length !== 2 || !c[k][0]) errors.push(`COMU.${lang}.${k}: ha de ser [text, enllaç]`);
     for (const clau of SERVEIS) {
       const p = d.PAGINES[clau]?.[lang];
       if (!p) { errors.push(`PAGINES.${clau}.${lang}: falta`); continue; }

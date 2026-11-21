@@ -22,7 +22,7 @@ const casos = [
   ['títol per a Google massa llarg', d => { d.PAGINES.auditoria.ca.titol_seo = 'x'.repeat(91); }, /màxim 90/],
   ['secció sense text', d => { d.PAGINES.adequacio.ca.seccions[1].cos = ''; }, /obligatori/],
   ['camp desconegut', d => { d.PAGINES.adequacio.ca.preu = '10'; }, /camp no previst/],
-  ['enllaç del menú no segur', d => { d.COMU.ca.nav[0][1] = 'javascript:alert(1)'; }, /enllaç no vàlid/],
+  ['enllaç de la crida no segur', d => { d.COMU.ca.cta_1[1] = 'javascript:alert(1)'; }, /enllaç vàlid/],
   ['mètode amb 3 passos', d => { d.COMU.es.metode.pop(); }, /com a mínim 4/],
 ];
 for (const [nom, canvi, patro] of casos) {

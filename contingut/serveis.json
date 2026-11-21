@@ -5,32 +5,6 @@
       "locale": "ca_ES",
       "inici": "Inici",
       "serveis": "Serveis",
-      "nav": [
-        [
-          "Serveis",
-          "/#serveis"
-        ],
-        [
-          "Mètode",
-          "/#metode"
-        ],
-        [
-          "FAQ",
-          "/#faq"
-        ],
-        [
-          "Contacte",
-          "/#contacte"
-        ]
-      ],
-      "cta_nav": [
-        "Sol·licitar adequació",
-        "/#adequacio"
-      ],
-      "altre_idioma": [
-        "Castellano",
-        "es"
-      ],
       "metode_titol": "Com treballem",
       "metode": [
         {
@@ -63,35 +37,6 @@
       "zona_titol": "A Girona i comarques",
       "zona_text": "Som a Girona i treballem amb empreses de tota la província: {zona}. També en línia, a tot l'Estat.",
       "altres": "Altres serveis",
-      "peu_desc": "Consultoria de protecció de dades i intel·ligència artificial a Girona, per a pimes, startups i botigues online.",
-      "peu_serveis": "Serveis",
-      "peu_contacte": "Contacte",
-      "peu_legal": "Legal",
-      "legal": [
-        [
-          "Avís legal",
-          "/avis-legal.html"
-        ],
-        [
-          "Política de privacitat",
-          "/politica-privacitat.html"
-        ],
-        [
-          "Política de cookies",
-          "/politica-cookies.html"
-        ]
-      ],
-      "peu_eines": [
-        [
-          "Diagnòstic gratuït",
-          "/diagnostic.html"
-        ],
-        [
-          "Necessito un DPO?",
-          "/necessito-dpo/"
-        ]
-      ],
-      "copy": "© 2026 Madeinhuman · Girona, Catalunya",
       "breadcrumb_serveis": "/#serveis",
       "home": "/"
     },
@@ -100,28 +45,6 @@
       "locale": "es_ES",
       "inici": "Inicio",
       "serveis": "Servicios",
-      "nav": [
-        [
-          "Servicios",
-          "/es/#servicios"
-        ],
-        [
-          "Método",
-          "/es/#metodo"
-        ],
-        [
-          "Contacto",
-          "/es/#contacto"
-        ]
-      ],
-      "cta_nav": [
-        "Pedir propuesta",
-        "/es/#contacto"
-      ],
-      "altre_idioma": [
-        "Català",
-        "ca"
-      ],
       "metode_titol": "Cómo trabajamos",
       "metode": [
         {
@@ -154,35 +77,6 @@
       "zona_titol": "En Girona y comarcas",
       "zona_text": "Estamos en Girona y trabajamos con empresas de toda la provincia: {zona}. También en línea, en toda España.",
       "altres": "Otros servicios",
-      "peu_desc": "Consultoría de protección de datos e inteligencia artificial en Girona, para pymes, startups y tiendas online.",
-      "peu_serveis": "Servicios",
-      "peu_contacte": "Contacto",
-      "peu_legal": "Legal",
-      "legal": [
-        [
-          "Aviso legal (catalán)",
-          "/avis-legal.html"
-        ],
-        [
-          "Política de privacidad (catalán)",
-          "/politica-privacitat.html"
-        ],
-        [
-          "Política de cookies (catalán)",
-          "/politica-cookies.html"
-        ]
-      ],
-      "peu_eines": [
-        [
-          "Diagnóstico gratuito (catalán)",
-          "/diagnostic.html"
-        ],
-        [
-          "¿Necesito un DPO? (catalán)",
-          "/necessito-dpo/"
-        ]
-      ],
-      "copy": "© 2026 Madeinhuman · Girona, Cataluña",
       "breadcrumb_serveis": "/es/#servicios",
       "home": "/es/"
     }

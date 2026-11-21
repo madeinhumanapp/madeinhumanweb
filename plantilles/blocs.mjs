@@ -6,7 +6,9 @@ import { esc, enriquit, attr } from './text.mjs';
 // A la portada, els enllaços del menú han de ser només àncores (#serveis), no /#serveis:
 // si no, en clicar es perdrien els utm_* de l'URL i l'origen de la visita dels formularis.
 export function enllac(href, ctx) {
+  // A les portades, els enllaços a seccions de la mateixa pàgina són àncores: així no es perden els utm_*
   if (ctx.ruta === '/' && href.startsWith('/#')) return href.slice(1);
+  if (ctx.ruta === '/es/' && href.startsWith('/es/#')) return href.slice(4);
   return href;
 }
 
