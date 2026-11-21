@@ -26,6 +26,8 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps chromium
+      - name: Cap HTML al contingut
+        run: npm run sense-html
       - name: Generar dist/
         run: npm run construir
       - name: Paritat amb la web actual

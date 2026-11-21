@@ -7,7 +7,7 @@
     "paritat": "node proves/paritat.cjs --a . --b dist",
     "contractes": "node proves/formularis.cjs --arrel dist",
     "previsualitzacio": "node proves/previsualitzacio.cjs",
-    "comprovar": "npm run construir && npm run paritat && npm run contractes && npm run previsualitzacio",
+    "comprovar": "npm run sense-html && npm run construir && npm run paritat && npm run contractes && npm run previsualitzacio",
     "extreure-portada": "node eines/extreure-portada.mjs",
     "navegador": "playwright install chromium",
     "revisio": "node eines/comprovar-revisio.mjs",
