@@ -154,7 +154,7 @@ MADEINHUMAN, ESPJ es reserva el dret de modificar aquesta política de privacita
 
 ### Idioma
 
-En cas de contradicció entre versions d'aquesta política en idiomes diferents, prevaldrà la versió en castellà com a llengua oficial de referència.
+En cas de contradicció entre versions d'aquesta política en idiomes diferents, prevaldrà la versió en català.
 
 ### Legislació i jurisdicció aplicables
 

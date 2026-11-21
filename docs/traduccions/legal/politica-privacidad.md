@@ -157,7 +157,7 @@ MADEINHUMAN, ESPJ se reserva el derecho de modificar esta política de privacida
 
 ### Idioma
 
-En caso de contradicción entre versiones de esta política en idiomas diferentes, prevalecerá la versión en español como lengua oficial de referencia. [REVISAR: a l'original català es diu que preval la versió en castellà; sembla poc habitual que la versió catalana quedi supeditada a la castellana]
+En caso de contradicción entre versiones de esta política en idiomas diferentes, prevalecerá la versión en catalán.
 
 ### Legislación y jurisdicción aplicables
 
