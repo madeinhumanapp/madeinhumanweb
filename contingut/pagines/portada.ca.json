@@ -4,7 +4,7 @@
   "ruta": "/",
   "fitxer": "index.html",
   "cap": {
-    "titol": "Madeinhuman — Protecció de dades RGPD i IA a Girona | Consultoria per a pimes",
+    "titol": "Madeinhuman — Protecció de dades RGPD i IA a Girona",
     "descripcio": "Consultoria de protecció de dades (RGPD, LOPDGDD) i IA a Girona per a pimes: adequació al RGPD, DPO extern, auditories, textos legals web i Reglament d'IA.",
     "paraulesClau": "RGPD Girona, protecció de dades Girona, implantar IA Girona, consultoria RGPD Catalunya, adequació RGPD pimes, DPO extern Girona, auditoria privacitat Girona, AI Act Espanya, regulació intel·ligència artificial, LOPD Girona, protecció de dades pimes, compliment RGPD, assessoria RGPD, implantació IA empreses, reglament europeu IA, AEPD, APDCat, privacitat dades personals",
     "canonica": "https://madeinhuman.cat/",
@@ -30,7 +30,7 @@
     },
     "twitter": {
       "titol": "Madeinhuman — RGPD i IA a Girona",
-      "descripcio": "Consultoria de protecció de dades i intel·ligència artificial per a pimes a Girona i Catalunya."
+      "descripcio": "Consultoria de protecció de dades i intel·ligència artificial per a pimes a Girona i Catalunya: RGPD, LOPDGDD i Reglament d’IA."
     },
     "jsonld": [
       {

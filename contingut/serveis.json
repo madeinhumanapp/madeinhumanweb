@@ -115,7 +115,7 @@
   "PAGINES": {
     "adequacio": {
       "ca": {
-        "titol_seo": "Adequació al RGPD a Girona · Consultoria de protecció de dades | Madeinhuman",
+        "titol_seo": "Adequació al RGPD a Girona · Madeinhuman",
         "descripcio": "Consultoria RGPD a Girona: adequació al RGPD i a la LOPDGDD (l'antiga LOPD) per a pimes, autònoms i botigues online. Pràctica, proporcionada i explicada en clar.",
         "curt": "Adequació al RGPD",
         "eyebrow": "Protecció de dades · Girona",
@@ -137,8 +137,8 @@
         ]
       },
       "es": {
-        "titol_seo": "Adecuación al RGPD en Girona · Consultoría de protección de datos | Madeinhuman",
-        "descripcio": "Consultoría RGPD en Girona: adecuación al RGPD y a la LOPDGDD (la antigua LOPD) para pymes, autónomos y tiendas online. Práctica, proporcionada y explicada con claridad.",
+        "titol_seo": "Adecuación al RGPD en Girona · Madeinhuman",
+        "descripcio": "Consultoría RGPD en Girona: adecuación al RGPD y a la LOPDGDD (la antigua LOPD) para pymes, autónomos y tiendas online. Práctica y explicada con claridad.",
         "curt": "Adecuación al RGPD",
         "eyebrow": "Protección de datos · Girona",
         "h1": "Adecuación al RGPD en Girona, *paso a paso.*",
@@ -154,7 +154,7 @@
           },
           {
             "titol": "Cuánto cuesta y cuánto dura",
-            "cos": "Depende del punto de partida y de la complejidad de los tratamientos. Para una pyme estándar, una adecuación completa suele situarse entre 2.000 y 6.000 €, con una cuota de mantenimiento anual inferior, y se completa en 4 a 8 semanas. Antes de empezar te damos un presupuesto concreto."
+            "cos": "Depende del punto de partida y de la complejidad de los tratamientos. Para una pyme estándar, una adecuación completa suele situarse entre 2.000 y 6.000 €, con una cuota de mantenimiento anual inferior, y se completa en un plazo de 4 a 8 semanas. Antes de empezar te damos un presupuesto concreto."
           }
         ]
       }
@@ -179,12 +179,12 @@
         ]
       },
       "es": {
-        "titol_seo": "DPO externo en Girona · Delegado de protección de datos | Madeinhuman",
+        "titol_seo": "DPO externo en Girona · Madeinhuman",
         "descripcio": "Servicio de delegado de protección de datos (DPO) externo en Girona. Cuándo es obligatorio según el RGPD y la LOPDGDD, y cómo te podemos ayudar.",
         "curt": "DPO externo",
         "eyebrow": "Delegado de protección de datos",
         "h1": "DPO externo, *cuando hace falta y cuando conviene.*",
-        "lede": "El delegado de protección de datos (DPO) supervisa el cumplimiento del RGPD en la organización. Puede ser alguien del equipo o un servicio externo. Muchas pymes no están obligadas a tenerlo, pero sí a que alguien se haga responsable.",
+        "lede": "El delegado de protección de datos (DPO) supervisa el cumplimiento del RGPD en la organización. Puede ser alguien del equipo o un servicio externo. Muchas pymes no están obligadas a tenerlo, pero sí a que alguien se haga responsable de ello.",
         "seccions": [
           {
             "titol": "Cuándo es obligatorio",
@@ -199,7 +199,7 @@
     },
     "auditoria": {
       "ca": {
-        "titol_seo": "Auditoria de protecció de dades a Girona · Auditoria RGPD | Madeinhuman",
+        "titol_seo": "Auditoria de protecció de dades a Girona · Madeinhuman",
         "descripcio": "Auditoria de protecció de dades i privacitat a Girona: revisem el teu compliment del RGPD i la LOPDGDD i et donem un pla d'acció prioritzat.",
         "curt": "Auditoria de protecció de dades",
         "eyebrow": "Auditoria RGPD · Girona",
@@ -217,7 +217,7 @@
         ]
       },
       "es": {
-        "titol_seo": "Auditoría de protección de datos en Girona · Auditoría RGPD | Madeinhuman",
+        "titol_seo": "Auditoría de protección de datos en Girona · Madeinhuman",
         "descripcio": "Auditoría de protección de datos y privacidad en Girona: revisamos tu cumplimiento del RGPD y la LOPDGDD y te damos un plan de acción priorizado.",
         "curt": "Auditoría de protección de datos",
         "eyebrow": "Auditoría RGPD · Girona",
@@ -226,7 +226,7 @@
         "seccions": [
           {
             "titol": "Qué revisamos",
-            "cos": "- La documentación: registro de actividades (RAT), análisis de riesgos, política de protección de datos y de conservación.\n- Los contratos con los proveedores que acceden a los datos (RGPD, art. 28).\n- Los protocolos de derechos de las personas y de brechas de seguridad.\n- Las medidas de seguridad: copias, doble verificación, accesos.\n- Los textos legales, los formularios y las cookies de la web.\n- El uso de herramientas de IA en el equipo y los datos que se introducen en ellas."
+            "cos": "- La documentación: registro de actividades (RAT), análisis de riesgos, política de protección de datos y de conservación.\n- Los contratos con los proveedores que acceden a tus datos (RGPD, art. 28).\n- Los protocolos de derechos de las personas y de brechas de seguridad.\n- Las medidas de seguridad: copias, doble verificación, accesos.\n- Los textos legales, los formularios y las cookies de la web.\n- El uso de herramientas de IA en el equipo y los datos que se introducen en ellas."
           },
           {
             "titol": "Qué te llevas",
@@ -237,8 +237,8 @@
     },
     "ia": {
       "ca": {
-        "titol_seo": "Reglament d'IA per a empreses a Girona · IA i protecció de dades | Madeinhuman",
-        "descripcio": "Preparació per al Reglament europeu d'IA (AI Act) a Girona: inventari d'eines, política d'ús d'IA per a l'equip, formació i assessorament, amb la protecció de dades integrada.",
+        "titol_seo": "Reglament d'IA per a empreses a Girona · Madeinhuman",
+        "descripcio": "Preparació per al Reglament europeu d'IA (AI Act) a Girona: inventari d'eines, política d'ús d'IA per a l'equip i formació, amb la protecció de dades integrada.",
         "curt": "Reglament d'IA i ús de la IA",
         "eyebrow": "Intel·ligència artificial · AI Act",
         "h1": "Porta la IA al teu equip *amb normes clares.*",
@@ -255,8 +255,8 @@
         ]
       },
       "es": {
-        "titol_seo": "Reglamento de IA para empresas en Girona · IA y protección de datos | Madeinhuman",
-        "descripcio": "Preparación para el Reglamento europeo de IA (AI Act) en Girona: inventario de herramientas, política de uso de IA para el equipo, formación y asesoramiento, con la protección de datos integrada.",
+        "titol_seo": "Reglamento de IA para empresas en Girona · Madeinhuman",
+        "descripcio": "Preparación para el Reglamento de IA (AI Act) en Girona: inventario de herramientas, política de uso y formación en IA, con la protección de datos integrada.",
         "curt": "Reglamento de IA y uso de la IA",
         "eyebrow": "Inteligencia artificial · AI Act",
         "h1": "Lleva la IA a tu equipo *con normas claras.*",
@@ -275,7 +275,7 @@
     },
     "web": {
       "ca": {
-        "titol_seo": "Textos legals, cookies i formularis web a Girona · RGPD i LSSI | Madeinhuman",
+        "titol_seo": "Textos legals i formularis web a Girona · Madeinhuman",
         "descripcio": "Avís legal, política de privacitat, política de cookies i formularis web que compleixen el RGPD i la LSSI, per a botigues online i empreses de Girona.",
         "curt": "Textos legals i formularis web",
         "eyebrow": "Web i botigues online",
@@ -293,7 +293,7 @@
         ]
       },
       "es": {
-        "titol_seo": "Textos legales, cookies y formularios web en Girona · RGPD y LSSI | Madeinhuman",
+        "titol_seo": "Textos legales y formularios web en Girona · Madeinhuman",
         "descripcio": "Aviso legal, política de privacidad, política de cookies y formularios web que cumplen el RGPD y la LSSI, para tiendas online y empresas de Girona.",
         "curt": "Textos legales y formularios web",
         "eyebrow": "Web y tiendas online",
@@ -313,8 +313,8 @@
     }
   },
   "PORTADA_ES": {
-    "titol_seo": "Madeinhuman — Protección de datos RGPD e IA en Girona | Consultoría para pymes",
-    "descripcio": "Consultoría de protección de datos (RGPD, LOPDGDD) e inteligencia artificial en Girona. Adecuación al RGPD, DPO externo, auditorías, textos legales web y Reglamento de IA para pymes.",
+    "titol_seo": "Madeinhuman — Protección de datos RGPD e IA en Girona",
+    "descripcio": "Consultoría de protección de datos (RGPD, LOPDGDD) e IA en Girona: adecuación al RGPD, DPO externo, auditorías, textos legales y Reglamento de IA para pymes.",
     "eyebrow": "Consultoría en protección de datos e IA",
     "h1": "Proteger\nes *avanzar.*",
     "lede": "Ayudamos a pymes, startups y tiendas online a cumplir la normativa de protección de datos y a implantar la IA con garantías. La IA ayuda. Una persona responde.",
