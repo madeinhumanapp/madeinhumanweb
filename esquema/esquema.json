@@ -141,7 +141,7 @@
               "etiqueta": "Xifra o sigla",
               "max": 12,
               "obligatori": true,
-              "ajuda": "Si és un nombre (30.931), s'anima en aparèixer"
+              "ajuda": "Si és un nombre (p. ex. 30.931), es mostra comptant quan apareix"
             },
             "etiqueta": {
               "tipus": "text",
@@ -174,7 +174,7 @@
           "etiqueta": "Àncora",
           "max": 30,
           "bloquejat": true,
-          "ajuda": "Enllaços com /#actualitat hi apunten"
+          "ajuda": "No el canviïs: hi apunten enllaços interns de la web"
         },
         "etiqueta": {
           "tipus": "text",
@@ -203,7 +203,7 @@
             "manual",
             "actualitat"
           ],
-          "ajuda": "actualitat: les 3 últimes publicades a contingut/actualitat/ · manual (o buit): la llista de sota"
+          "ajuda": "actualitat: les 3 últimes notícies publicades · manual (o buit): la llista de sota"
         },
         "noticies": {
           "tipus": "llista",
@@ -212,7 +212,7 @@
           "element": {
             "variant": {
               "tipus": "seleccio",
-              "etiqueta": "Color del tag",
+              "etiqueta": "Color de l'etiqueta",
               "opcions": [
                 "rgpd",
                 "ia",
@@ -265,7 +265,7 @@
           "etiqueta": "Àncora",
           "max": 30,
           "bloquejat": true,
-          "ajuda": "Enllaços com /#serveis hi apunten"
+          "ajuda": "No el canviïs: hi apunten enllaços interns de la web"
         },
         "etiqueta": {
           "tipus": "text",
@@ -305,11 +305,11 @@
             },
             "retard": {
               "tipus": "text",
-              "etiqueta": "Retard de la transició",
+              "etiqueta": "Retard (no editable)",
               "max": 10,
               "obligatori": true,
               "bloquejat": true,
-              "ajuda": "Tècnic: no s'edita des del panell"
+              "ajuda": "No es pot editar des del panell"
             },
             "num": {
               "tipus": "text",
@@ -430,7 +430,7 @@
           "etiqueta": "Àncora",
           "max": 30,
           "bloquejat": true,
-          "ajuda": "Enllaços com /#metode hi apunten"
+          "ajuda": "No el canviïs: hi apunten enllaços interns de la web"
         },
         "etiqueta": {
           "tipus": "text",
@@ -487,7 +487,7 @@
           ],
           "obligatori": true,
           "bloquejat": true,
-          "ajuda": "Els camps del formulari no es poden editar: els rep rgpd-tool."
+          "ajuda": "Els camps del formulari no es poden editar des d'aquí."
         },
         "titol": {
           "tipus": "enriquit",
@@ -513,7 +513,7 @@
           "etiqueta": "Àncora",
           "max": 30,
           "bloquejat": true,
-          "ajuda": "Enllaços com /#faq hi apunten"
+          "ajuda": "No el canviïs: hi apunten enllaços interns de la web"
         },
         "etiqueta": {
           "tipus": "text",
@@ -547,7 +547,7 @@
               "etiqueta": "Categoria",
               "max": 20,
               "obligatori": true,
-              "ajuda": "tots, rgpd, ia, practic, glossari…"
+              "ajuda": "Valors possibles: tots, rgpd, ia, practic, glossari…"
             },
             "text": {
               "tipus": "text",
@@ -564,7 +564,7 @@
       "camps": {}
     },
     "html": {
-      "nom": "HTML (pendent de migrar)",
+      "nom": "HTML (encara no editable)",
       "bloquejat": true,
       "camps": {
         "html": {
@@ -642,7 +642,7 @@
     "font_url": {
       "tipus": "enllac",
       "etiqueta": "Enllaç a la font",
-      "ajuda": "Obligatori si la notícia té cos (pàgina pròpia)"
+      "ajuda": "Obligatori si la notícia té pàgina pròpia"
     },
     "data_font": {
       "tipus": "data",
@@ -657,7 +657,8 @@
         "auditoria",
         "ia",
         "web"
-      ]
+      ],
+      "ajuda": "Opcional: al final de la notícia s'hi enllaçarà aquest servei"
     },
     "estat": {
       "tipus": "seleccio",
@@ -666,7 +667,8 @@
         "esborrany",
         "publicat"
       ],
-      "obligatori": true
+      "obligatori": true,
+      "ajuda": "esborrany: no surt a la web · publicat: surt a partir de la seva data, un cop publiquis els canvis"
     },
     "idioma": {
       "tipus": "seleccio",
@@ -679,13 +681,13 @@
     },
     "data_text": {
       "tipus": "text",
-      "etiqueta": "Data visible (només notícies migrades)",
+      "etiqueta": "Data visible (només notícies antigues)",
       "max": 20,
       "bloquejat": true
     },
     "font_text": {
       "tipus": "text",
-      "etiqueta": "Línia de font (només notícies migrades)",
+      "etiqueta": "Línia de font (només notícies antigues)",
       "max": 60,
       "bloquejat": true
     }
@@ -733,7 +735,7 @@
         },
         "utm": {
           "tipus": "bool",
-          "etiqueta": "Afegeix l'origen (utm) segons la xarxa",
+          "etiqueta": "Afegeix l'origen de cada visita segons la xarxa",
           "ajuda": "Només per a enllaços de madeinhuman.cat"
         }
       }
@@ -805,7 +807,7 @@
       },
       "whatsappEtiqueta": {
         "tipus": "text",
-        "etiqueta": "Text accessible del botó de WhatsApp",
+        "etiqueta": "Text del botó de WhatsApp per a lectors de pantalla",
         "max": 60,
         "obligatori": true,
         "ajuda": "El llegeixen els lectors de pantalla"
@@ -1049,7 +1051,7 @@
         "etiqueta": "Zona: text",
         "max": 200,
         "obligatori": true,
-        "ajuda": "{zona} es canvia per la llista de comarques"
+        "ajuda": "La paraula {zona} es substitueix automàticament per la llista de comarques"
       },
       "altres": {
         "tipus": "text",

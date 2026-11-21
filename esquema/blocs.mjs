@@ -43,7 +43,7 @@ export const ESQUEMA = {
       xifres: {
         tipus: 'llista', etiqueta: 'Xifres', min: 1, max: 4,
         element: {
-          clau: text('Xifra o sigla', 12, { ajuda: 'Si és un nombre (30.931), s\'anima en aparèixer' }),
+          clau: text('Xifra o sigla', 12, { ajuda: 'Si és un nombre (p. ex. 30.931), es mostra comptant quan apareix' }),
           etiqueta: text('Etiqueta', 60),
           text: enriquit('Explicació', 230),
           font: { tipus: 'text', etiqueta: 'Font', max: 80, ajuda: 'Opcional: d\'on surt la xifra' },
@@ -54,16 +54,16 @@ export const ESQUEMA = {
   actualitat: {
     nom: 'Actualitat (notícies)',
     camps: {
-      ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'Enllaços com /#actualitat hi apunten' },
+      ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'No el canviïs: hi apunten enllaços interns de la web' },
       etiqueta: text('Etiqueta', 20),
       titol: enriquit('Titular', 50),
       entradeta: enriquit('Entradeta', 140),
       origen: { tipus: 'seleccio', etiqueta: "D'on surten les notícies", opcions: ['manual', 'actualitat'],
-        ajuda: 'actualitat: les 3 últimes publicades a contingut/actualitat/ · manual (o buit): la llista de sota' },
+        ajuda: 'actualitat: les 3 últimes notícies publicades · manual (o buit): la llista de sota' },
       noticies: {
         tipus: 'llista', etiqueta: 'Notícies (manual)', max: 6,
         element: {
-          variant: { tipus: 'seleccio', etiqueta: 'Color del tag', opcions: ['rgpd', 'ia', 'cat'], obligatori: true,
+          variant: { tipus: 'seleccio', etiqueta: "Color de l'etiqueta", opcions: ['rgpd', 'ia', 'cat'], obligatori: true,
             ajuda: 'rgpd: coure · ia: blau (targeta destacada) · cat: verd' },
           tag: text('Etiqueta del tag', 10),
           data: text('Data', 20),
@@ -78,7 +78,7 @@ export const ESQUEMA = {
   serveis: {
     nom: 'Serveis (pilars, transversal i enllaços)',
     camps: {
-      ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'Enllaços com /#serveis hi apunten' },
+      ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'No el canviïs: hi apunten enllaços interns de la web' },
       etiqueta: text('Etiqueta', 10),
       titol: enriquit('Titular', 40),
       entradeta: enriquit('Entradeta', 160),
@@ -87,7 +87,7 @@ export const ESQUEMA = {
         element: {
           variant: { tipus: 'seleccio', etiqueta: 'Color del pilar', opcions: ['estàndard', 'blau'], obligatori: true,
             ajuda: 'blau: pilar destacat' },
-          retard: text('Retard de la transició', 10, { bloquejat: true, ajuda: 'Tècnic: no s\'edita des del panell' }),
+          retard: text('Retard (no editable)', 10, { bloquejat: true, ajuda: 'No es pot editar des del panell' }),
           num: text('Número', 20, { ajuda: 'Pilar 01, Pilar 02…' }),
           insigniaVariant: { tipus: 'seleccio', etiqueta: 'Color de la insignia', opcions: ['vigent', 'prep'], obligatori: true,
             ajuda: 'vigent: coure · prep: blau' },
@@ -112,7 +112,7 @@ export const ESQUEMA = {
   metode: {
     nom: 'Mètode (passos)',
     camps: {
-      ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'Enllaços com /#metode hi apunten' },
+      ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'No el canviïs: hi apunten enllaços interns de la web' },
       etiqueta: text('Etiqueta', 30),
       titol: enriquit('Titular', 80),
       entradeta: enriquit('Entradeta', 300),
@@ -123,7 +123,7 @@ export const ESQUEMA = {
     nom: 'Formulari (protegit)',
     camps: {
       formulari: { tipus: 'seleccio', etiqueta: 'Formulari', opcions: ['contacte', 'adequacio'], obligatori: true, bloquejat: true,
-        ajuda: 'Els camps del formulari no es poden editar: els rep rgpd-tool.' },
+        ajuda: "Els camps del formulari no es poden editar des d'aquí." },
       titol: enriquit('Titular', 80),
       entradeta: enriquit('Entradeta', 400),
     },
@@ -131,18 +131,18 @@ export const ESQUEMA = {
   faq: {
     nom: 'Preguntes freqüents',
     camps: {
-      ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'Enllaços com /#faq hi apunten' },
+      ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'No el canviïs: hi apunten enllaços interns de la web' },
       etiqueta: text('Etiqueta', 20),
       titol: enriquit('Titular', 60),
       entradeta: enriquit('Entradeta', 200),
       pestanyes: {
         tipus: 'llista', etiqueta: 'Pestanyes', min: 2, max: 6, ajuda: 'La primera ha de ser «tots» (totes les preguntes)',
-        element: { cat: text('Categoria', 20, { ajuda: 'tots, rgpd, ia, practic, glossari…' }), text: text('Text de la pestanya', 20) },
+        element: { cat: text('Categoria', 20, { ajuda: 'Valors possibles: tots, rgpd, ia, practic, glossari…' }), text: text('Text de la pestanya', 20) },
       },
     },
   },
   separador: { nom: 'Línia separadora', camps: {} },
-  html: { nom: 'HTML (pendent de migrar)', bloquejat: true, camps: { html: { tipus: 'html', etiqueta: 'HTML', obligatori: true } } },
+  html: { nom: 'HTML (encara no editable)', bloquejat: true, camps: { html: { tipus: 'html', etiqueta: 'HTML', obligatori: true } } },
 };
 
 export function dataValida(s) {
@@ -239,7 +239,7 @@ export const CAMPS_XARXES = {
       detall: text('Explicació', 80),
       href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true },
       principal: { tipus: 'bool', etiqueta: 'Botó destacat' },
-      utm: { tipus: 'bool', etiqueta: 'Afegeix l\'origen (utm) segons la xarxa', ajuda: 'Només per a enllaços de madeinhuman.cat' },
+      utm: { tipus: 'bool', etiqueta: 'Afegeix l\'origen de cada visita segons la xarxa', ajuda: 'Només per a enllaços de madeinhuman.cat' },
     },
   },
   ambWhatsapp: { tipus: 'bool', etiqueta: 'Botó de WhatsApp al final (telèfon de les dades del lloc)' },
@@ -273,13 +273,15 @@ export const CAMPS_NOTICIA = {
   data: { tipus: 'data', etiqueta: 'Data de publicació', obligatori: true, ajuda: 'No surt a la web abans d\'aquest dia' },
   etiqueta: { tipus: 'seleccio', etiqueta: 'Tema', opcions: ETIQUETES_NOTICIA, obligatori: true, ajuda: 'rgpd: coure · ia: blau · apdcat: verd' },
   font_nom: text('Font (organisme)', 80, { ajuda: 'AEPD, APDCat, Comissió Europea, DOUE…' }),
-  font_url: { tipus: 'enllac', etiqueta: 'Enllaç a la font', ajuda: 'Obligatori si la notícia té cos (pàgina pròpia)' },
+  font_url: { tipus: 'enllac', etiqueta: 'Enllaç a la font', ajuda: 'Obligatori si la notícia té pàgina pròpia' },
   data_font: { tipus: 'data', etiqueta: 'Data de la publicació original' },
-  servei_relacionat: { tipus: 'seleccio', etiqueta: 'Servei relacionat', opcions: SERVEIS_NOTICIA },
-  estat: { tipus: 'seleccio', etiqueta: 'Estat', opcions: ['esborrany', 'publicat'], obligatori: true },
+  servei_relacionat: { tipus: 'seleccio', etiqueta: 'Servei relacionat', opcions: SERVEIS_NOTICIA,
+    ajuda: 'Opcional: al final de la notícia s\'hi enllaçarà aquest servei' },
+  estat: { tipus: 'seleccio', etiqueta: 'Estat', opcions: ['esborrany', 'publicat'], obligatori: true,
+    ajuda: 'esborrany: no surt a la web · publicat: surt a partir de la seva data, un cop publiquis els canvis' },
   idioma: { tipus: 'seleccio', etiqueta: 'Idioma', opcions: ['ca'], obligatori: true, ajuda: 'De moment, només català' },
-  data_text: { tipus: 'text', etiqueta: 'Data visible (només notícies migrades)', max: 20, bloquejat: true },
-  font_text: { tipus: 'text', etiqueta: 'Línia de font (només notícies migrades)', max: 60, bloquejat: true },
+  data_text: { tipus: 'text', etiqueta: 'Data visible (només notícies antigues)', max: 20, bloquejat: true },
+  font_text: { tipus: 'text', etiqueta: 'Línia de font (només notícies antigues)', max: 60, bloquejat: true },
 };
 export function validarNoticia(n) {
   const errors = [];
@@ -309,7 +311,7 @@ export const CAMPS_CONTACTE = {
 };
 export const CAMPS_MENU = {
   crida: enllacText('Botó del menú', 30),
-  whatsappEtiqueta: text('Text accessible del botó de WhatsApp', 60, { ajuda: 'El llegeixen els lectors de pantalla' }),
+  whatsappEtiqueta: text('Text del botó de WhatsApp per a lectors de pantalla', 60, { ajuda: 'El llegeixen els lectors de pantalla' }),
 };
 export const CAMPS_PEU = {
   descripcio: text('Descripció', 200),

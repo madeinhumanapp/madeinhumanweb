@@ -48,7 +48,7 @@ export const CAMPS_COMU = {
   cta_titol: text('Crida final: títol', 60),
   cta_text: text('Crida final: text', 260),
   zona_titol: text('Zona: títol', 40),
-  zona_text: text('Zona: text', 200, { ajuda: '{zona} es canvia per la llista de comarques' }),
+  zona_text: text('Zona: text', 200, { ajuda: 'La paraula {zona} es substitueix automàticament per la llista de comarques' }),
   altres: text('Títol «altres serveis»', 30),
 };
 const UNA_PARELLA = ['cta_1', 'cta_2'];
