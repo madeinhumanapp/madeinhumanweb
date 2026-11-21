@@ -1,9 +1,9 @@
 <!-- Esborrany WEB-L04 · Original: contingut/legal/avis-legal.md · Pendent de validació jurídica -->
 <!-- titol: Aviso legal · entradeta: Última actualización: 15 de junio de 2026 · notaFinal: Última actualización: 15 de junio de 2026 · MADEINHUMAN, ESPJ · [https://madeinhuman.cat](https://madeinhuman.cat) -->
 
-## Identificación del titular (art. 10 LSSI)
+## Identificación del titular (art. 10 LSSI-CE)
 
-De acuerdo con el artículo 10 de la Ley 34/2002, de 11 de julio, de servicios de la sociedad de la información y de comercio electrónico (LSSI), el titular de este sitio web es:
+De acuerdo con el artículo 10 de la Ley 34/2002, de 11 de julio, de servicios de la sociedad de la información y de comercio electrónico (LSSI-CE), el titular de este sitio web es:
 
 | **Denominación** | MADEINHUMAN, ESPJ |
 | **NIF** | ES-41534172-J |
@@ -13,7 +13,7 @@ De acuerdo con el artículo 10 de la Ley 34/2002, de 11 de julio, de servicios d
 
 ## ¿Para qué sirve este documento?
 
-MADEINHUMAN, ESPJ, como responsable del sitio web [https://madeinhuman.cat](https://madeinhuman.cat), pone a disposición de los usuarios este aviso legal para dar cumplimiento a la LSSI y para informar de las condiciones de acceso y uso del sitio.
+MADEINHUMAN, ESPJ, como responsable del sitio web [https://madeinhuman.cat](https://madeinhuman.cat), pone a disposición de los usuarios este aviso legal para dar cumplimiento a la LSSI-CE y para informar de las condiciones de acceso y uso del sitio.
 
 Acceder a [https://madeinhuman.cat](https://madeinhuman.cat) implica la aceptación de este aviso. Si no estás de acuerdo, te pedimos que no continúes navegando.
 
@@ -80,4 +80,4 @@ Si MADEINHUMAN, ESPJ tiene presencia en redes sociales, el tratamiento de los da
 
 ## Ley aplicable y jurisdicción
 
-Este aviso legal y el uso del sitio web [https://madeinhuman.cat](https://madeinhuman.cat) se rigen por la legislación española. Para cualquier controversia derivada del acceso o el uso del sitio, las partes se someten expresamente a la jurisdicción de los juzgados y tribunales de Gerona, con renuncia a cualquier otro fuero que pudiera corresponderles.
+Este aviso legal y el uso del sitio web [https://madeinhuman.cat](https://madeinhuman.cat) se rigen por la legislación española. Para cualquier controversia derivada del acceso o el uso del sitio, las partes se someten expresamente a la jurisdicción de los juzgados y tribunales de Girona, con renuncia a cualquier otro fuero que pudiera corresponderles.

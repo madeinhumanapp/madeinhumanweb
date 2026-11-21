@@ -14,7 +14,7 @@ El responsable del tratamiento de tus datos es:
 
 Como empresa responsable, asumimos los siguientes compromisos: nunca te solicitaremos más información que la estrictamente necesaria; no la compartiremos con terceros sin una base legal que lo justifique; y no la utilizaremos para ninguna otra finalidad no indicada en esta política.
 
-Actuamos de conformidad con el Reglamento (UE) 2016/679 (RGPD), la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y Garantía de los Derechos Digitales (LOPDGDD), y la Ley 34/2002 de servicios de la sociedad de la información (LSSI). Hemos implementado las medidas técnicas y organizativas necesarias para garantizar la confidencialidad, integridad y disponibilidad de todos los datos tratados.
+Actuamos de conformidad con el Reglamento (UE) 2016/679 (RGPD), la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y Garantía de los Derechos Digitales (LOPDGDD), y la Ley 34/2002 de servicios de la sociedad de la información (LSSI-CE). Hemos implementado las medidas técnicas y organizativas necesarias para garantizar la confidencialidad, integridad y disponibilidad de todos los datos tratados.
 
 Si tienes cualquier duda sobre cómo tratamos tus datos, ponte en contacto con nosotros en [info@madeinhuman.cat](mailto:info@madeinhuman.cat) indicando en el asunto «PROTECCIÓN DE DATOS».
 
@@ -56,7 +56,7 @@ Información detallada en el apartado específico de «WhatsApp» de esta polít
 
 - **Datos tratados:** nombre, empresa y correo electrónico.
 - **Finalidad:** enviarte consejos e información sobre nuestros servicios, solo si lo has marcado expresamente y lo has confirmado desde el enlace que te enviamos (doble confirmación).
-- **Base jurídica:** consentimiento del interesado (art. 6.1.a RGPD y art. 21 LSSI).
+- **Base jurídica:** consentimiento del interesado (art. 6.1.a RGPD y art. 21 LSSI-CE).
 
 Puedes darte de baja en cualquier momento desde el enlace que hay en el pie de cada correo.
 
@@ -161,4 +161,4 @@ En caso de contradicción entre versiones de esta política en idiomas diferente
 
 ### Legislación y jurisdicción aplicables
 
-Las relaciones entre MADEINHUMAN, ESPJ y los usuarios de sus servicios se rigen por la legislación española. Para la resolución de cualquier conflicto derivado o relacionado con el uso de nuestros servicios, las partes se someten expresamente a la jurisdicción de los juzgados y tribunales de Gerona, salvo que la normativa aplicable en materia de consumidores y usuarios establezca un fuero diferente.
+Las relaciones entre MADEINHUMAN, ESPJ y los usuarios de sus servicios se rigen por la legislación española. Para la resolución de cualquier conflicto derivado o relacionado con el uso de nuestros servicios, las partes se someten expresamente a la jurisdicción de los juzgados y tribunales de Girona, salvo que la normativa aplicable en materia de consumidores y usuarios establezca un fuero diferente.
