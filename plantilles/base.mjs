@@ -7,7 +7,18 @@ import { enllac, renderBloc } from './blocs.mjs';
 const meta = (nom, valor) => (valor == null ? '' : `\n  <meta name="${nom}" content="${esc(valor)}" />`);
 const prop = (nom, valor) => (valor == null ? '' : `\n  <meta property="${nom}" content="${esc(valor)}" />`);
 
-function cap(lloc, p) {
+// Text pla d'un text enriquit (per al JSON-LD): sense *, ** ni enllaços
+const pla = t => String(t).replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+
+// Un FAQPage sense «mainEntity» es genera amb les preguntes destacades de contingut/faq.json
+function jsonldAmbFaq(j, faq) {
+  if (j['@type'] !== 'FAQPage' || j.mainEntity) return j;
+  return { ...j, mainEntity: (faq || []).filter(f => f.destacada).map(f => ({
+    '@type': 'Question', name: f.pregunta, acceptedAnswer: { '@type': 'Answer', text: pla(f.resposta) },
+  })) };
+}
+
+function cap(lloc, p, faq) {
   const c = p.cap, d = lloc.cap;
   const og = { ...d.og, ...c.og };
   const tw = { ...d.twitter, ...c.twitter };
@@ -20,7 +31,7 @@ function cap(lloc, p) {
   <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />${meta('author', d.autor)}${meta('robots', c.robots ?? d.robots)}${meta('theme-color', d.colorTema)}${(c.jsonld || []).map(j => `
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />${meta('author', d.autor)}${meta('robots', c.robots ?? d.robots)}${meta('theme-color', d.colorTema)}${(c.jsonld || []).map(j => jsonldAmbFaq(j, faq)).map(j => `
   <script type="application/ld+json">
 ${JSON.stringify(j, null, 2)}
   </script>`).join('\n')}${d.precarregar.map(f => `
@@ -92,11 +103,11 @@ function flotants(lloc, ctx) {
 }
 
 // formularis: { id: plantilla HTML } de plantilles/formularis/ (protegits, no editables)
-export function pagina(lloc, p, formularis = {}) {
-  const ctx = { ruta: p.ruta, idioma: p.idioma, formularis };
+export function pagina(lloc, p, formularis = {}, faq = []) {
+  const ctx = { ruta: p.ruta, idioma: p.idioma, formularis, faq };
   return `<!DOCTYPE html>
 <html lang="${p.idioma}">
-${cap(lloc, p)}
+${cap(lloc, p, faq)}
 <body>
 ${menu(lloc, ctx)}
 ${p.blocs.map(b => renderBloc(b, ctx)).join('\n')}

@@ -5,7 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { pagina } from '../plantilles/base.mjs';
 import { paginaLegal } from '../plantilles/legal.mjs';
-import { validarPagina, ESQUEMA } from '../esquema/blocs.mjs';
+import { validarPagina, validarFaq, ESQUEMA } from '../esquema/blocs.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -41,7 +41,9 @@ const lloc = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/lloc.json'),
 const DIR_FORMS = path.join(ARREL, 'plantilles/formularis');
 const formularis = Object.fromEntries(fs.readdirSync(DIR_FORMS).filter(f => f.endsWith('.html'))
   .map(f => [path.basename(f, '.html'), fs.readFileSync(path.join(DIR_FORMS, f), 'utf8')]));
-const errors = [];
+// FAQ: una sola font per a la llista visible i el JSON-LD
+const faq = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/faq.json'), 'utf8'));
+const errors = validarFaq(faq).map(e => `faq.json: ${e}`);
 let generades = 0;
 for (const f of fs.readdirSync(path.join(ARREL, 'contingut/pagines'))) {
   const p = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/pagines', f), 'utf8'));
@@ -51,7 +53,7 @@ for (const f of fs.readdirSync(path.join(ARREL, 'contingut/pagines'))) {
   // Pàgines legals: marc propi i cos en Markdown (contingut/legal/*.md)
   const html = p.plantilla === 'legal'
     ? paginaLegal(lloc, p, fs.readFileSync(path.join(ARREL, 'contingut', p.cos), 'utf8'))
-    : pagina(lloc, p, formularis);
+    : pagina(lloc, p, formularis, faq);
   fs.writeFileSync(path.join(SORTIDA, p.fitxer), html);
   generades++;
 }
@@ -78,6 +80,7 @@ for (const d of ['plantilles', 'esquema']) {
 for (const f of fs.readdirSync(path.join(ARREL, 'eines/previsualitzacio'))) fs.copyFileSync(path.join(ARREL, 'eines/previsualitzacio', f), path.join(PREV, f));
 fs.writeFileSync(path.join(PREV, 'formularis.json'), JSON.stringify(formularis));
 fs.writeFileSync(path.join(PREV, 'lloc.json'), JSON.stringify(lloc));
+fs.writeFileSync(path.join(PREV, 'faq.json'), JSON.stringify(faq));
 // L'esquema són dades: el panell en genera els formularis sense dependre del codi de la web
 fs.writeFileSync(path.join(PREV, 'esquema.json'), JSON.stringify(ESQUEMA, null, 2));
 console.log(`dist/: ${generades} pàgines generades, ${copiats} fitxers copiats, ${Date.now() - t0} ms`);

@@ -7,9 +7,10 @@ import { pagina } from './plantilles/base.mjs';
 import { validarPagina } from './esquema/blocs.mjs';
 
 const ORIGENS = ['https://rgpd.madeinhuman.cat', 'http://localhost:3000'];
-const [lloc, formularis] = await Promise.all([
+const [lloc, formularis, faq] = await Promise.all([
   fetch('lloc.json').then(r => r.json()),
   fetch('formularis.json').then(r => r.json()),
+  fetch('faq.json').then(r => r.json()),
 ]);
 const marc = document.getElementById('marc');
 const caixaErrors = document.getElementById('errors');
@@ -30,7 +31,7 @@ window.addEventListener('message', e => {
   e.source.postMessage({ tipus: errors.length ? 'errors' : 'fet', errors }, e.origin);
   if (errors.length) return;
   const scroll = (() => { try { return marc.contentWindow.scrollY; } catch { return 0; } })();
-  const html = pagina(lloc, p, formularis).replace('<head>', CAP_PREVIA);
+  const html = pagina(lloc, p, formularis, faq).replace('<head>', CAP_PREVIA);
   const anterior = urlActual;
   urlActual = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
   marc.onload = () => { try { marc.contentWindow.scrollTo(0, scroll); } catch { /* res */ } if (anterior) URL.revokeObjectURL(anterior); };

@@ -186,49 +186,7 @@
       },
       {
         "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "La meva empresa de 5 treballadors necessita adequar-se al RGPD?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sí, sense excepcions. El RGPD s'aplica a qualsevol organització que tracti dades personals — i tractar dades vol dir tenir clients, treballadors, proveïdors o fins i tot un formulari de contacte al web."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Què és un DPO i quan és obligatori tenir-ne un?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "El Delegat de Protecció de Dades (DPO) és la figura que supervisa el compliment del RGPD a l'organització. És obligatori si tractes dades a gran escala, dades sensibles, o si fas observació sistemàtica."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Uso ChatGPT a la meva empresa. M'afecta el Reglament d'IA?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Probablement sí, encara que de manera lleugera. El Reglament classifica els sistemes d'IA per nivell de risc. Eines d'ús general com ChatGPT tenen obligacions de transparència."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Quant costa adequar-se al RGPD?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Per a una pyme estàndard, una adequació completa se situa habitualment entre 2.000 i 6.000 €, amb una quota de manteniment anual inferior."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Quant temps porta el procés d'adequació RGPD?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Una adequació RGPD per a pyme es completa habitualment en 4-8 setmanes des de la diagnosi fins a la implementació."
-            }
-          }
-        ]
+        "@type": "FAQPage"
       },
       {
         "@context": "https://schema.org",
@@ -472,8 +430,33 @@
       "tipus": "separador"
     },
     {
-      "tipus": "html",
-      "html": "<section class=\"block faq\" id=\"faq\">\n    <div class=\"container\">\n      <div class=\"faq-header reveal\">\n        <span class=\"eyebrow\">FAQ</span>\n        <!-- ✏️ EDITABLE: titular de FAQ -->\n        <h2 class=\"section-title\" style=\"margin-top:18px\">\n          Preguntes <em>habituals.</em>\n        </h2>\n        <!-- ✏️ EDITABLE: descripció de FAQ -->\n        <p class=\"section-lead\">\n          Aclariments per a pymes i autònoms sense perfil jurídic especialitzat. El glossari recull els termes regulatoris més habituals.\n        </p>\n        <div class=\"tabs\" id=\"faqTabs\">\n          <button class=\"tab active\" data-cat=\"tots\">Totes</button>\n          <button class=\"tab\" data-cat=\"rgpd\">RGPD</button>\n          <button class=\"tab\" data-cat=\"ia\">IA</button>\n          <button class=\"tab\" data-cat=\"practic\">Pràctic</button>\n          <button class=\"tab\" data-cat=\"glossari\">Glossari</button>\n        </div>\n      </div>\n      <div class=\"faq-list\" id=\"faqList\">\n        <!-- FAQ items rendered by JS -->\n      </div>\n    </div>\n  </section>"
+      "tipus": "faq",
+      "ancora": "faq",
+      "etiqueta": "FAQ",
+      "titol": "Preguntes *habituals.*",
+      "entradeta": "Aclariments per a pymes i autònoms sense perfil jurídic especialitzat. El glossari recull els termes regulatoris més habituals.",
+      "pestanyes": [
+        {
+          "cat": "tots",
+          "text": "Totes"
+        },
+        {
+          "cat": "rgpd",
+          "text": "RGPD"
+        },
+        {
+          "cat": "ia",
+          "text": "IA"
+        },
+        {
+          "cat": "practic",
+          "text": "Pràctic"
+        },
+        {
+          "cat": "glossari",
+          "text": "Glossari"
+        }
+      ]
     },
     {
       "tipus": "separador"

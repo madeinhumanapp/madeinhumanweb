@@ -125,6 +125,19 @@ export const ESQUEMA = {
       entradeta: enriquit('Entradeta', 400),
     },
   },
+  faq: {
+    nom: 'Preguntes freqüents',
+    camps: {
+      ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'Enllaços com /#faq hi apunten' },
+      etiqueta: text('Etiqueta', 20),
+      titol: enriquit('Titular', 60),
+      entradeta: enriquit('Entradeta', 200),
+      pestanyes: {
+        tipus: 'llista', etiqueta: 'Pestanyes', min: 2, max: 6, ajuda: 'La primera ha de ser «tots» (totes les preguntes)',
+        element: { cat: text('Categoria', 20, { ajuda: 'tots, rgpd, ia, practic, glossari…' }), text: text('Text de la pestanya', 20) },
+      },
+    },
+  },
   separador: { nom: 'Línia separadora', camps: {} },
   html: { nom: 'HTML (pendent de migrar)', bloquejat: true, camps: { html: { tipus: 'html', etiqueta: 'HTML', obligatori: true } } },
 };
@@ -183,5 +196,22 @@ export function validarPagina(p) {
     return errors;
   }
   (p.blocs || []).forEach((b, i) => errors.push(...validarBloc(b, `blocs[${i}] (${b.tipus})`)));
+  return errors;
+}
+
+// contingut/faq.json: [{ cat, pregunta, resposta, destacada? }]. Les destacades van al JSON-LD (Google).
+export const CAMPS_FAQ = {
+  cat: text('Categoria', 20),
+  pregunta: text('Pregunta', 150),
+  resposta: enriquit('Resposta', 900),
+  destacada: { tipus: 'bool', etiqueta: 'Destacada (també a Google)' },
+};
+export function validarFaq(faq) {
+  if (!Array.isArray(faq) || !faq.length) return ['ha de ser una llista amb preguntes'];
+  const errors = [];
+  faq.forEach((f, i) => {
+    Object.entries(CAMPS_FAQ).forEach(([k, d]) => validarCamp(d, f?.[k], `[${i}].${k}`, errors));
+    for (const k of Object.keys(f || {})) if (!CAMPS_FAQ[k]) errors.push(`[${i}]: camp no previst «${k}»`);
+  });
   return errors;
 }

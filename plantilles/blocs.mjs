@@ -131,6 +131,27 @@ ${d.enllacos.map(e => `      <a href="${esc(enllac(e.href, ctx))}">${esc(e.text)
   </div>
 </section>`,
 
+  // FAQ: les preguntes són a contingut/faq.json (una sola font per a la llista visible i el JSON-LD).
+  // Es pinten amb script.js a partir de les dades incrustades a #dades-faq.
+  faq: (d, ctx) => {
+    const dades = (ctx.faq || []).map(f => ({ cat: f.cat, q: esc(f.pregunta), a: enriquit(f.resposta) }));
+    return `
+<section class="block faq"${attr('id', d.ancora)}>
+  <div class="container">
+    <div class="faq-header reveal">
+      <span class="eyebrow">${esc(d.etiqueta)}</span>
+      <h2 class="section-title" style="margin-top:18px">${enriquit(d.titol)}</h2>
+      <p class="section-lead">${enriquit(d.entradeta)}</p>
+      <div class="tabs" id="faqTabs">
+${d.pestanyes.map((t, i) => `        <button class="tab${i === 0 ? ' active' : ''}" data-cat="${esc(t.cat)}">${esc(t.text)}</button>`).join('\n')}
+      </div>
+    </div>
+    <div class="faq-list" id="faqList"></div>
+    <script type="application/json" id="dades-faq">${JSON.stringify(dades).replace(/</g, '\\u003c')}</script>
+  </div>
+</section>`;
+  },
+
   metode: d => `
 <section class="block method"${attr('id', d.ancora)}>
   <div class="container">

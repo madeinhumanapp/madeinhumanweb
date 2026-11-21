@@ -120,7 +120,9 @@ const extret = await p.evaluate(() => {
     alternatives: [...document.querySelectorAll('link[rel="alternate"][hreflang]')].map(l => ({ idioma: l.getAttribute('hreflang'), href: l.getAttribute('href') })),
     og: { titol: meta('meta[property="og:title"]'), descripcio: meta('meta[property="og:description"]'), tipus: meta('meta[property="og:type"]'), url: meta('meta[property="og:url"]') },
     twitter: { titol: meta('meta[name="twitter:title"]'), descripcio: meta('meta[name="twitter:description"]') },
-    jsonld: [...document.querySelectorAll('script[type="application/ld+json"]')].map(s => JSON.parse(s.textContent)),
+    // El FAQPage es genera des de contingut/faq.json: aquí només se'n guarda l'esquelet
+    jsonld: [...document.querySelectorAll('script[type="application/ld+json"]')].map(s => JSON.parse(s.textContent))
+      .map(j => (j['@type'] === 'FAQPage' ? { '@context': j['@context'], '@type': 'FAQPage' } : j)),
   };
 
   // ── Blocs ──
@@ -197,6 +199,13 @@ const extret = await p.evaluate(() => {
       enllacosTitol: e.querySelector('.serveis-detall-titol').textContent.trim(),
       enllacos: [...e.querySelectorAll('.serveis-detall a')].map(a => ({ text: a.textContent.trim(), href: canonEnllac(a.getAttribute('href')) })),
     }), el);
+    else if (el.matches('section.block.faq')) bloc = prova(e => ({
+      tipus: 'faq', ancora: e.id || undefined,
+      etiqueta: e.querySelector('.faq-header .eyebrow').textContent.trim(),
+      titol: mini(e.querySelector('.faq-header .section-title')),
+      entradeta: mini(e.querySelector('.faq-header .section-lead')),
+      pestanyes: [...e.querySelectorAll('#faqTabs .tab')].map(t => ({ cat: t.dataset.cat, text: t.textContent.trim() })),
+    }), el);
     else if (el.matches('section.method')) bloc = prova(e => ({
       tipus: 'metode', ancora: e.id || undefined,
       etiqueta: e.querySelector('.section-head .eyebrow')?.textContent.trim(),
@@ -217,7 +226,7 @@ const extret = await p.evaluate(() => {
 
 // ── Verificació bloc a bloc i escriptura ──
 fs.mkdirSync(path.join(ARREL, 'plantilles/formularis'), { recursive: true });
-const ctx = { ruta: '/', idioma: 'ca', formularis: {} };
+const ctx = { ruta: '/', idioma: 'ca', formularis: {}, faq: JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/faq.json'), 'utf8')) };
 const blocs = [];
 const informe = [];
 for (const [i, { bloc, html }] of extret.candidats.entries()) {
