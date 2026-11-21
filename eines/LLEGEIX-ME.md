@@ -23,6 +23,7 @@ npm run paritat                  # dist/ ha de ser idèntic a la web actual (19/
 npm run contractes               # els formularis envien a rgpd-tool el mateix que abans (4 «ok»)
 npm run previsualitzacio         # vista prèvia: plantilles, injecció, cap lead fals (7/7)
 npm run actualitat               # notícies: llistat, pàgines, RSS, programació i validacions (sense navegador)
+npm run serveis                  # esquema de contingut/serveis.json (URL fixes, sense HTML, límits)
 npm run sense-html               # cap etiqueta HTML dins de contingut/
 npm run comprovar                # totes seguides (és el que fa GitHub Actions)
 node proves/formularis.cjs --desar   # NOMÉS si un canvi de contracte és volgut (i s'ha fet primer a rgpd-tool)
@@ -85,3 +86,9 @@ Notes de revisió: tot el que hi ha després d'aquesta línia no es publica mai.
   o de les seves dades, i el diagnòstic i la recollida són connectors amb rgpd-tool. El generador les copia tal
   qual; la paritat i els contractes les vigilen. El panell no les edita (decisió C-09).
 - `xarxes/` sí que surt del contingut (`contingut/pagines/xarxes.json`, plantilla `plantilles/xarxes.mjs`).
+
+## Pàgines de servei (`contingut/serveis.json`)
+
+Estructura fixa (C-10), validada per `esquema/serveis.mjs`: per a cada servei i idioma, `curt`, `titol_seo`,
+`descripcio`, `eyebrow`, `h1` (text enriquit), `lede` i `seccions` (`{ titol, cos }`, cos en Markdown). Les URL
+(`SLUG`) i la llista de serveis són fixes: canviar-les trencaria enllaços, i el validador ho impedeix.

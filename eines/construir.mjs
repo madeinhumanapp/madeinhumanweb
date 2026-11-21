@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { pagina } from '../plantilles/base.mjs';
 import { paginaLegal } from '../plantilles/legal.mjs';
 import { paginaXarxes } from '../plantilles/xarxes.mjs';
+import { validarServeis, CAMPS_SERVEI, CAMPS_PORTADA_ES, CAMPS_COMU } from '../esquema/serveis.mjs';
 import { validarPagina, validarFaq, validarNoticia, ESQUEMA, CAMPS_NOTICIA, CAMPS_XARXES } from '../esquema/blocs.mjs';
 import { llegirNoticia, publicades, targeta, paginesActualitat, ambNoticiesAlMapa } from '../plantilles/actualitat.mjs';
 
@@ -79,7 +80,9 @@ for (const f of fs.readdirSync(path.join(ARREL, 'contingut/pagines'))) {
 if (AMB_PORT_SERVEIS) {
   const { paginesServei } = await import('../plantilles/serveis.mjs');
   const dades = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/serveis.json'), 'utf8'));
-  for (const [rel, html] of paginesServei(lloc, dades)) {
+  const eServeis = validarServeis(dades).map(e => `serveis.json: ${e}`);
+  errors.push(...eServeis);
+  for (const [rel, html] of eServeis.length ? [] : paginesServei(lloc, dades)) {
     if (!/^[a-z0-9/_-]+\.html$/.test(rel)) { errors.push(`ruta de servei no vàlida: ${rel}`); continue; }
     fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
     fs.writeFileSync(path.join(SORTIDA, rel), html);
@@ -114,7 +117,7 @@ fs.writeFileSync(path.join(PREV, 'faq.json'), JSON.stringify(faq));
 // L'esquema són dades: el panell en genera els formularis sense dependre del codi de la web
 fs.writeFileSync(path.join(PREV, 'esquema.json'), JSON.stringify(ESQUEMA, null, 2));
 // Esquemes dels continguts que no són blocs de pàgina (els formularis del panell en surten igual)
-fs.writeFileSync(path.join(PREV, 'esquema-continguts.json'), JSON.stringify({ noticia: CAMPS_NOTICIA, xarxes: CAMPS_XARXES }, null, 2));
+fs.writeFileSync(path.join(PREV, 'esquema-continguts.json'), JSON.stringify({ noticia: CAMPS_NOTICIA, xarxes: CAMPS_XARXES, servei: CAMPS_SERVEI, portada_es: CAMPS_PORTADA_ES, comu: CAMPS_COMU }, null, 2));
 const programades = totes.filter(n => n.cap.estat === 'publicat' && n.cap.data > AVUI).length;
 console.log(`dist/: ${generades} pàgines generades, ${copiats} fitxers copiats, ${Date.now() - t0} ms`
   + (totes.length ? ` · notícies: ${noticies.length} publicades${programades ? `, ${programades} programades` : ''}` : ''));

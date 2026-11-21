@@ -72,6 +72,7 @@ respon que necessites l'ID de l'encàrrec i atura't.
 | `npm run previsualitzacio` | seguretat de la vista prèvia del panell | `7/7 comprovacions correctes` |
 | `npm run comprovar` | totes les comprovacions seguides | tot el que diu aquesta taula |
 | `npm run sense-html` | cap HTML dins de `contingut/` | `cap HTML al contingut` |
+| `npm run serveis` | esquema de les pàgines de servei (`contingut/serveis.json`) | `totes les comprovacions dels serveis correctes` |
 | `npm run actualitat` | proves de les notícies (llistat, pàgines, RSS, validacions) | `totes les comprovacions de l'actualitat correctes` |
 | `npm run extreure-portada` | torna a convertir la portada en contingut, bloc a bloc | `✓ idèntic` als blocs fets |
 

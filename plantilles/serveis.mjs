@@ -150,7 +150,7 @@ ${JSON.stringify(ld, null, 2)}
 
   function bloc_final(lang, clau_actual = null) {
     const c = COMU[lang];
-    const passos = c.metode.map(([t, d], i) => `<li><span class="pas-num">${String(i + 1).padStart(2, '0')}</span><strong>${e(t)}</strong><span>${e(d)}</span></li>`).join('');
+    const passos = c.metode.map(({ titol: t, text: d }, i) => `<li><span class="pas-num">${String(i + 1).padStart(2, '0')}</span><strong>${e(t)}</strong><span>${e(d)}</span></li>`).join('');
     const altres = SERVEIS.filter(k => k !== clau_actual)
       .map(k => `<li><a href="${url_servei(lang, k)}">${e(PAGINES[k][lang].curt)}</a></li>`).join('');
     return `      <section class="pagina-seccio">
@@ -200,7 +200,7 @@ export function paginesServei(lloc, dades) {
         { '@type': 'ListItem', position: 2, name: c.serveis, item: WEB + c.breadcrumb_serveis },
         { '@type': 'ListItem', position: 3, name: p.curt, item: WEB + url }] },
     ] };
-    const seccions = p.seccions.map(([t, cos]) => `      <section class="pagina-seccio">
+    const seccions = p.seccions.map(({ titol: t, cos }) => `      <section class="pagina-seccio">
         <h2>${e(t)}</h2>
         ${markdown(cos)}
       </section>
@@ -225,7 +225,7 @@ ${seccions}${bloc_final(lang, clau)}    </div>
       k => `<li><a href="${url_servei('es', k)}"><strong>${e(PAGINES[k].es.curt)}</strong><span>${e(PAGINES[k].es.lede)}</span></a></li>`)
       .join('');
     const c = COMU.es;
-    const passos = c.metode.map(([t, d], i) => `<li><span class="pas-num">${String(i + 1).padStart(2, '0')}</span><strong>${e(t)}</strong><span>${e(d)}</span></li>`).join('');
+    const passos = c.metode.map(({ titol: t, text: d }, i) => `<li><span class="pas-num">${String(i + 1).padStart(2, '0')}</span><strong>${e(t)}</strong><span>${e(d)}</span></li>`).join('');
     const cos = `  <main class="pagina">
     <div class="container pagina-contingut legal-content">
       <span class="eyebrow">${e(p.eyebrow)}</span>

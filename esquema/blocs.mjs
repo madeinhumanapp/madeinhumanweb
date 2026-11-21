@@ -152,7 +152,7 @@ export function dataValida(s) {
   return d.getUTCMonth() === +m[2] - 1 && d.getUTCDate() === +m[3];
 }
 
-function validarCamp(def, valor, ruta, errors) {
+export function validarCamp(def, valor, ruta, errors) {
   const buit = valor == null || valor === '' || (Array.isArray(valor) && !valor.length);
   if (buit) { if (def.obligatori || def.min) errors.push(`${ruta}: obligatori`); return; }
   switch (def.tipus) {
@@ -179,6 +179,11 @@ function validarCamp(def, valor, ruta, errors) {
       valor.forEach((v, i) => (typeof def.element.tipus === 'string'
         ? validarCamp(def.element, v, `${ruta}[${i}]`, errors)
         : Object.entries(def.element).forEach(([k, d]) => validarCamp(d, v?.[k], `${ruta}[${i}].${k}`, errors))));
+      break;
+    case 'markdown':
+      if (typeof valor !== 'string') return errors.push(`${ruta}: ha de ser text`);
+      if (def.max && valor.length > def.max) errors.push(`${ruta}: ${valor.length} caràcters (màxim ${def.max})`);
+      if (/<[a-z/!]/i.test(valor.replace(/<!--[\s\S]*?-->/g, ''))) errors.push(`${ruta}: no s'hi pot posar HTML (fes servir Markdown)`);
       break;
     case 'data':
       if (typeof valor !== 'string' || !dataValida(valor)) errors.push(`${ruta}: ha de ser una data AAAA-MM-DD (${valor})`);
