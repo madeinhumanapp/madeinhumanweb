@@ -64,7 +64,9 @@ const rss = llegeix('actualitat/rss.xml');
 ok('RSS: 2 elements i caràcters escapats', (rss.match(/<item>/g) || []).length === 2 && rss.includes('«cometes» &amp; escapada'));
 const mapa = llegeix('sitemap.xml');
 ok('mapa del lloc: llistat i article, no la breu', mapa.includes('/actualitat/</loc>') && mapa.includes('/actualitat/article-de-prova/</loc>') && !mapa.includes('breu-de-prova'));
-ok('portada sense «origen»: igual que sense notícies', llegeix('index.html') === fs.readFileSync(path.join(ARREL, 'dist/index.html'), 'utf8'));
+const portada = llegeix('index.html');
+ok('portada: mostra les notícies publicades dels fitxers, amb enllaç si tenen pàgina',
+  portada.includes('href="/actualitat/article-de-prova/"') && portada.includes('Breu de prova') && !portada.includes('Notícia programada') && portada.includes('Totes les notícies'));
 
 // 2. La programada surt el dia que toca
 const r2 = construir({ DIR_ACTUALITAT: dir, DATA_CONSTRUCCIO: '2026-12-31' }, path.join(TMP, 'dist2'));
