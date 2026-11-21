@@ -84,7 +84,7 @@ export function pagina(lloc, p, formularis = {}, faq = [], actualitat = []) {
 ${cap(lloc, p, faq)}
 <body>
 ${menu(lloc, ctx)}
-${p.blocs.map(b => renderBloc(b, ctx)).join('\n')}
+${p.blocs.filter(b => !b.amagat).map(b => renderBloc(b, ctx)).join('\n')}
 ${peu(lloc, ctx)}
 ${flotants(lloc, ctx)}
 ${(p.scripts || []).map(s => `<script src="${s}"></script>`).join('\n')}

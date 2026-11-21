@@ -575,6 +575,21 @@
       }
     }
   },
+  "portada": {
+    "protegits": [
+      "hero",
+      "formulari",
+      "serveis",
+      "metode",
+      "faq",
+      "actualitat"
+    ],
+    "afegibles": [
+      "spot",
+      "context",
+      "separador"
+    ]
+  },
   "faq": {
     "cat": {
       "tipus": "text",

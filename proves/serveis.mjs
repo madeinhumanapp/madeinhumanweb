@@ -4,6 +4,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validarServeis } from '../esquema/serveis.mjs';
+import { validarPagina } from '../esquema/blocs.mjs';
+import { pagina } from '../plantilles/base.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const original = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/serveis.json'), 'utf8'));
@@ -29,5 +31,16 @@ for (const [nom, canvi, patro] of casos) {
   const e = amb(canvi);
   ok(`rebutja: ${nom}`, e.some(x => patro.test(x)), e.join('; ') || 'cap error');
 }
-console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions dels serveis correctes');
+// Blocs amagats de la portada (WEB-P03): es conserven al contingut però no es pinten; els protegits no es poden amagar
+const portada = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/pagines/portada.ca.json'), 'utf8'));
+const lloc = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/lloc.json'), 'utf8'));
+const DIR_F = path.join(ARREL, 'plantilles/formularis');
+const formularis = Object.fromEntries(fs.readdirSync(DIR_F).filter(f => f.endsWith('.html')).map(f => [path.basename(f, '.html'), fs.readFileSync(path.join(DIR_F, f), 'utf8')]));
+const spot = portada.blocs.findIndex(b => b.tipus === 'spot');
+const ambAmagat = structuredClone(portada); ambAmagat.blocs[spot].amagat = true;
+ok('un bloc amagat és vàlid i no es pinta', !validarPagina(ambAmagat).length && !pagina(lloc, ambAmagat, formularis).includes(portada.blocs[spot].text.slice(0, 30).replace(/\*/g, '')));
+const formAmagat = structuredClone(portada); formAmagat.blocs.find(b => b.tipus === 'formulari').amagat = true;
+ok('un formulari no es pot amagar', validarPagina(formAmagat).some(e => /no es pot amagar/.test(e)));
+
+console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions dels serveis i dels blocs correctes');
 process.exit(fallades ? 1 : 0);

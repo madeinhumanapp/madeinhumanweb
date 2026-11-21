@@ -6,6 +6,11 @@ import { urlSegura } from '../plantilles/text.mjs';
 const text = (etiqueta, max, extra = {}) => ({ tipus: 'text', etiqueta, max, obligatori: true, ...extra });
 const enriquit = (etiqueta, max, extra = {}) => ({ tipus: 'enriquit', etiqueta, max, obligatori: true, ajuda: '*cursiva*, **negreta**, salt de línia', ...extra });
 
+// Blocs de la portada que el panell no deixa amagar ni treure: la capçalera, els formularis (connectors amb
+// rgpd-tool) i els que són destinació d'enllaços del menú. Els afegibles són els que el panell pot crear.
+export const BLOCS_PROTEGITS = ['hero', 'formulari', 'serveis', 'metode', 'faq', 'actualitat'];
+export const BLOCS_AFEGIBLES = ['spot', 'context', 'separador'];
+
 export const ESQUEMA = {
   hero: {
     nom: 'Capçalera de la portada',
@@ -204,7 +209,10 @@ export function validarBloc(bloc, ruta = 'bloc') {
   if (!def) return [`${ruta}: tipus de bloc desconegut «${bloc?.tipus}»`];
   const errors = [];
   for (const [k, d] of Object.entries(def.camps)) validarCamp(d, bloc[k], `${ruta}.${k}`, errors);
-  for (const k of Object.keys(bloc)) if (k !== 'tipus' && !def.camps[k]) errors.push(`${ruta}: camp no previst «${k}»`);
+  // «amagat» és comú a tots els blocs: el bloc es conserva però no es pinta (WEB-P03)
+  if ('amagat' in bloc && typeof bloc.amagat !== 'boolean') errors.push(`${ruta}.amagat: ha de ser sí o no`);
+  if (bloc.amagat && BLOCS_PROTEGITS.includes(bloc.tipus)) errors.push(`${ruta}: aquest bloc no es pot amagar`);
+  for (const k of Object.keys(bloc)) if (k !== 'tipus' && k !== 'amagat' && !def.camps[k]) errors.push(`${ruta}: camp no previst «${k}»`);
   if (def.comprova) errors.push(...def.comprova(bloc).map(e => `${ruta}.${e}`));
   return errors;
 }

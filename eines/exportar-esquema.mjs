@@ -5,7 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ESQUEMA, CAMPS_FAQ, CAMPS_NOTICIA, CAMPS_XARXES, CAMPS_CONTACTE, CAMPS_MENU, CAMPS_PEU } from '../esquema/blocs.mjs';
+import { ESQUEMA, BLOCS_PROTEGITS, BLOCS_AFEGIBLES, CAMPS_FAQ, CAMPS_NOTICIA, CAMPS_XARXES, CAMPS_CONTACTE, CAMPS_MENU, CAMPS_PEU } from '../esquema/blocs.mjs';
 import { CAMPS_SERVEI, CAMPS_PORTADA_ES, CAMPS_COMU, SERVEIS, SLUGS_ESTABLES } from '../esquema/serveis.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -14,6 +14,7 @@ const dades = {
   _avis: 'Fitxer generat per eines/exportar-esquema.mjs a partir de esquema/*.mjs. No l\'editis a mà.',
   versio: 1,
   blocs: ESQUEMA,
+  portada: { protegits: BLOCS_PROTEGITS, afegibles: BLOCS_AFEGIBLES },
   faq: CAMPS_FAQ,
   noticia: CAMPS_NOTICIA,
   xarxes: CAMPS_XARXES,

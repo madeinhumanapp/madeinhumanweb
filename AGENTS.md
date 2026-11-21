@@ -74,7 +74,7 @@ respon que necessites l'ID de l'encàrrec i atura't.
 | `npm run previsualitzacio` | seguretat de la vista prèvia del panell | `9/9 comprovacions correctes` |
 | `npm run comprovar` | totes les comprovacions seguides | tot el que diu aquesta taula |
 | `npm run sense-html` | cap HTML dins de `contingut/` | `cap HTML al contingut` |
-| `npm run serveis` | esquema de les pàgines de servei (`contingut/serveis.json`) | `totes les comprovacions dels serveis correctes` |
+| `npm run serveis` | esquema de les pàgines de servei (`contingut/serveis.json`) | `totes les comprovacions dels serveis i dels blocs correctes` |
 | `npm run exportar-esquema` | regenera `esquema/esquema.json` (el llegeix el panell); amb `-- --comprovar` només comprova | `esquema.json al dia` |
 | `npm run csp` | cada pàgina amb les capçaleres de `_headers`: cap infracció de seguretat | `N/N sense cap infracció de la CSP` |
 | `npm run tall` | `dist/` conté tot el que la web publica avui | `dist/ conté tot el que es publica avui` |
