@@ -10,7 +10,8 @@
     "comprovar": "npm run construir && npm run paritat && npm run contractes && npm run previsualitzacio",
     "extreure-portada": "node eines/extreure-portada.mjs",
     "navegador": "playwright install chromium",
-    "revisio": "node eines/comprovar-revisio.mjs"
+    "revisio": "node eines/comprovar-revisio.mjs",
+    "sense-html": "node eines/sense-html.mjs"
   },
   "devDependencies": {
     "playwright": "1.63.0"

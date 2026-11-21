@@ -71,6 +71,7 @@ respon que necessites l'ID de l'encàrrec i atura't.
 | `npm run contractes` | omple els formularis i comprova què s'envia a rgpd-tool | 4 línies `ok` |
 | `npm run previsualitzacio` | seguretat de la vista prèvia del panell | `7/7 comprovacions correctes` |
 | `npm run comprovar` | les quatre anteriors seguides | tot l'anterior |
+| `npm run sense-html` | cap HTML dins de `contingut/` | `cap HTML al contingut` |
 | `npm run extreure-portada` | torna a convertir la portada en contingut, bloc a bloc | `✓ idèntic` als blocs fets |
 
 Per comparar només una pàgina: `npm run paritat -- --pagines index.html`.
