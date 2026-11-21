@@ -103,8 +103,9 @@ function flotants(lloc, ctx) {
 }
 
 // formularis: { id: plantilla HTML } de plantilles/formularis/ (protegits, no editables)
-export function pagina(lloc, p, formularis = {}, faq = []) {
-  const ctx = { ruta: p.ruta, idioma: p.idioma, formularis, faq };
+// actualitat: targetes de les notícies publicades (plantilles/actualitat.mjs → targeta), de la més nova a la més antiga
+export function pagina(lloc, p, formularis = {}, faq = [], actualitat = []) {
+  const ctx = { ruta: p.ruta, idioma: p.idioma, formularis, faq, actualitat };
   return `<!DOCTYPE html>
 <html lang="${p.idioma}">
 ${cap(lloc, p, faq)}

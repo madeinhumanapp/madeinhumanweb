@@ -6,8 +6,9 @@ import { markdown } from './markdown.mjs';
 
 const CARPETA = { ca: 'serveis', es: 'es/servicios' };
 
-export function paginesServei(lloc, dades) {
-  const { COMU, ZONA, SERVEIS, SLUG, PAGINES, PORTADA_ES } = dades;
+// Marc comú de les pàgines interiors (cap, menú, peu, bloc final): també el fan servir les notícies
+export function marcInterior(lloc, dades) {
+  const { COMU, ZONA, SERVEIS, SLUG, PAGINES } = dades;
   const WEB = lloc.web;
   const NAP = {
     nom: lloc.nom,
@@ -48,7 +49,7 @@ export function paginesServei(lloc, dades) {
     };
   }
 
-  function cap(lang, titol, descripcio, canonical, alternates, ld) {
+  function cap(lang, titol, descripcio, canonical, alternates, ld, { ogType = 'website', capExtra = '', comentari = true } = {}) {
     const c = COMU[lang];
     const alt = alternates.map(([l, u]) => `  <link rel="alternate" hreflang="${l}" href="${WEB}${u}" />\n`).join('');
     return `<!DOCTYPE html>
@@ -56,14 +57,13 @@ export function paginesServei(lloc, dades) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Pàgina generada amb marca/pagines/generar.py: edita contingut.py, no aquest fitxer -->
-  <title>${e(titol)}</title>
+${comentari ? '  <!-- Pàgina generada amb marca/pagines/generar.py: edita contingut.py, no aquest fitxer -->\n' : ''}  <title>${e(titol)}</title>
   <meta name="description" content="${e(descripcio)}" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="${WEB}${canonical}" />
 ${alt}  <meta property="og:title" content="${e(titol)}" />
   <meta property="og:description" content="${e(descripcio)}" />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content="${ogType}" />
   <meta property="og:url" content="${WEB}${canonical}" />
   <meta property="og:locale" content="${c.locale}" />
   <meta property="og:site_name" content="Madeinhuman" />
@@ -80,7 +80,7 @@ ${alt}  <meta property="og:title" content="${e(titol)}" />
   <link rel="stylesheet" href="/marca.css" />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="stylesheet" href="/pagines.css" />
-  <script type="application/ld+json">
+${capExtra}  <script type="application/ld+json">
 ${JSON.stringify(ld, null, 2)}
   </script>
 </head>
@@ -175,6 +175,13 @@ ${JSON.stringify(ld, null, 2)}
       </nav>
 `;
   }
+
+  return { WEB, NAP, e, url_servei, zona_text, empresa_ld, cap, nav, peu, bloc_final };
+}
+
+export function paginesServei(lloc, dades) {
+  const { COMU, ZONA, SERVEIS, SLUG, PAGINES, PORTADA_ES } = dades;
+  const { WEB, NAP, e, url_servei, zona_text, empresa_ld, cap, nav, peu, bloc_final } = marcInterior(lloc, dades);
 
   function pagina_servei(lang, clau) {
     const p = PAGINES[clau][lang];

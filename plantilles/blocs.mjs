@@ -71,23 +71,30 @@ export const BLOCS = {
   </div>
 </section>`,
 
-  actualitat: d => `
+  // origen «actualitat»: les 3 últimes de contingut/actualitat/ (ctx.actualitat, ja ordenades); si no n'hi ha cap
+  // de publicada, la llista manual. Les notícies amb pàgina pròpia porten l'enllaç al títol.
+  actualitat: (d, ctx = {}) => {
+    const deFitxers = d.origen === 'actualitat' && ctx.actualitat?.length;
+    const noticies = deFitxers ? ctx.actualitat.slice(0, 3) : d.noticies || [];
+    return `
 <section class="block actualitat"${attr('id', d.ancora)}>
   <div class="container">
     ${capSeccio(d)}
-    <div class="news-grid">${d.noticies.map(n => `
+    <div class="news-grid">${noticies.map(n => `
       <article class="news-card${n.variant === 'ia' ? ' news-card-ia' : ''}">
         <div class="news-meta">
           <span class="news-tag news-tag-${n.variant}">${esc(n.tag)}</span>
           <span class="news-date">${esc(n.data)}</span>
         </div>
-        <h3 class="news-title">${enriquit(n.titol)}</h3>
+        <h3 class="news-title">${n.href ? `<a href="${esc(n.href)}">${enriquit(n.titol)}</a>` : enriquit(n.titol)}</h3>
         <p class="news-body">${enriquit(n.cos)}</p>${n.font ? `
         <div class="news-source">${esc(n.font)}</div>` : ''}
       </article>`).join('\n')}
-    </div>
+    </div>${deFitxers ? `
+    <p class="news-mes"><a href="/actualitat/">Totes les notícies</a></p>` : ''}
   </div>
-</section>`,
+</section>`;
+  },
 
   serveis: (d, ctx) => `
 <section class="block services"${attr('id', d.ancora)}>

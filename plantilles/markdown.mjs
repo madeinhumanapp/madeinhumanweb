@@ -1,7 +1,7 @@
 // Markdown mínim per al text llarg (pàgines legals, notícies). Sense dependències i sense HTML:
 // tot s'escapa. Admet:
 //   ## Títol 2 · ### Títol 3 · paràgrafs (una línia que acaba en «\» fa un salt de línia)
-//   - llistes · taules amb «|» (si la 2a fila és |---|, la 1a és capçalera; si no, totes van al cos)
+//   - llistes (un element pot continuar en línies sagnades amb 2 espais) · taules amb «|» (si la 2a fila és |---|, la 1a és capçalera; si no, totes van al cos)
 //   **negreta** · *cursiva* · `codi` · [text](url)
 //   <!-- nota interna --> (no es publica; serveix per deixar avisos al text font)
 // Els enllaços a altres webs s'obren en una pestanya nova (target="_blank" rel="noopener").
@@ -34,7 +34,12 @@ export function markdown(text, { classeTaula = '' } = {}) {
     if ((m = l.match(/^(#{2,3}) (.+)$/))) { out.push(`<h${m[1].length}>${enLinia(m[2])}</h${m[1].length}>`); i++; continue; }
     if (/^- /.test(l)) {
       const items = [];
-      while (i < linies.length && /^- /.test(linies[i])) items.push(`<li>${enLinia(linies[i++].slice(2))}</li>`);
+      while (i < linies.length && /^- /.test(linies[i])) {
+        // Un element pot continuar a les línies següents si van sagnades (com fa qualsevol editor de Markdown)
+        let item = linies[i++].slice(2);
+        while (i < linies.length && /^ {2,}\S/.test(linies[i])) item += ' ' + linies[i++].trim();
+        items.push(`<li>${enLinia(item)}</li>`);
+      }
       out.push(`<ul>\n${items.join('\n')}\n</ul>`);
       continue;
     }

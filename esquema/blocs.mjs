@@ -58,8 +58,10 @@ export const ESQUEMA = {
       etiqueta: text('Etiqueta', 20),
       titol: enriquit('Titular', 50),
       entradeta: enriquit('Entradeta', 140),
+      origen: { tipus: 'seleccio', etiqueta: "D'on surten les notícies", opcions: ['manual', 'actualitat'],
+        ajuda: 'actualitat: les 3 últimes publicades a contingut/actualitat/ · manual (o buit): la llista de sota' },
       noticies: {
-        tipus: 'llista', etiqueta: 'Notícies', min: 1, max: 6,
+        tipus: 'llista', etiqueta: 'Notícies (manual)', max: 6,
         element: {
           variant: { tipus: 'seleccio', etiqueta: 'Color del tag', opcions: ['rgpd', 'ia', 'cat'], obligatori: true,
             ajuda: 'rgpd: coure · ia: blau (targeta destacada) · cat: verd' },
@@ -71,6 +73,7 @@ export const ESQUEMA = {
         },
       },
     },
+    comprova: b => (b.origen !== 'actualitat' && !b.noticies?.length ? ['noticies: com a mínim 1 (o origen «actualitat»)'] : []),
   },
   serveis: {
     nom: 'Serveis (pilars, transversal i enllaços)',
@@ -142,6 +145,13 @@ export const ESQUEMA = {
   html: { nom: 'HTML (pendent de migrar)', bloquejat: true, camps: { html: { tipus: 'html', etiqueta: 'HTML', obligatori: true } } },
 };
 
+export function dataValida(s) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+  if (!m) return false;
+  const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+  return d.getUTCMonth() === +m[2] - 1 && d.getUTCDate() === +m[3];
+}
+
 function validarCamp(def, valor, ruta, errors) {
   const buit = valor == null || valor === '' || (Array.isArray(valor) && !valor.length);
   if (buit) { if (def.obligatori || def.min) errors.push(`${ruta}: obligatori`); return; }
@@ -170,6 +180,9 @@ function validarCamp(def, valor, ruta, errors) {
         ? validarCamp(def.element, v, `${ruta}[${i}]`, errors)
         : Object.entries(def.element).forEach(([k, d]) => validarCamp(d, v?.[k], `${ruta}[${i}].${k}`, errors))));
       break;
+    case 'data':
+      if (typeof valor !== 'string' || !dataValida(valor)) errors.push(`${ruta}: ha de ser una data AAAA-MM-DD (${valor})`);
+      break;
     case 'html':
       if (typeof valor !== 'string') errors.push(`${ruta}: ha de ser HTML`);
       break;
@@ -182,6 +195,7 @@ export function validarBloc(bloc, ruta = 'bloc') {
   const errors = [];
   for (const [k, d] of Object.entries(def.camps)) validarCamp(d, bloc[k], `${ruta}.${k}`, errors);
   for (const k of Object.keys(bloc)) if (k !== 'tipus' && !def.camps[k]) errors.push(`${ruta}: camp no previst «${k}»`);
+  if (def.comprova) errors.push(...def.comprova(bloc).map(e => `${ruta}.${e}`));
   return errors;
 }
 
@@ -213,5 +227,39 @@ export function validarFaq(faq) {
     Object.entries(CAMPS_FAQ).forEach(([k, d]) => validarCamp(d, f?.[k], `[${i}].${k}`, errors));
     for (const k of Object.keys(f || {})) if (!CAMPS_FAQ[k]) errors.push(`[${i}]: camp no previst «${k}»`);
   });
+  return errors;
+}
+
+// contingut/actualitat/AAAA-MM-DD-titol-curt.md: capçalera «clau: valor» + cos en Markdown.
+// Sense cos és una «breu» (només targeta); amb cos té pàgina pròpia a /actualitat/<titol-curt>/.
+// El format és el dels esborranys de Mistral (rgpdtool, encàrrec WEB-A05).
+export const ETIQUETES_NOTICIA = ['rgpd', 'ia', 'apdcat'];
+export const SERVEIS_NOTICIA = ['adequacio', 'dpo', 'auditoria', 'ia', 'web'];
+export const CAMPS_NOTICIA = {
+  titol: text('Títol', 130, { ajuda: 'Millor fins a 70 caràcters (Google en talla la resta)' }),
+  resum: text('Resum', 440, { ajuda: 'Surt a la targeta i a Google: 1 o 2 frases (millor fins a 160 caràcters)' }),
+  data: { tipus: 'data', etiqueta: 'Data de publicació', obligatori: true, ajuda: 'No surt a la web abans d\'aquest dia' },
+  etiqueta: { tipus: 'seleccio', etiqueta: 'Tema', opcions: ETIQUETES_NOTICIA, obligatori: true, ajuda: 'rgpd: coure · ia: blau · apdcat: verd' },
+  font_nom: text('Font (organisme)', 80, { ajuda: 'AEPD, APDCat, Comissió Europea, DOUE…' }),
+  font_url: { tipus: 'enllac', etiqueta: 'Enllaç a la font', ajuda: 'Obligatori si la notícia té cos (pàgina pròpia)' },
+  data_font: { tipus: 'data', etiqueta: 'Data de la publicació original' },
+  servei_relacionat: { tipus: 'seleccio', etiqueta: 'Servei relacionat', opcions: SERVEIS_NOTICIA },
+  estat: { tipus: 'seleccio', etiqueta: 'Estat', opcions: ['esborrany', 'publicat'], obligatori: true },
+  idioma: { tipus: 'seleccio', etiqueta: 'Idioma', opcions: ['ca'], obligatori: true, ajuda: 'De moment, només català' },
+  data_text: { tipus: 'text', etiqueta: 'Data visible (només notícies migrades)', max: 20, bloquejat: true },
+  font_text: { tipus: 'text', etiqueta: 'Línia de font (només notícies migrades)', max: 60, bloquejat: true },
+};
+export function validarNoticia(n) {
+  const errors = [];
+  if (!/^\d{4}-\d{2}-\d{2}-[a-z0-9]+(-[a-z0-9]+)*\.md$/.test(n.fitxer || ''))
+    errors.push('el nom del fitxer ha de ser AAAA-MM-DD-titol-curt.md (minúscules, sense accents)');
+  Object.entries(CAMPS_NOTICIA).forEach(([k, d]) => validarCamp(d, n.cap?.[k], k, errors));
+  for (const k of Object.keys(n.cap || {})) if (!CAMPS_NOTICIA[k]) errors.push(`camp no previst «${k}»`);
+  const u = n.cap?.font_url;
+  if (u && !/^https:\/\//.test(u)) errors.push('font_url: ha de començar per https://');
+  if (n.cap?.estat === 'publicat' && n.cos.trim() && !u) errors.push('font_url: obligatori per publicar una notícia amb cos');
+  if (/<[a-z/!]/i.test(n.cos.replace(/<!--[\s\S]*?-->/g, ''))) errors.push("cos: no s'hi pot posar HTML (fes servir Markdown)");
+  if (n.cap?.estat === 'publicat' && /\[REVISAR/.test(JSON.stringify(n.cap) + n.cos))
+    errors.push('té marques [REVISAR]: no es pot publicar fins que es resolguin');
   return errors;
 }

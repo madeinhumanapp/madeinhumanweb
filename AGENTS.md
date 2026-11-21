@@ -70,8 +70,9 @@ respon que necessites l'ID de l'encàrrec i atura't.
 | `npm run paritat` | compara `dist/` amb la web actual (estructura i text visible) | `19/19 pàgines idèntiques` |
 | `npm run contractes` | omple els formularis i comprova què s'envia a rgpd-tool | 4 línies `ok` |
 | `npm run previsualitzacio` | seguretat de la vista prèvia del panell | `7/7 comprovacions correctes` |
-| `npm run comprovar` | les quatre anteriors seguides | tot l'anterior |
+| `npm run comprovar` | totes les comprovacions seguides | tot el que diu aquesta taula |
 | `npm run sense-html` | cap HTML dins de `contingut/` | `cap HTML al contingut` |
+| `npm run actualitat` | proves de les notícies (llistat, pàgines, RSS, validacions) | `totes les comprovacions de l'actualitat correctes` |
 | `npm run extreure-portada` | torna a convertir la portada en contingut, bloc a bloc | `✓ idèntic` als blocs fets |
 
 Per comparar només una pàgina: `npm run paritat -- --pagines index.html`.
@@ -80,7 +81,7 @@ Per comparar només una pàgina: `npm run paritat -- --pagines index.html`.
 
 | Carpeta o fitxer | Què hi ha |
 |---|---|
-| `contingut/` | Text de la web: `lloc.json` (contacte, menú, peu) i `pagines/*.json` (blocs de cada pàgina) |
+| `contingut/` | Text de la web: `lloc.json` (contacte, menú, peu), `pagines/*.json` (blocs de cada pàgina) i `actualitat/*.md` (notícies; format a `eines/LLEGEIX-ME.md`) |
 | `esquema/blocs.mjs` | Quins blocs hi ha, quins camps tenen, etiquetes en català i límits |
 | `plantilles/` | Disseny: `base.mjs` (cap, menú, peu), `blocs.mjs` (un bloc = una funció), `text.mjs` |
 | `eines/` | `construir.mjs` (generador), `extreure-portada.mjs` (migració), `previsualitzacio/` |

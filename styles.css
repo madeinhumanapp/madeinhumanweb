@@ -527,6 +527,10 @@ section.block { padding: 120px 0; position: relative; }
 .news-date { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); letter-spacing: 0.08em; }
 .news-title { font-family: var(--font-serif); font-size: 20px; font-weight: 500; line-height: 1.25; letter-spacing: -0.01em; }
 .news-body { color: var(--text-dim); font-size: 14.5px; line-height: 1.6; flex-grow: 1; }
+.news-title a { color: inherit; text-decoration: none; }
+.news-title a:hover, .news-title a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+.news-mes { margin-top: 28px; text-align: center; }
+.news-mes a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-dim); }
 .news-source { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); letter-spacing: 0.06em; padding-top: 12px; border-top: 1px solid var(--border); }
 
 /* ===== FORMS ===== */

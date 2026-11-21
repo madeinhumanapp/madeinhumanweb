@@ -30,6 +30,8 @@ jobs:
         run: npm run sense-html
       - name: Generar dist/
         run: npm run construir
+      - name: Notícies (actualitat)
+        run: npm run actualitat
       - name: Paritat amb la web actual
         run: npm run paritat
       - name: Contractes dels formularis amb rgpd-tool
