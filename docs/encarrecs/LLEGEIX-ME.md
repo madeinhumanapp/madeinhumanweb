@@ -13,6 +13,7 @@ Estat: ▶ a punt · ◐ en curs · ☑ integrat · ☐ encara no (depèn d'una 
 | WEB-L01 | [Revisió lingüística i de to](WEB-L01-revisio-linguistica.md) | ☑ (lots A i B; falta la teva aprovació) | `mistral/WEB-L01` | — | tots |
 | WEB-L03 | [Esborrany en castellà de la FAQ](WEB-L03-faq-castella.md) | ☑ | `mistral/WEB-L03` | — | tots |
 | WEB-H05b | [Pàgines legals a Markdown](WEB-H05b-pagines-legals.md) | ☑ | `mistral/WEB-H05b` | — | tots |
+| WEB-L04 | [Esborrany en castellà de les pàgines legals](WEB-L04-legal-castella.md) | ▶ | `mistral/WEB-L04` | — | tots |
 | WEB-A02 | Migrar les 3 notícies actuals | ☐ | `mistral/WEB-A02` | WEB-A01 (Claude: tipus «notícia») | — |
 | WEB-M05 | Subtítols dels vídeos | ☐ | `mistral/WEB-M05` | WEB-M03 (Claude: vídeos) | — |
 
