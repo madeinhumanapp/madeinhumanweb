@@ -1,6 +1,8 @@
 // Port a Node de marca/pagines/generar.py (encàrrec WEB-H04): mateixes funcions,
 // mateix ordre i mateix HTML. Les dades de contacte (NAP) no estan aquí: surten de
 // contingut/lloc.json (font única), que arriba com a `lloc`.
+import { enriquit } from './text.mjs';
+import { markdown } from './markdown.mjs';
 
 const CARPETA = { ca: 'serveis', es: 'es/servicios' };
 
@@ -193,14 +195,14 @@ ${JSON.stringify(ld, null, 2)}
     ] };
     const seccions = p.seccions.map(([t, cos]) => `      <section class="pagina-seccio">
         <h2>${e(t)}</h2>
-        ${cos}
+        ${markdown(cos)}
       </section>
 `).join('');
     const cos = `  <main class="pagina">
     <div class="container pagina-contingut legal-content">
       <nav class="molles" aria-label="${lang === 'ca' ? 'Ruta' : 'Ruta'}"><a href="${c.home}">${e(c.inici)}</a> › <a href="${c.breadcrumb_serveis}">${e(c.serveis)}</a> › <span aria-current="page">${e(p.curt)}</span></nav>
       <span class="eyebrow">${e(p.eyebrow)}</span>
-      <h1 class="section-title pagina-h1">${p.h1}</h1>
+      <h1 class="section-title pagina-h1">${enriquit(p.h1)}</h1>
       <p class="pagina-lede">${e(p.lede)}</p>
 ${seccions}${bloc_final(lang, clau)}    </div>
   </main>
@@ -220,7 +222,7 @@ ${seccions}${bloc_final(lang, clau)}    </div>
     const cos = `  <main class="pagina">
     <div class="container pagina-contingut legal-content">
       <span class="eyebrow">${e(p.eyebrow)}</span>
-      <h1 class="section-title pagina-h1 pagina-h1-gran">${p.h1}</h1>
+      <h1 class="section-title pagina-h1 pagina-h1-gran">${enriquit(p.h1)}</h1>
       <p class="pagina-lede">${e(p.lede)}</p>
       <section class="pagina-seccio" id="servicios">
         <h2>${e(p.serveis_titol)}</h2>
