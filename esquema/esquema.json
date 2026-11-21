@@ -743,6 +743,113 @@
       "etiqueta": "Botó de WhatsApp al final (telèfon de les dades del lloc)"
     }
   },
+  "lloc": {
+    "contacte": {
+      "correu": {
+        "tipus": "text",
+        "etiqueta": "Correu electrònic",
+        "max": 80,
+        "obligatori": true
+      },
+      "telefon": {
+        "tipus": "text",
+        "etiqueta": "Telèfon (format internacional)",
+        "max": 16,
+        "obligatori": true,
+        "ajuda": "Amb prefix i sense espais: +34600000000. El fan servir els enllaços de trucada i de WhatsApp"
+      },
+      "telefonVisible": {
+        "tipus": "text",
+        "etiqueta": "Telèfon tal com es mostra",
+        "max": 20,
+        "obligatori": true,
+        "ajuda": "P. ex.: 600 00 00 00"
+      },
+      "carrer": {
+        "tipus": "text",
+        "etiqueta": "Adreça",
+        "max": 80,
+        "obligatori": true
+      },
+      "cp": {
+        "tipus": "text",
+        "etiqueta": "Codi postal",
+        "max": 5,
+        "obligatori": true
+      },
+      "ciutat": {
+        "tipus": "text",
+        "etiqueta": "Població",
+        "max": 40,
+        "obligatori": true
+      }
+    },
+    "menu": {
+      "crida": {
+        "tipus": "grup",
+        "etiqueta": "Botó del menú",
+        "obligatori": true,
+        "camps": {
+          "text": {
+            "tipus": "text",
+            "etiqueta": "Text",
+            "max": 30,
+            "obligatori": true
+          },
+          "href": {
+            "tipus": "enllac",
+            "etiqueta": "Enllaç",
+            "obligatori": true
+          }
+        }
+      },
+      "whatsappEtiqueta": {
+        "tipus": "text",
+        "etiqueta": "Text accessible del botó de WhatsApp",
+        "max": 60,
+        "obligatori": true,
+        "ajuda": "El llegeixen els lectors de pantalla"
+      }
+    },
+    "peu": {
+      "descripcio": {
+        "tipus": "text",
+        "etiqueta": "Descripció",
+        "max": 200,
+        "obligatori": true
+      },
+      "boto": {
+        "tipus": "grup",
+        "etiqueta": "Botó del peu",
+        "obligatori": true,
+        "camps": {
+          "text": {
+            "tipus": "text",
+            "etiqueta": "Text",
+            "max": 40,
+            "obligatori": true
+          },
+          "href": {
+            "tipus": "enllac",
+            "etiqueta": "Enllaç",
+            "obligatori": true
+          }
+        }
+      },
+      "copyright": {
+        "tipus": "text",
+        "etiqueta": "Drets",
+        "max": 80,
+        "obligatori": true
+      },
+      "estat": {
+        "tipus": "text",
+        "etiqueta": "Text de la línia inferior",
+        "max": 60,
+        "obligatori": true
+      }
+    }
+  },
   "serveis": {
     "serveis": [
       "adequacio",

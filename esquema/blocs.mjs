@@ -185,6 +185,11 @@ export function validarCamp(def, valor, ruta, errors) {
       if (def.max && valor.length > def.max) errors.push(`${ruta}: ${valor.length} caràcters (màxim ${def.max})`);
       if (/<[a-z/!]/i.test(valor.replace(/<!--[\s\S]*?-->/g, ''))) errors.push(`${ruta}: no s'hi pot posar HTML (fes servir Markdown)`);
       break;
+    case 'grup':
+      if (typeof valor !== 'object' || Array.isArray(valor)) return errors.push(`${ruta}: ha de ser un grup de camps`);
+      Object.entries(def.camps).forEach(([k, d]) => validarCamp(d, valor[k], `${ruta}.${k}`, errors));
+      for (const k of Object.keys(valor)) if (!def.camps[k]) errors.push(`${ruta}: camp no previst «${k}»`);
+      break;
     case 'data':
       if (typeof valor !== 'string' || !dataValida(valor)) errors.push(`${ruta}: ha de ser una data AAAA-MM-DD (${valor})`);
       break;
@@ -288,5 +293,40 @@ export function validarNoticia(n) {
   if (/<[a-z/!]/i.test(n.cos.replace(/<!--[\s\S]*?-->/g, ''))) errors.push("cos: no s'hi pot posar HTML (fes servir Markdown)");
   if (n.cap?.estat === 'publicat' && /\[REVISAR/.test(JSON.stringify(n.cap) + n.cos))
     errors.push('té marques [REVISAR]: no es pot publicar fins que es resolguin');
+  return errors;
+}
+
+// contingut/lloc.json: dades que surten a totes les pàgines (WEB-P06). Des del panell només s'editen el contacte i
+// els textos del menú i del peu; els enllaços del menú i del peu, l'SEO comú i les icones són estructura.
+const enllacText = (etiqueta, max) => ({ tipus: 'grup', etiqueta, obligatori: true, camps: { text: text('Text', max), href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true } } });
+export const CAMPS_CONTACTE = {
+  correu: text('Correu electrònic', 80),
+  telefon: text('Telèfon (format internacional)', 16, { ajuda: 'Amb prefix i sense espais: +34600000000. El fan servir els enllaços de trucada i de WhatsApp' }),
+  telefonVisible: text('Telèfon tal com es mostra', 20, { ajuda: 'P. ex.: 600 00 00 00' }),
+  carrer: text('Adreça', 80),
+  cp: text('Codi postal', 5),
+  ciutat: text('Població', 40),
+};
+export const CAMPS_MENU = {
+  crida: enllacText('Botó del menú', 30),
+  whatsappEtiqueta: text('Text accessible del botó de WhatsApp', 60, { ajuda: 'El llegeixen els lectors de pantalla' }),
+};
+export const CAMPS_PEU = {
+  descripcio: text('Descripció', 200),
+  boto: enllacText('Botó del peu', 40),
+  copyright: text('Drets', 80),
+  estat: text('Text de la línia inferior', 60),
+};
+export function validarLloc(l) {
+  const errors = [];
+  Object.entries(CAMPS_CONTACTE).forEach(([k, d]) => validarCamp(d, l?.contacte?.[k], `contacte.${k}`, errors));
+  const k = l?.contacte || {};
+  if (k.correu && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(k.correu)) errors.push('contacte.correu: no és una adreça de correu');
+  if (k.telefon && !/^\+\d{8,15}$/.test(k.telefon)) errors.push('contacte.telefon: ha de ser +34600000000 (prefix i xifres, sense espais)');
+  if (k.cp && !/^\d{5}$/.test(k.cp)) errors.push('contacte.cp: han de ser 5 xifres');
+  for (const idioma of ['ca', 'es']) {
+    Object.entries(CAMPS_MENU).forEach(([c, d]) => validarCamp(d, l?.menu?.[idioma]?.[c], `menu.${idioma}.${c}`, errors));
+    Object.entries(CAMPS_PEU).forEach(([c, d]) => validarCamp(d, l?.peu?.[idioma]?.[c], `peu.${idioma}.${c}`, errors));
+  }
   return errors;
 }

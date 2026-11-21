@@ -19,6 +19,25 @@ function jsonldAmbFaq(j, faq) {
   })) };
 }
 
+// Les dades de contacte del JSON-LD surten de contingut/lloc.json (font única): si es canvien al panell,
+// també canvien aquí. Només se substitueixen els camps que ja hi són (mateix ordre, mateix resultat).
+function ambContacte(j, lloc) {
+  const k = lloc.contacte;
+  const posa = (o, camp, v) => (camp in o ? { ...o, [camp]: v } : o);
+  const recorre = o => {
+    if (Array.isArray(o)) return o.map(recorre);
+    if (!o || typeof o !== 'object') return o;
+    let r = Object.fromEntries(Object.entries(o).map(([c, v]) => [c, recorre(v)]));
+    if (r['@type'] === 'PostalAddress') {
+      r = posa(r, 'streetAddress', k.carrer); r = posa(r, 'postalCode', k.cp); r = posa(r, 'addressLocality', k.ciutat);
+    } else if (r.address || r.telephone) {
+      r = posa(r, 'telephone', k.telefon); r = posa(r, 'email', k.correu);
+    }
+    return r;
+  };
+  return recorre(j);
+}
+
 function cap(lloc, p, faq) {
   const c = p.cap, d = lloc.cap;
   const og = { ...d.og, ...c.og };
@@ -32,7 +51,7 @@ function cap(lloc, p, faq) {
   <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />${meta('author', d.autor)}${meta('robots', c.robots ?? d.robots)}${meta('theme-color', d.colorTema)}${(c.jsonld || []).map(j => jsonldAmbFaq(j, faq)).map(j => `
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />${meta('author', d.autor)}${meta('robots', c.robots ?? d.robots)}${meta('theme-color', d.colorTema)}${(c.jsonld || []).map(j => ambContacte(jsonldAmbFaq(j, faq), lloc)).map(j => `
   <script type="application/ld+json">
 ${JSON.stringify(j, null, 2)}
   </script>`).join('\n')}${d.precarregar.map(f => `

@@ -7,7 +7,7 @@ import { pagina } from '../plantilles/base.mjs';
 import { paginaLegal } from '../plantilles/legal.mjs';
 import { paginaXarxes } from '../plantilles/xarxes.mjs';
 import { validarServeis, CAMPS_SERVEI, CAMPS_PORTADA_ES, CAMPS_COMU } from '../esquema/serveis.mjs';
-import { validarPagina, validarFaq, validarNoticia, ESQUEMA, CAMPS_NOTICIA, CAMPS_XARXES } from '../esquema/blocs.mjs';
+import { validarPagina, validarFaq, validarNoticia, validarLloc, ESQUEMA, CAMPS_NOTICIA, CAMPS_XARXES } from '../esquema/blocs.mjs';
 import { llegirNoticia, publicades, targeta, paginesActualitat, ambNoticiesAlMapa } from '../plantilles/actualitat.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -46,7 +46,7 @@ const formularis = Object.fromEntries(fs.readdirSync(DIR_FORMS).filter(f => f.en
   .map(f => [path.basename(f, '.html'), fs.readFileSync(path.join(DIR_FORMS, f), 'utf8')]));
 // FAQ: una sola font per a la llista visible i el JSON-LD
 const faq = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/faq.json'), 'utf8'));
-const errors = validarFaq(faq).map(e => `faq.json: ${e}`);
+const errors = [...validarFaq(faq).map(e => `faq.json: ${e}`), ...validarLloc(lloc).map(e => `lloc.json: ${e}`)];
 // Notícies: contingut/actualitat/*.md. Només surten les publicades amb data d'avui o anterior (hora de Madrid);
 // DATA_CONSTRUCCIO=AAAA-MM-DD fixa «avui» (proves). Les programades surten a la construcció d'aquell dia.
 const AVUI = process.env.DATA_CONSTRUCCIO || new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Madrid' }).format(new Date());
