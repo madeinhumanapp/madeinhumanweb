@@ -176,6 +176,12 @@ export function validarPagina(p) {
   const errors = [];
   for (const k of ['pagina', 'idioma', 'ruta', 'fitxer']) if (!p[k]) errors.push(`falta «${k}»`);
   if (!p.cap?.titol) errors.push('falta el títol (cap.titol)');
+  if (p.plantilla === 'legal') {
+    for (const k of ['etiqueta', 'titol', 'entradeta', 'notaFinal', 'cos']) if (!p[k]) errors.push(`pàgina legal: falta «${k}»`);
+    for (const k of ['descripcio', 'robots', 'canonica']) if (!p.cap?.[k]) errors.push(`pàgina legal: falta «cap.${k}»`);
+    if (p.cos && !/^legal\/[a-z0-9-]+\.md$/.test(p.cos)) errors.push('pàgina legal: «cos» ha de ser legal/<nom>.md');
+    return errors;
+  }
   (p.blocs || []).forEach((b, i) => errors.push(...validarBloc(b, `blocs[${i}] (${b.tipus})`)));
   return errors;
 }

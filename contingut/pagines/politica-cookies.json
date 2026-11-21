@@ -1,0 +1,18 @@
+{
+  "pagina": "politica-cookies",
+  "idioma": "ca",
+  "ruta": "/politica-cookies.html",
+  "fitxer": "politica-cookies.html",
+  "plantilla": "legal",
+  "cap": {
+    "titol": "Política de cookies — Madeinhuman",
+    "descripcio": "Política de cookies de Madeinhuman. Tipus de cookies utilitzades, finalitats i com gestionar les teves preferències.",
+    "robots": "noindex, follow",
+    "canonica": "https://madeinhuman.cat/politica-cookies.html"
+  },
+  "etiqueta": "Legal",
+  "titol": "Política de cookies",
+  "entradeta": "Darrera actualització: 15 de juny del 2026",
+  "notaFinal": "Darrera actualització: 15 de juny del 2026 · MADEINHUMAN, ESPJ · [https://madeinhuman.cat](https://madeinhuman.cat)",
+  "cos": "legal/politica-cookies.md"
+}

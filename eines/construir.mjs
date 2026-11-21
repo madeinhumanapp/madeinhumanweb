@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { pagina } from '../plantilles/base.mjs';
+import { paginaLegal } from '../plantilles/legal.mjs';
 import { validarPagina, ESQUEMA } from '../esquema/blocs.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -47,7 +48,11 @@ for (const f of fs.readdirSync(path.join(ARREL, 'contingut/pagines'))) {
   const e = validarPagina(p);
   if (e.length) { errors.push(...e.map(x => `${f}: ${x}`)); continue; }
   fs.mkdirSync(path.dirname(path.join(SORTIDA, p.fitxer)), { recursive: true });
-  fs.writeFileSync(path.join(SORTIDA, p.fitxer), pagina(lloc, p, formularis));
+  // Pàgines legals: marc propi i cos en Markdown (contingut/legal/*.md)
+  const html = p.plantilla === 'legal'
+    ? paginaLegal(lloc, p, fs.readFileSync(path.join(ARREL, 'contingut', p.cos), 'utf8'))
+    : pagina(lloc, p, formularis);
+  fs.writeFileSync(path.join(SORTIDA, p.fitxer), html);
   generades++;
 }
 // 2b. Pàgines de servei i portada en castellà (port de marca/pagines/generar.py, encàrrec WEB-H04):
