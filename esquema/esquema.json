@@ -1,0 +1,955 @@
+{
+  "_avis": "Fitxer generat per eines/exportar-esquema.mjs a partir de esquema/*.mjs. No l'editis a mà.",
+  "versio": 1,
+  "blocs": {
+    "hero": {
+      "nom": "Capçalera de la portada",
+      "camps": {
+        "subtitol": {
+          "tipus": "text",
+          "etiqueta": "Subtítol",
+          "max": 80,
+          "obligatori": true
+        },
+        "titol": {
+          "tipus": "enriquit",
+          "etiqueta": "Titular",
+          "max": 80,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "text": {
+          "tipus": "enriquit",
+          "etiqueta": "Descripció",
+          "max": 240,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "botons": {
+          "tipus": "llista",
+          "etiqueta": "Botons",
+          "min": 1,
+          "max": 2,
+          "element": {
+            "text": {
+              "tipus": "text",
+              "etiqueta": "Text del botó",
+              "max": 40,
+              "obligatori": true
+            },
+            "href": {
+              "tipus": "enllac",
+              "etiqueta": "Enllaç",
+              "obligatori": true
+            },
+            "estil": {
+              "tipus": "seleccio",
+              "etiqueta": "Estil",
+              "opcions": [
+                "primari",
+                "secundari"
+              ],
+              "obligatori": true
+            },
+            "fletxa": {
+              "tipus": "bool",
+              "etiqueta": "Amb fletxa"
+            }
+          }
+        },
+        "etiquetes": {
+          "tipus": "llista",
+          "etiqueta": "Etiquetes",
+          "max": 4,
+          "element": {
+            "tipus": "enriquit",
+            "etiqueta": "Etiqueta",
+            "max": 40,
+            "obligatori": true,
+            "ajuda": "*cursiva*, **negreta**, salt de línia"
+          }
+        }
+      }
+    },
+    "spot": {
+      "nom": "Frase destacada",
+      "camps": {
+        "num": {
+          "tipus": "text",
+          "etiqueta": "Número",
+          "max": 3,
+          "obligatori": true,
+          "ajuda": "01, 02…"
+        },
+        "titol": {
+          "tipus": "enriquit",
+          "etiqueta": "Titular",
+          "max": 80,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "text": {
+          "tipus": "enriquit",
+          "etiqueta": "Text",
+          "max": 300,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "alternat": {
+          "tipus": "bool",
+          "etiqueta": "Fons alternat"
+        }
+      }
+    },
+    "context": {
+      "nom": "Context i xifres",
+      "camps": {
+        "etiqueta": {
+          "tipus": "text",
+          "etiqueta": "Etiqueta",
+          "max": 30,
+          "obligatori": true
+        },
+        "titol": {
+          "tipus": "enriquit",
+          "etiqueta": "Titular",
+          "max": 60,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "paragrafs": {
+          "tipus": "llista",
+          "etiqueta": "Paràgrafs",
+          "min": 1,
+          "max": 3,
+          "element": {
+            "tipus": "enriquit",
+            "etiqueta": "Paràgraf",
+            "max": 350,
+            "obligatori": true,
+            "ajuda": "*cursiva*, **negreta**, salt de línia"
+          }
+        },
+        "xifres": {
+          "tipus": "llista",
+          "etiqueta": "Xifres",
+          "min": 1,
+          "max": 4,
+          "element": {
+            "clau": {
+              "tipus": "text",
+              "etiqueta": "Xifra o sigla",
+              "max": 12,
+              "obligatori": true,
+              "ajuda": "Si és un nombre (30.931), s'anima en aparèixer"
+            },
+            "etiqueta": {
+              "tipus": "text",
+              "etiqueta": "Etiqueta",
+              "max": 60,
+              "obligatori": true
+            },
+            "text": {
+              "tipus": "enriquit",
+              "etiqueta": "Explicació",
+              "max": 230,
+              "obligatori": true,
+              "ajuda": "*cursiva*, **negreta**, salt de línia"
+            },
+            "font": {
+              "tipus": "text",
+              "etiqueta": "Font",
+              "max": 80,
+              "ajuda": "Opcional: d'on surt la xifra"
+            }
+          }
+        }
+      }
+    },
+    "actualitat": {
+      "nom": "Actualitat (notícies)",
+      "camps": {
+        "ancora": {
+          "tipus": "text",
+          "etiqueta": "Àncora",
+          "max": 30,
+          "bloquejat": true,
+          "ajuda": "Enllaços com /#actualitat hi apunten"
+        },
+        "etiqueta": {
+          "tipus": "text",
+          "etiqueta": "Etiqueta",
+          "max": 20,
+          "obligatori": true
+        },
+        "titol": {
+          "tipus": "enriquit",
+          "etiqueta": "Titular",
+          "max": 50,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "entradeta": {
+          "tipus": "enriquit",
+          "etiqueta": "Entradeta",
+          "max": 140,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "origen": {
+          "tipus": "seleccio",
+          "etiqueta": "D'on surten les notícies",
+          "opcions": [
+            "manual",
+            "actualitat"
+          ],
+          "ajuda": "actualitat: les 3 últimes publicades a contingut/actualitat/ · manual (o buit): la llista de sota"
+        },
+        "noticies": {
+          "tipus": "llista",
+          "etiqueta": "Notícies (manual)",
+          "max": 6,
+          "element": {
+            "variant": {
+              "tipus": "seleccio",
+              "etiqueta": "Color del tag",
+              "opcions": [
+                "rgpd",
+                "ia",
+                "cat"
+              ],
+              "obligatori": true,
+              "ajuda": "rgpd: coure · ia: blau (targeta destacada) · cat: verd"
+            },
+            "tag": {
+              "tipus": "text",
+              "etiqueta": "Etiqueta del tag",
+              "max": 10,
+              "obligatori": true
+            },
+            "data": {
+              "tipus": "text",
+              "etiqueta": "Data",
+              "max": 20,
+              "obligatori": true
+            },
+            "titol": {
+              "tipus": "enriquit",
+              "etiqueta": "Títol",
+              "max": 130,
+              "obligatori": true,
+              "ajuda": "*cursiva*, **negreta**, salt de línia"
+            },
+            "cos": {
+              "tipus": "enriquit",
+              "etiqueta": "Text",
+              "max": 440,
+              "obligatori": true,
+              "ajuda": "*cursiva*, **negreta**, salt de línia"
+            },
+            "font": {
+              "tipus": "text",
+              "etiqueta": "Font",
+              "max": 60,
+              "ajuda": "Opcional: d'on surt la notícia"
+            }
+          }
+        }
+      }
+    },
+    "serveis": {
+      "nom": "Serveis (pilars, transversal i enllaços)",
+      "camps": {
+        "ancora": {
+          "tipus": "text",
+          "etiqueta": "Àncora",
+          "max": 30,
+          "bloquejat": true,
+          "ajuda": "Enllaços com /#serveis hi apunten"
+        },
+        "etiqueta": {
+          "tipus": "text",
+          "etiqueta": "Etiqueta",
+          "max": 10,
+          "obligatori": true
+        },
+        "titol": {
+          "tipus": "enriquit",
+          "etiqueta": "Titular",
+          "max": 40,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "entradeta": {
+          "tipus": "enriquit",
+          "etiqueta": "Entradeta",
+          "max": 160,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "pilars": {
+          "tipus": "llista",
+          "etiqueta": "Pilars",
+          "min": 1,
+          "max": 3,
+          "element": {
+            "variant": {
+              "tipus": "seleccio",
+              "etiqueta": "Color del pilar",
+              "opcions": [
+                "estàndard",
+                "blau"
+              ],
+              "obligatori": true,
+              "ajuda": "blau: pilar destacat"
+            },
+            "retard": {
+              "tipus": "text",
+              "etiqueta": "Retard de la transició",
+              "max": 10,
+              "obligatori": true,
+              "bloquejat": true,
+              "ajuda": "Tècnic: no s'edita des del panell"
+            },
+            "num": {
+              "tipus": "text",
+              "etiqueta": "Número",
+              "max": 20,
+              "obligatori": true,
+              "ajuda": "Pilar 01, Pilar 02…"
+            },
+            "insigniaVariant": {
+              "tipus": "seleccio",
+              "etiqueta": "Color de la insignia",
+              "opcions": [
+                "vigent",
+                "prep"
+              ],
+              "obligatori": true,
+              "ajuda": "vigent: coure · prep: blau"
+            },
+            "insignia": {
+              "tipus": "text",
+              "etiqueta": "Text de la insignia",
+              "max": 30,
+              "obligatori": true
+            },
+            "subtitol": {
+              "tipus": "text",
+              "etiqueta": "Subtítol",
+              "max": 50,
+              "obligatori": true
+            },
+            "titol": {
+              "tipus": "enriquit",
+              "etiqueta": "Títol",
+              "max": 70,
+              "obligatori": true,
+              "ajuda": "*cursiva*, **negreta**, salt de línia"
+            },
+            "descripcio": {
+              "tipus": "enriquit",
+              "etiqueta": "Descripció",
+              "max": 250,
+              "obligatori": true,
+              "ajuda": "*cursiva*, **negreta**, salt de línia"
+            },
+            "llista": {
+              "tipus": "llista",
+              "etiqueta": "Llista de serveis",
+              "min": 1,
+              "max": 10,
+              "element": {
+                "tipus": "enriquit",
+                "etiqueta": "Servei",
+                "max": 60,
+                "obligatori": true,
+                "ajuda": "*cursiva*, **negreta**, salt de línia"
+              }
+            },
+            "peu": {
+              "tipus": "enriquit",
+              "etiqueta": "Nota del peu",
+              "max": 350,
+              "obligatori": true,
+              "ajuda": "**Per a qui:** … o **Nota:** …"
+            }
+          }
+        },
+        "transversalEtiqueta": {
+          "tipus": "text",
+          "etiqueta": "Etiqueta del servei transversal",
+          "max": 30,
+          "obligatori": true
+        },
+        "transversalTitol": {
+          "tipus": "text",
+          "etiqueta": "Títol del servei transversal",
+          "max": 30,
+          "obligatori": true
+        },
+        "transversalText": {
+          "tipus": "enriquit",
+          "etiqueta": "Descripció del servei transversal",
+          "max": 210,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "enllacosTitol": {
+          "tipus": "text",
+          "etiqueta": "Títol dels enllaços",
+          "max": 20,
+          "obligatori": true
+        },
+        "enllacos": {
+          "tipus": "llista",
+          "etiqueta": "Enllaços en detall",
+          "min": 1,
+          "max": 8,
+          "element": {
+            "text": {
+              "tipus": "text",
+              "etiqueta": "Text de l’enllaç",
+              "max": 50,
+              "obligatori": true
+            },
+            "href": {
+              "tipus": "enllac",
+              "etiqueta": "Enllaç",
+              "obligatori": true
+            }
+          }
+        }
+      }
+    },
+    "metode": {
+      "nom": "Mètode (passos)",
+      "camps": {
+        "ancora": {
+          "tipus": "text",
+          "etiqueta": "Àncora",
+          "max": 30,
+          "bloquejat": true,
+          "ajuda": "Enllaços com /#metode hi apunten"
+        },
+        "etiqueta": {
+          "tipus": "text",
+          "etiqueta": "Etiqueta",
+          "max": 30,
+          "obligatori": true
+        },
+        "titol": {
+          "tipus": "enriquit",
+          "etiqueta": "Titular",
+          "max": 80,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "entradeta": {
+          "tipus": "enriquit",
+          "etiqueta": "Entradeta",
+          "max": 300,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "passos": {
+          "tipus": "llista",
+          "etiqueta": "Passos",
+          "min": 2,
+          "max": 6,
+          "element": {
+            "titol": {
+              "tipus": "text",
+              "etiqueta": "Títol del pas",
+              "max": 40,
+              "obligatori": true
+            },
+            "text": {
+              "tipus": "enriquit",
+              "etiqueta": "Descripció",
+              "max": 300,
+              "obligatori": true,
+              "ajuda": "*cursiva*, **negreta**, salt de línia"
+            }
+          }
+        }
+      }
+    },
+    "formulari": {
+      "nom": "Formulari (protegit)",
+      "camps": {
+        "formulari": {
+          "tipus": "seleccio",
+          "etiqueta": "Formulari",
+          "opcions": [
+            "contacte",
+            "adequacio"
+          ],
+          "obligatori": true,
+          "bloquejat": true,
+          "ajuda": "Els camps del formulari no es poden editar: els rep rgpd-tool."
+        },
+        "titol": {
+          "tipus": "enriquit",
+          "etiqueta": "Titular",
+          "max": 80,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "entradeta": {
+          "tipus": "enriquit",
+          "etiqueta": "Entradeta",
+          "max": 400,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        }
+      }
+    },
+    "faq": {
+      "nom": "Preguntes freqüents",
+      "camps": {
+        "ancora": {
+          "tipus": "text",
+          "etiqueta": "Àncora",
+          "max": 30,
+          "bloquejat": true,
+          "ajuda": "Enllaços com /#faq hi apunten"
+        },
+        "etiqueta": {
+          "tipus": "text",
+          "etiqueta": "Etiqueta",
+          "max": 20,
+          "obligatori": true
+        },
+        "titol": {
+          "tipus": "enriquit",
+          "etiqueta": "Titular",
+          "max": 60,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "entradeta": {
+          "tipus": "enriquit",
+          "etiqueta": "Entradeta",
+          "max": 200,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "pestanyes": {
+          "tipus": "llista",
+          "etiqueta": "Pestanyes",
+          "min": 2,
+          "max": 6,
+          "ajuda": "La primera ha de ser «tots» (totes les preguntes)",
+          "element": {
+            "cat": {
+              "tipus": "text",
+              "etiqueta": "Categoria",
+              "max": 20,
+              "obligatori": true,
+              "ajuda": "tots, rgpd, ia, practic, glossari…"
+            },
+            "text": {
+              "tipus": "text",
+              "etiqueta": "Text de la pestanya",
+              "max": 20,
+              "obligatori": true
+            }
+          }
+        }
+      }
+    },
+    "separador": {
+      "nom": "Línia separadora",
+      "camps": {}
+    },
+    "html": {
+      "nom": "HTML (pendent de migrar)",
+      "bloquejat": true,
+      "camps": {
+        "html": {
+          "tipus": "html",
+          "etiqueta": "HTML",
+          "obligatori": true
+        }
+      }
+    }
+  },
+  "faq": {
+    "cat": {
+      "tipus": "text",
+      "etiqueta": "Categoria",
+      "max": 20,
+      "obligatori": true
+    },
+    "pregunta": {
+      "tipus": "text",
+      "etiqueta": "Pregunta",
+      "max": 150,
+      "obligatori": true
+    },
+    "resposta": {
+      "tipus": "enriquit",
+      "etiqueta": "Resposta",
+      "max": 900,
+      "obligatori": true,
+      "ajuda": "*cursiva*, **negreta**, salt de línia"
+    },
+    "destacada": {
+      "tipus": "bool",
+      "etiqueta": "Destacada (també a Google)"
+    }
+  },
+  "noticia": {
+    "titol": {
+      "tipus": "text",
+      "etiqueta": "Títol",
+      "max": 130,
+      "obligatori": true,
+      "ajuda": "Millor fins a 70 caràcters (Google en talla la resta)"
+    },
+    "resum": {
+      "tipus": "text",
+      "etiqueta": "Resum",
+      "max": 440,
+      "obligatori": true,
+      "ajuda": "Surt a la targeta i a Google: 1 o 2 frases (millor fins a 160 caràcters)"
+    },
+    "data": {
+      "tipus": "data",
+      "etiqueta": "Data de publicació",
+      "obligatori": true,
+      "ajuda": "No surt a la web abans d'aquest dia"
+    },
+    "etiqueta": {
+      "tipus": "seleccio",
+      "etiqueta": "Tema",
+      "opcions": [
+        "rgpd",
+        "ia",
+        "apdcat"
+      ],
+      "obligatori": true,
+      "ajuda": "rgpd: coure · ia: blau · apdcat: verd"
+    },
+    "font_nom": {
+      "tipus": "text",
+      "etiqueta": "Font (organisme)",
+      "max": 80,
+      "obligatori": true,
+      "ajuda": "AEPD, APDCat, Comissió Europea, DOUE…"
+    },
+    "font_url": {
+      "tipus": "enllac",
+      "etiqueta": "Enllaç a la font",
+      "ajuda": "Obligatori si la notícia té cos (pàgina pròpia)"
+    },
+    "data_font": {
+      "tipus": "data",
+      "etiqueta": "Data de la publicació original"
+    },
+    "servei_relacionat": {
+      "tipus": "seleccio",
+      "etiqueta": "Servei relacionat",
+      "opcions": [
+        "adequacio",
+        "dpo",
+        "auditoria",
+        "ia",
+        "web"
+      ]
+    },
+    "estat": {
+      "tipus": "seleccio",
+      "etiqueta": "Estat",
+      "opcions": [
+        "esborrany",
+        "publicat"
+      ],
+      "obligatori": true
+    },
+    "idioma": {
+      "tipus": "seleccio",
+      "etiqueta": "Idioma",
+      "opcions": [
+        "ca"
+      ],
+      "obligatori": true,
+      "ajuda": "De moment, només català"
+    },
+    "data_text": {
+      "tipus": "text",
+      "etiqueta": "Data visible (només notícies migrades)",
+      "max": 20,
+      "bloquejat": true
+    },
+    "font_text": {
+      "tipus": "text",
+      "etiqueta": "Línia de font (només notícies migrades)",
+      "max": 60,
+      "bloquejat": true
+    }
+  },
+  "xarxes": {
+    "titol": {
+      "tipus": "enriquit",
+      "etiqueta": "Titular",
+      "max": 70,
+      "obligatori": true,
+      "ajuda": "*cursiva*, **negreta**, salt de línia"
+    },
+    "subtitol": {
+      "tipus": "text",
+      "etiqueta": "Subtítol",
+      "max": 140,
+      "obligatori": true
+    },
+    "botons": {
+      "tipus": "llista",
+      "etiqueta": "Botons",
+      "min": 1,
+      "max": 6,
+      "element": {
+        "text": {
+          "tipus": "text",
+          "etiqueta": "Text del botó",
+          "max": 40,
+          "obligatori": true
+        },
+        "detall": {
+          "tipus": "text",
+          "etiqueta": "Explicació",
+          "max": 80,
+          "obligatori": true
+        },
+        "href": {
+          "tipus": "enllac",
+          "etiqueta": "Enllaç",
+          "obligatori": true
+        },
+        "principal": {
+          "tipus": "bool",
+          "etiqueta": "Botó destacat"
+        },
+        "utm": {
+          "tipus": "bool",
+          "etiqueta": "Afegeix l'origen (utm) segons la xarxa",
+          "ajuda": "Només per a enllaços de madeinhuman.cat"
+        }
+      }
+    },
+    "ambWhatsapp": {
+      "tipus": "bool",
+      "etiqueta": "Botó de WhatsApp al final (telèfon de les dades del lloc)"
+    }
+  },
+  "serveis": {
+    "serveis": [
+      "adequacio",
+      "dpo",
+      "auditoria",
+      "ia",
+      "web"
+    ],
+    "slugs": {
+      "ca": {
+        "adequacio": "adequacio-rgpd-girona",
+        "dpo": "dpo-extern",
+        "auditoria": "auditoria-proteccio-dades",
+        "ia": "reglament-ia-empreses",
+        "web": "textos-legals-web"
+      },
+      "es": {
+        "adequacio": "adecuacion-rgpd-girona",
+        "dpo": "dpo-externo",
+        "auditoria": "auditoria-proteccion-datos",
+        "ia": "reglamento-ia-empresas",
+        "web": "textos-legales-web"
+      }
+    },
+    "servei": {
+      "curt": {
+        "tipus": "text",
+        "etiqueta": "Nom curt",
+        "max": 40,
+        "obligatori": true,
+        "ajuda": "Surt al menú, a les molles i al peu"
+      },
+      "titol_seo": {
+        "tipus": "text",
+        "etiqueta": "Títol per a Google",
+        "max": 90,
+        "obligatori": true,
+        "ajuda": "Millor fins a 65 caràcters"
+      },
+      "descripcio": {
+        "tipus": "text",
+        "etiqueta": "Descripció per a Google",
+        "max": 200,
+        "obligatori": true,
+        "ajuda": "Millor fins a 160 caràcters"
+      },
+      "eyebrow": {
+        "tipus": "text",
+        "etiqueta": "Etiqueta sobre el títol",
+        "max": 50,
+        "obligatori": true
+      },
+      "h1": {
+        "tipus": "enriquit",
+        "etiqueta": "Titular",
+        "max": 80,
+        "obligatori": true,
+        "ajuda": "*cursiva* i salt de línia"
+      },
+      "lede": {
+        "tipus": "text",
+        "etiqueta": "Entradeta",
+        "max": 260,
+        "obligatori": true
+      },
+      "seccions": {
+        "tipus": "llista",
+        "etiqueta": "Seccions",
+        "min": 1,
+        "max": 6,
+        "element": {
+          "titol": {
+            "tipus": "text",
+            "etiqueta": "Títol de la secció",
+            "max": 60,
+            "obligatori": true
+          },
+          "cos": {
+            "tipus": "markdown",
+            "etiqueta": "Text",
+            "max": 1500,
+            "obligatori": true,
+            "ajuda": "Markdown: paràgrafs, llistes amb «- », **negreta**, [enllaç](/ruta)"
+          }
+        }
+      }
+    },
+    "portada_es": {
+      "titol_seo": {
+        "tipus": "text",
+        "etiqueta": "Títol per a Google",
+        "max": 90,
+        "obligatori": true
+      },
+      "descripcio": {
+        "tipus": "text",
+        "etiqueta": "Descripció per a Google",
+        "max": 200,
+        "obligatori": true
+      },
+      "eyebrow": {
+        "tipus": "text",
+        "etiqueta": "Etiqueta sobre el títol",
+        "max": 50,
+        "obligatori": true
+      },
+      "h1": {
+        "tipus": "enriquit",
+        "etiqueta": "Titular",
+        "max": 40,
+        "obligatori": true
+      },
+      "lede": {
+        "tipus": "text",
+        "etiqueta": "Entradeta",
+        "max": 260,
+        "obligatori": true
+      },
+      "serveis_titol": {
+        "tipus": "text",
+        "etiqueta": "Títol de la llista de serveis",
+        "max": 30,
+        "obligatori": true
+      },
+      "contacte_titol": {
+        "tipus": "text",
+        "etiqueta": "Títol del contacte",
+        "max": 30,
+        "obligatori": true
+      },
+      "contacte_text": {
+        "tipus": "text",
+        "etiqueta": "Text del contacte",
+        "max": 160,
+        "obligatori": true
+      }
+    },
+    "comu": {
+      "inici": {
+        "tipus": "text",
+        "etiqueta": "Molles: inici",
+        "max": 20,
+        "obligatori": true
+      },
+      "serveis": {
+        "tipus": "text",
+        "etiqueta": "Molles: serveis",
+        "max": 20,
+        "obligatori": true
+      },
+      "metode_titol": {
+        "tipus": "text",
+        "etiqueta": "Títol del mètode",
+        "max": 40,
+        "obligatori": true
+      },
+      "metode": {
+        "tipus": "llista",
+        "etiqueta": "Passos del mètode",
+        "min": 4,
+        "max": 4,
+        "element": {
+          "titol": {
+            "tipus": "text",
+            "etiqueta": "Pas",
+            "max": 30,
+            "obligatori": true
+          },
+          "text": {
+            "tipus": "text",
+            "etiqueta": "Explicació",
+            "max": 140,
+            "obligatori": true
+          }
+        }
+      },
+      "cta_titol": {
+        "tipus": "text",
+        "etiqueta": "Crida final: títol",
+        "max": 60,
+        "obligatori": true
+      },
+      "cta_text": {
+        "tipus": "text",
+        "etiqueta": "Crida final: text",
+        "max": 260,
+        "obligatori": true
+      },
+      "zona_titol": {
+        "tipus": "text",
+        "etiqueta": "Zona: títol",
+        "max": 40,
+        "obligatori": true
+      },
+      "zona_text": {
+        "tipus": "text",
+        "etiqueta": "Zona: text",
+        "max": 200,
+        "obligatori": true,
+        "ajuda": "{zona} es canvia per la llista de comarques"
+      },
+      "altres": {
+        "tipus": "text",
+        "etiqueta": "Títol «altres serveis»",
+        "max": 30,
+        "obligatori": true
+      }
+    }
+  }
+}

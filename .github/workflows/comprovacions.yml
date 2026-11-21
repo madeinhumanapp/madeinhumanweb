@@ -26,6 +26,8 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps chromium
+      - name: esquema.json al dia
+        run: npm run exportar-esquema -- --comprovar
       - name: Cap HTML al contingut
         run: npm run sense-html
       - name: Generar dist/

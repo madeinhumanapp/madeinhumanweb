@@ -54,6 +54,8 @@ respon que necessites l'ID de l'encàrrec i atura't.
 - Cap etiqueta HTML dins del contingut (`contingut/`): només `*cursiva*`, `**negreta**`, salt de línia i
   `[text](/ruta)`. El validador ho rebutja.
 - Català normatiu i planer. Castellà només si l'encàrrec ho demana.
+- Si l'encàrrec et fa canviar `esquema/*.mjs`, executa `npm run exportar-esquema` i afegeix `esquema/esquema.json`
+  al lliurament (el panell el llegeix; la comprovació falla si no està al dia).
 
 **Quan alguna cosa falla**
 - Si una ordre falla amb un error de programa (`TypeError`, `ReferenceError`, `Cannot find module`, `SyntaxError`…)
@@ -73,6 +75,7 @@ respon que necessites l'ID de l'encàrrec i atura't.
 | `npm run comprovar` | totes les comprovacions seguides | tot el que diu aquesta taula |
 | `npm run sense-html` | cap HTML dins de `contingut/` | `cap HTML al contingut` |
 | `npm run serveis` | esquema de les pàgines de servei (`contingut/serveis.json`) | `totes les comprovacions dels serveis correctes` |
+| `npm run exportar-esquema` | regenera `esquema/esquema.json` (el llegeix el panell); amb `-- --comprovar` només comprova | `esquema.json al dia` |
 | `npm run tall` | `dist/` conté tot el que la web publica avui | `dist/ conté tot el que es publica avui` |
 | `npm run actualitat` | proves de les notícies (llistat, pàgines, RSS, validacions) | `totes les comprovacions de l'actualitat correctes` |
 | `npm run extreure-portada` | torna a convertir la portada en contingut, bloc a bloc | `✓ idèntic` als blocs fets |
