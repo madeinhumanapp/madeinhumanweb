@@ -44,3 +44,5 @@ jobs:
         run: npm run contractes
       - name: Vista prèvia del panell
         run: npm run previsualitzacio
+      - name: Seguretat de contingut (CSP)
+        run: npm run csp

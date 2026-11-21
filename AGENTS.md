@@ -76,6 +76,7 @@ respon que necessites l'ID de l'encàrrec i atura't.
 | `npm run sense-html` | cap HTML dins de `contingut/` | `cap HTML al contingut` |
 | `npm run serveis` | esquema de les pàgines de servei (`contingut/serveis.json`) | `totes les comprovacions dels serveis correctes` |
 | `npm run exportar-esquema` | regenera `esquema/esquema.json` (el llegeix el panell); amb `-- --comprovar` només comprova | `esquema.json al dia` |
+| `npm run csp` | cada pàgina amb les capçaleres de `_headers`: cap infracció de seguretat | `N/N sense cap infracció de la CSP` |
 | `npm run tall` | `dist/` conté tot el que la web publica avui | `dist/ conté tot el que es publica avui` |
 | `npm run actualitat` | proves de les notícies (llistat, pàgines, RSS, validacions) | `totes les comprovacions de l'actualitat correctes` |
 | `npm run extreure-portada` | torna a convertir la portada en contingut, bloc a bloc | `✓ idèntic` als blocs fets |
