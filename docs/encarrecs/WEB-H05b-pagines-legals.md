@@ -39,7 +39,7 @@ passa amb `politica-cookies.html`, **idèntiques per a la paritat**. No es canvi
    ```
    Si la paritat diu que un bloc és diferent, et mostra la primera línia que no coincideix: sol ser un salt de línia
    (`\`), una taula amb o sense capçalera, una negreta o un espai. Corregeix el Markdown o la fitxa, mai l'HTML.
-5. `git add` de les quatre fitxers del lliurament, commit `WEB-H05b: pàgines legals a Markdown` i push.
+5. `git add` dels quatre fitxers del lliurament, commit `WEB-H05b: pàgines legals a Markdown` i push.
 
 ## Lliurament
 
