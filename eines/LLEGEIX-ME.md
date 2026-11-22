@@ -1,8 +1,11 @@
 # Generador de la web i proves (prototip del pla del panell)
 
 Pla complet: `rgpdtool/docs/panell-web/` (repositori privat).
-Encara no es publica així: Cloudflare continua servint els fitxers de l'arrel. Aquestes carpetes
-són a `.assetsignore` i no surten a la web.
+
+**Publicació (Cloudflare Pages, projecte `madeinhumanweb`):** *Build command* `node eines/construir.mjs`, *Build output
+directory* `dist`, variable `SKIP_DEPENDENCY_INSTALL=1` (el generador no necessita cap paquet). Configurat el
+22/11/2026 (tall WEB-H10). Cada branca té vista prèvia a `<branca>.madeinhumanweb.pages.dev`; producció és `main`.
+Retorn: Pages → *Deployments* → *Rollback to this deployment* (passos a `rgpdtool/docs/panell-web/TALL.md`).
 
 ## Carpetes
 
