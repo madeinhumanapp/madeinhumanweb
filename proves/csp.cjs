@@ -34,7 +34,7 @@ const pagines = [];
   for (const e of fs.readdirSync(path.join(DIST, rel), { withFileTypes: true })) {
     const x = path.join(rel, e.name).split(path.sep).join('/');
     if (e.isDirectory()) { if (e.name !== '_previsualitzacio') r(x); }
-    else if (e.name.endsWith('.html')) pagines.push('/' + x.replace(/index\.html$/, ''));
+    else if (e.name.endsWith('.html') && e.name !== '404.html') pagines.push('/' + x.replace(/index\.html$/, '').replace(/\.html$/, ''));  // com les serveix Pages
   }
 })('');
 
@@ -46,8 +46,11 @@ const pagines = [];
     const u = new URL(r.request().url());
     if (u.origin === 'https://rgpd.madeinhuman.cat') { enviaments++; return r.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}', headers: { 'access-control-allow-origin': 'https://madeinhuman.cat' } }); }
     if (u.origin !== 'https://madeinhuman.cat') return r.fulfill({ status: 404, body: '' });
-    const f = path.join(DIST, decodeURIComponent(u.pathname.endsWith('/') ? u.pathname + 'index.html' : u.pathname));
-    if (!fs.existsSync(f) || !fs.statSync(f).isFile()) return r.fulfill({ status: 404, body: '' });
+    // Com Cloudflare Pages: /pagina serveix pagina.html. Les capçaleres es calculen amb aquesta ruta, que és la
+    // que veu Pages (les adreces amb .html hi redirigeixen amb un 308). Cap petició surt del simulador.
+    let f = path.join(DIST, decodeURIComponent(u.pathname.endsWith('/') ? u.pathname + 'index.html' : u.pathname));
+    if (!path.extname(f) && fs.existsSync(f + '.html')) f += '.html';
+    if (!fs.existsSync(f) || !fs.statSync(f).isFile()) return r.fulfill({ status: 404, contentType: TIPUS['.html'], body: fs.readFileSync(path.join(DIST, '404.html')), headers: capçaleres(u.pathname) });
     return r.fulfill({ body: fs.readFileSync(f), contentType: TIPUS[path.extname(f)] || 'application/octet-stream', headers: capçaleres(u.pathname) });
   });
   await context.addInitScript(() => {
@@ -67,11 +70,17 @@ const pagines = [];
     if (menu && await menu.isVisible()) { await menu.click(); await p.waitForTimeout(100); }
     const inf = await p.evaluate(() => window.__infraccions);
     // La recollida s'ha de muntar de debò (Babel compila l'assistent al navegador)
-    if (ruta === '/recollida.html' && !(await p.evaluate(() => document.getElementById('app')?.children.length))) errors.push('l\'assistent no s\'ha muntat');
+    if (ruta.startsWith('/recollida') && !(await p.evaluate(() => document.getElementById('app')?.children.length))) errors.push('l\'assistent no s\'ha muntat');
     const csp = capçaleres(ruta)['content-security-policy'] || '';
     ok(`${ruta}`, csp && !inf.length && !errors.length, [...inf, ...errors].join(' | ') || 'sense CSP');
     await p.close();
   }
+
+  // Pàgina no trobada (Pages la serveix amb codi 404 per a qualsevol adreça inexistent)
+  const q = await context.newPage();
+  const r404 = await q.goto('https://madeinhuman.cat/no-existeix');
+  ok('/no-existeix → pàgina 404 pròpia', r404.status() === 404 && (await q.textContent('h1')).includes('no existeix') && !(await q.evaluate(() => window.__infraccions)).length);
+  await q.close();
 
   // Formulari de contacte: ha de poder enviar a rgpd-tool amb la CSP posada
   const p = await context.newPage();
@@ -86,6 +95,6 @@ const pagines = [];
   ok('el formulari de contacte arriba a rgpd-tool amb la CSP', enviaments === 1 && !(await p.evaluate(() => window.__infraccions)).length, `${enviaments} enviaments`);
 
   await navegador.close();
-  console.log(fallades ? `\n${fallades} pàgines amb problemes de CSP` : `\n${pagines.length + 1}/${pagines.length + 1} sense cap infracció de la CSP`);
+  console.log(fallades ? `\n${fallades} pàgines amb problemes de CSP` : `\n${pagines.length + 2}/${pagines.length + 2} sense cap infracció de la CSP`);
   process.exit(fallades ? 1 : 0);
 })();
