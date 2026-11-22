@@ -50,7 +50,7 @@ export function marcInterior(lloc, dades) {
     };
   }
 
-  function cap(lang, titol, descripcio, canonical, alternates, ld, { ogType = 'website', capExtra = '', comentari = true } = {}) {
+  function cap(lang, titol, descripcio, canonical, alternates, ld, { ogType = 'website', capExtra = '', comentari = true, robots = 'index, follow, max-image-preview:large', ambCanonica = true } = {}) {
     const c = COMU[lang];
     const alt = alternates.map(([l, u]) => `  <link rel="alternate" hreflang="${l}" href="${WEB}${u}" />\n`).join('');
     return `<!DOCTYPE html>
@@ -60,9 +60,8 @@ export function marcInterior(lloc, dades) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 ${comentari ? '  <!-- Pàgina generada amb marca/pagines/generar.py: edita contingut.py, no aquest fitxer -->\n' : ''}  <title>${e(titol)}</title>
   <meta name="description" content="${e(descripcio)}" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
-  <link rel="canonical" href="${WEB}${canonical}" />
-${alt}  <meta property="og:title" content="${e(titol)}" />
+  <meta name="robots" content="${robots}" />
+${ambCanonica ? `  <link rel="canonical" href="${WEB}${canonical}" />\n` : ''}${alt}  <meta property="og:title" content="${e(titol)}" />
   <meta property="og:description" content="${e(descripcio)}" />
   <meta property="og:type" content="${ogType}" />
   <meta property="og:url" content="${WEB}${canonical}" />
@@ -171,6 +170,29 @@ ${seccions}${bloc_final(lang, clau)}    </div>
     return cap(lang, p.titol_seo, p.descripcio, url, alternates, ld) + nav(lang, url_altre) + cos + peu(lang);
   }
 
+  // Pàgina «no trobada»: Cloudflare Pages la serveix amb codi 404 (sense ella, tornaria la portada amb codi 200)
+  function pagina_404() {
+    const c = COMU.ca;
+    const cos = `  <main class="pagina">
+    <div class="container pagina-contingut legal-content">
+      <span class="eyebrow">Error 404</span>
+      <h1 class="section-title pagina-h1">Aquesta pàgina <em>no existeix.</em></h1>
+      <p class="pagina-lede">Potser l'adreça ha canviat o té algun error. Pots tornar a l'inici o anar directament on volies.</p>
+      <ul class="pagina-altres">
+        <li><a href="/">Inici</a></li>
+        <li><a href="/#serveis">Serveis</a></li>
+        <li><a href="/diagnostic.html">${e(c.cta_1[0])}</a></li>
+        <li><a href="/actualitat/">Actualitat</a></li>
+        <li><a href="/#contacte">Contacte</a></li>
+        <li><a href="/es/" lang="es" hreflang="es">Versión en castellano</a></li>
+      </ul>
+    </div>
+  </main>
+`;
+    return cap('ca', "Pàgina no trobada · Madeinhuman", "Aquesta pàgina no existeix.", '/404.html', [], { '@context': 'https://schema.org', '@graph': [empresa_ld()] },
+      { comentari: false, robots: 'noindex', ambCanonica: false }) + nav('ca', '/es/') + cos + peu('ca');
+  }
+
   function portada_es() {
     const p = PORTADA_ES;
     const ld = { '@context': 'https://schema.org', '@graph': [{ ...empresa_ld(), description: p.descripcio, inLanguage: 'es' }] };
@@ -219,5 +241,6 @@ ${seccions}${bloc_final(lang, clau)}    </div>
     }
   }
   pagines.push(['es/index.html', portada_es()]);
+  pagines.push(['404.html', pagina_404()]);
   return pagines;
 }
