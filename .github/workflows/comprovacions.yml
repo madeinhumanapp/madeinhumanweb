@@ -1,0 +1,48 @@
+# Comprovacions del generador i dels connectors amb rgpd-tool (pla del panell, WEB-H09).
+# No publica res: diu si la web generada és idèntica a l'actual, si els formularis envien a
+# rgpd-tool exactament el mateix i si la vista prèvia del panell és segura.
+name: Comprovacions
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Eines de comprovació (Playwright)
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: esquema.json al dia
+        run: npm run exportar-esquema -- --comprovar
+      - name: Cap HTML al contingut
+        run: npm run sense-html
+      - name: Generar dist/
+        run: npm run construir
+      - name: Notícies (actualitat)
+        run: npm run actualitat
+      - name: Esquema de les pàgines de servei
+        run: npm run serveis
+      - name: dist/ conté tot el que es publica avui (tall)
+        run: npm run tall
+      - name: Paritat amb la web actual
+        run: npm run paritat
+      - name: Contractes dels formularis amb rgpd-tool
+        run: npm run contractes
+      - name: Vista prèvia del panell
+        run: npm run previsualitzacio
+      - name: Seguretat de contingut (CSP)
+        run: npm run csp

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <title>Panell (prototip)</title>
+  <!-- Substitut mínim de la secció «Web» de rgpd-tool per provar la vista prèvia i els
+       formularis generats per l'esquema. A rgpd-tool serà React amb els components de la UI. -->
+  <style>
+    body { margin: 0; font: 14px/1.5 Inter, system-ui, sans-serif; display: grid; grid-template-columns: 220px 380px 1fr; height: 100vh; }
+    nav, form { overflow: auto; padding: 12px; border-right: 1px solid #ccc; }
+    nav button { display: block; width: 100%; text-align: left; padding: 8px; border: 0; background: none; cursor: pointer; }
+    nav button[aria-current] { background: #e8eefc; }
+    nav button[disabled] { color: #888; cursor: default; }
+    label { display: grid; gap: 2px; margin-bottom: 10px; }
+    input[type=text], textarea, select { font: inherit; padding: 6px; }
+    fieldset { margin-bottom: 10px; }
+    .ajuda { color: #555; font-size: 12px; }
+    iframe { border: 0; width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <nav id="blocs" aria-label="Blocs de la pàgina"></nav>
+  <form id="formulari" aria-label="Camps del bloc"></form>
+  <iframe id="previa" title="Vista prèvia" src="https://madeinhuman.cat/_previsualitzacio/"></iframe>
+  <script type="module" src="panell.mjs"></script>
+</body>
+</html>

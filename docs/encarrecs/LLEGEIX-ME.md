@@ -1,0 +1,25 @@
+# Encàrrecs per a Mistral — repositori de la web
+
+Normes i procediment: `AGENTS.md` (arrel del repositori). Pla complet: `rgpdtool/docs/panell-web/PLA-ACCIONS.md`
+(repositori privat).
+
+Estat: ▶ a punt · ◐ en curs · ☑ integrat · ☐ encara no (depèn d'una altra feina)
+
+| ID | Encàrrec | Estat | Branca de treball | Depèn de | Pot anar en paral·lel amb |
+|---|---|---|---|---|---|
+| WEB-H04 | [Port del generador de Python](WEB-H04-port-serveis.md) | ☑ | `mistral/WEB-H04` | — | H03b, L01 |
+| WEB-H03b | [Bloc «actualitat» a dades](WEB-H03-bloc-a-dades.md) | ☑ | `mistral/WEB-H03b` | — | H04, L01 |
+| WEB-H03d | [Bloc «serveis» a dades](WEB-H03-bloc-a-dades.md) | ☑ | `mistral/WEB-H03d` | H03b integrat (mateixos fitxers) | H04, L01 |
+| WEB-L01 | [Revisió lingüística i de to](WEB-L01-revisio-linguistica.md) | ☑ aplicat (WEB-L02) | `mistral/WEB-L01` | — | tots |
+| WEB-L03 | [Esborrany en castellà de la FAQ](WEB-L03-faq-castella.md) | ☑ | `mistral/WEB-L03` | — | tots |
+| WEB-H05b | [Pàgines legals a Markdown](WEB-H05b-pagines-legals.md) | ☑ | `mistral/WEB-H05b` | — | tots |
+| WEB-L04 | [Esborrany en castellà de les pàgines legals](WEB-L04-legal-castella.md) | ☑ (falta validació jurídica) | `mistral/WEB-L04` | — | tots |
+| WEB-H06 | [Pàgines de servei sense HTML al contingut](WEB-H06-serveis-sense-html.md) | ☑ | `mistral/WEB-H06` | — | tots |
+| WEB-L05 | [Títols i descripcions per a Google](WEB-L05-seo.md) | ☑ (17 de 20 propostes) | `mistral/WEB-L05` | — | tots |
+| WEB-L06 | [Revisió de les pàgines en castellà](WEB-L06-castella.md) | ☑ (3 de 4) | `mistral/WEB-L06` | — | tots |
+| WEB-A02 | [Migrar les 3 notícies actuals](WEB-A02-migrar-noticies.md) | ☑ | `mistral/WEB-A02` | — (WEB-A01 fet) | tots |
+| WEB-M05 | Subtítols dels vídeos | ☐ | `mistral/WEB-M05` | WEB-M03 (Claude: vídeos) | — |
+
+Ordre recomanat: **WEB-H04 → WEB-H03b → WEB-H03d**, i **WEB-L01** quan vulguis. Un sol encàrrec obert per sessió de Vibe.
+
+Quan un encàrrec queda integrat, Claude n'actualitza l'estat aquí i, si cal, escriu el següent.

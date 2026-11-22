@@ -1,0 +1,298 @@
+{
+  "contacte": {
+    "id": "formContacte",
+    "camps": {
+      "utm_source": {
+        "tipus": "hidden",
+        "obligatori": false
+      },
+      "utm_medium": {
+        "tipus": "hidden",
+        "obligatori": false
+      },
+      "utm_campaign": {
+        "tipus": "hidden",
+        "obligatori": false
+      },
+      "utm_content": {
+        "tipus": "hidden",
+        "obligatori": false
+      },
+      "nom": {
+        "tipus": "text",
+        "obligatori": true
+      },
+      "email": {
+        "tipus": "email",
+        "obligatori": true
+      },
+      "empresa": {
+        "tipus": "text",
+        "obligatori": false
+      },
+      "missatge": {
+        "tipus": "textarea",
+        "obligatori": true
+      },
+      "rgpd": {
+        "tipus": "checkbox",
+        "obligatori": true,
+        "valors": [
+          "on"
+        ]
+      },
+      "comunicacions": {
+        "tipus": "checkbox",
+        "obligatori": false,
+        "valors": [
+          "on"
+        ]
+      }
+    }
+  },
+  "adequacio": {
+    "id": "formAdequacio",
+    "camps": {
+      "utm_source": {
+        "tipus": "hidden",
+        "obligatori": false
+      },
+      "utm_medium": {
+        "tipus": "hidden",
+        "obligatori": false
+      },
+      "utm_campaign": {
+        "tipus": "hidden",
+        "obligatori": false
+      },
+      "utm_content": {
+        "tipus": "hidden",
+        "obligatori": false
+      },
+      "empresa": {
+        "tipus": "text",
+        "obligatori": true
+      },
+      "nif": {
+        "tipus": "text",
+        "obligatori": true
+      },
+      "activitat": {
+        "tipus": "text",
+        "obligatori": true
+      },
+      "email": {
+        "tipus": "email",
+        "obligatori": true
+      },
+      "telefon": {
+        "tipus": "tel",
+        "obligatori": true
+      },
+      "personaContacte": {
+        "tipus": "text",
+        "obligatori": true
+      },
+      "adreca": {
+        "tipus": "text",
+        "obligatori": true
+      },
+      "numTreballadors": {
+        "tipus": "number",
+        "obligatori": true
+      },
+      "numET": {
+        "tipus": "number",
+        "obligatori": true
+      },
+      "riscArt9": {
+        "tipus": "radio",
+        "obligatori": true,
+        "valors": [
+          "Sí",
+          "No"
+        ]
+      },
+      "riscCloud": {
+        "tipus": "radio",
+        "obligatori": true,
+        "valors": [
+          "Sí",
+          "No",
+          "No ho sé"
+        ]
+      },
+      "riscIA": {
+        "tipus": "radio",
+        "obligatori": true,
+        "valors": [
+          "Sí",
+          "No"
+        ]
+      },
+      "riscBio": {
+        "tipus": "radio",
+        "obligatori": true,
+        "valors": [
+          "Sí",
+          "No"
+        ]
+      },
+      "riscSector": {
+        "tipus": "select",
+        "obligatori": true,
+        "valors": [
+          "",
+          "Salut i serveis sanitaris",
+          "Educació i formació",
+          "Serveis financers o assegurances",
+          "Serveis legals o notarials",
+          "Tecnologia i SaaS",
+          "Comerç i retail",
+          "Hostaleria i turisme",
+          "Indústria i manufactura",
+          "Altres"
+        ]
+      },
+      "teWeb": {
+        "tipus": "radio",
+        "obligatori": true,
+        "valors": [
+          "si",
+          "no"
+        ]
+      },
+      "urlWeb": {
+        "tipus": "text",
+        "obligatori": false
+      },
+      "comercElectronic": {
+        "tipus": "radio",
+        "obligatori": false,
+        "valors": [
+          "si",
+          "no"
+        ]
+      },
+      "enviaCV": {
+        "tipus": "radio",
+        "obligatori": false,
+        "valors": [
+          "si",
+          "no"
+        ]
+      },
+      "eina": {
+        "tipus": "checkbox",
+        "obligatori": false,
+        "valors": [
+          "whatsapp",
+          "newsletter",
+          "google-workspace",
+          "m365",
+          "crm",
+          "ecommerce",
+          "ia-generativa",
+          "gestio-projectes"
+        ]
+      },
+      "enviaComunicacions": {
+        "tipus": "radio",
+        "obligatori": true,
+        "valors": [
+          "si",
+          "no"
+        ]
+      },
+      "grupEmpresarial": {
+        "tipus": "radio",
+        "obligatori": true,
+        "valors": [
+          "si",
+          "no"
+        ]
+      },
+      "diversesSeus": {
+        "tipus": "radio",
+        "obligatori": true,
+        "valors": [
+          "si",
+          "no"
+        ]
+      },
+      "observacions": {
+        "tipus": "textarea",
+        "obligatori": false
+      },
+      "rgpd": {
+        "tipus": "checkbox",
+        "obligatori": true,
+        "valors": [
+          "on"
+        ]
+      },
+      "comunicacions": {
+        "tipus": "checkbox",
+        "obligatori": false,
+        "valors": [
+          "on"
+        ]
+      }
+    }
+  },
+  "diagnostic": {
+    "id": "f",
+    "camps": {
+      "nom": {
+        "tipus": "text",
+        "obligatori": true
+      },
+      "empresa": {
+        "tipus": "text",
+        "obligatori": true
+      },
+      "email": {
+        "tipus": "email",
+        "obligatori": true
+      },
+      "telefon": {
+        "tipus": "tel",
+        "obligatori": false
+      },
+      "web_url": {
+        "tipus": "text",
+        "obligatori": false
+      },
+      "utm_source": {
+        "tipus": "hidden",
+        "obligatori": false
+      },
+      "utm_medium": {
+        "tipus": "hidden",
+        "obligatori": false
+      },
+      "utm_campaign": {
+        "tipus": "hidden",
+        "obligatori": false
+      },
+      "utm_content": {
+        "tipus": "hidden",
+        "obligatori": false
+      },
+      "privacitat": {
+        "tipus": "checkbox",
+        "obligatori": true,
+        "valors": [
+          "on"
+        ]
+      },
+      "comercial": {
+        "tipus": "checkbox",
+        "obligatori": false,
+        "valors": [
+          "on"
+        ]
+      }
+    }
+  }
+}

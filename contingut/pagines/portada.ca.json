@@ -1,0 +1,477 @@
+{
+  "pagina": "portada",
+  "idioma": "ca",
+  "ruta": "/",
+  "fitxer": "index.html",
+  "cap": {
+    "titol": "Madeinhuman — Protecció de dades RGPD i IA a Girona",
+    "descripcio": "Consultoria de protecció de dades (RGPD, LOPDGDD) i IA a Girona per a pimes: adequació al RGPD, DPO extern, auditories, textos legals web i Reglament d'IA.",
+    "paraulesClau": "RGPD Girona, protecció de dades Girona, implantar IA Girona, consultoria RGPD Catalunya, adequació RGPD pimes, DPO extern Girona, auditoria privacitat Girona, AI Act Espanya, regulació intel·ligència artificial, LOPD Girona, protecció de dades pimes, compliment RGPD, assessoria RGPD, implantació IA empreses, reglament europeu IA, AEPD, APDCat, privacitat dades personals",
+    "canonica": "https://madeinhuman.cat/",
+    "alternatives": [
+      {
+        "idioma": "ca",
+        "href": "https://madeinhuman.cat/"
+      },
+      {
+        "idioma": "es",
+        "href": "https://madeinhuman.cat/es/"
+      },
+      {
+        "idioma": "x-default",
+        "href": "https://madeinhuman.cat/"
+      }
+    ],
+    "og": {
+      "titol": "Madeinhuman — Protecció de dades RGPD i IA a Girona",
+      "descripcio": "Consultoria RGPD i AI Act per a pimes a Girona i Catalunya. T'ajudem a complir amb la normativa de protecció de dades i a implantar l'IA amb garanties.",
+      "tipus": "website",
+      "url": "https://madeinhuman.cat"
+    },
+    "twitter": {
+      "titol": "Madeinhuman — RGPD i IA a Girona",
+      "descripcio": "Consultoria de protecció de dades i intel·ligència artificial per a pimes a Girona i Catalunya: RGPD, LOPDGDD i Reglament d’IA."
+    },
+    "jsonld": [
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "@id": "https://madeinhuman.cat/#empresa",
+        "name": "Madeinhuman",
+        "alternateName": "MADEINHUMAN ESPJ",
+        "description": "Consultoria especialitzada en protecció de dades (RGPD/LOPDGDD) i regulació d'intel·ligència artificial (AI Act) per a pimes i autònoms a Girona, Catalunya i Espanya.",
+        "url": "https://madeinhuman.cat/",
+        "telephone": "+34614425759",
+        "email": "info@madeinhuman.cat",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Carrer Camp d'Or, 65",
+          "addressLocality": "Girona",
+          "postalCode": "17007",
+          "addressRegion": "Girona",
+          "addressCountry": "ES"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 41.9794,
+          "longitude": 2.8214
+        },
+        "areaServed": [
+          {
+            "@type": "AdministrativeArea",
+            "name": "Girona"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Gironès"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Baix Empordà"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Alt Empordà"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "la Selva"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Pla de l'Estany"
+          },
+          {
+            "@type": "State",
+            "name": "Catalunya"
+          },
+          {
+            "@type": "Country",
+            "name": "Espanya"
+          }
+        ],
+        "serviceArea": {
+          "@type": "GeoCircle",
+          "geoMidpoint": {
+            "@type": "GeoCoordinates",
+            "latitude": 41.9794,
+            "longitude": 2.8214
+          },
+          "geoRadius": "200000"
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Serveis de protecció de dades i IA",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Adequació al RGPD",
+                "description": "Consultoria RGPD a Girona: adequació al RGPD i a la LOPDGDD (l'antiga LOPD) per a pimes, autònoms i botigues online. Pràctica, proporcionada i explicada en clar.",
+                "url": "https://madeinhuman.cat/serveis/adequacio-rgpd-girona/"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "DPO extern",
+                "description": "Servei de delegat de protecció de dades (DPO) extern a Girona. Quan és obligatori segons el RGPD i la LOPDGDD, i com t'hi podem ajudar.",
+                "url": "https://madeinhuman.cat/serveis/dpo-extern/"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Auditoria de protecció de dades",
+                "description": "Auditoria de protecció de dades i privacitat a Girona: revisem el teu compliment del RGPD i la LOPDGDD i et donem un pla d'acció prioritzat.",
+                "url": "https://madeinhuman.cat/serveis/auditoria-proteccio-dades/"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Reglament d'IA i ús de la IA",
+                "description": "Preparació per al Reglament europeu d'IA (AI Act) a Girona: inventari d'eines, política d'ús d'IA per a l'equip, formació i assessorament, amb la protecció de dades integrada.",
+                "url": "https://madeinhuman.cat/serveis/reglament-ia-empreses/"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Textos legals i formularis web",
+                "description": "Avís legal, política de privacitat, política de cookies i formularis web que compleixen el RGPD i la LSSI, per a botigues online i empreses de Girona.",
+                "url": "https://madeinhuman.cat/serveis/textos-legals-web/"
+              }
+            }
+          ]
+        },
+        "knowsAbout": [
+          "RGPD",
+          "LOPDGDD",
+          "Protecció de dades",
+          "GDPR",
+          "AI Act",
+          "Reglament Intel·ligència Artificial",
+          "DPO",
+          "Delegat Protecció Dades",
+          "AEPD",
+          "APDCat",
+          "Privacitat",
+          "Compliance",
+          "Auditoria privacitat",
+          "RAT",
+          "EIPD",
+          "Privacy by Design"
+        ],
+        "priceRange": "€€",
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "09:00",
+          "closes": "18:00"
+        },
+        "sameAs": [],
+        "image": "https://madeinhuman.cat/og-image.png"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inici",
+            "item": "https://madeinhuman.cat/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Serveis",
+            "item": "https://madeinhuman.cat/#serveis"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Contacte",
+            "item": "https://madeinhuman.cat/#contacte"
+          }
+        ]
+      }
+    ]
+  },
+  "blocs": [
+    {
+      "tipus": "hero",
+      "subtitol": "Consultoria en protecció de dades i IA",
+      "titol": "Protegir\nés *avançar.*",
+      "text": "Ajudem pimes a complir amb la normativa de protecció de dades i a implantar la IA amb garanties.",
+      "botons": [
+        {
+          "text": "Sol·licitar adequació",
+          "href": "/#adequacio",
+          "estil": "primari",
+          "fletxa": true
+        },
+        {
+          "text": "Diagnòstic gratuït · 4 min",
+          "href": "/diagnostic.html",
+          "estil": "secundari"
+        }
+      ],
+      "etiquetes": [
+        "**RGPD** · vigent",
+        "**AI Act** · 2025–2028",
+        "**AEPD** · **APDCat**"
+      ]
+    },
+    {
+      "tipus": "separador"
+    },
+    {
+      "tipus": "context",
+      "etiqueta": "El context",
+      "titol": "Afecta totes\nles empreses.",
+      "paragrafs": [
+        "El RGPD és una **obligació vigent** des de 2018. Qualsevol empresa que tracti dades personals — clients, treballadors, proveïdors — l'ha de complir. L'Agència Espanyola de Protecció de Dades (AEPD) i l'Autoritat Catalana de Protecció de Dades (APDCat) supervisen el seu compliment a Espanya i Catalunya.",
+        "El Reglament europeu d'IA s'aplica progressivament entre 2025 i 2028. Per a les pimes que ja utilitzen eines d'IA, preparar-se amb temps és una **decisió estratègica**."
+      ],
+      "xifres": [
+        {
+          "clau": "RGPD",
+          "etiqueta": "Protecció de dades",
+          "text": "Obligació vigent des de 2018. El 2025, l'AEPD va rebre 30.931 reclamacions, la xifra més alta de la seva història."
+        },
+        {
+          "clau": "AI Act",
+          "etiqueta": "Reglament europeu d'IA",
+          "text": "Les regles de transparència s'apliquen des de l'agost de 2026. Els sistemes d'alt risc, des del desembre de 2027 (o l'agost de 2028 si van integrats en productes regulats)."
+        },
+        {
+          "clau": "30.931",
+          "etiqueta": "Reclamacions a l'AEPD el 2025 (+64%)",
+          "text": "La videovigilància va ser l'àrea amb més procediments sancionadors. La mida de l'empresa no exclou l'obligació.",
+          "font": "Font: AEPD, Memòria anual 2025"
+        }
+      ]
+    },
+    {
+      "tipus": "spot",
+      "alternat": false,
+      "num": "01",
+      "titol": "Des del disseny\ni *per defecte.*",
+      "text": "Ho fem amb un enfocament pràctic, útil i adaptat a un marc normatiu en constant evolució, sense que la burocràcia es converteixi en un obstacle."
+    },
+    {
+      "tipus": "spot",
+      "alternat": true,
+      "num": "02",
+      "titol": "Només allò\nque *necessites.*",
+      "text": "Analitzem l'activitat de la teva empresa i establim un pla d'actuació centrat en les teves necessitats. Ni més ni menys."
+    },
+    {
+      "tipus": "spot",
+      "alternat": false,
+      "num": "03",
+      "titol": "Complir i\n*demostrar-ho.*",
+      "text": "La teva adequació és molt més que un tràmit: és confiança davant dels clients i les administracions. Rebràs documentació tècnica i jurídica, però també resums executius per demostrar que «ho estàs fent bé»."
+    },
+    {
+      "tipus": "spot",
+      "alternat": true,
+      "num": "04",
+      "titol": "Si no ho entens,\n*no estàs complint.*",
+      "text": "T'expliquem tot el que t'entreguem, ho acompanyem de guies i restem a la teva disposició. Formació per a directius i equips sota demanda."
+    },
+    {
+      "tipus": "serveis",
+      "ancora": "serveis",
+      "etiqueta": "Serveis",
+      "titol": "Dos àmbits, *un sol equip.*",
+      "entradeta": "La protecció de dades i la regulació de la IA estan estretament relacionades. Treballem els dos àmbits de forma coordinada.",
+      "pilars": [
+        {
+          "variant": "estàndard",
+          "retard": ".1s",
+          "num": "Pilar 01",
+          "insigniaVariant": "vigent",
+          "insignia": "Vigent",
+          "subtitol": "Protecció de dades · RGPD",
+          "titol": "Adequació al RGPD. *Pas a pas, sense complicacions.*",
+          "descripcio": "El RGPD és obligatori per a tota empresa que tracti dades personals. T'ajudem a complir-lo d'una forma pràctica i proporcionada a la teva mida.",
+          "llista": [
+            "Adequació RGPD completa",
+            "Auditories de privacitat",
+            "Registre d'activitats de tractament (RAT)",
+            "Delegat de protecció de dades (DPO) extern",
+            "Clàusules i avisos legals",
+            "Acompanyament en inspeccions AEPD",
+            "Formació als equips"
+          ],
+          "peu": "**Per a qui:** empreses i autònoms que tracten dades de clients, treballadors, proveïdors o visitants web. Pràcticament tothom."
+        },
+        {
+          "variant": "blau",
+          "retard": ".25s",
+          "num": "Pilar 02",
+          "insigniaVariant": "prep",
+          "insignia": "Preparació 2025–2028",
+          "subtitol": "Reglament d'intel·ligència artificial",
+          "titol": "Preparació per al *Reglament d'IA.*",
+          "descripcio": "El Reglament d'IA s'aplica progressivament fins al 2028. Si la teva empresa ja utilitza eines d'IA — chatbots, CRM intel·ligent, automatitzacions — convé començar a preparar-se amb temps.",
+          "llista": [
+            "Avaluació de sistemes d'IA existents",
+            "Classificació de risc segons el Reglament",
+            "Anàlisi d'impacte sobre dades personals",
+            "Govern de models i agents d'IA",
+            "Preparació per a la supervisió regulatòria"
+          ],
+          "peu": "**Nota:** el Reglament ja s'aplica en part: les pràctiques prohibides i la formació de l'equip des de febrer de 2025, i la transparència des d'agost de 2026. L'alt risc arriba el desembre de 2027 (agost de 2028 per a productes regulats). La preparació demana mesos."
+        }
+      ],
+      "transversalEtiqueta": "Servei transversal",
+      "transversalTitol": "Consultoria estratègica",
+      "transversalText": "Acompanyament executiu per integrar la privacitat i la IA dins l'estratègia de l'empresa. Privacy by Design, estratègia d'adopció d'IA, formació directiva.",
+      "enllacosTitol": "En detall",
+      "enllacos": [
+        {
+          "text": "Adequació al RGPD",
+          "href": "/serveis/adequacio-rgpd-girona/"
+        },
+        {
+          "text": "DPO extern",
+          "href": "/serveis/dpo-extern/"
+        },
+        {
+          "text": "Auditoria de protecció de dades",
+          "href": "/serveis/auditoria-proteccio-dades/"
+        },
+        {
+          "text": "Reglament d'IA i ús de la IA",
+          "href": "/serveis/reglament-ia-empreses/"
+        },
+        {
+          "text": "Textos legals i formularis web",
+          "href": "/serveis/textos-legals-web/"
+        }
+      ]
+    },
+    {
+      "tipus": "separador"
+    },
+    {
+      "tipus": "spot",
+      "alternat": false,
+      "num": "05",
+      "titol": "Acostumats\nal *canvi.*",
+      "text": "Projecte jove, professionals amb recorregut. Hem vist l'evolució del marc legal i estem preparats pel canvi que suposa la intel·ligència artificial."
+    },
+    {
+      "tipus": "separador"
+    },
+    {
+      "tipus": "metode",
+      "ancora": "metode",
+      "etiqueta": "Mètode",
+      "titol": "Com *treballem.*",
+      "entradeta": "Un procés estructurat en quatre fases, pensat per ser clar, mesurable i sostenible al llarg del temps.",
+      "passos": [
+        {
+          "titol": "Diagnosi",
+          "text": "Analitzem la teva situació: quines dades tractes, quins sistemes d'IA uses i quins riscos existeixen. Una fotografia real del punt de partida."
+        },
+        {
+          "titol": "Pla d'acció",
+          "text": "Full de ruta prioritzat per risc i impacte. Cada lliurable és accionable, amb dates i responsables definits."
+        },
+        {
+          "titol": "Implementació",
+          "text": "Acompanyament pràctic amb els teus equips tècnics i jurídics. Treballem de forma iterativa fins que tot quedi en ordre."
+        },
+        {
+          "titol": "Govern continu",
+          "text": "La conformitat no és un projecte, és un estat. Manteniment anual, actualitzacions regulatòries i revisions periòdiques."
+        }
+      ]
+    },
+    {
+      "tipus": "separador"
+    },
+    {
+      "tipus": "formulari",
+      "formulari": "contacte",
+      "titol": "Parla amb *nosaltres.*",
+      "entradeta": "Si tens un dubte, escriu-nos. Per a una proposta personalitzada, utilitza el formulari d'adequació que trobaràs a continuació."
+    },
+    {
+      "tipus": "separador"
+    },
+    {
+      "tipus": "formulari",
+      "formulari": "adequacio",
+      "titol": "Sol·licitud d'adequació *al RGPD.*",
+      "entradeta": "Omple el formulari per rebre una proposta personalitzada. La informació que facilitis ens permet dimensionar correctament el servei i calcular els honoraris."
+    },
+    {
+      "tipus": "separador"
+    },
+    {
+      "tipus": "faq",
+      "ancora": "faq",
+      "etiqueta": "FAQ",
+      "titol": "Preguntes *habituals.*",
+      "entradeta": "Aclariments per a pimes i autònoms sense perfil jurídic especialitzat. El glossari recull els termes regulatoris més habituals.",
+      "pestanyes": [
+        {
+          "cat": "tots",
+          "text": "Totes"
+        },
+        {
+          "cat": "rgpd",
+          "text": "RGPD"
+        },
+        {
+          "cat": "ia",
+          "text": "IA"
+        },
+        {
+          "cat": "practic",
+          "text": "Pràctic"
+        },
+        {
+          "cat": "glossari",
+          "text": "Glossari"
+        }
+      ]
+    },
+    {
+      "tipus": "separador"
+    },
+    {
+      "tipus": "actualitat",
+      "ancora": "actualitat",
+      "etiqueta": "Actualitat",
+      "titol": "Novetats en protecció de dades *i IA.*",
+      "entradeta": "Informació rellevant sobre normativa, resolucions i canvis regulatoris que poden afectar la teva empresa.",
+      "origen": "actualitat"
+    }
+  ],
+  "scripts": [
+    "utm.js",
+    "script.js"
+  ]
+}

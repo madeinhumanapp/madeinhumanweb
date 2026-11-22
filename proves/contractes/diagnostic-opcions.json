@@ -1,0 +1,125 @@
+[
+  {
+    "id": "sector",
+    "multi": false,
+    "valors": [
+      "salut",
+      "educacio",
+      "comerc",
+      "serveis",
+      "hostaleria",
+      "social",
+      "altres",
+      "nsnc"
+    ]
+  },
+  {
+    "id": "mida",
+    "multi": false,
+    "valors": [
+      "1",
+      "2-9",
+      "10-49",
+      "50+",
+      "nsnc"
+    ]
+  },
+  {
+    "id": "sensibles",
+    "multi": true,
+    "valors": [
+      "salut",
+      "menors",
+      "banc",
+      "penals",
+      "cap"
+    ]
+  },
+  {
+    "id": "cameres",
+    "multi": false,
+    "valors": [
+      "si",
+      "no",
+      "nsnc"
+    ]
+  },
+  {
+    "id": "web",
+    "multi": false,
+    "valors": [
+      "no",
+      "info",
+      "form",
+      "botiga",
+      "nsnc"
+    ]
+  },
+  {
+    "id": "comunicacions",
+    "multi": false,
+    "valors": [
+      "si",
+      "no",
+      "nsnc"
+    ]
+  },
+  {
+    "id": "proveidors",
+    "multi": true,
+    "valors": [
+      "gestoria",
+      "informatic",
+      "nuvol",
+      "altres",
+      "cap"
+    ]
+  },
+  {
+    "id": "copies",
+    "multi": false,
+    "valors": [
+      "auto",
+      "manual",
+      "no",
+      "nsnc"
+    ]
+  },
+  {
+    "id": "2fa",
+    "multi": false,
+    "valors": [
+      "si",
+      "alguns",
+      "no",
+      "nsnc"
+    ]
+  },
+  {
+    "id": "normes",
+    "multi": false,
+    "valors": [
+      "si",
+      "no",
+      "nsnc"
+    ]
+  },
+  {
+    "id": "docs",
+    "multi": true,
+    "valors": [
+      "politica",
+      "rat",
+      "riscos",
+      "bretxes",
+      "drets",
+      "contractes",
+      "confid",
+      "normesdoc",
+      "conservacio",
+      "clausules",
+      "cap",
+      "segur"
+    ]
+  }
+]

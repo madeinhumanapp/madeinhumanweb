@@ -1,0 +1,161 @@
+## 1. Qui som i quins compromisos adquirim amb les teves dades?
+
+La teva privacitat és important per a nosaltres. Amb aquest document t'expliquem, de manera clara i entenedora, quines dades personals recollim, com les tractem, per a quines finalitats i quins drets tens en relació amb el seu tractament.
+
+El responsable del tractament de les teves dades és:
+
+| **Denominació** | MADEINHUMAN, ESPJ |
+| **NIF** | ES-41534172-J |
+| **Domicili** | Carrer Camp d'Or, 65, 17007 Girona |
+| **Contacte** | [info@madeinhuman.cat](mailto:info@madeinhuman.cat) |
+
+Com a empresa responsable, assumim els compromisos següents: no sol·licitarem mai més informació que la estrictament necessària; no la compartirem amb tercers sense una base legal que ho justifiqui; i no l'emprarem per a cap altra finalitat no indicada en aquesta política.
+
+Actuem de conformitat amb el Reglament (UE) 2016/679 (RGPD), la Llei Orgànica 3/2018 de protecció de dades personals i garantia dels drets digitals (LOPDGDD), i la Llei 34/2002 de serveis de la societat de la informació (LSSI-CE). Hem implementat les mesures tècniques i organitzatives necessàries per garantir la confidencialitat, integritat i disponibilitat de totes les dades tractades.
+
+Si tens qualsevol dubte sobre com tractem les teves dades, posa't en contacte amb nosaltres a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) indicant a l'assumpte «PROTECCIÓ DE DADES».
+
+## 2. Per a quines finalitats tractem les teves dades?
+
+Tractem les teves dades personals únicament per a les finalitats que detallem a continuació, i sempre amb una base jurídica que ho legitima.
+
+### 2.1 Gestió de la relació contractual i administrativa
+
+- **Dades tractades:** nom i cognoms, telèfon, adreça postal, DNI/NIF, correu electrònic, signatura, dades bancàries.
+- **Finalitat:** dur a terme la prestació dels serveis contractats i la gestió comercial, fiscal i administrativa derivada d'aquesta relació.
+- **Base legal:** execució d'un contracte en el qual l'interessat és part (art. 6.1.b RGPD) i compliment d'obligacions legals (art. 6.1.c RGPD).
+
+### 2.2 Formulari de contacte i sol·licitud d'informació
+
+- **Dades tractades:** nom, correu electrònic i contingut de la consulta.
+- **Finalitat:** atendre les teves consultes i proporcionar-te la informació sol·licitada.
+- **Base legal:** consentiment de l'interessat (art. 6.1.a RGPD).
+
+Pots revocar el teu consentiment en qualsevol moment enviant un correu a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) amb l'assumpte «BAIXA».
+
+### 2.3 Atenció al client via WhatsApp
+
+- **Dades tractades:** nom, telèfon i contingut de les comunicacions.
+- **Finalitat:** gestionar les consultes rebudes a través de WhatsApp i la comunicació administrativa del servei.
+- **Base legal:** consentiment de l'interessat (art. 6.1.a RGPD) en iniciar la comunicació.
+
+Informació detallada a l'apartat específic de «WhatsApp» d'aquesta política.
+
+<!-- ✏️ REVISAR: esborrany afegit amb el diagnòstic gratuït (novembre 2026) -->
+### 2.4 Diagnòstic gratuït de protecció de dades
+
+- **Dades tractades:** nom, empresa, correu electrònic, telèfon (opcional) i les respostes al qüestionari sobre l'organització.
+- **Finalitat:** calcular una estimació orientativa del risc, enviar-te l'informe en PDF per correu electrònic i, si ho sol·licites, contactar-te per comentar-lo.
+- **Base legal:** aplicació, a petició teva, de mesures precontractuals (art. 6.1.b RGPD) i consentiment de l'interessat (art. 6.1.a RGPD).
+- **Decisions automatitzades:** l'índex de risc es calcula de manera automàtica a partir de les respostes, però és només orientatiu i no produeix cap efecte jurídic ni t'afecta de manera significativa.
+
+### 2.5 Comunicacions comercials
+
+- **Dades tractades:** nom, empresa i correu electrònic.
+- **Finalitat:** enviar-te consells i informació sobre els nostres serveis, només si ho has marcat expressament i ho has confirmat des de l'enllaç que t'enviem (doble confirmació).
+- **Base legal:** consentiment de l'interessat (art. 6.1.a RGPD i art. 21 LSSI-CE).
+
+Pots donar-te de baixa en qualsevol moment des de l'enllaç que hi ha al peu de cada correu.
+
+## 3. Amb qui compartim les teves dades?
+
+Com a principi general, no cedim les teves dades personals a tercers, tret que existeixi una base jurídica que ho legitimi. A continuació t'indiquem les excepcions i les transferències que realitzem:
+
+### Autoritats i forces de seguretat
+
+Facilitarem les teves dades a les forces i cossos de seguretat de l'Estat, jutjats o tribunals quan ens ho requereixin en virtut d'una obligació legal o d'una ordre judicial. En cap cas no comunicarem voluntàriament les teves dades a tercers no autoritzats.
+
+### Allotjament web
+
+Les dades que ens proporciones a través del nostre lloc web són emmagatzemades als servidors del nostre proveïdor d'allotjament web, amb qui hem subscrit el corresponent contracte d'encarregat del tractament (art. 28 RGPD).
+
+<!-- ✏️ REVISAR: proveïdors de l'aplicació de gestió i del diagnòstic -->
+### Proveïdors tecnològics
+
+Per prestar els serveis i gestionar els formularis fem servir proveïdors que actuen com a encarregats del tractament, amb el corresponent contracte (art. 28 RGPD): allotjament de l'aplicació i de la base de dades en servidors situats a la Unió Europea (Frankfurt, Alemanya), servei d'enviament de correu electrònic i servei de verificació anti-robots dels formularis. Quan algun d'aquests proveïdors pot accedir a les dades des de fora de l'Espai Econòmic Europeu, la transferència es fa amb les garanties previstes a l'RGPD (decisió d'adequació o clàusules contractuals tipus).
+
+### WhatsApp — Comunicació via missatgeria
+
+Les comunicacions realitzades a través de WhatsApp impliquen que les teves dades es comparteixen amb WhatsApp Ireland Limited i WhatsApp LLC, empresa ubicada als Estats Units i adherida al Data Privacy Framework UE-EUA, aprovat per la Comissió Europea. El tractament queda regulat per les condicions d'ús i la política de privacitat pròpies de l'aplicació, que l'usuari ha d'acceptar prèviament.
+
+## 4. Quant de temps conservem les teves dades?
+
+Conservem les teves dades personals durant el temps estrictament necessari per complir la finalitat per la qual van ser recollides. Un cop assolida aquesta finalitat, o si has retirat el teu consentiment, les dades seran suprimides o, en cas que existeixi una obligació legal de conservació, bloquejades a disposició exclusiva de les autoritats competents.
+
+Els terminis de conservació específics per a cada tractament són els següents:
+
+- **Relació contractual i gestió administrativa:** durant la vigència de la relació i, posteriorment, durant els terminis de prescripció de les responsabilitats legals aplicables (en general, fins a 5 anys en matèria civil i 4 anys en matèria fiscal).
+- **Formulari de contacte:** fins que la consulta hagi estat atesa i, si no es materialitza cap relació contractual, durant un màxim de 12 mesos.
+- **Diagnòstic gratuït:** si no es materialitza cap relació contractual, durant un màxim de 12 mesos des de l'últim contacte. Després s'esborren automàticament.
+- **Comunicacions comercials:** fins que et donis de baixa.
+- **WhatsApp:** durant el temps necessari per atendre la consulta i, posteriorment, mentre persisteixi la relació o fins al termini de prescripció legal.
+
+En qualsevol cas, conservarem les teves dades el temps que estableixi la normativa sectorial aplicable a la nostra activitat.
+
+## 5. Quins drets tens i com pots exercir-los?
+
+Com a interessat, tens reconeguts els drets que detallem a continuació. Per exercir-los, envia'ns un escrit a Carrer Camp d'Or, 65, 17007 Girona, o un correu electrònic a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) indicant a l'assumpte «PROTECCIÓ DE DADES: EXERCICI DE DRETS».
+
+| Dret | Descripció |
+|---|---|
+| **Accés** | Saber si tractem les teves dades i obtenir-ne una còpia. |
+| **Rectificació** | Corregir dades inexactes o completar dades incompletes. |
+| **Supressió** | Sol·licitar l'eliminació de les teves dades quan ja no siguin necessàries. |
+| **Oposició** | Oposar-te al tractament de les teves dades per motius legítims. |
+| **Limitació** | Sol·licitar la limitació del tractament en determinades circumstàncies. |
+| **Portabilitat** | Rebre les teves dades en un format estructurat i transmetre-les a un altre responsable. |
+
+Tens dret a retirar en qualsevol moment el consentiment que hagis prestat. Aquesta retirada no afectarà la licitud del tractament realitzat amb anterioritat.
+
+Si consideres que els teus drets no han estat atesos degudament, pots presentar una reclamació davant l'Agència Espanyola de Protecció de Dades ([www.aepd.es](https://www.aepd.es)), l'autoritat de control competent a Espanya.
+
+## 6. Com protegim les teves dades?
+
+MADEINHUMAN, ESPJ ha adoptat les mesures de seguretat tècniques i organitzatives necessàries per garantir la protecció de les teves dades personals i evitar-ne l'alteració, pèrdua, accés no autoritzat o qualsevol altra forma de tractament il·lícit.
+
+Totes les persones que intervenen en el tractament de les dades han signat el corresponent compromís de confidencialitat i han rebut formació en matèria de protecció de dades. Els nostres proveïdors de serveis que accedeixen a dades personals actuen sempre en qualitat d'encarregats del tractament, vinculats mitjançant el contracte corresponent (art. 28 RGPD).
+
+No obstant l'anterior, cap sistema d'informació és invulnerable al 100%. Si detectem qualsevol bretxa de seguretat que pugui afectar els teus drets, et notificarem en els terminis i en la forma establerta per la normativa aplicable.
+
+Les teves dades personals no seran objecte de decisions individuals automatitzades ni d'elaboració de perfils que produeixin efectes jurídics o t'afectin significativament.
+
+## 7. Informació específica: WhatsApp
+
+MADEINHUMAN, ESPJ empra WhatsApp com a canal d'atenció al client per gestionar les consultes dels usuaris. El tractament de les dades derivat d'aquesta comunicació es regeix per aquest apartat i per les condicions d'ús i la política de privacitat de WhatsApp, prèviament acceptades per l'usuari.
+
+- **Finalitat:** gestió correcta de les consultes rebudes i comunicació administrativa del servei.
+- **Base legal:** consentiment de l'interessat (art. 6.1.a RGPD) en iniciar la comunicació via WhatsApp.
+- **Destinataris:** les dades es comparteixen amb WhatsApp Ireland Limited i WhatsApp LLC (EUA), adherida al Data Privacy Framework UE-EUA.
+- **Conservació:** mentre duri la finalitat per a la qual s'han obtingut. Un cop ja no siguin necessàries, es mantindran degudament bloquejades durant el temps legalment establert.
+
+Queda prohibit l'ús d'aquest canal per a l'enviament de continguts no relacionats amb la consulta o que siguin il·lícits, que atemptin contra els drets fonamentals de les persones o que contravinguin els principis de legalitat, honradesa i protecció de la vida privada.
+
+Per revocar el teu consentiment a l'ús de WhatsApp com a canal de comunicació, informa'ns-en a [info@madeinhuman.cat](mailto:info@madeinhuman.cat).
+
+## 8. Informació específica: xarxes socials
+
+MADEINHUMAN, ESPJ manté presència a diverses xarxes socials. El tractament de les dades de les persones que es facin seguidores de les nostres pàgines oficials, o que interactuïn amb nosaltres a través d'aquests canals, es regeix per aquest apartat i per les condicions d'ús, polítiques de privacitat i normatives d'accés pròpies de cada xarxa social, que l'usuari haurà d'acceptar prèviament.
+
+- **Finalitat:** administrar correctament la nostra presència a les xarxes socials, informar d'activitats, productes i serveis, i atendre les consultes que ens puguin formular a través d'aquestes plataformes.
+- **Base legal:** consentiment de l'interessat (art. 6.1.a RGPD) i interès legítim en la gestió de la nostra presència digital (art. 6.1.f RGPD).
+- **Responsabilitat:** en el cas que l'usuari remeti informació personal a través de les xarxes socials, MADEINHUMAN, ESPJ quedarà exempt de responsabilitat respecte a les mesures de seguretat aplicables a cada plataforma.
+
+En tot cas, queda prohibida la publicació, als nostres canals, de continguts presumptament il·lícits, que atemptin contra els drets fonamentals de les persones, que faltin al respecte a la comunitat o que MADEINHUMAN, ESPJ consideri inapropiats. Ens reservem la potestat de retirar, sense previ avís, qualsevol contingut que no compleixi aquests criteris.
+
+## Disposicions finals
+
+### Revocabilitat del consentiment
+
+El consentiment que hagis atorgat per al tractament de les teves dades és revocable en qualsevol moment, sense efecte retroactiu, enviant una comunicació a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) amb l'assumpte "BAIXA" o "REVOCACIÓ CONSENTIMENT". La revocació no afectarà la licitud dels tractaments realitzats amb anterioritat.
+
+### Modificacions d'aquesta política
+
+MADEINHUMAN, ESPJ es reserva el dret de modificar aquesta política de privacitat per adaptar-la a novetats legislatives, jurisprudencials o tècniques. Les modificacions es publicaran al nostre lloc web [https://madeinhuman.cat](https://madeinhuman.cat), i seran aplicables des del moment de la seva publicació. Et recomanem que revisis aquesta política periòdicament.
+
+### Idioma
+
+En cas de contradicció entre versions d'aquesta política en idiomes diferents, prevaldrà la versió en català.
+
+### Legislació i jurisdicció aplicables
+
+Les relacions entre MADEINHUMAN, ESPJ i els usuaris dels seus serveis es regeixen per la legislació espanyola. Per a la resolució de qualsevol conflicte derivat o relacionat amb l'ús dels nostres serveis, les parts se sotmeten expressament a la jurisdicció dels jutjats i tribunals de Girona, llevat que la normativa aplicable en matèria de consumidors i usuaris estableixi un fur diferent.
