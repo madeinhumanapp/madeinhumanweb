@@ -168,7 +168,6 @@
           "EIPD",
           "Privacy by Design"
         ],
-        "priceRange": "€€",
         "openingHoursSpecification": {
           "@type": "OpeningHoursSpecification",
           "dayOfWeek": [
