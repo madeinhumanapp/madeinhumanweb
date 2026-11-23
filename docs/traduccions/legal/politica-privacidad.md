@@ -9,7 +9,7 @@ El responsable del tratamiento de tus datos es:
 
 | **Denominación** | MADEINHUMAN, ESPJ |
 | **NIF** | ES-41534172-J |
-| **Domicilio** | Carrer Camp d'Or, 65, 17007 Girona |
+| **Domicilio** | Passatge de Ricard Giralt i Casadesús, 16, 17007 Girona |
 | **Contacto** | [info@madeinhuman.cat](mailto:info@madeinhuman.cat) |
 
 Como empresa responsable, asumimos los siguientes compromisos: nunca te solicitaremos más información que la estrictamente necesaria; no la compartiremos con terceros sin una base legal que lo justifique; y no la utilizaremos para ninguna otra finalidad no indicada en esta política.
@@ -97,7 +97,7 @@ En cualquier caso, conservaremos tus datos el tiempo que establezca la normativa
 
 ## 5. ¿Qué derechos tienes y cómo puedes ejercerlos?
 
-Como interesado, tienes reconocidos los derechos que detallamos a continuación. Para ejercerlos, envíanos un escrito a Carrer Camp d'Or, 65, 17007 Girona, o un correo electrónico a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) indicando en el asunto «PROTECCIÓN DE DATOS: EJERCICIO DE DERECHOS».
+Como interesado, tienes reconocidos los derechos que detallamos a continuación. Para ejercerlos, envíanos un escrito a Passatge de Ricard Giralt i Casadesús, 16, 17007 Girona, o un correo electrónico a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) indicando en el asunto «PROTECCIÓN DE DATOS: EJERCICIO DE DERECHOS».
 
 | Derecho | Descripción |
 |---|---|

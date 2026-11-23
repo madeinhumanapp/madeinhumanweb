@@ -5,7 +5,18 @@ import { esc } from './text.mjs';
 import { markdown, enLinia } from './markdown.mjs';
 import { menu, peu } from './marc.mjs';
 
-export function paginaLegal(lloc, p, cos) {
+// Dades del lloc dins dels textos legals: {{adreca}} i {{correu}} es prenen de contingut/lloc.json, de manera que un
+// canvi a «Dades del lloc» del panell arriba també a l'avís legal i a les polítiques
+export function ambDadesDelLloc(text, lloc) {
+  const k = lloc.contacte;
+  const fet = text.replace(/\{\{adreca\}\}/g, `${k.carrer}, ${k.cp} ${k.ciutat}`).replace(/\{\{correu\}\}/g, k.correu);
+  const resta = fet.match(/\{\{[^}]*\}\}/);
+  if (resta) throw new Error(`Marca desconeguda als textos legals: ${resta[0]} (només {{adreca}} i {{correu}})`);
+  return fet;
+}
+
+export function paginaLegal(lloc, p, cosFont) {
+  const cos = ambDadesDelLloc(cosFont, lloc);
   const c = p.cap, ctx = { idioma: p.idioma, ruta: p.ruta };
   return `<!DOCTYPE html>
 <html lang="${p.idioma}">
