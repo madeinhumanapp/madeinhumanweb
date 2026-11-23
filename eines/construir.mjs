@@ -16,30 +16,24 @@ const SORTIDA = path.resolve(ARREL, args.includes('--sortida') ? args[args.index
 
 // El que no es publica: fonts del generador, proves, eines i fitxers del repositori
 const NO_PUBLICAR = new Set(['contingut', 'captures', 'plantilles', 'esquema', 'eines', 'proves', 'marca', 'docs', 'dist', 'AGENTS.md',
-  'node_modules', '.git', '.github', '.wrangler', 'CLAUDE.md', '.assetsignore', '.gitignore', 'package.json', 'package-lock.json']);
+  'node_modules', '.git', '.github', '.wrangler', 'CLAUDE.md', '.gitignore', 'package.json', 'package-lock.json']);
 
 const t0 = Date.now();
 fs.rmSync(SORTIDA, { recursive: true, force: true });
 fs.mkdirSync(SORTIDA, { recursive: true });
 
-// Pàgines que genera el port de les pàgines de servei (WEB-H04): si existeix, no es copien mai,
-// de manera que si el port no les genera totes (o a la ruta bona) la paritat ho detecta
-const DEL_PORT_SERVEIS = [/^serveis\/[^/]+\/index\.html$/, /^es\/servicios\/[^/]+\/index\.html$/, /^es\/index\.html$/];
-const AMB_PORT_SERVEIS = fs.existsSync(path.join(ARREL, 'plantilles/serveis.mjs'));
-
-// 1. Fitxers estàtics (CSS, JS, tipografies, imatges i pàgines encara no migrades)
+// 1. Fitxers estàtics (CSS, JS, tipografies, imatges i les aplicacions: diagnòstic, recollida, «Necessito un DPO?»)
 let copiats = 0;
 (function copia(dir, rel = '') {
   for (const e of fs.readdirSync(path.join(dir, rel), { withFileTypes: true })) {
     const r = path.join(rel, e.name);
     if (!rel && NO_PUBLICAR.has(e.name)) continue;
     if (e.isDirectory()) { fs.mkdirSync(path.join(SORTIDA, r), { recursive: true }); copia(dir, r); }
-    else if (AMB_PORT_SERVEIS && DEL_PORT_SERVEIS.some(x => x.test(r.split(path.sep).join('/')))) continue;
     else { fs.copyFileSync(path.join(dir, r), path.join(SORTIDA, r)); copiats++; }
   }
 })(ARREL);
 
-// 2. Pàgines generades des del contingut (sobreescriuen la versió feta a mà)
+// 2. Pàgines generades des del contingut
 const lloc = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/lloc.json'), 'utf8'));
 const DIR_FORMS = path.join(ARREL, 'plantilles/formularis');
 const formularis = Object.fromEntries(fs.readdirSync(DIR_FORMS).filter(f => f.endsWith('.html'))
@@ -77,7 +71,7 @@ for (const f of fs.readdirSync(path.join(ARREL, 'contingut/pagines'))) {
 }
 // 2b. Pàgines de servei i portada en castellà (port de marca/pagines/generar.py, encàrrec WEB-H04):
 //     plantilles/serveis.mjs exporta paginesServei(lloc, dades) → [[ruta relativa, html], …]
-if (AMB_PORT_SERVEIS) {
+{
   const { paginesServei } = await import('../plantilles/serveis.mjs');
   const dades = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/serveis.json'), 'utf8'));
   const eServeis = validarServeis(dades).map(e => `serveis.json: ${e}`);
@@ -90,7 +84,7 @@ if (AMB_PORT_SERVEIS) {
   }
 }
 // 2c. Actualitat: llistat, pàgines de les notícies amb cos, RSS i mapa del lloc (només si n'hi ha de publicades)
-if (noticies.length && AMB_PORT_SERVEIS) {
+if (noticies.length) {
   const dades = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/serveis.json'), 'utf8'));
   const portada = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/pagines/portada.ca.json'), 'utf8'));
   const bloc = portada.blocs.find(b => b.tipus === 'actualitat');

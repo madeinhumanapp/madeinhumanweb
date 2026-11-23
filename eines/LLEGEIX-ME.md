@@ -14,15 +14,14 @@ Retorn: Pages → *Deployments* → *Rollback to this deployment* (passos a `rgp
 | `contingut/` | El text de la web: `lloc.json` (contacte, menú, peu, SEO comú), `pagines/*.json` (blocs de cada pàgina), `actualitat/*.md` (notícies) |
 | `esquema/` | Quins blocs hi ha, quins camps tenen i amb quins límits. Valida i genera els formularis del panell |
 | `plantilles/` | Disseny: `base.mjs` (cap, menú, peu), `blocs.mjs` (un bloc = una funció), `formularis/` (protegits) |
-| `eines/` | `construir.mjs` (contingut → `dist/`), `extreure-portada.mjs` (migració única), `previsualitzacio/` |
-| `proves/` | Contractes amb rgpd-tool, paritat amb la web actual i seguretat de la vista prèvia |
+| `eines/` | `construir.mjs` (contingut → `dist/`), `exportar-esquema.mjs`, `sense-html.mjs`, `previsualitzacio/` |
+| `proves/` | Contractes amb rgpd-tool, vista prèvia, CSP, notícies i serveis |
 
 ## Ordres
 
 ```bash
 npm ci && npm run navegador      # el primer cop: Playwright i el navegador de proves
 npm run construir                # genera dist/ (sense dependències, ~25 ms)
-npm run paritat                  # dist/ ha de ser idèntic a la web actual (19/19)
 npm run contractes               # els formularis envien a rgpd-tool el mateix que abans (4 «ok»)
 npm run previsualitzacio         # vista prèvia: plantilles, injecció, cap lead fals, serveis i xarxes (9/9)
 npm run actualitat               # notícies: llistat, pàgines, RSS, programació i validacions (sense navegador)
@@ -83,11 +82,18 @@ Notes de revisió: tot el que hi ha després d'aquesta línia no es publica mai.
 - `data_text` i `font_text` només serveixen perquè les notícies migrades (WEB-A02) es vegin igual que abans.
 - El repositori de la web és públic: els esborranys es preparen a rgpdtool (`docs/panell-web/esborranys/`), no aquí.
 
+## Abans i després del tall
+
+Fins al 22/11/2026 Cloudflare publicava l'arrel del repositori i el generador s'havia de mantenir idèntic a la web
+feta a mà (proves de paritat i del tall, extractor de la portada). Des del tall, la web publicada és `dist/` i aquelles
+eines s'han retirat (es poden consultar a l'historial de git). Un canvi visual a les plantilles es revisa amb
+`npm run captures -- <etiqueta>` (abans i després) i amb la vista prèvia de la branca a Cloudflare Pages.
+
 ## Pàgines que no surten del contingut
 
 - `diagnostic.html`, `necessito-dpo/` i `recollida.html` són aplicacions: el seu text és dins del seu JavaScript
   o de les seves dades, i el diagnòstic i la recollida són connectors amb rgpd-tool. El generador les copia tal
-  qual; la paritat i els contractes les vigilen. El panell no les edita (decisió C-09).
+  qual; els contractes i la CSP les vigilen. El panell no les edita (decisió C-09).
 - `xarxes/` sí que surt del contingut (`contingut/pagines/xarxes.json`, plantilla `plantilles/xarxes.mjs`).
 
 ## Pàgines de servei (`contingut/serveis.json`)
