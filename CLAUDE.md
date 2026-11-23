@@ -4,30 +4,34 @@ Static website for madeinhuman.cat — privacy consultancy (RGPD/AI Act).
 
 ## Architecture
 
-- Pure HTML/CSS/JS. Until the cutover (WEB-H10 of the panel plan) Cloudflare serves the repository root as is
-- In progress (branch `claude/website-control-panel-iz6s7h`): one generator `eines/construir.mjs` builds `dist/` from
-  `contingut/` (JSON) + `plantilles/` (one function per block) with the schema in `esquema/`. No runtime dependencies.
-  Plan, decisions and backlog: `rgpdtool/docs/panell-web/` (private repo; start with `PLA-ACCIONS.md`)
-- Hosted on Cloudflare Pages (auto-deploy from `main` branch)
+- Static site generated since the cutover (22/11/2026): `eines/construir.mjs` builds `dist/` from `contingut/` (JSON and
+  Markdown) + `plantilles/` (one function per block) with the schema in `esquema/` (exported to `esquema/esquema.json`
+  for the panel). No runtime dependencies. Plan, decisions and backlog: `rgpdtool/docs/panell-web/` (private repo)
+- Cloudflare Pages (project `madeinhumanweb`): build command `node eines/construir.mjs`, output `dist`,
+  `SKIP_DEPENDENCY_INSTALL=1`; production = `main`, every branch gets a preview at `<branch>.madeinhumanweb.pages.dev`
+  (long names are shortened). Pages serves `/page.html` as `/page` (308, query kept): `_headers` rules need both forms
+- Content is edited from the «Web» panel of rgpd-tool (GitHub App → branch `esborrany` → publish to `main`)
 - Forms POST to `https://rgpd.madeinhuman.cat` (app hosted on Render)
 - React, Babel and SheetJS only for `recollida.html` wizard, self-hosted in `vendor/` (pinned versions)
 - No third-party requests from any page: no external analytics, pixels, font CDNs or link shorteners
 
 ## Key Files
 
-- `index.html` — Main page with ✏️ EDITABLE markers
+- `contingut/` — all the text: `lloc.json`, `pagines/*.json` (blocks), `serveis.json`, `faq.json`, `actualitat/*.md` (news), `legal/*.md`
+- `diagnostic.html`, `recollida.html`, `necessito-dpo/` — apps, static files (connectors with rgpd-tool); not generated
 - `script.js` — Form handlers, FAQ data, cookie banner
 - `marca.css` — Single source of truth: brand tokens (colors from `marca/generador/marca.py`) and `@font-face`. Load it before any other stylesheet
 - `styles.css` — All styles of the main pages (uses the tokens from `marca.css`)
 - `wizard/` — React components for data collection wizard
 - `fonts/` — Self-hosted woff2 fonts (DM Sans, Playfair Display, DM Mono)
 - `vendor/` — Third-party JS for `recollida.html` (see `vendor/LLEGEIX-ME.md`)
-- `xarxes/` — Links page for social profiles (`?o=ig|tt|gbp` adds UTM); `noindex`, not in the sitemap
-- `marca/generador/` — Brand image generator (Python + Playwright); not deployed (`.assetsignore`)
+- `xarxes/` — Links page for social profiles (`?o=ig|tt|gbp` adds UTM, `xarxes/xarxes.js`); generated from `contingut/pagines/xarxes.json`; `noindex`
+- `marca/generador/` — Brand image generator (Python + Playwright); not deployed (not copied to `dist/`)
 - `favicon.svg`, `favicon.ico`, `apple-touch-icon.png` — Simplified logo (h + gold cursor); `og-image.png` is generated with `python marca/generador/og.py`
-- `contingut/`, `esquema/`, `plantilles/`, `eines/` — generator (see `eines/LLEGEIX-ME.md`); not deployed (`.assetsignore`)
-- `proves/` — checks: `npm run paritat` (generated = current site), `npm run contractes` (form payloads to rgpd-tool),
-  `npm run previsualitzacio` (panel preview security). `npm run comprovar` runs them all (also in GitHub Actions)
+- `esquema/`, `plantilles/`, `eines/` — generator (see `eines/LLEGEIX-ME.md`); not deployed
+- `proves/` — checks: `npm run contractes` (form payloads to rgpd-tool), `npm run previsualitzacio` (panel preview),
+  `npm run csp` (every page with the real `_headers`), `npm run actualitat`, `npm run serveis`; `npm run comprovar`
+  runs them all (also in GitHub Actions). `npm run captures -- <label>` for before/after screenshots of visual changes
 - `AGENTS.md` + `docs/encarrecs/` — instructions and task briefs for Mistral (Vibe). Mistral works on `mistral/<ID>`
 
 ## API Endpoints (via Render — rgpd.madeinhuman.cat)
@@ -46,6 +50,6 @@ The contact, adequacy and diagnostic forms also send `utm_source`, `utm_medium`,
 - On the homepage, internal links are fragment-only (`#contacte`, not `/#contacte`): otherwise the `utm_*` of the URL are lost
 - URLs used by rgpd-tool e-mails must not move: `/#contacte`, `/recollida.html?token=`, `/diagnostic.html?ref=`, `/politica-privacitat.html`
 - No HTML inside `contingut/`: only `*em*`, `**strong**`, line breaks and `[text](/path)` (the schema rejects HTML)
-- Migrating ≠ redesigning: a migration must keep `npm run paritat` at 19/19; visual changes go in a separate, reviewed step
+- Template changes that alter what visitors see: before/after screenshots (`npm run captures`) and the branch preview on Pages, approved before merging to `main`
 - Never modify files in `wizard/` or `fonts/` without explicit request
 - All text in Catalan

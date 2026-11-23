@@ -36,10 +36,6 @@ jobs:
         run: npm run actualitat
       - name: Esquema de les pàgines de servei
         run: npm run serveis
-      - name: dist/ conté tot el que es publica avui (tall)
-        run: npm run tall
-      - name: Paritat amb la web actual
-        run: npm run paritat
       - name: Contractes dels formularis amb rgpd-tool
         run: npm run contractes
       - name: Vista prèvia del panell

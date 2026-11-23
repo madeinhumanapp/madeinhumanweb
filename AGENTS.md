@@ -48,6 +48,8 @@ respon que necessites l'ID de l'encàrrec i atura't.
 - No esborris cap fitxer si l'encàrrec no ho diu. No instal·lis paquets nous (`npm install <paquet>`, `pip install`…).
 
 **Contingut**
+- Des del tall (22/11/2026) la web es publica des de `contingut/` i el contingut s'edita des del panell de rgpd-tool.
+  Només toques `contingut/` si l'encàrrec ho diu explícitament, i mai a `main`: el panell i tu podríeu trepitjar-vos.
 - Res inventat: ni dates, ni xifres, ni articles de llei, ni noms d'organismes. Si falta una dada, escriu
   `[REVISAR: què falta]` i continua.
 - Cap dada personal real (clients, leads, persones). Només el contingut públic de la web o dades inventades.
@@ -69,7 +71,6 @@ respon que necessites l'ID de l'encàrrec i atura't.
 | Ordre | Què fa | Resultat correcte |
 |---|---|---|
 | `npm run construir` | genera la web a `dist/` des de `contingut/` i `plantilles/` | `dist/: N pàgines generades, …` |
-| `npm run paritat` | compara `dist/` amb la web actual (estructura i text visible) | `19/19 pàgines idèntiques` |
 | `npm run contractes` | omple els formularis i comprova què s'envia a rgpd-tool | 4 línies `ok` |
 | `npm run previsualitzacio` | seguretat de la vista prèvia del panell | `9/9 comprovacions correctes` |
 | `npm run comprovar` | totes les comprovacions seguides | tot el que diu aquesta taula |
@@ -77,11 +78,8 @@ respon que necessites l'ID de l'encàrrec i atura't.
 | `npm run serveis` | esquema de les pàgines de servei (`contingut/serveis.json`) | `totes les comprovacions dels serveis i dels blocs correctes` |
 | `npm run exportar-esquema` | regenera `esquema/esquema.json` (el llegeix el panell); amb `-- --comprovar` només comprova | `esquema.json al dia` |
 | `npm run csp` | cada pàgina amb les capçaleres de `_headers`: cap infracció de seguretat | `N/N sense cap infracció de la CSP` |
-| `npm run tall` | `dist/` conté tot el que la web publica avui | `dist/ conté tot el que es publica avui` |
 | `npm run actualitat` | proves de les notícies (llistat, pàgines, RSS, validacions) | `totes les comprovacions de l'actualitat correctes` |
-| `npm run extreure-portada` | torna a convertir la portada en contingut, bloc a bloc | `✓ idèntic` als blocs fets |
 
-Per comparar només una pàgina: `npm run paritat -- --pagines index.html`.
 
 ## Mapa del repositori
 
@@ -90,10 +88,10 @@ Per comparar només una pàgina: `npm run paritat -- --pagines index.html`.
 | `contingut/` | Text de la web: `lloc.json` (contacte, menú, peu), `pagines/*.json` (blocs de cada pàgina) i `actualitat/*.md` (notícies; format a `eines/LLEGEIX-ME.md`) |
 | `esquema/blocs.mjs` | Quins blocs hi ha, quins camps tenen, etiquetes en català i límits |
 | `plantilles/` | Disseny: `base.mjs` (cap, menú, peu), `blocs.mjs` (un bloc = una funció), `text.mjs` |
-| `eines/` | `construir.mjs` (generador), `extreure-portada.mjs` (migració), `previsualitzacio/` |
-| `proves/` | Comprovacions (paritat, contractes, vista prèvia) |
+| `eines/` | `construir.mjs` (generador), `exportar-esquema.mjs`, `sense-html.mjs`, `previsualitzacio/` (vista prèvia del panell) |
+| `proves/` | Comprovacions (contractes, vista prèvia, CSP, notícies, serveis) |
 | `docs/encarrecs/` | Els encàrrecs. `docs/encarrecs/LLEGEIX-ME.md` diu quins hi ha i en quin estat |
-| `*.html`, `serveis/`, `es/` | La web actual, la que es compara. No la toquis si l'encàrrec no ho diu |
+| `diagnostic.html`, `recollida.html`, `necessito-dpo/` | Aplicacions (fitxers fixos, connectors amb rgpd-tool). No les toquis mai |
 
 ## Termes i estil (glossari aprovat, WEB-L02)
 
