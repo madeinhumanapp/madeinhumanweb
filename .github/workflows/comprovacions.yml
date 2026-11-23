@@ -1,12 +1,13 @@
 # Comprovacions del generador i dels connectors amb rgpd-tool (pla del panell, WEB-H09).
-# No publica res: diu si la web generada és idèntica a l'actual, si els formularis envien a
-# rgpd-tool exactament el mateix i si la vista prèvia del panell és segura.
+# No publica res: diu si el contingut és vàlid, si els formularis envien a rgpd-tool exactament el mateix,
+# si la vista prèvia del panell és segura i si cap pàgina infringeix la CSP.
+# També corren a la branca «esborrany»: el panell només deixa publicar si aquí surt verd.
 name: Comprovacions
 
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, esborrany]
   workflow_dispatch: {}
 
 permissions:
