@@ -24,12 +24,6 @@
   },
   {
     "cat": "practic",
-    "pregunta": "Quant costa adequar-se al RGPD?",
-    "resposta": "Depèn del punt de partida i de la complexitat del tractament. Per a una pime estàndard, una adequació completa se situa habitualment entre 2.000 i 6.000 €, amb una quota de manteniment anual inferior. Comencem amb una diagnosi inicial per oferir-te un pressupost concret abans de començar.",
-    "destacada": true
-  },
-  {
-    "cat": "practic",
     "pregunta": "Quant temps porta el procés?",
     "resposta": "Una adequació RGPD per a una pime es completa habitualment en 4–8 setmanes des de la diagnosi fins a la implementació. La preparació per al Reglament d'IA depèn del nombre de sistemes a avaluar — comptem entre 2 i 4 mesos per a un projecte estàndard. Treballem per fases per no aturar la teva activitat.",
     "destacada": true
