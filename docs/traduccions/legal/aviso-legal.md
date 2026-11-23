@@ -7,7 +7,7 @@ De acuerdo con el artículo 10 de la Ley 34/2002, de 11 de julio, de servicios d
 
 | **Denominación** | MADEINHUMAN, ESPJ |
 | **NIF** | ES-41534172-J |
-| **Domicilio** | Carrer Camp d'Or, 65, 17007 Girona |
+| **Domicilio** | Passatge de Ricard Giralt i Casadesús, 16, 17007 Girona |
 | **Correo electrónico** | [info@madeinhuman.cat](mailto:info@madeinhuman.cat) |
 | **Sitio web** | [https://madeinhuman.cat](https://madeinhuman.cat) |
 

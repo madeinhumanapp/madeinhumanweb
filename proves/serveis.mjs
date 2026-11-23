@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { validarServeis } from '../esquema/serveis.mjs';
 import { validarPagina } from '../esquema/blocs.mjs';
 import { pagina } from '../plantilles/base.mjs';
+import { ambDadesDelLloc } from '../plantilles/legal.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const original = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/serveis.json'), 'utf8'));
@@ -41,6 +42,12 @@ const ambAmagat = structuredClone(portada); ambAmagat.blocs[spot].amagat = true;
 ok('un bloc amagat és vàlid i no es pinta', !validarPagina(ambAmagat).length && !pagina(lloc, ambAmagat, formularis).includes(portada.blocs[spot].text.slice(0, 30).replace(/\*/g, '')));
 const formAmagat = structuredClone(portada); formAmagat.blocs.find(b => b.tipus === 'formulari').amagat = true;
 ok('un formulari no es pot amagar', validarPagina(formAmagat).some(e => /no es pot amagar/.test(e)));
+
+// Textos legals: {{adreca}} i {{correu}} surten de lloc.json; una marca desconeguda atura la construcció
+const legal = fs.readFileSync(path.join(ARREL, 'contingut/legal/avis-legal.md'), 'utf8');
+ok('els textos legals prenen l\'adreça i el correu de les dades del lloc', legal.includes('{{adreca}}') && ambDadesDelLloc(legal, lloc).includes(lloc.contacte.carrer) && !ambDadesDelLloc(legal, lloc).includes('{{'));
+let aturat = false; try { ambDadesDelLloc('Hola {{telefon}}', lloc); } catch { aturat = true; }
+ok('una marca desconeguda als textos legals atura la construcció', aturat);
 
 console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions dels serveis i dels blocs correctes');
 process.exit(fallades ? 1 : 0);

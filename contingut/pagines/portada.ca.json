@@ -45,7 +45,7 @@
         "email": "info@madeinhuman.cat",
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "Carrer Camp d'Or, 65",
+          "streetAddress": "Passatge de Ricard Giralt i Casadesús, 16",
           "addressLocality": "Girona",
           "postalCode": "17007",
           "addressRegion": "Girona",

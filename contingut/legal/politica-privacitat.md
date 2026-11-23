@@ -6,14 +6,14 @@ El responsable del tractament de les teves dades és:
 
 | **Denominació** | MADEINHUMAN, ESPJ |
 | **NIF** | ES-41534172-J |
-| **Domicili** | Carrer Camp d'Or, 65, 17007 Girona |
-| **Contacte** | [info@madeinhuman.cat](mailto:info@madeinhuman.cat) |
+| **Domicili** | {{adreca}} |
+| **Contacte** | [{{correu}}](mailto:{{correu}}) |
 
 Com a empresa responsable, assumim els compromisos següents: no sol·licitarem mai més informació que la estrictament necessària; no la compartirem amb tercers sense una base legal que ho justifiqui; i no l'emprarem per a cap altra finalitat no indicada en aquesta política.
 
 Actuem de conformitat amb el Reglament (UE) 2016/679 (RGPD), la Llei Orgànica 3/2018 de protecció de dades personals i garantia dels drets digitals (LOPDGDD), i la Llei 34/2002 de serveis de la societat de la informació (LSSI-CE). Hem implementat les mesures tècniques i organitzatives necessàries per garantir la confidencialitat, integritat i disponibilitat de totes les dades tractades.
 
-Si tens qualsevol dubte sobre com tractem les teves dades, posa't en contacte amb nosaltres a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) indicant a l'assumpte «PROTECCIÓ DE DADES».
+Si tens qualsevol dubte sobre com tractem les teves dades, posa't en contacte amb nosaltres a [{{correu}}](mailto:{{correu}}) indicant a l'assumpte «PROTECCIÓ DE DADES».
 
 ## 2. Per a quines finalitats tractem les teves dades?
 
@@ -31,7 +31,7 @@ Tractem les teves dades personals únicament per a les finalitats que detallem a
 - **Finalitat:** atendre les teves consultes i proporcionar-te la informació sol·licitada.
 - **Base legal:** consentiment de l'interessat (art. 6.1.a RGPD).
 
-Pots revocar el teu consentiment en qualsevol moment enviant un correu a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) amb l'assumpte «BAIXA».
+Pots revocar el teu consentiment en qualsevol moment enviant un correu a [{{correu}}](mailto:{{correu}}) amb l'assumpte «BAIXA».
 
 ### 2.3 Atenció al client via WhatsApp
 
@@ -94,7 +94,7 @@ En qualsevol cas, conservarem les teves dades el temps que estableixi la normati
 
 ## 5. Quins drets tens i com pots exercir-los?
 
-Com a interessat, tens reconeguts els drets que detallem a continuació. Per exercir-los, envia'ns un escrit a Carrer Camp d'Or, 65, 17007 Girona, o un correu electrònic a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) indicant a l'assumpte «PROTECCIÓ DE DADES: EXERCICI DE DRETS».
+Com a interessat, tens reconeguts els drets que detallem a continuació. Per exercir-los, envia'ns un escrit a {{adreca}}, o un correu electrònic a [{{correu}}](mailto:{{correu}}) indicant a l'assumpte «PROTECCIÓ DE DADES: EXERCICI DE DRETS».
 
 | Dret | Descripció |
 |---|---|
@@ -130,7 +130,7 @@ MADEINHUMAN, ESPJ empra WhatsApp com a canal d'atenció al client per gestionar 
 
 Queda prohibit l'ús d'aquest canal per a l'enviament de continguts no relacionats amb la consulta o que siguin il·lícits, que atemptin contra els drets fonamentals de les persones o que contravinguin els principis de legalitat, honradesa i protecció de la vida privada.
 
-Per revocar el teu consentiment a l'ús de WhatsApp com a canal de comunicació, informa'ns-en a [info@madeinhuman.cat](mailto:info@madeinhuman.cat).
+Per revocar el teu consentiment a l'ús de WhatsApp com a canal de comunicació, informa'ns-en a [{{correu}}](mailto:{{correu}}).
 
 ## 8. Informació específica: xarxes socials
 
@@ -146,7 +146,7 @@ En tot cas, queda prohibida la publicació, als nostres canals, de continguts pr
 
 ### Revocabilitat del consentiment
 
-El consentiment que hagis atorgat per al tractament de les teves dades és revocable en qualsevol moment, sense efecte retroactiu, enviant una comunicació a [info@madeinhuman.cat](mailto:info@madeinhuman.cat) amb l'assumpte "BAIXA" o "REVOCACIÓ CONSENTIMENT". La revocació no afectarà la licitud dels tractaments realitzats amb anterioritat.
+El consentiment que hagis atorgat per al tractament de les teves dades és revocable en qualsevol moment, sense efecte retroactiu, enviant una comunicació a [{{correu}}](mailto:{{correu}}) amb l'assumpte "BAIXA" o "REVOCACIÓ CONSENTIMENT". La revocació no afectarà la licitud dels tractaments realitzats amb anterioritat.
 
 ### Modificacions d'aquesta política
 
