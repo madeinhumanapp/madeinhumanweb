@@ -18,7 +18,8 @@ Estat: ▶ a punt · ◐ en curs · ☑ integrat · ☐ encara no (depèn d'una 
 | WEB-L05 | [Títols i descripcions per a Google](WEB-L05-seo.md) | ☑ (17 de 20 propostes) | `mistral/WEB-L05` | — | tots |
 | WEB-L06 | [Revisió de les pàgines en castellà](WEB-L06-castella.md) | ☑ (3 de 4) | `mistral/WEB-L06` | — | tots |
 | WEB-A02 | [Migrar les 3 notícies actuals](WEB-A02-migrar-noticies.md) | ☑ | `mistral/WEB-A02` | — (WEB-A01 fet) | tots |
-| WEB-M05 | Subtítols dels vídeos | ☐ | `mistral/WEB-M05` | WEB-M03 (Claude: vídeos) | — |
+| WEB-M02 | [Imatges i vídeos al generador](WEB-M02-media-generador.md) | ▶ | `mistral/WEB-M02` | — | WEB-M03 (rgpdtool) |
+| WEB-M05 | Subtítols dels vídeos | ☐ | `mistral/WEB-M05` | WEB-M04 (panell) i vídeos reals | — |
 
 Ordre recomanat: **WEB-H04 → WEB-H03b → WEB-H03d**, i **WEB-L01** quan vulguis. Un sol encàrrec obert per sessió de Vibe.
 
