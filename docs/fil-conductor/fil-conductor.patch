@@ -1,0 +1,933 @@
+diff --git a/fil.js b/fil.js
+new file mode 100644
+index 0000000..5a3495e
+--- /dev/null
++++ b/fil.js
+@@ -0,0 +1,639 @@
++/* =============================================================
++   MADEINHUMAN — El fil conductor de la portada (prototip per provar, v0.1)
++
++   Dos fils de llum (coure: dades i persones; blau: IA) arriben solts a la capçalera, es trenen al
++   cursor daurat del logo i acompanyen la lectura fins al contacte, on acaben en un cursor darrere
++   «Parla amb nosaltres.». Es dibuixa en directe en rajoles de <canvas> posades dins de la pàgina (es
++   desplacen amb el text, sense retard), per sota del text i per sobre dels fons de secció.
++
++   - Avança amb el scroll i retrocedeix si es torna amunt (el scroll és el del navegador).
++   - Sempre es mou (trena, polsos de llum, cursor); s'atura si la pestanya no es veu o si no hi ha
++     cap tros de fil a la pantalla.
++   - Amb «reduir moviment» es dibuixa sencer i quiet.
++   - El recorregut es calcula amb les posicions reals de les seccions (marges i espais entre blocs) i
++     es recalcula si canvia la maqueta. Si en algun punt passa per sota d'un text, s'hi esvaeix.
++   - Colors de marca.css. Sense dependències ni peticions externes (CSP: script-src 'self').
++   - Sense JavaScript, la web es queda exactament com ara.
++
++   Proves: proves/fil.mjs. Per a proves deterministes, defineix window.FIL_MANUAL = true abans de
++   carregar aquest fitxer i dibuixa amb madeinhumanFil.render(t, scrollY).
++   ============================================================= */
++(function () {
++  'use strict';
++  if (window.madeinhumanFil || !document.querySelector) return;
++
++  // ---------- Configuració
++  const CONFIG = {
++    lectura: 0.62,        // la punta del fil va a aquesta alçada de la pantalla
++    kmin: 0.25,           // px de scroll mínims per px de fil (els trams horitzontals no surten de cop)
++    pas: 3,               // pas de mostreig del recorregut (px)
++    polsCada: 6,          // un pols de llum cada 6 s
++    tempsBucle: 12,
++    msObjectiu: 9,        // si un fotograma triga més, es rebaixa la qualitat
++    // Selectors: primer l'atribut data-fil (si les plantilles el porten) i, si no, les classes actuals
++    sel: {
++      capcalera: '[data-fil="capcalera"], header.hero',
++      context: '[data-fil="context"], .statement', xifra: '.metric',
++      principi: '[data-fil="principi"], .spot', numPrincipi: '.spot-num',
++      serveis: '[data-fil="serveis"], #serveis', pilar: '.pillar', transversal: '.crossover',
++      metode: '[data-fil="metode"], #metode', fase: '.step', numFase: '.step-num',
++      contacte: '[data-fil="contacte"], #contacte', titolContacte: '.section-title', etiquetaContacte: '.eyebrow',
++      fixos: '.nav, .whatsapp-float, .back-to-top, .scroll-progress, .cookie-banner, .fil-capa',
++    },
++  };
++
++  const TAU = Math.PI * 2;
++  const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
++  const smooth = x => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
++  const mix = (a, b, t) => a + (b - a) * t;
++  const q = (s, p = document) => p && p.querySelector(s), qa = (s, p = document) => p ? [...p.querySelectorAll(s)] : [];
++  const rgba = (c, a) => `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${a})`;
++
++  // ---------- Colors (de marca.css; valors de reserva per si no hi són)
++  function colors() {
++    const cs = getComputedStyle(document.documentElement);
++    const hex = (v, d) => { const m = /#([0-9a-f]{6})/i.exec(cs.getPropertyValue(v) || ''); return m ? [0, 2, 4].map(i => parseInt(m[1].substr(i, 2), 16)) : d; };
++    const daurat = hex('--daurat', [196, 149, 106]), dauratClar = hex('--daurat-clar', [217, 168, 120]);
++    const blauClar = hex('--blau-clar', [143, 182, 255]), crema = hex('--crema', [243, 239, 232]);
++    return { daurat, dauratClar, crema, blau: blauClar, coure: dauratClar.map((v, i) => mix(v, crema[i], 0.25)) };
++  }
++
++  // ---------- Geometria: Catmull-Rom centrípeta + remostreig a passos iguals
++  function corbaCR(pts) {
++    const n = pts.length, out = [];
++    const P = [[2 * pts[0][0] - pts[1][0], 2 * pts[0][1] - pts[1][1]], ...pts,
++      [2 * pts[n - 1][0] - pts[n - 2][0], 2 * pts[n - 1][1] - pts[n - 2][1]]];
++    const dist = (a, b) => Math.max(1e-6, Math.hypot(b[0] - a[0], b[1] - a[1]));
++    for (let i = 1; i < P.length - 2; i++) {
++      const p0 = P[i - 1], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2];
++      const t0 = 0, t1 = Math.sqrt(dist(p0, p1)), t2 = t1 + Math.sqrt(dist(p1, p2)), t3 = t2 + Math.sqrt(dist(p2, p3));
++      const passos = Math.max(4, Math.ceil(dist(p1, p2) / 2));
++      for (let k = 0; k < passos; k++) {
++        const t = t1 + (t2 - t1) * k / passos;
++        const L = (a, b, ta, tb) => [((tb - t) * a[0] + (t - ta) * b[0]) / (tb - ta), ((tb - t) * a[1] + (t - ta) * b[1]) / (tb - ta)];
++        const A1 = L(p0, p1, t0, t1), A2 = L(p1, p2, t1, t2), A3 = L(p2, p3, t2, t3);
++        out.push(L(L(A1, A2, t0, t2), L(A2, A3, t1, t3), t1, t2));
++      }
++    }
++    out.push(pts[n - 1]);
++    return out;
++  }
++  // Ancoratges a prop dels extrems dels trams rectes llargs: la corba no s'arqueja (a mòbil sortiria de pantalla)
++  function ancorar(pts) {
++    const out = [pts[0]];
++    for (let i = 1; i < pts.length; i++) {
++      const a = pts[i - 1], b = pts[i], dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy);
++      if (L > 160 && (Math.abs(dx) < 3 || Math.abs(dy) < 3)) { const e = 45 / L; out.push([a[0] + dx * e, a[1] + dy * e], [b[0] - dx * e, b[1] - dy * e]); }
++      out.push(b);
++    }
++    return out;
++  }
++  function remostrejar(poly, ds) {
++    const acc = [0];
++    for (let i = 1; i < poly.length; i++) acc.push(acc[i - 1] + Math.hypot(poly[i][0] - poly[i - 1][0], poly[i][1] - poly[i - 1][1]));
++    const L = acc[acc.length - 1], n = Math.max(2, Math.floor(L / ds) + 1), out = [];
++    let j = 0;
++    for (let i = 0; i < n; i++) {
++      const s = Math.min(L, i * ds);
++      while (j < acc.length - 2 && acc[j + 1] < s) j++;
++      const f = (s - acc[j]) / Math.max(1e-9, acc[j + 1] - acc[j]);
++      out.push({ x: mix(poly[j][0], poly[j + 1][0], f), y: mix(poly[j][1], poly[j + 1][1], f), d: s });
++    }
++    for (let i = 0; i < n; i++) {
++      const a = out[Math.max(0, i - 2)], b = out[Math.min(n - 1, i + 2)], tx = b.x - a.x, ty = b.y - a.y, l = Math.hypot(tx, ty) || 1;
++      out[i].nx = ty / l; out[i].ny = -tx / l;
++    }
++    return out;
++  }
++  const corba = pts => remostrejar(corbaCR(ancorar(pts)), CONFIG.pas);
++
++  // ---------- Mesures del DOM en coordenades de document (sense les translacions de les animacions d'aparició)
++  function caixa(el) {
++    let x = 0, y = 0, e = el;
++    while (e) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent; }
++    return { x, y, w: el.offsetWidth, h: el.offsetHeight, r: x + el.offsetWidth, b: y + el.offsetHeight };
++  }
++  function referencia(el) {          // avantpassat amb una sola caixa (els elements en línia poden ocupar diverses línies)
++    let e = el;
++    while (e && e !== document.body && getComputedStyle(e).display === 'inline') e = e.parentElement;
++    return e || el;
++  }
++  function aDocument(r, ref) {       // rectangle de pantalla → document, compensant les translacions
++    const r0 = ref.getBoundingClientRect(), c = caixa(ref);
++    return [c.x + (r.left - r0.left), c.y + (r.top - r0.top), c.x + (r.right - r0.left), c.y + (r.bottom - r0.top)];
++  }
++  function fiDeText(el) {            // final de l'última línia d'un titular
++    const rng = document.createRange(); rng.selectNodeContents(el);
++    const rs = [...rng.getClientRects()].filter(r => r.width > 0), r = rs[rs.length - 1];
++    if (!r) { const c = caixa(el); return { x: c.r, y: c.b, h: c.h }; }
++    const z = aDocument(r, referencia(el));
++    return { x: z[2], y: z[3], h: z[3] - z[1] };
++  }
++  function finalCap(seccio, yContingut) {   // part inferior de tot el que hi ha per sobre d'un bloc (títol, paràgraf…)
++    let b = 0;
++    for (const el of qa('*', q('.container', seccio) || seccio)) {
++      if (!el.offsetParent || !el.offsetHeight) continue;
++      const c = caixa(el);
++      if (c.b <= yContingut + 1 && c.h < 400) b = Math.max(b, c.b);
++    }
++    return b;
++  }
++  // Zones on el fil no es pot veure: línies de text i controls (botons, camps)
++  function zonesDeText(yMax) {
++    const zs = [], rng = document.createRange();
++    const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT,
++      { acceptNode: n => (n.nodeValue.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT) });
++    for (let n = tw.nextNode(); n; n = tw.nextNode()) {
++      const el = n.parentElement;
++      if (!el || el.closest(CONFIG.sel.fixos) || el.closest('script,style,noscript,template')) continue;
++      rng.selectNodeContents(n);
++      const rs = rng.getClientRects();
++      if (!rs.length) continue;
++      const ref = referencia(el);
++      for (const r of rs) {
++        if (r.width < 1 || r.height < 1) continue;
++        const z = aDocument(r, ref);
++        if (z[1] <= yMax) zs.push(z);
++      }
++    }
++    for (const el of qa('a.btn, button, input, select, textarea')) {
++      if (el.closest(CONFIG.sel.fixos) || !el.offsetParent) continue;
++      const c = caixa(el);
++      if (c.y <= yMax) zs.push([c.x, c.y, c.r, c.b]);
++    }
++    return zs.sort((a, b) => a[1] - b[1]);
++  }
++
++  // ---------- Recorregut
++  function Ruta(vh) { this.vh = vh; this.peces = []; this.nodes = []; this.u = 0; this.s = 0; this.trig = 0; }
++  Ruta.prototype.disparador = function (p, primer) {
++    const t = Math.max(primer ? this.trig : this.trig + CONFIG.pas * CONFIG.kmin, p.y - CONFIG.lectura * this.vh);
++    p.trig = t; this.trig = t;
++  };
++  // Tram compartit: els dos fils al voltant d'una mateixa espina (solts o trenats)
++  Ruta.prototype.comu = function (pts, o = {}) {
++    if (pts.length < 2) return null;
++    const m = corba(pts), L = m[m.length - 1].d;
++    for (const p of m) {
++      p.r = (o.radi || 0) * (o.entrada ? smooth(p.d / o.entrada) : 1) * (o.sortida ? smooth((L - p.d) / o.sortida) : 1);
++      p.la = 0; p.s = this.s + p.d; p.u = this.u + p.d;
++    }
++    if (o.prep) o.prep(m, L);
++    m.forEach((p, i) => { if (o.sempre) p.trig = 0; else this.disparador(p, i === 0); });
++    this.s += L; this.u += L;
++    this.peces.push({ tipus: 'comu', m, int: o.int || 0.72 });
++    return m;
++  };
++  // Tram separat: cada fil pel seu camí fins que es tornen a trobar
++  Ruta.prototype.separat = function (ptsA, ptsB, o = {}) {
++    const ms = [corba(ptsA), corba(ptsB)], Ls = ms.map(m => m[m.length - 1].d), L = Math.max(...Ls), t0 = this.trig, fins = [];
++    ms.forEach((m, k) => {
++      let tr = t0;
++      m.forEach((p, i) => {
++        p.r = 0; p.la = o.ona || 0; p.s = this.s + p.d; p.u = this.u + p.d * (L / Ls[k]);
++        tr = Math.max(i ? tr + CONFIG.pas * CONFIG.kmin : tr, p.y - CONFIG.lectura * this.vh); p.trig = tr;
++      });
++      fins.push(tr);
++    });
++    this.trig = Math.max(...fins); this.s += L; this.u += L;
++    this.peces.push({ tipus: 'separat', m: ms, int: o.int || 0.8 });
++  };
++  Ruta.prototype.mostres = function () { return this.peces.flatMap(pc => (pc.tipus === 'comu' ? pc.m : pc.m.flat())); };
++  Ruta.prototype.tancar = function (zones, C) {
++    const totes = this.mostres();
++    for (const n of this.nodes) {          // cada node s'activa quan hi arriba el fil
++      if (n.trig !== undefined) continue;
++      let best = totes[0], bd = Infinity;
++      for (const p of totes) { const d = (p.x - n.ax) ** 2 + (p.y - n.ay) ** 2; if (d < bd) { bd = d; best = p; } }
++      n.trig = best.trig; n.u = best.u;
++    }
++    // Esvaïment sota el text: marge conservador (desplaçament màxim de la mostra + gruix + resplendor)
++    for (const p of totes) {
++      p.m = 1.5 * p.la + p.r + 2.5;          // desplaçament màxim + mig gruix del traç
++      let dmin = Infinity;
++      let lo = 0, hi = zones.length;           // primera zona que podria tocar (ordenades per y0)
++      while (lo < hi) { const mid = (lo + hi) >> 1; if (zones[mid][1] < p.y - 260) lo = mid + 1; else hi = mid; }
++      for (let i = lo; i < zones.length && zones[i][1] <= p.y + p.m + 2; i++) {
++        const z = zones[i];
++        const dx = Math.max(z[0] - p.m - p.x, 0, p.x - z[2] - p.m), dy = Math.max(z[1] - p.m - p.y, 0, p.y - z[3] - p.m);
++        dmin = Math.min(dmin, Math.hypot(dx, dy));
++        if (!dmin) break;
++      }
++      p.vis = 0.1 + 0.9 * smooth(dmin / 3);
++    }
++    C.esvaides = totes.filter(p => p.vis < 0.5).length;
++  };
++
++  function construir(vw, vh) {
++    const S = CONFIG.sel, mobil = vw < 700;
++    const heroEl = q(S.capcalera);
++    if (!heroEl) return null;
++    const hero = caixa(heroEl), H = hero.h;
++    const ci = q('.container', heroEl) || heroEl, cb = caixa(ci), pad = parseFloat(getComputedStyle(ci).paddingLeft) || 0;
++    const textL = cb.x + pad, textR = cb.x + cb.w - pad;
++    const xL = mobil ? 7 : textL / 2, xR = mobil ? vw - 7 : textR + (vw - textR) * 0.42;
++    const K = mobil ? 0.404 : H / 1080;
++    const R = new Ruta(vh);
++    const C = {
++      mobil, K, xL, xR, colors: colors(),
++      fibres: mobil ? [0, 1] : [-1, 0, 1],
++      radi: mobil ? 3.5 : 7, LB: mobil ? 52 : 130, V: mobil ? 24 : 50, gruix: mobil ? 1.2 : 1.35,
++      solt: (mobil ? 50 : 56) * K, cursor: mobil ? [26, 7] : [46 * K, 12 * K],
++    };
++
++    // 1) Capçalera: fils solts → cursor → trenats, i baixen pel marge dret
++    const P = (fx, fy) => [fx * vw, hero.y + fy * H];
++    const heroPts = mobil
++      ? [P(-0.14, 0.945), P(0.08, 0.94), P(0.26, 0.933), P(0.40, 0.925), P(0.46, 0.92), P(0.62, 0.895), P(0.75, 0.872), P(0.88, 0.858), [xR, hero.y + 0.915 * H], [xR, hero.b + 40]]
++      : [P(-0.06, 0.875), P(0.12, 0.868), P(0.30, 0.862), P(0.46, 0.852), P(0.585, 0.836), P(0.68, 0.80), P(0.77, 0.735), P(0.85, 0.70), P(0.905, 0.725), [xR, hero.y + 0.83 * H], [xR, hero.b + 40]];
++    const fusioX = (mobil ? 0.46 : 0.585) * vw;
++    // els fils solts passen per sota dels botons amb prou marge, encara que la pantalla sigui baixa
++    const yMinSolt = Math.min(hero.b - 24, cb.b + 1.5 * C.solt + 14);
++    for (let i = 0; i < heroPts.length && heroPts[i][0] <= fusioX + 1; i++) heroPts[i][1] = Math.max(heroPts[i][1], yMinSolt);
++    let fusio = null;
++    R.comu(heroPts, {
++      sempre: true, int: 1,
++      prep: m => {
++        fusio = m.find(p => p.x >= fusioX) || m[(m.length / 2) | 0];
++        const rH = (mobil ? 20 : 13) * K;
++        for (const p of m) {
++          const d = p.d - fusio.d;
++          p.la = d < 0 ? C.solt * smooth(-d / (560 * K)) : 0;
++          p.r = d > 0 ? mix(rH, C.radi, smooth((p.y - hero.y - 0.8 * H) / (0.25 * H))) * smooth(d / (110 * K)) : 0;
++        }
++      },
++    });
++    C.uFusio = fusio.u; C.dFusio = fusio.d;
++    R.nodes.push({ tipus: 'cursor', x: fusio.x + C.cursor[0] * 0.25, y: fusio.y + (mobil ? 16 : 27 * K), w: C.cursor[0], h: C.cursor[1], parpelleja: true, flaix: true, trig: 0, u: fusio.u });
++    C.motes = Array.from({ length: mobil ? 34 : 60 }, (_, i) => {
++      const r = n => Math.abs((Math.sin(i * 12.9898 + n * 78.233) * 43758.5453) % 1);
++      return { s0: r(1), o: r(2) * 2 - 1, k: r(3) < 0.5 ? 0 : 1, r: 0.8 + r(4) * 1.3, al: 0.3 + r(5) * 0.5, ph: r(6), m: 1 + Math.floor(r(7) * 3) };
++    });
++
++    // 2) Context (xifres) i principis: un tram trenat que fa esses pels costats, amb un nus a cada principi
++    let tram = [[xR, hero.b + 40]];
++    let opcionsTram = { radi: C.radi, entrada: 0 };
++    const nusos = [];
++    const tancaTram = (o = {}) => {
++      R.comu(tram, { ...opcionsTram, ...o, prep: m => { for (const p of m) { let dm = 1e9; for (const [x, y] of nusos) dm = Math.min(dm, Math.hypot(p.x - x, p.y - y)); p.r *= 0.15 + 0.85 * smooth(dm / (mobil ? 40 : 70)); } } });
++    };
++    const ctxEl = q(S.context);
++    if (ctxEl) {
++      const sb = caixa(ctxEl);
++      tram.push([xR, sb.y + 50]);
++      for (const m of qa(S.xifra, ctxEl).map(caixa)) {
++        tram.push([xR, m.y + m.h / 2]);
++        R.nodes.push({ tipus: 'punt', x: xR, y: m.y + m.h / 2, ax: xR, ay: m.y + m.h / 2 });
++      }
++      tram.push([xR, sb.b - 30]);
++    }
++    const serveisEl = q(S.serveis), svY = serveisEl ? caixa(serveisEl).y : Infinity;
++    const spots = qa(S.principi).map(s => ({ c: caixa(q('.container', s) || s), n: caixa(q(S.numPrincipi, s) || s) }));
++    const spotsA = spots.filter(s => s.n.y < svY), spotsB = spots.filter(s => s.n.y > svY);
++    const costat = (sp, k) => (mobil ? (k % 2 ? xL : xR) : (k % 2 ? sp.n.x / 2 : (sp.n.x + sp.n.w + vw) / 2));
++    spotsA.forEach((sp, k) => {
++      const x = costat(sp, k), ny = sp.n.y + sp.n.h / 2;
++      tram.push([x, sp.n.y - 70], [x, ny], [x, sp.c.b - 10]);
++      nusos.push([x, ny]);
++      R.nodes.push({ tipus: 'nus', x, y: ny, ax: x, ay: ny });
++      if (spotsA[k + 1]) tram.push([vw / 2, (sp.c.b + spotsA[k + 1].n.y) / 2]);
++    });
++
++    // 3) Serveis: el coure acompanya el pilar d'RGPD i el blau el d'IA; es retroben a sota («un sol equip»)
++    const pil = qa(S.pilar, serveisEl).map(caixa);
++    let ultimX = tram[tram.length - 1][0], ultimY = tram[tram.length - 1][1];
++    if (serveisEl && pil.length >= 2) {
++      const svE = caixa(q('.eyebrow', serveisEl) || q('.section-title', serveisEl) || serveisEl);
++      const crEl = q(S.transversal, serveisEl), cr = crEl ? caixa(crEl) : { y: Math.max(...pil.map(p => p.b)) + 120, b: Math.max(...pil.map(p => p.b)) + 120 };
++      const ySplit = (finalCap(serveisEl, pil[0].y) + pil[0].y) / 2, yJoin = (Math.max(...pil.map(p => p.b)) + cr.y) / 2;
++      const xCu = mobil ? xL : (xL + pil[0].x) / 2, xBl = mobil ? xR : (pil[pil.length - 1].r + xR) / 2;
++      if (spotsA.length) { const u = spotsA[spotsA.length - 1]; tram.push([mobil ? xL : Math.min(costat(u, spotsA.length - 1), xCu + 30), u.c.b + 60]); }
++      tram.push([xCu, svE.y - 30], [xCu, ySplit]);
++      tancaTram({ sortida: mobil ? 54 : 90 });
++      const e = mobil ? 30 : 50;
++      R.separat(
++        [[xCu, ySplit], [xCu, ySplit + e], [xCu, yJoin - e], [xCu + e, yJoin], [vw / 2, yJoin], [xBl - 2 * e, yJoin], [xBl - 0.4 * e, yJoin + 0.25 * e], [xBl, yJoin + e]],
++        [[xCu, ySplit], [xCu + e, ySplit], [vw / 2, ySplit], [xBl - e, ySplit + 2], [xBl, ySplit + e], [xBl, yJoin - e], [xBl, yJoin + e]],
++        { ona: mobil ? 1.5 : 3 });
++      tram = [[xBl, yJoin + e], [xR, cr.y + 20], [xR, cr.b + 20]];
++      opcionsTram = { radi: C.radi, entrada: 80 };
++    } else if (serveisEl) {
++      const sb = caixa(serveisEl);
++      tram.push([xR, sb.y + 40], [xR, sb.b - 40]);
++    }
++    ultimX = tram[tram.length - 1][0]; ultimY = tram[tram.length - 1][1];
++
++    // 4) Frase posterior i mètode: la trena fa de línia de temps i encén un cursor a cada fase
++    const metEl = q(S.metode);
++    const mE = metEl ? caixa(q('.eyebrow', metEl) || q('.section-title', metEl) || metEl) : null;
++    const sp5 = spotsB[0];
++    if (sp5) {
++      const x = mobil ? xR : costat(sp5, 0), ny = sp5.n.y + sp5.n.h / 2;
++      tram.push([x, sp5.n.y - 70], [x, ny], [x, sp5.c.b - 10]);
++      R.nodes.push({ tipus: 'nus', x, y: ny, ax: x, ay: ny });
++      nusos.push([x, ny]);
++      if (mE) tram.push([vw / 2, (sp5.c.b + mE.y) / 2]);
++    }
++    const fases = qa(S.fase, metEl).map(caixa), nums = qa(S.numFase, metEl).map(caixa);
++    if (metEl && fases.length) {
++      const mb = caixa(metEl);
++      if (!mobil) {
++        const yT = (finalCap(metEl, fases[0].y) + fases[0].y) / 2;
++        tram.push([xL, mE.y], [xL, yT - 40], [xL + 40, yT], [vw / 2, yT], [xR - 40, yT], [xR, yT + 40], [xR, mb.b - 40]);
++        (nums.length ? nums : fases).forEach(n => R.nodes.push({ tipus: 'cursor', fita: true, x: n.x + C.cursor[0] / 2, y: yT + 18 * K, w: C.cursor[0] * 0.8, h: C.cursor[1] * 0.8, ax: n.x + C.cursor[0] / 2, ay: yT }));
++      } else {
++        tram.push([xL, mE.y], [xL, mb.b - 40]);
++        (nums.length ? nums : fases).forEach(n => R.nodes.push({ tipus: 'cursor', fita: true, x: xL + 0.5, y: n.y + n.h / 2, w: 12, h: 4, ax: xL, ay: n.y + n.h / 2 }));
++      }
++      ultimX = tram[tram.length - 1][0]; ultimY = tram[tram.length - 1][1];
++    }
++
++    // 5) Contacte: el fil acaba en el cursor del logo, darrere «Parla amb nosaltres.»
++    const ctEl = q(S.contacte), ttl = q(S.titolContacte, ctEl);
++    let yFi = ultimY + 200;
++    if (ctEl && ttl) {
++      const ct = caixa(ctEl), cE = caixa(q(S.etiquetaContacte, ctEl) || ttl), fi = fiDeText(ttl);
++      const cw = mobil ? 18 : 34 * K * 1.2, ch = mobil ? 5 : 9 * K * 1.2;
++      const curX = fi.x + (mobil ? 8 : 12) + cw / 2, curY = fi.y - fi.h * 0.26;
++      if (!mobil) tram.push([xR, ct.y + 30], [Math.min(xR - 60, curX + 260), cE.y - 10], [curX + 80, curY - 6], [curX + cw / 2 + 4, curY]);
++      else tram.push([ultimX === xL ? vw / 2 : xR, ultimX === xL ? ((ultimY + cE.y) / 2) : cE.y - 20], [xR, cE.y + 10], [xR, curY - 12], [curX + cw / 2 + 24, curY], [curX + cw / 2 + 3, curY]);
++      tancaTram({ sortida: mobil ? 70 : 140 });
++      R.nodes.push({ tipus: 'cursor', final: true, parpelleja: true, x: curX, y: curY, w: cw, h: ch, ax: curX + cw / 2 + 4, ay: curY });
++      yFi = curY + 40;
++    } else {
++      tram.push([ultimX, ultimY + 160]);
++      tancaTram({ sortida: 160 });
++    }
++    R.tancar(zonesDeText(yFi + 200), C);
++    C.uFinal = R.u;
++    C.yMax = Math.max(...R.mostres().map(p => p.y)) + 160;
++    // blocs de 48 mostres amb el seu interval vertical (amb marge per als desplaçaments i el resplendor)
++    const blocs = m => { const res = []; for (let i = 0; i < m.length; i += 48) { const sl = m.slice(i, i + 48), ys = sl.map(p => p.y), mg = Math.max(...sl.map(p => p.m)) + 30; res.push([i, Math.min(i + 48, m.length), Math.min(...ys) - mg, Math.max(...ys) + mg]); } return res; };
++    for (const pc of R.peces) pc.blocs = pc.tipus === 'comu' ? blocs(pc.m) : pc.m.map(blocs);
++    return { R, C };
++  }
++
++  // ---------- Dibuix en rajoles
++  // El fil es pinta en rajoles de canvas posades dins de la pàgina (no en un canvas fix): així es desplacen amb el
++  // text de manera nativa i el fil no queda endarrerit en fer scroll ràpid (a l'iPhone el scroll va en un altre fil).
++  const RAJOLA = 512;
++  function Fil(capa) {
++    this.capa = capa; this.rajoles = [];
++    this.qualitat = 2;                 // 2: completa · 1: sense fibres laterals · 0: mínima
++    this.mida();
++  }
++  Fil.prototype.mida = function () {
++    this.vw = document.documentElement.clientWidth; this.vh = window.innerHeight;
++    this.dpr = Math.min(window.devicePixelRatio || 1, this.qualitat === 0 ? 1 : 2);
++    const r = construir(this.vw, this.vh);
++    this.R = r && r.R; this.C = r && r.C;
++    if (!this.R) return;
++    // La capa només arriba fins al final del fil: no pot allargar mai la pàgina
++    this.alcada = Math.ceil(this.C.yMax);
++    this.capa.style.height = this.alcada + 'px';
++    for (const rj of this.rajoles) { rj.idx = -1; rj.cv.style.display = 'none'; this.dimensiona(rj); }
++  };
++  Fil.prototype.dimensiona = function (rj) {
++    rj.cv.width = Math.round(this.vw * this.dpr); rj.cv.height = Math.round(RAJOLA * this.dpr);
++  };
++  Fil.prototype.rajola = function () {
++    const cv = document.createElement('canvas');
++    Object.assign(cv.style, { position: 'absolute', left: '0', top: '0', width: '100%', height: RAJOLA + 'px', display: 'none' });
++    this.capa.appendChild(cv);
++    const rj = { cv, g: cv.getContext('2d'), idx: -1 };
++    this.dimensiona(rj);
++    this.rajoles.push(rj);
++    return rj;
++  };
++  // Dibuixa les rajoles que toquen la pantalla (amb marge) per a l'instant t i el scroll sy
++  Fil.prototype.render = function (t, sy, o = {}) {
++    if (!this.R) return false;
++    const marge = 200, ultima = Math.ceil(this.alcada / RAJOLA) - 1;
++    const n0 = Math.max(0, Math.floor((sy - marge) / RAJOLA)), n1 = Math.min(ultima, Math.floor((sy + this.vh + marge) / RAJOLA));
++    for (const rj of this.rajoles) if (rj.idx < n0 || rj.idx > n1) rj.idx = -1;
++    let dibuixat = false;
++    for (let i = n0; i <= n1; i++) {
++      let rj = this.rajoles.find(x => x.idx === i) || this.rajoles.find(x => x.idx === -1) || this.rajola();
++      if (rj.idx !== i) { rj.idx = i; rj.cv.style.top = (i * RAJOLA) + 'px'; }
++      rj.cv.style.display = 'block';
++      if (this.dibuixa(rj.g, i * RAJOLA, RAJOLA, t, sy, o)) dibuixat = true;
++    }
++    for (const rj of this.rajoles) if (rj.idx === -1) rj.cv.style.display = 'none';
++    return dibuixat;
++  };
++
++  // Dibuixa a una rajola la franja [top, top + h] del document, a l'instant t (s) i amb el scroll sy.
++  // Torna true si hi ha dibuixat alguna cosa.
++  Fil.prototype.dibuixa = function (g, top, h, t, sy, o) {
++    const { dpr, R, C } = this;
++    g.setTransform(1, 0, 0, 1, 0, 0);
++    g.clearRect(0, 0, g.canvas.width, g.canvas.height);
++    const vh = this.vh, K = C.K, Q = this.qualitat, quiet = !!o.quiet;
++    const revela = o.revelaTot ? Infinity : sy;
++    const col = C.colors;
++    g.setTransform(dpr, 0, 0, dpr, 0, -top * dpr);
++    g.globalCompositeOperation = 'lighter';
++    g.lineCap = 'round'; g.lineJoin = 'round';
++    const y0 = top - 90, y1 = top + h + 90, T = CONFIG.tempsBucle, VP = C.mobil ? 150 : 330;
++    const polsos = [];
++    if (!quiet) for (let k = Math.floor((t - 0.6 - C.uFinal / VP) / CONFIG.polsCada) - 1; k <= Math.floor((t - 0.6) / CONFIG.polsCada); k++) {
++      const up = (t - (0.6 + CONFIG.polsCada * k)) * VP;
++      if (up > -200 && up < C.uFinal + 200) polsos.push(up);
++    }
++    const SIG = 160 * (C.mobil ? 0.5 : K), SIGF = 50 * (C.mobil ? 0.5 : K);
++    const fibres = Q === 2 ? C.fibres : [0];
++    let punta = null, dibuixat = false;
++
++    for (let k = 0; k < 2; k++) {
++      const cc = k ? col.blau : col.coure;
++      for (const j of fibres) {
++        const gr = C.gruix * (j === 0 ? 1.25 : 0.75), llums = [];
++        let prevIn = false, prevF = true, prevV = true, px = 0, py = 0, pu = 0;
++        for (const pc of R.peces) {
++          const m = pc.tipus === 'comu' ? pc.m : pc.m[k], blocs = pc.tipus === 'comu' ? pc.blocs : pc.blocs[k];
++          if (m[0].trig > revela) break;
++          // quatre traços per tram: davant/darrere (volum de la trena) × visible/esvaït (sota un text)
++          const tr = [new Path2D(), new Path2D(), new Path2D(), new Path2D()];
++          let n = 0;
++          for (const [i0, i1, bMin, bMax] of blocs) {
++            if (bMax < y0 || bMin > y1) { prevIn = false; continue; }
++          for (let i = i0; i < i1; i++) {
++            const p = m[i];
++            if (p.trig > revela || p.y < y0 || p.y > y1) { prevIn = false; continue; }
++            let off = 0, z = 0;
++            if (p.la) {
++              const w = 0.55 * Math.sin(TAU * (p.s / (720 * K) - t / T) + (k ? 2.1 : 0.3))
++                      + 0.30 * Math.sin(TAU * (p.s / (360 * K) - 2 * t / T) + (k ? 4.0 : 1.2))
++                      + 0.15 * Math.sin(TAU * (p.s / (240 * K) - 3 * t / T) + (k ? 0.7 : 5.1));
++              off += p.la * (pc.tipus === 'comu' ? ((k ? -0.5 : 0.5) + w) : w * 0.6);
++              z = 0.3 * Math.sin(TAU * (p.s / (360 * K) - 2 * t / T) + k * 2.6);
++            }
++            if (p.r) { const ph = TAU * (p.s - C.V * t) / C.LB + k * Math.PI; off += p.r * Math.sin(ph); z = Math.cos(ph) * Math.min(1, p.r / C.radi); }
++            const esp = (C.mobil ? 0.9 : 1.2) + (p.la ? 6 * K * (p.la / C.solt) : 0);
++            const fj = j * esp + (p.la ? 3 * K * Math.sin(TAU * (p.s / (170 * K) - 4 * t / T) + j * 2.1 + k * 1.7) * (p.la / C.solt) : 0);
++            const x = p.x + p.nx * (off + fj), y = p.y + p.ny * (off + fj);
++            const f = z >= -0.05, v = p.vis > 0.5;
++            if (prevIn) {
++              const path = tr[(f ? 0 : 1) + (v ? 0 : 2)];
++              if (f !== prevF || v !== prevV || i === 0) path.moveTo(px, py);
++              path.lineTo(x, y); n++;
++              if (j === 0 && v && polsos.length) {
++                let gg = 0;
++                for (const up of polsos) { const dd = p.u - up, sg = dd < 0 ? SIG : SIGF; gg += Math.exp(-(dd * dd) / (sg * sg)); }
++                if (gg > 0.04) llums.push([px, py, x, y, gg * pc.int]);
++              }
++            } else tr[(f ? 0 : 1) + (v ? 0 : 2)].moveTo(x, y);
++            prevIn = true; prevF = f; prevV = v; px = x; py = y; pu = p.u;
++          }
++          }
++          if (!n) continue;
++          dibuixat = true;
++          for (const [idx, I] of [[0, pc.int], [1, pc.int], [2, pc.int * 0.1], [3, pc.int * 0.1]]) {
++            const path = tr[idx], davant = idx % 2 === 0;
++            if (Q > 0) { g.strokeStyle = rgba(cc, (davant ? 0.06 : 0.05) * I); g.lineWidth = (davant ? 9 : 7) * gr; g.stroke(path); }
++            if (Q > 0 && davant) { g.strokeStyle = rgba(cc, 0.15 * I); g.lineWidth = 3.4 * gr; g.stroke(path); }
++            g.strokeStyle = rgba(cc, (davant ? (j === 0 ? 0.95 : 0.55) : (j === 0 ? 0.42 : 0.24)) * I); g.lineWidth = gr; g.stroke(path);
++          }
++        }
++        if (j === 0 && prevIn && pu < C.uFinal - 2 && !o.revelaTot) {
++          if (!punta) punta = [px, py]; else { punta[0] = (punta[0] + px) / 2; punta[1] = (punta[1] + py) / 2; }
++        }
++        for (const [ax, ay, bx, by, gg] of llums) {
++          const a = Math.min(1, gg), c2 = cc.map((v, i) => mix(v, col.crema[i], 0.42 * a));
++          if (Q > 0) { g.strokeStyle = rgba(c2, 0.16 * a); g.lineWidth = 10 * C.gruix; g.beginPath(); g.moveTo(ax, ay); g.lineTo(bx, by); g.stroke(); }
++          g.strokeStyle = rgba(c2, 0.85 * a); g.lineWidth = C.gruix * 1.6; g.beginPath(); g.moveTo(ax, ay); g.lineTo(bx, by); g.stroke();
++        }
++      }
++    }
++
++    // Partícules de dades al tram solt de la capçalera
++    const heroM = R.peces[0].m;
++    if (Q > 0 && heroM[0].y < y1 && heroM[0].y > y0 - vh) {
++      for (const mo of C.motes) {
++        const s = ((mo.s0 + (quiet ? 0 : t) / T) % 1) * C.dFusio;
++        const p = heroM[Math.min(heroM.length - 1, Math.round(s / CONFIG.pas))];
++        const el = smooth((C.dFusio - s) / (560 * K));
++        const env = smooth(s / (0.2 * C.dFusio)) * smooth((C.dFusio - s) / (0.22 * C.dFusio));
++        const lat = el * C.solt * (mo.o * 1.9 + (mo.k ? -0.5 : 0.5));
++        const a = mo.al * env * (0.6 + 0.4 * Math.sin(TAU * (mo.m * t / T + mo.ph))) * p.vis;
++        if (a < 0.02) continue;
++        g.fillStyle = rgba(mo.k ? col.blau : col.coure, a * 0.75);
++        g.beginPath(); g.arc(p.x + p.nx * lat, p.y + p.ny * lat, mo.r * (C.mobil ? 0.9 : 1.1), 0, TAU); g.fill();
++      }
++    }
++
++    // Punta del fil: el «llapis» que escriu
++    if (punta && punta[1] > sy && punta[1] < sy + vh) {
++      const rr = C.mobil ? 10 : 18, a = 0.35 + 0.15 * Math.sin(TAU * t / 1.6);
++      const rg = g.createRadialGradient(punta[0], punta[1], 0, punta[0], punta[1], rr);
++      rg.addColorStop(0, `rgba(250,236,214,${a})`); rg.addColorStop(1, 'rgba(250,236,214,0)');
++      g.fillStyle = rg; g.fillRect(punta[0] - rr, punta[1] - rr, 2 * rr, 2 * rr);
++    }
++
++    // Nodes: xifres, nusos dels principis, fites del mètode i cursors
++    const [dr, dg, db] = col.daurat, [cr, cg, cbl] = col.dauratClar;
++    for (const n of R.nodes) {
++      if (n.y < y0 || n.y > y1 || n.trig > revela) continue;
++      dibuixat = true;
++      const a = n.trig === 0 || o.revelaTot ? 1 : clamp((sy - n.trig) / 90, 0, 1);
++      const esclat = quiet ? 0 : Math.sin(Math.PI * a) * 0.8;
++      if (n.tipus === 'punt' || n.tipus === 'nus') {
++        g.globalCompositeOperation = 'lighter';
++        const hr = (n.tipus === 'nus' ? 26 : 16) * (C.mobil ? 0.6 : 1);
++        const rg = g.createRadialGradient(n.x, n.y, 0, n.x, n.y, hr);
++        rg.addColorStop(0, `rgba(${dr},${dg},${db},${0.22 * a + 0.35 * esclat})`); rg.addColorStop(1, `rgba(${dr},${dg},${db},0)`);
++        g.fillStyle = rg; g.fillRect(n.x - hr, n.y - hr, 2 * hr, 2 * hr);
++        g.globalCompositeOperation = 'source-over';
++        if (n.tipus === 'nus') {
++          g.strokeStyle = `rgba(${cr},${cg},${cbl},${0.9 * a})`; g.lineWidth = C.mobil ? 1.2 : 1.5;
++          g.beginPath(); g.arc(n.x, n.y, (C.mobil ? 5 : 9) * (0.6 + 0.4 * a), 0, TAU); g.stroke();
++        }
++        g.fillStyle = `rgba(${cr},${cg},${cbl},${a})`;
++        g.beginPath(); g.arc(n.x, n.y, (C.mobil ? 1.8 : 2.6) * (0.5 + 0.5 * a + 0.3 * esclat), 0, TAU); g.fill();
++      } else {
++        let fl = 0;
++        if (n.flaix && !quiet) for (const up of polsos) fl += Math.exp(-(((up - n.u) / (95 * K)) ** 2));
++        fl = Math.min(1, fl + esclat);
++        const parp = n.parpelleja && !quiet ? 0.5 + 0.5 * Math.cos(TAU * t / (n.final ? 1.1 : 1.5)) : 1;
++        g.globalCompositeOperation = 'lighter';
++        const hr = Math.max(n.w * 1.5, C.mobil ? 22 : 60 * K);
++        const rg = g.createRadialGradient(n.x, n.y, 0, n.x, n.y, hr);
++        rg.addColorStop(0, `rgba(${dr},${dg},${db},${(0.09 + 0.06 * parp) * a + 0.24 * fl})`); rg.addColorStop(1, `rgba(${dr},${dg},${db},0)`);
++        g.fillStyle = rg; g.fillRect(n.x - hr, n.y - hr, 2 * hr, 2 * hr);
++        if (fl > 0.05 && !C.mobil && Q > 0) {
++          const lg = g.createLinearGradient(n.x - 350 * K, 0, n.x + 350 * K, 0);
++          lg.addColorStop(0, `rgba(${dr},${dg},${db},0)`); lg.addColorStop(0.5, `rgba(${cr},${cg},${cbl},${0.3 * fl})`); lg.addColorStop(1, `rgba(${dr},${dg},${db},0)`);
++          g.fillStyle = lg; g.fillRect(n.x - 350 * K, n.y - 0.6, 700 * K, 1.2);
++        }
++        g.globalCompositeOperation = 'source-over';
++        const c3 = [dr, dg, db].map((v, i) => Math.round(mix(v, [cr, cg, cbl][i], fl)));
++        g.fillStyle = `rgba(${c3.join(',')},${a * Math.max(n.parpelleja ? 0.62 + 0.38 * parp : 1, fl)})`;
++        g.fillRect(n.x - n.w / 2, n.y - n.h / 2, n.w, n.h);
++      }
++    }
++    g.globalCompositeOperation = 'source-over';
++    return dibuixat;
++  };
++
++  // ---------- Posada en marxa
++  function iniciar() {
++    if (!q(CONFIG.sel.capcalera)) return;
++    const capa = document.createElement('div');
++    capa.className = 'fil-capa';
++    capa.setAttribute('aria-hidden', 'true');
++    // Estils posats aquí mateix: la capa no pot ocupar espai ni moure la maqueta encara que falti el CSS
++    Object.assign(capa.style, { position: 'absolute', left: '0', top: '0', width: '100%', height: '0', overflow: 'hidden', pointerEvents: 'none', zIndex: '1' });
++    document.body.prepend(capa);
++    const fil = new Fil(capa);
++    if (!fil.R) { capa.remove(); return; }
++    document.documentElement.classList.add('amb-fil');
++
++    const reduir = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false, addEventListener() {} };
++    const estat = { renders: 0, msPerFotograma: 0, fps30: false, actiu: !window.FIL_MANUAL };
++    const t0 = performance.now();
++    let raf = 0, ultim = 0, lents = 0;
++    const pas = now => {
++      raf = 0;
++      if (document.hidden || !estat.actiu) return;
++      if (estat.fps30 && now - ultim < 30) { raf = requestAnimationFrame(pas); return; }
++      ultim = now;
++      const a = performance.now();
++      const hiHa = fil.render(reduir.matches ? 0 : (now - t0) / 1000, window.scrollY, { revelaTot: reduir.matches, quiet: reduir.matches });
++      const ms = performance.now() - a;
++      estat.renders++;
++      estat.msPerFotograma = estat.msPerFotograma ? estat.msPerFotograma * 0.92 + ms * 0.08 : ms;
++      // Qualitat adaptativa: si va just, primer menys detall i després 30 fotogrames per segon
++      if (estat.msPerFotograma > CONFIG.msObjectiu && ++lents > 45) {
++        lents = 0;
++        if (fil.qualitat > 0) { fil.qualitat--; fil.mida(); estat.msPerFotograma = 0; } else estat.fps30 = true;
++      } else if (estat.msPerFotograma <= CONFIG.msObjectiu) lents = 0;
++      // Sempre es mou mentre hi ha fil a la pantalla; si no n'hi ha, espera el proper scroll
++      if (!reduir.matches && hiHa) raf = requestAnimationFrame(pas);
++    };
++    const demana = () => { if (!raf && estat.actiu) raf = requestAnimationFrame(pas); };
++    window.addEventListener('scroll', demana, { passive: true });
++    document.addEventListener('visibilitychange', demana);
++    if (reduir.addEventListener) reduir.addEventListener('change', demana);
++    let espera = 0;
++    const reconstruir = () => { clearTimeout(espera); espera = setTimeout(() => { fil.mida(); demana(); }, 150); };
++    window.addEventListener('resize', reconstruir);
++    if ('ResizeObserver' in window) new ResizeObserver(reconstruir).observe(document.body);
++    if (document.fonts && document.fonts.ready) document.fonts.ready.then(reconstruir);
++
++    // Accés per a les proves (proves/fil.mjs)
++    window.madeinhumanFil = {
++      versio: '0.1',
++      render: (t, sy, o) => fil.render(t, sy, o),
++      reconstruir: () => fil.mida(),
++      estat: () => ({ ...estat, qualitat: fil.qualitat, llargada: Math.round(fil.C.uFinal), nodes: fil.R.nodes.length, esvaides: fil.C.esvaides }),
++      mostres: () => fil.R.mostres().map(p => [p.x, p.y, p.m, p.vis]),
++      nodes: () => fil.R.nodes.map(n => ({ tipus: n.tipus, x: n.x, y: n.y, trig: n.trig })),
++      aturar: () => { estat.actiu = false; },
++      reprendre: () => { estat.actiu = true; demana(); },
++    };
++    demana();
++  }
++
++  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar);
++  else iniciar();
++})();
+diff --git a/package.json b/package.json
+index d7754a3..a0f1a32 100644
+--- a/package.json
++++ b/package.json
+@@ -6,7 +6,7 @@
+     "construir": "node eines/construir.mjs",
+     "contractes": "node proves/formularis.cjs --arrel dist",
+     "previsualitzacio": "node proves/previsualitzacio.cjs",
+-    "comprovar": "npm run sense-html && npm run exportar-esquema -- --comprovar && npm run construir && npm run actualitat && npm run serveis && npm run media && npm run contractes && npm run previsualitzacio && npm run csp",
++    "comprovar": "npm run sense-html && npm run exportar-esquema -- --comprovar && npm run construir && npm run actualitat && npm run serveis && npm run media && npm run contractes && npm run previsualitzacio && npm run csp && npm run fil",
+     "navegador": "playwright install chromium",
+     "revisio": "node eines/comprovar-revisio.mjs",
+     "actualitat": "node proves/actualitat.mjs",
+@@ -15,7 +15,8 @@
+     "csp": "node proves/csp.cjs",
+     "exportar-esquema": "node eines/exportar-esquema.mjs",
+     "captures": "node proves/captures.cjs",
+-    "sense-html": "node eines/sense-html.mjs"
++    "sense-html": "node eines/sense-html.mjs",
++    "fil": "node proves/fil.mjs"
+   },
+   "devDependencies": {
+     "playwright": "1.63.0"
+diff --git a/plantilles/base.mjs b/plantilles/base.mjs
+index 34f4d7e..713868d 100644
+--- a/plantilles/base.mjs
++++ b/plantilles/base.mjs
+@@ -89,7 +89,8 @@ ${menu(lloc, ctx)}
+ ${p.blocs.filter(b => !b.amagat).map(b => renderBloc(b, ctx)).join('\n')}
+ ${peu(lloc, ctx)}
+ ${flotants(lloc, ctx)}
+-${(p.scripts || []).map(s => `<script src="${s}"></script>`).join('\n')}
++${(p.scripts || []).map(s => `<script src="${s}"></script>`).join('\n')}${p.pagina === 'portada' ? `
++<script src="/fil.js" defer></script>` : ''}
+ <script src="/menu.js" defer></script>
+ </body>
+ </html>
+diff --git a/proves/fil.mjs b/proves/fil.mjs
+new file mode 100644
+index 0000000..f6e976d
+--- /dev/null
++++ b/proves/fil.mjs
+@@ -0,0 +1,227 @@
++// Proves del fil conductor de la portada (fil.js), amb navegador. Serveix dist/ amb la CSP general de _headers i,
++// a quatre mides de pantalla, comprova que el fil es posa en marxa, que no mou la maqueta, que mai es veu per sobre
++// d'un text o d'un botó, que acaba al contacte, que no hi ha errors ni infraccions de CSP, el mode «reduir moviment»
++// i que sempre es mou. També n'informa del rendiment (no fa fallar la prova: cal mirar-ho en un mòbil real).
++// Ús: npm run construir && node proves/fil.mjs [--captures]
++//     NAVEGADOR=/ruta/a/chrome si Playwright no té el seu navegador instal·lat (npm run navegador)
++import fs from 'node:fs';
++import http from 'node:http';
++import path from 'node:path';
++import { fileURLToPath } from 'node:url';
++import { chromium } from 'playwright';
++
++const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
++const DIST = path.join(ARREL, 'dist');
++const CAPTURES = process.argv.includes('--captures');
++let fallades = 0;
++const ok = (nom, cond, detall = '') => { if (!cond) fallades++; console.log(`${cond ? '✓' : '✗'} ${nom}${!cond && detall ? ' — ' + detall : ''}`); };
++const info = t => console.log(`· ${t}`);
++
++if (!fs.existsSync(path.join(DIST, 'fil.js'))) { console.log('✗ dist/fil.js no existeix: executa abans npm run construir'); process.exit(1); }
++
++// CSP general de _headers (regla /*), la mateixa que aplica Cloudflare Pages a la portada
++const csp = (() => {
++  let dins = false;
++  for (const l of fs.readFileSync(path.join(DIST, '_headers'), 'utf8').split('\n')) {
++    if (/^\/\*\s*$/.test(l)) { dins = true; continue; }
++    if (dins && /^\S/.test(l)) break;
++    const m = dins && /^\s+Content-Security-Policy:\s*(.+)$/.exec(l);
++    if (m) return m[1].trim();
++  }
++  return null;
++})();
++ok('la CSP general de _headers es pot llegir', !!csp);
++
++const TIPUS = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
++  '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.woff2': 'font/woff2', '.json': 'application/json', '.webp': 'image/webp',
++  '.jpg': 'image/jpeg', '.mp4': 'video/mp4', '.xml': 'application/xml' };
++const servidor = http.createServer((req, res) => {
++  let f = decodeURIComponent(new URL(req.url, 'http://x').pathname);
++  if (f.endsWith('/')) f += 'index.html';
++  let ruta = path.join(DIST, f);
++  if (!ruta.startsWith(DIST)) { res.writeHead(403).end(); return; }
++  if (!fs.existsSync(ruta) && fs.existsSync(ruta + '.html')) ruta += '.html';
++  if (!fs.existsSync(ruta) || fs.statSync(ruta).isDirectory()) { res.writeHead(404).end(); return; }
++  const cap = { 'Content-Type': TIPUS[path.extname(ruta)] || 'application/octet-stream' };
++  if (csp && ruta.endsWith('.html')) cap['Content-Security-Policy'] = csp;
++  res.writeHead(200, cap);
++  fs.createReadStream(ruta).pipe(res);
++});
++await new Promise(r => servidor.listen(0, '127.0.0.1', r));
++const BASE = `http://127.0.0.1:${servidor.address().port}`;
++const navegador = await chromium.launch(process.env.NAVEGADOR ? { executablePath: process.env.NAVEGADOR } : {});
++
++const VISTES = [
++  { nom: 'escriptori 1440×900', viewport: { width: 1440, height: 900 } },
++  { nom: 'portàtil 1280×800', viewport: { width: 1280, height: 800 } },
++  { nom: 'pantalla gran 1920×1080', viewport: { width: 1920, height: 1080 } },
++  { nom: 'mòbil 390×844', viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true },
++];
++
++// Context amb el bàner de galetes ja respost i un registre d'errors i d'infraccions de CSP
++async function obre(opcions, { manual = true, senseFil = false } = {}) {
++  const ctx = await navegador.newContext(opcions);
++  await ctx.addInitScript(m => {
++    if (m) window.FIL_MANUAL = true;
++    try { localStorage.setItem('cookie_consent', 'rejected'); } catch (e) {}
++    window.__infraccions = [];
++    document.addEventListener('securitypolicyviolation', e => window.__infraccions.push(`${e.violatedDirective} ${e.blockedURI}`));
++  }, manual);
++  if (senseFil) await ctx.route('**/fil.js', r => r.abort());
++  const p = await ctx.newPage();
++  const errors = [];
++  p.on('pageerror', e => errors.push(e.message));
++  p.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
++  await p.goto(BASE + '/', { waitUntil: 'networkidle' });
++  await p.evaluate(() => document.fonts.ready);
++  await p.waitForTimeout(500);       // el fil es reconstrueix quan acaben de carregar les tipografies
++  return { ctx, p, errors };
++}
++
++// Posicions de la maqueta (sense les translacions de les animacions d'aparició)
++const MAQUETA = () => {
++  const c = el => { let y = 0, e = el; while (e) { y += e.offsetTop; e = e.offsetParent; } return y; };
++  return { alcada: document.documentElement.scrollHeight, seccions: [...document.querySelectorAll('header.hero, main > section, body > section, footer')].map(c) };
++};
++
++for (const v of VISTES) {
++  const { ctx, p, errors } = await obre(v);
++  const e = await p.evaluate(() => window.madeinhumanFil && window.madeinhumanFil.estat());
++  ok(`${v.nom}: el fil es posa en marxa`, !!e, 'window.madeinhumanFil no existeix');
++  if (!e) { await ctx.close(); continue; }
++  const cv = await p.evaluate(() => {
++    const c = document.querySelector('.fil-capa'), cs = c && getComputedStyle(c);
++    return c && { aria: c.getAttribute('aria-hidden'), pos: cs.position, pe: cs.pointerEvents, z: cs.zIndex, classe: document.documentElement.classList.contains('amb-fil'),
++      alcada: c.offsetHeight, pagina: document.documentElement.scrollHeight };
++  });
++  ok(`${v.nom}: la capa del fil és decorativa, no rep clics i no allarga la pàgina`, cv && cv.aria === 'true' && cv.pos === 'absolute' && cv.pe === 'none' && cv.classe && cv.alcada < cv.pagina, JSON.stringify(cv));
++  ok(`${v.nom}: recorregut complet (${e.llargada} px, ${e.nodes} nodes)`, e.llargada > 3000 && e.nodes >= 8);
++
++  // El cursor final és just darrere del títol del contacte
++  const fi = await p.evaluate(() => {
++    const t = document.querySelector('#contacte .section-title');
++    let y = 0, x = 0, el = t; while (el) { y += el.offsetTop; x += el.offsetLeft; el = el.offsetParent; }
++    const c = madeinhumanFil.nodes().filter(n => n.tipus === 'cursor').pop();
++    return { c, y, b: y + t.offsetHeight, x, r: x + t.offsetWidth };
++  });
++  ok(`${v.nom}: el fil acaba al cursor de «Parla amb nosaltres.»`, fi.c && fi.c.y > fi.y && fi.c.y < fi.b + 6 && fi.c.x > fi.x, JSON.stringify(fi));
++
++  // La maqueta és la mateixa amb el fil i sense
++  const amb = await p.evaluate(MAQUETA);
++  const sense = await obre(v, { senseFil: true });
++  const sn = await sense.p.evaluate(MAQUETA);
++  await sense.ctx.close();
++  ok(`${v.nom}: el fil no mou la maqueta`, amb.alcada === sn.alcada && amb.seccions.join() === sn.seccions.join(), `${amb.alcada} vs ${sn.alcada}`);
++
++  // Mai es veu per sobre d'un text o d'un control: línies de text mesurades a part, amb les aparicions acabades
++  const sobre = await p.evaluate(() => {
++    const st = document.createElement('style'); st.textContent = '*{transition:none!important;animation:none!important}';
++    document.head.appendChild(st);
++    document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el => el.classList.add('revealed'));
++    const fixos = '.nav, .whatsapp-float, .back-to-top, .scroll-progress, .cookie-banner, .fil-capa, script, style';
++    const zs = [], rng = document.createRange();
++    const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: n => (n.nodeValue.trim() ? 1 : 2) });
++    for (let n = tw.nextNode(); n; n = tw.nextNode()) {
++      if (!n.parentElement || n.parentElement.closest(fixos)) continue;
++      rng.selectNodeContents(n);
++      for (const r of rng.getClientRects()) if (r.width >= 1 && r.height >= 1) zs.push([r.left + scrollX, r.top + scrollY, r.right + scrollX, r.bottom + scrollY, n.nodeValue.trim().slice(0, 40)]);
++    }
++    for (const el of document.querySelectorAll('a.btn, button, input, select, textarea')) {
++      if (el.closest(fixos)) continue;
++      const r = el.getBoundingClientRect();
++      if (r.width && r.height) zs.push([r.left + scrollX, r.top + scrollY, r.right + scrollX, r.bottom + scrollY, `<${el.tagName.toLowerCase()}>`]);
++    }
++    const res = [];
++    for (const [x, y, m, vis] of madeinhumanFil.mostres()) {
++      if (vis < 0.5) continue;
++      const mm = Math.max(0, m - 2);
++      const z = zs.find(z => x > z[0] - mm && x < z[2] + mm && y > z[1] - mm && y < z[3] + mm);
++      if (z) res.push(`(${x | 0}, ${y | 0}) «${z[4]}»`);
++    }
++    st.remove();
++    return res;
++  });
++  ok(`${v.nom}: el fil mai es veu per sobre d'un text o d'un botó (${e.esvaides} punts esvaïts a sota)`, sobre.length === 0, `${sobre.length} punts: ${sobre.slice(0, 4).join(' · ')}`);
++
++  // Dibuixa sense errors a tot el recorregut
++  const dibuix = await p.evaluate(() => {
++    const fi = madeinhumanFil.nodes().filter(n => n.tipus === 'cursor').pop().trig + 200;
++    let fets = 0;
++    for (let i = 0; i <= 10; i++) { madeinhumanFil.render(i * 0.7, fi * i / 10); fets++; }
++    return fets;
++  });
++  ok(`${v.nom}: dibuixa a tot el recorregut`, dibuix === 11);
++  const cobertura = await p.evaluate(() => {
++    const fi = madeinhumanFil.nodes().filter(n => n.tipus === 'cursor').pop().trig, forats = [];
++    for (let i = 0; i <= 8; i++) {
++      const sy = Math.round(fi * i / 8);
++      madeinhumanFil.render(1, sy);
++      const rs = [...document.querySelectorAll('.fil-capa canvas')].filter(c => c.style.display !== 'none').map(c => [c.offsetTop, c.offsetTop + c.offsetHeight]).sort((a, b) => a[0] - b[0]);
++      const capa = document.querySelector('.fil-capa').offsetHeight;
++      let y = sy; for (const [a, b] of rs) if (a <= y) y = Math.max(y, b);
++      if (y < Math.min(sy + innerHeight, capa)) forats.push(sy);
++    }
++    return forats;
++  });
++  ok(`${v.nom}: les rajoles cobreixen sempre la pantalla`, !cobertura.length, `forats a ${cobertura.join(', ')}`);
++
++  // Rendiment (informatiu): ms per fotograma sense límit de CPU i amb la CPU 4 vegades més lenta
++  const mesura = () => p.evaluate(() => {
++    const fi = madeinhumanFil.nodes().filter(n => n.tipus === 'cursor').pop().trig, ts = [];
++    for (let i = 0; i < 120; i++) { const a = performance.now(); madeinhumanFil.render(i / 60, (fi * i) / 120); ts.push(performance.now() - a); }
++    ts.sort((a, b) => a - b);
++    return { mitjana: ts.reduce((a, b) => a + b, 0) / ts.length, p95: ts[Math.floor(ts.length * 0.95)] };
++  });
++  const r1 = await mesura();
++  const cdp = await ctx.newCDPSession(p);
++  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
++  const r4 = await mesura();
++  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
++  info(`${v.nom}: ${r1.mitjana.toFixed(1)} ms per fotograma (p95 ${r1.p95.toFixed(1)}) · amb la CPU ×4: ${r4.mitjana.toFixed(1)} ms (p95 ${r4.p95.toFixed(1)})`);
++
++  if (CAPTURES) {
++    const dir = path.join(ARREL, 'captures', 'fil');
++    fs.mkdirSync(dir, { recursive: true });
++    const ys = await p.evaluate(() => [0, ...madeinhumanFil.nodes().filter((n, i, a) => n.trig > 0 && (i === a.length - 1 || i % 3 === 0)).map(n => Math.round(n.trig + 80))]);
++    for (const [i, y] of ys.entries()) {
++      // la web té scroll suau: per a la captura cal anar-hi de cop i esperar que acabin les aparicions
++      await p.evaluate(y => { window.scrollTo({ top: y, behavior: 'instant' }); }, y);
++      await p.waitForTimeout(1300);
++      await p.evaluate(() => madeinhumanFil.render(3.4 + scrollY / 500, scrollY));
++      await p.screenshot({ path: path.join(dir, `${v.viewport.width}-${String(i).padStart(2, '0')}.jpg`), type: 'jpeg', quality: 88 });
++    }
++    info(`${v.nom}: ${ys.length} captures a captures/fil/`);
++  }
++  const infr = await p.evaluate(() => window.__infraccions);
++  ok(`${v.nom}: cap error de consola ni infracció de CSP`, !errors.length && !infr.length, [...errors, ...infr].slice(0, 3).join(' · '));
++  await ctx.close();
++}
++
++// Sempre es mou (sense FIL_MANUAL): en un segon ha de dibuixar molts fotogrames
++{
++  const { ctx, p } = await obre(VISTES[0], { manual: false });
++  const a = await p.evaluate(() => madeinhumanFil.estat().renders);
++  await p.waitForTimeout(1000);
++  const b = await p.evaluate(() => madeinhumanFil.estat().renders);
++  ok(`sempre es mou: ${b - a} fotogrames en 1 s a la capçalera`, b - a >= 10);
++  await ctx.close();
++}
++
++// «Reduir moviment»: el fil surt sencer i quiet (cap bucle) i només es redibuixa quan es fa scroll
++{
++  const { ctx, p } = await obre({ ...VISTES[0], reducedMotion: 'reduce' }, { manual: false });
++  const a = await p.evaluate(() => madeinhumanFil.estat().renders);
++  await p.waitForTimeout(800);
++  const b = await p.evaluate(() => madeinhumanFil.estat().renders);
++  await p.evaluate(() => window.scrollTo(0, 1600));
++  await p.waitForTimeout(300);
++  const c = await p.evaluate(() => madeinhumanFil.estat().renders);
++  ok('amb «reduir moviment» no hi ha animació contínua', b === a, `${b - a} fotogrames sense fer scroll`);
++  ok('amb «reduir moviment» es redibuixa en fer scroll', c > b);
++  await ctx.close();
++}
++
++await navegador.close();
++servidor.close();
++console.log(fallades ? `✗ ${fallades} comprovacions del fil han fallat` : 'totes les comprovacions del fil correctes');
++process.exit(fallades ? 1 : 0);
+diff --git a/styles.css b/styles.css
+index b49534b..dd34b68 100644
+--- a/styles.css
++++ b/styles.css
+@@ -1531,3 +1531,13 @@ html { overflow-x: clip; }
+   padding: 0 var(--pad-x);
+ }
+ @media (max-width: 767px) { .media-galeria-graella { grid-template-columns: 1fr; } }
++
++/* ===== Fil conductor de la portada (fil.js) =====
++   La capa del fil (rajoles de canvas dins de la pàgina) va entre els fons de les seccions i el contingut.
++   Les regles només s'apliquen quan fil.js s'ha posat en marxa (classe .amb-fil a <html>): sense
++   JavaScript, la web queda exactament igual. */
++.fil-capa { position: absolute; left: 0; top: 0; width: 100%; overflow: hidden; z-index: 1; pointer-events: none; }
++.fil-capa canvas { position: absolute; left: 0; width: 100%; }
++.amb-fil section > .container,
++.amb-fil footer > .container { position: relative; z-index: 2; }
++@media print { .fil-capa { display: none; } }
