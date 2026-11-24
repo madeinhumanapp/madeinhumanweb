@@ -6,10 +6,13 @@ import { urlSegura } from '../plantilles/text.mjs';
 const text = (etiqueta, max, extra = {}) => ({ tipus: 'text', etiqueta, max, obligatori: true, ...extra });
 const enriquit = (etiqueta, max, extra = {}) => ({ tipus: 'enriquit', etiqueta, max, obligatori: true, ajuda: '*cursiva*, **negreta**, salt de línia', ...extra });
 
+// Id d'una entrada de contingut/media.json (WEB-M02): AAAA-MM-titol-curt-8hex, màxim 80 caràcters
+export const PATRO_ID_MEDIA = /^\d{4}-\d{2}-[a-z0-9]+(-[a-z0-9]+)*-[0-9a-f]{8}$/;
+
 // Blocs de la portada que el panell no deixa amagar ni treure: la capçalera, els formularis (connectors amb
 // rgpd-tool) i els que són destinació d'enllaços del menú. Els afegibles són els que el panell pot crear.
 export const BLOCS_PROTEGITS = ['hero', 'formulari', 'serveis', 'metode', 'faq', 'actualitat'];
-export const BLOCS_AFEGIBLES = ['spot', 'context', 'separador'];
+export const BLOCS_AFEGIBLES = ['spot', 'context', 'separador', 'imatge', 'galeria', 'video'];
 
 export const ESQUEMA = {
   hero: {
@@ -147,6 +150,37 @@ export const ESQUEMA = {
     },
   },
   separador: { nom: 'Línia separadora', camps: {} },
+  // Mitjans (WEB-M02): el valor de «media» és l'id d'una entrada de contingut/media.json
+  imatge: {
+    nom: 'Imatge',
+    camps: {
+      media: { tipus: 'media', etiqueta: 'Imatge', filtre: 'imatge', obligatori: true, ajuda: 'De la biblioteca de mitjans' },
+      alt: text('Text alternatiu', 200, { obligatori: false, ajuda: 'Opcional: substitueix el de la biblioteca' }),
+      peu: enriquit('Peu de foto', 200, { obligatori: false }),
+      mida: { tipus: 'seleccio', etiqueta: 'Mida', opcions: ['normal', 'ampla'], obligatori: true, ajuda: 'ampla: ocupa més amplada' },
+    },
+  },
+  galeria: {
+    nom: 'Galeria d’imatges',
+    camps: {
+      titol: enriquit('Títol', 80, { obligatori: false }),
+      elements: {
+        tipus: 'llista', etiqueta: 'Imatges', min: 2, max: 12,
+        element: {
+          media: { tipus: 'media', etiqueta: 'Imatge', filtre: 'imatge', obligatori: true },
+          alt: text('Text alternatiu', 200, { obligatori: false, ajuda: 'Opcional: substitueix el de la biblioteca' }),
+        },
+      },
+    },
+  },
+  video: {
+    nom: 'Vídeo',
+    camps: {
+      media: { tipus: 'media', etiqueta: 'Vídeo', filtre: 'video', obligatori: true, ajuda: 'De la biblioteca de mitjans' },
+      titol: text('Títol', 120, { ajuda: 'Nom accessible del vídeo' }),
+      peu: enriquit('Peu', 200, { obligatori: false }),
+    },
+  },
   html: { nom: 'HTML (encara no editable)', bloquejat: true, camps: { html: { tipus: 'html', etiqueta: 'HTML', obligatori: true } } },
 };
 
@@ -197,6 +231,10 @@ export function validarCamp(def, valor, ruta, errors) {
       break;
     case 'data':
       if (typeof valor !== 'string' || !dataValida(valor)) errors.push(`${ruta}: ha de ser una data AAAA-MM-DD (${valor})`);
+      break;
+    case 'media':
+      if (typeof valor !== 'string' || valor.length > 80 || !PATRO_ID_MEDIA.test(valor))
+        errors.push(`${ruta}: ha de ser un id de media, AAAA-MM-titol-curt-8hex (${valor})`);
       break;
     case 'html':
       if (typeof valor !== 'string') errors.push(`${ruta}: ha de ser HTML`);
@@ -267,6 +305,102 @@ export function validarFaq(faq) {
     Object.entries(CAMPS_FAQ).forEach(([k, d]) => validarCamp(d, f?.[k], `[${i}].${k}`, errors));
     for (const k of Object.keys(f || {})) if (!CAMPS_FAQ[k]) errors.push(`[${i}]: camp no previst «${k}»`);
   });
+  return errors;
+}
+
+// contingut/media.json: la biblioteca d'imatges i vídeos (WEB-M02; contracte a
+// rgpdtool/docs/panell-web/MEDIA.md). Els fitxers viuen a media/: imatge → media/<id>-<amplada>.<format>
+// per a cada valor de «mides»; vídeo → media/<id>.mp4. La llista és la més nova primer.
+export const CAMPS_MEDIA = {
+  id: text('Id', 80, { ajuda: 'AAAA-MM-titol-curt-8hex; el posa el servidor i és únic' }),
+  tipus: { tipus: 'seleccio', etiqueta: 'Tipus', opcions: ['imatge', 'video'], obligatori: true },
+  format: { tipus: 'seleccio', etiqueta: 'Format', opcions: ['webp', 'jpg', 'mp4'], obligatori: true,
+    ajuda: 'imatge: webp o jpg · vídeo: mp4' },
+  mides: { tipus: 'llista', etiqueta: 'Mides (amplades en px)', max: 3,
+    element: text('Amplada en px', 4, { ajuda: '480, 960 o 1600; si l’original és més estret que 480, una sola' }),
+    ajuda: 'Només imatges: de petita a gran, subconjunt de 480, 960, 1600' },
+  amplada: text('Amplada en px (de la mida més gran)', 5),
+  alcada: text('Alçada en px', 5),
+  alt: text('Text alternatiu (imatge) o descripció (vídeo)', 200),
+  credit: text('Crèdit', 120, { obligatori: false }),
+  poster: { tipus: 'media', etiqueta: 'Pòster (id d’una imatge)', filtre: 'imatge', obligatori: false, ajuda: 'Només vídeos' },
+  data: { tipus: 'data', etiqueta: 'Data de pujada', obligatori: true },
+};
+const MIDEIX = [480, 960, 1600];
+export function validarMedia(entrades) {
+  if (!Array.isArray(entrades)) return ['ha de ser una llista d’entrades'];
+  const errors = [];
+  const perId = new Map();
+  entrades.forEach((e, i) => {
+    const r = `[${i}]`;
+    if (!e || typeof e !== 'object' || Array.isArray(e)) return errors.push(`${r}: ha de ser un objecte`);
+    Object.entries(CAMPS_MEDIA).forEach(([k, d]) => {
+      if (['mides', 'amplada', 'alcada', 'poster'].includes(k)) return; // es comproven aquí sota, amb regles entre camps
+      validarCamp(d, e[k], `${r}.${k}`, errors);
+    });
+    for (const k of Object.keys(e)) if (!CAMPS_MEDIA[k]) errors.push(`${r}: camp no previst «${k}»`);
+    if (typeof e.id === 'string') {
+      if (e.id.length > 80) errors.push(`${r}.id: ${e.id.length} caràcters (màxim 80)`);
+      if (!PATRO_ID_MEDIA.test(e.id)) errors.push(`${r}.id: ha de ser AAAA-MM-titol-curt-8hex (${e.id})`);
+      if (perId.has(e.id)) errors.push(`${r}.id: «${e.id}» repetit`);
+      perId.set(e.id, e);
+    }
+    if (e.tipus === 'imatge' && e.format && !['webp', 'jpg'].includes(e.format))
+      errors.push(`${r}.format: una imatge només pot ser webp o jpg (${e.format})`);
+    if (e.tipus === 'video' && e.format && e.format !== 'mp4')
+      errors.push(`${r}.format: un vídeo només pot ser mp4 (${e.format})`);
+    for (const k of ['amplada', 'alcada'])
+      if (e[k] !== undefined && (!Number.isInteger(e[k]) || e[k] <= 0)) errors.push(`${r}.${k}: ha de ser un enter positiu (${e[k]})`);
+    if (e.tipus === 'imatge') {
+      if (!Array.isArray(e.mides) || !e.mides.length) errors.push(`${r}.mides: obligatori en una imatge`);
+      else {
+        if (!e.mides.every(m => Number.isInteger(m) && m > 0)) errors.push(`${r}.mides: amplades senceres i positives`);
+        if (JSON.stringify([...e.mides].sort((a, b) => a - b)) !== JSON.stringify(e.mides)) errors.push(`${r}.mides: de petita a gran`);
+        if (e.mides.some(m => m >= 480) && !e.mides.every(m => MIDEIX.includes(m))) errors.push(`${r}.mides: subconjunt de 480, 960, 1600`);
+        if (e.mides.length === 1 && e.mides[0] < 480 && e.mides[0] !== e.amplada) errors.push(`${r}.mides: una sola mida menor que 480 ha de ser l’amplada original`);
+        if (Number.isInteger(e.amplada) && e.amplada > 0 && Math.max(...e.mides) !== e.amplada)
+          errors.push(`${r}.amplada: ha de ser la de la mida més gran (${Math.max(...e.mides)})`);
+      }
+    } else if (e.mides !== undefined) errors.push(`${r}.mides: només les imatges tenen mides`);
+    if (e.poster && e.tipus !== 'video') errors.push(`${r}.poster: només els vídeos tenen pòster`);
+  });
+  // El pòster pot apuntar a una entrada que va més avall a la llista
+  entrades.forEach((e, i) => {
+    if (!e?.poster) return;
+    const p = perId.get(e.poster);
+    if (!p) errors.push(`[${i}].poster: no hi ha cap entrada amb l’id «${e.poster}»`);
+    else if (p.tipus !== 'imatge') errors.push(`[${i}].poster: «${e.poster}» no és una imatge`);
+  });
+  return errors;
+}
+
+// Comprova que cada camp «media» dels blocs apunti a una entrada existent i del tipus del filtre
+export function usosDeMedia(pagines, entrades) {
+  const perId = new Map((entrades || []).map(e => [e?.id, e]));
+  const errors = [];
+  const revisa = (def, valor, ruta) => {
+    if (!def || valor == null || valor === '') return;
+    if (def.tipus === 'media') {
+      const e = perId.get(valor);
+      if (!e) errors.push(`${ruta}: no hi ha cap entrada de media amb l’id «${valor}»`);
+      else if (e.tipus !== def.filtre) errors.push(`${ruta}: «${valor}» és de tipus «${e.tipus}», no «${def.filtre}»`);
+      return;
+    }
+    if (def.tipus === 'llista' && Array.isArray(valor)) {
+      valor.forEach((v, i) => {
+        const el = def.element;
+        if (el && typeof el.tipus === 'string') revisa(el, v, `${ruta}[${i}]`);
+        else if (el) Object.entries(el).forEach(([k, d]) => revisa(d, v?.[k], `${ruta}[${i}].${k}`));
+      });
+      return;
+    }
+    if (def.camps && valor && typeof valor === 'object' && !Array.isArray(valor))
+      Object.entries(def.camps).forEach(([k, d]) => revisa(d, valor[k], `${ruta}.${k}`));
+  };
+  (pagines || []).forEach((p, i) => (p?.blocs || []).forEach((b, j) => {
+    const def = ESQUEMA[b?.tipus];
+    if (def) Object.entries(def.camps).forEach(([k, d]) => revisa(d, b[k], `pagines[${i}].blocs[${j}] (${b.tipus}).${k}`));
+  }));
   return errors;
 }
 

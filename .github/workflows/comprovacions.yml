@@ -37,6 +37,8 @@ jobs:
         run: npm run actualitat
       - name: Esquema de les pàgines de servei
         run: npm run serveis
+      - name: Imatges i vídeos (media)
+        run: npm run media
       - name: Contractes dels formularis amb rgpd-tool
         run: npm run contractes
       - name: Vista prèvia del panell

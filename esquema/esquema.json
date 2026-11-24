@@ -563,6 +563,101 @@
       "nom": "Línia separadora",
       "camps": {}
     },
+    "imatge": {
+      "nom": "Imatge",
+      "camps": {
+        "media": {
+          "tipus": "media",
+          "etiqueta": "Imatge",
+          "filtre": "imatge",
+          "obligatori": true,
+          "ajuda": "De la biblioteca de mitjans"
+        },
+        "alt": {
+          "tipus": "text",
+          "etiqueta": "Text alternatiu",
+          "max": 200,
+          "obligatori": false,
+          "ajuda": "Opcional: substitueix el de la biblioteca"
+        },
+        "peu": {
+          "tipus": "enriquit",
+          "etiqueta": "Peu de foto",
+          "max": 200,
+          "obligatori": false,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "mida": {
+          "tipus": "seleccio",
+          "etiqueta": "Mida",
+          "opcions": [
+            "normal",
+            "ampla"
+          ],
+          "obligatori": true,
+          "ajuda": "ampla: ocupa més amplada"
+        }
+      }
+    },
+    "galeria": {
+      "nom": "Galeria d’imatges",
+      "camps": {
+        "titol": {
+          "tipus": "enriquit",
+          "etiqueta": "Títol",
+          "max": 80,
+          "obligatori": false,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "elements": {
+          "tipus": "llista",
+          "etiqueta": "Imatges",
+          "min": 2,
+          "max": 12,
+          "element": {
+            "media": {
+              "tipus": "media",
+              "etiqueta": "Imatge",
+              "filtre": "imatge",
+              "obligatori": true
+            },
+            "alt": {
+              "tipus": "text",
+              "etiqueta": "Text alternatiu",
+              "max": 200,
+              "obligatori": false,
+              "ajuda": "Opcional: substitueix el de la biblioteca"
+            }
+          }
+        }
+      }
+    },
+    "video": {
+      "nom": "Vídeo",
+      "camps": {
+        "media": {
+          "tipus": "media",
+          "etiqueta": "Vídeo",
+          "filtre": "video",
+          "obligatori": true,
+          "ajuda": "De la biblioteca de mitjans"
+        },
+        "titol": {
+          "tipus": "text",
+          "etiqueta": "Títol",
+          "max": 120,
+          "obligatori": true,
+          "ajuda": "Nom accessible del vídeo"
+        },
+        "peu": {
+          "tipus": "enriquit",
+          "etiqueta": "Peu",
+          "max": 200,
+          "obligatori": false,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        }
+      }
+    },
     "html": {
       "nom": "HTML (encara no editable)",
       "bloquejat": true,
@@ -587,7 +682,10 @@
     "afegibles": [
       "spot",
       "context",
-      "separador"
+      "separador",
+      "imatge",
+      "galeria",
+      "video"
     ]
   },
   "faq": {
@@ -758,6 +856,84 @@
     "ambWhatsapp": {
       "tipus": "bool",
       "etiqueta": "Botó de WhatsApp al final (telèfon de les dades del lloc)"
+    }
+  },
+  "media": {
+    "id": {
+      "tipus": "text",
+      "etiqueta": "Id",
+      "max": 80,
+      "obligatori": true,
+      "ajuda": "AAAA-MM-titol-curt-8hex; el posa el servidor i és únic"
+    },
+    "tipus": {
+      "tipus": "seleccio",
+      "etiqueta": "Tipus",
+      "opcions": [
+        "imatge",
+        "video"
+      ],
+      "obligatori": true
+    },
+    "format": {
+      "tipus": "seleccio",
+      "etiqueta": "Format",
+      "opcions": [
+        "webp",
+        "jpg",
+        "mp4"
+      ],
+      "obligatori": true,
+      "ajuda": "imatge: webp o jpg · vídeo: mp4"
+    },
+    "mides": {
+      "tipus": "llista",
+      "etiqueta": "Mides (amplades en px)",
+      "max": 3,
+      "element": {
+        "tipus": "text",
+        "etiqueta": "Amplada en px",
+        "max": 4,
+        "obligatori": true,
+        "ajuda": "480, 960 o 1600; si l’original és més estret que 480, una sola"
+      },
+      "ajuda": "Només imatges: de petita a gran, subconjunt de 480, 960, 1600"
+    },
+    "amplada": {
+      "tipus": "text",
+      "etiqueta": "Amplada en px (de la mida més gran)",
+      "max": 5,
+      "obligatori": true
+    },
+    "alcada": {
+      "tipus": "text",
+      "etiqueta": "Alçada en px",
+      "max": 5,
+      "obligatori": true
+    },
+    "alt": {
+      "tipus": "text",
+      "etiqueta": "Text alternatiu (imatge) o descripció (vídeo)",
+      "max": 200,
+      "obligatori": true
+    },
+    "credit": {
+      "tipus": "text",
+      "etiqueta": "Crèdit",
+      "max": 120,
+      "obligatori": false
+    },
+    "poster": {
+      "tipus": "media",
+      "etiqueta": "Pòster (id d’una imatge)",
+      "filtre": "imatge",
+      "obligatori": false,
+      "ajuda": "Només vídeos"
+    },
+    "data": {
+      "tipus": "data",
+      "etiqueta": "Data de pujada",
+      "obligatori": true
     }
   },
   "lloc": {

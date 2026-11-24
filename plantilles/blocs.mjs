@@ -23,11 +23,67 @@ const capSeccio = (d, extraClasse = '') =>
   (d.entradeta ? `<p class="section-lead">${enriquit(d.entradeta)}</p>` : '') +
   '</div>';
 
+// Mitjans (WEB-M02): ctx.media és un Map id → entrada de media.json. A la vista prèvia del panell,
+// ctx.imatges porta { id: 'data:…' }: la imatge es fa servir com a src i no es posa srcset ni sizes.
+// La mida més gran que no passa de «maxim» (src); si cap hi entra, la més petita disponible
+const midaSrc = (mides, maxim = 960) => {
+  const llista = mides || [];
+  const dins = llista.filter(m => m <= maxim);
+  if (dins.length) return Math.max(...dins);
+  return llista.length ? Math.min(...llista) : 0;
+};
+
+// Amplada i alçada: només enters positius (a la vista prèvia, les entrades arriben del panell)
+const px = v => (Number.isInteger(v) && v > 0 ? v : null);
+
+const imgMedia = (e, alt, sizes, ctx) => {
+  const data = ctx.imatges?.[e.id];
+  const src = data || `/media/${e.id}-${midaSrc(e.mides)}.${e.format}`;
+  const srcset = data ? null : (e.mides || []).map(m => `/media/${e.id}-${m}.${e.format} ${m}w`).join(', ');
+  return `<img src="${esc(src)}"${attr('srcset', srcset)}${attr('sizes', data ? null : sizes)}` +
+    `${attr('width', px(e.amplada))}${attr('height', px(e.alcada))} alt="${esc(alt)}" loading="lazy" decoding="async" />`;
+};
+
 export const BLOCS = {
   // Transitori: HTML tal qual, mentre un bloc no tingui plantilla pròpia
   html: d => d.html,
 
   separador: () => '<div class="section-divider"></div>',
+
+  // Imatge de la biblioteca de mitjans (contingut/media.json)
+  imatge: (d, ctx) => {
+    const e = ctx.media?.get(d.media);
+    if (!e) return '';
+    return `<figure class="block media-imatge media-${esc(d.mida)}">
+  ${imgMedia(e, d.alt || e.alt, '(max-width: 767px) 100vw, 960px', ctx)}${d.peu ? `
+  <figcaption>${enriquit(d.peu)}</figcaption>` : ''}
+</figure>`;
+  },
+
+  // Galeria d'imatges de la biblioteca
+  galeria: (d, ctx) => `<section class="block media-galeria">${d.titol ? `
+  <h2 class="section-title">${enriquit(d.titol)}</h2>` : ''}
+  <div class="media-galeria-graella">${(d.elements || []).map(el => {
+    const e = ctx.media?.get(el.media);
+    return e ? `
+    <figure class="media-imatge">${imgMedia(e, el.alt || e.alt, '(max-width: 767px) 100vw, 480px', ctx)}</figure>` : '';
+  }).join('')}
+  </div>
+</section>`,
+
+  // Vídeo de la biblioteca (amb pòster opcional, que és una imatge de la mateixa biblioteca)
+  video: (d, ctx) => {
+    const e = ctx.media?.get(d.media);
+    if (!e) return '';
+    const p = e.poster ? ctx.media.get(e.poster) : null;
+    const poster = p ? (ctx.imatges?.[p.id] || `/media/${p.id}-${midaSrc(p.mides)}.${p.format}`) : null;
+    return `<figure class="block media-video">
+  <video controls preload="none" playsinline${attr('width', px(e.amplada))}${attr('height', px(e.alcada))}${attr('poster', poster)} aria-label="${esc(d.titol)}">
+    <source src="${esc(`/media/${e.id}.mp4`)}" type="video/mp4" />
+  </video>${d.peu ? `
+  <figcaption>${enriquit(d.peu)}</figcaption>` : ''}
+</figure>`;
+  },
 
   hero: (d, ctx) => `
 <header class="hero" id="top">
