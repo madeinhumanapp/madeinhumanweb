@@ -31,11 +31,18 @@ const bytes = {
   png: () => Buffer.concat([Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]), Buffer.alloc(64)]),
 };
 
-// Crea una biblioteca temporal (media.json + media/) i en torna les rutes per a FITXER_MEDIA/DIR_MEDIA
-const prepara = (nom, entrades, modifica = () => {}) => {
+// La biblioteca real del repositori: quan les pàgines ja fan servir imatges pujades des del panell, les proves la
+// conserven (si no, la construcció s'aturaria per un id que «no existeix» i l'esborrany no es podria publicar)
+const REALS = fs.existsSync(path.join(ARREL, 'contingut/media.json')) ? JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/media.json'), 'utf8')) : [];
+
+// Crea una biblioteca temporal (media.json + media/) amb les entrades de prova i les reals, i en torna les rutes per
+// a FITXER_MEDIA/DIR_MEDIA
+const prepara = (nom, proves, modifica = () => {}) => {
   const dir = path.join(TMP, nom, 'media');
   fs.mkdirSync(dir, { recursive: true });
-  for (const e of entrades) {
+  if (fs.existsSync(path.join(ARREL, 'media'))) fs.cpSync(path.join(ARREL, 'media'), dir, { recursive: true });
+  const entrades = [...proves, ...REALS];
+  for (const e of proves) {
     if (e.tipus === 'video') fs.writeFileSync(path.join(dir, `${e.id}.mp4`), bytes.mp4());
     else for (const m of e.mides) fs.writeFileSync(path.join(dir, `${e.id}-${m}.${e.format}`), bytes[e.format]());
   }
@@ -133,7 +140,7 @@ ok('construeix amb FITXER_MEDIA i DIR_MEDIA', r.ok, r.sortida);
 const fitxers = [...ENTRADES.flatMap(e => (e.tipus === 'video' ? [`${e.id}.mp4`] : e.mides.map(m => `${e.id}-${m}.${e.format}`)))];
 ok('copia tots els fitxers a dist/media/', fitxers.every(f => fs.existsSync(path.join(OUT, 'media', f))));
 ok('escriu _previsualitzacio/media.json', r.ok && fs.existsSync(path.join(OUT, '_previsualitzacio/media.json'))
-  && JSON.parse(fs.readFileSync(path.join(OUT, '_previsualitzacio/media.json'), 'utf8')).length === ENTRADES.length);
+  && JSON.parse(fs.readFileSync(path.join(OUT, '_previsualitzacio/media.json'), 'utf8')).length === ENTRADES.length + REALS.length);
 
 // La web actual es genera igual que sense mitjans (els blocs nous no hi són encara)
 const r0 = construir(ARREL, {}, path.join(TMP, 'dist-sense'));
