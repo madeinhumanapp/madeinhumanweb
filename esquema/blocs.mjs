@@ -451,12 +451,12 @@ export const CAMPS_CONTACTE = {
   cp: text('Codi postal', 5),
   ciutat: text('Població', 40),
 };
-const AJUDA_ENLLAC = 'Una pàgina de la web (/serveis/dpo-extern/), una secció de la portada (/#contacte) o una adreça https://';
-const elementEnllac = max => ({ text: text('Text', max), href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true, ajuda: AJUDA_ENLLAC } });
+// L'ajuda dels enllaços va a la llista (una sola vegada), no a cada element
+const elementEnllac = max => ({ text: text('Text', max), href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true } });
 export const CAMPS_MENU = {
   enllacos: {
     tipus: 'llista', etiqueta: 'Enllaços del menú', min: 1, max: 7, element: elementEnllac(30),
-    ajuda: 'En pantalla d’ordinador hi caben uns 6 enllaços curts. Els que porten a la portada, amb / davant (/#serveis): així funcionen des de qualsevol pàgina',
+    ajuda: 'Enllaç: una pàgina de la web (/serveis/dpo-extern/) o una secció de la portada amb / davant (/#serveis), que així funciona des de qualsevol pàgina. A l’ordinador hi caben uns 6 enllaços curts',
   },
   crida: enllacText('Botó del menú', 30),
   whatsappEtiqueta: text('Text del botó de WhatsApp per a lectors de pantalla', 60, { ajuda: 'El llegeixen els lectors de pantalla' }),
@@ -469,7 +469,7 @@ export const CAMPS_PEU = {
     element: {
       titol: text('Títol de la columna', 40),
       contacte: { tipus: 'bool', etiqueta: 'Mostra el correu, el WhatsApp i l’adreça al principi d’aquesta columna' },
-      elements: { tipus: 'llista', etiqueta: 'Enllaços', max: 10, element: elementEnllac(50), ajuda: 'Les adreces https:// s’obren en una pestanya nova' },
+      elements: { tipus: 'llista', etiqueta: 'Enllaços', max: 10, element: elementEnllac(50), ajuda: 'Enllaç: una pàgina de la web (/avis-legal.html), una secció de la portada (/#contacte) o una adreça https://, que s’obre en una pestanya nova' },
     },
   },
   copyright: text('Drets', 80),
