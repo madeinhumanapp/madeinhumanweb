@@ -89,7 +89,8 @@ ${menu(lloc, ctx)}
 ${p.blocs.filter(b => !b.amagat).map(b => renderBloc(b, ctx)).join('\n')}
 ${peu(lloc, ctx)}
 ${flotants(lloc, ctx)}
-${(p.scripts || []).map(s => `<script src="${s}"></script>`).join('\n')}
+${(p.scripts || []).map(s => `<script src="${s}"></script>`).join('\n')}${p.pagina === 'portada' ? `
+<script src="/fil.js" defer></script>` : ''}
 <script src="/menu.js" defer></script>
 </body>
 </html>

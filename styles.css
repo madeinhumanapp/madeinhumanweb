@@ -1531,3 +1531,13 @@ html { overflow-x: clip; }
   padding: 0 var(--pad-x);
 }
 @media (max-width: 767px) { .media-galeria-graella { grid-template-columns: 1fr; } }
+
+/* ===== Fil conductor de la portada (fil.js) =====
+   La capa del fil (rajoles de canvas dins de la pàgina) va entre els fons de les seccions i el contingut.
+   Les regles només s'apliquen quan fil.js s'ha posat en marxa (classe .amb-fil a <html>): sense
+   JavaScript, la web queda exactament igual. */
+.fil-capa { position: absolute; left: 0; top: 0; width: 100%; overflow: hidden; z-index: 1; pointer-events: none; }
+.fil-capa canvas { position: absolute; left: 0; width: 100%; }
+.amb-fil section > .container,
+.amb-fil footer > .container { position: relative; z-index: 2; }
+@media print { .fil-capa { display: none; } }
