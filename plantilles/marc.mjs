@@ -12,7 +12,7 @@ export function menu(lloc, ctx) {
   const portada = ctx.ruta === '/';
   const altre = { ...m.altreIdioma, href: ctx.urlAltre || m.altreIdioma.href };
   const idioma = cls => `<a href="${esc(altre.href)}" hreflang="${altre.idioma}" lang="${altre.idioma}"${cls}>${esc(altre.text)}</a>`;
-  const a = ([t, h]) => `<a href="${esc(enllac(h, ctx))}">${esc(t)}</a>`;
+  const a = e => `<a href="${esc(enllac(e.href, ctx))}">${esc(e.text)}</a>`;
   return `${portada ? `
 <div class="scroll-progress" id="scrollProgress"></div>` : ''}
 <nav class="nav${portada ? '' : ' scrolled'}" id="navbar">
@@ -22,18 +22,20 @@ export function menu(lloc, ctx) {
     <a href="${esc(enllac(m.crida.href, ctx))}" class="nav-cta">${esc(m.crida.text)}</a>
     <button class="nav-burger" type="button" aria-label="${ctx.idioma === 'es' ? 'Menú' : 'Menú'}" aria-controls="navMobile" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
-  <div class="nav-mobile" id="navMobile">${[...m.enllacos, [m.crida.text, m.crida.href]].map(a).join('\n')}${idioma('')}</div>
+  <div class="nav-mobile" id="navMobile">${[...m.enllacos, m.crida].map(a).join('\n')}${idioma('')}</div>
 </nav>`;
 }
 
 export function peu(lloc, ctx) {
   const f = lloc.peu[ctx.idioma], k = lloc.contacte;
-  const item = e => {
-    if (e.tipus === 'correu') return `<li><a href="mailto:${k.correu}">${k.correu}</a></li>`;
-    if (e.tipus === 'whatsapp') return `<li><a href="https://wa.me/${k.telefon.replace(/\D/g, '')}" target="_blank" rel="noopener">WhatsApp: ${esc(k.telefonVisible)}</a></li>`;
-    if (e.tipus === 'adreca') return `<li><address>${esc(k.carrer)}<br>${esc(k.cp)} ${esc(k.ciutat)}</address></li>`;
-    return `<li><a href="${esc(enllac(e.href, ctx))}"${e.extern ? ' target="_blank" rel="noopener"' : ''}>${esc(e.text)}</a></li>`;
-  };
+  // Columna amb «contacte»: correu, WhatsApp i adreça (de lloc.contacte) abans dels enllaços
+  const contacte = [
+    `<li><a href="mailto:${esc(k.correu)}">${esc(k.correu)}</a></li>`,
+    `<li><a href="https://wa.me/${k.telefon.replace(/\D/g, '')}" target="_blank" rel="noopener">WhatsApp: ${esc(k.telefonVisible)}</a></li>`,
+    `<li><address>${esc(k.carrer)}<br>${esc(k.cp)} ${esc(k.ciutat)}</address></li>`,
+  ];
+  // Les adreces d'altres webs s'obren en una pestanya nova
+  const item = e => `<li><a href="${esc(enllac(e.href, ctx))}"${/^https?:\/\//.test(e.href) ? ' target="_blank" rel="noopener"' : ''}>${esc(e.text)}</a></li>`;
   return `
 <footer>
   <div class="container">
@@ -45,7 +47,7 @@ export function peu(lloc, ctx) {
       </div>${f.columnes.map(c => `
       <div class="footer-col">
         <div class="footer-col-title">${esc(c.titol)}</div>
-        <ul>${c.elements.map(item).join('\n')}</ul>
+        <ul>${[...(c.contacte ? contacte : []), ...(c.elements || []).map(item)].join('\n')}</ul>
       </div>`).join('\n')}
     </div>
     <div class="footer-bottom">

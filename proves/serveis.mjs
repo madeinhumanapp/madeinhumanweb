@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validarServeis } from '../esquema/serveis.mjs';
-import { validarPagina } from '../esquema/blocs.mjs';
+import { validarPagina, validarLloc } from '../esquema/blocs.mjs';
 import { pagina } from '../plantilles/base.mjs';
 import { ambDadesDelLloc } from '../plantilles/legal.mjs';
 
@@ -48,6 +48,31 @@ const legal = fs.readFileSync(path.join(ARREL, 'contingut/legal/avis-legal.md'),
 ok('els textos legals prenen l\'adreça i el correu de les dades del lloc', legal.includes('{{adreca}}') && ambDadesDelLloc(legal, lloc).includes(lloc.contacte.carrer) && !ambDadesDelLloc(legal, lloc).includes('{{'));
 let aturat = false; try { ambDadesDelLloc('Hola {{telefon}}', lloc); } catch { aturat = true; }
 ok('una marca desconeguda als textos legals atura la construcció', aturat);
+
+// Menú i peu editables (WEB-P06): enllaços amb nom, columnes amb el contacte opcional
+const llocAmb = canvi => { const d = structuredClone(lloc); canvi(d); return validarLloc(d); };
+const eL = validarLloc(lloc);
+ok('les dades actuals del lloc són vàlides', !eL.length, eL.join('; '));
+const casosLloc = [
+  ['enllaç del menú no segur', d => { d.menu.ca.enllacos[0].href = 'javascript:alert(1)'; }, /enllaç no permès/],
+  ['menú sense enllaços', d => { d.menu.es.enllacos = []; }, /obligatori/],
+  ['menú amb 8 enllaços', d => { d.menu.ca.enllacos.push(...d.menu.ca.enllacos.slice(0, 2)); }, /com a màxim 7/],
+  ['HTML al text d\'un enllaç del peu', d => { d.peu.ca.columnes[0].elements[0].text = '<b>Serveis</b>'; }, /HTML/],
+  ['columna buida', d => { d.peu.es.columnes[1].contacte = false; }, /buida/],
+  ['4 columnes al peu', d => { d.peu.ca.columnes.push(d.peu.ca.columnes[0]); }, /com a màxim 3/],
+];
+for (const [nom, canvi, patro] of casosLloc) {
+  const e = llocAmb(canvi);
+  ok(`rebutja: ${nom}`, e.some(x => patro.test(x)), e.join('; ') || 'cap error');
+}
+const ambCanvis = structuredClone(lloc);
+ambCanvis.menu.ca.enllacos.push({ text: 'Blog & notícies', href: '/actualitat/' });
+ambCanvis.peu.ca.columnes[0].elements.push({ text: 'Web externa', href: 'https://example.org/' });
+ambCanvis.peu.ca.columnes[0].contacte = true;
+const hL = pagina(ambCanvis, portada, formularis);
+ok('el menú i el peu pinten els enllaços nous (escapats; els externs, en una pestanya nova)',
+  hL.includes('<a href="/actualitat/">Blog &amp; notícies</a>') && hL.includes('<a href="https://example.org/" target="_blank" rel="noopener">Web externa</a>')
+  && (hL.match(/href="mailto:/g) || []).length === (pagina(lloc, portada, formularis).match(/href="mailto:/g) || []).length + 1);
 
 console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions dels serveis i dels blocs correctes');
 process.exit(fallades ? 1 : 0);

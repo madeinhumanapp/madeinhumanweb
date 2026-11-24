@@ -440,8 +440,8 @@ export function validarNoticia(n) {
   return errors;
 }
 
-// contingut/lloc.json: dades que surten a totes les pàgines (WEB-P06). Des del panell només s'editen el contacte i
-// els textos del menú i del peu; els enllaços del menú i del peu, l'SEO comú i les icones són estructura.
+// contingut/lloc.json: dades que surten a totes les pàgines (WEB-P06). Des del panell s'editen el contacte i el menú
+// i el peu (textos i enllaços); l'SEO comú, el canvi d'idioma i les icones són estructura.
 const enllacText = (etiqueta, max) => ({ tipus: 'grup', etiqueta, obligatori: true, camps: { text: text('Text', max), href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true } } });
 export const CAMPS_CONTACTE = {
   correu: text('Correu electrònic', 80),
@@ -451,13 +451,27 @@ export const CAMPS_CONTACTE = {
   cp: text('Codi postal', 5),
   ciutat: text('Població', 40),
 };
+const AJUDA_ENLLAC = 'Una pàgina de la web (/serveis/dpo-extern/), una secció de la portada (/#contacte) o una adreça https://';
+const elementEnllac = max => ({ text: text('Text', max), href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true, ajuda: AJUDA_ENLLAC } });
 export const CAMPS_MENU = {
+  enllacos: {
+    tipus: 'llista', etiqueta: 'Enllaços del menú', min: 1, max: 7, element: elementEnllac(30),
+    ajuda: 'En pantalla d’ordinador hi caben uns 6 enllaços curts. Els que porten a la portada, amb / davant (/#serveis): així funcionen des de qualsevol pàgina',
+  },
   crida: enllacText('Botó del menú', 30),
   whatsappEtiqueta: text('Text del botó de WhatsApp per a lectors de pantalla', 60, { ajuda: 'El llegeixen els lectors de pantalla' }),
 };
 export const CAMPS_PEU = {
   descripcio: text('Descripció', 200),
   boto: enllacText('Botó del peu', 40),
+  columnes: {
+    tipus: 'llista', etiqueta: 'Columnes d’enllaços', min: 1, max: 3,
+    element: {
+      titol: text('Títol de la columna', 40),
+      contacte: { tipus: 'bool', etiqueta: 'Mostra el correu, el WhatsApp i l’adreça al principi d’aquesta columna' },
+      elements: { tipus: 'llista', etiqueta: 'Enllaços', max: 10, element: elementEnllac(50), ajuda: 'Les adreces https:// s’obren en una pestanya nova' },
+    },
+  },
   copyright: text('Drets', 80),
   estat: text('Text de la línia inferior', 60),
 };
@@ -471,6 +485,9 @@ export function validarLloc(l) {
   for (const idioma of ['ca', 'es']) {
     Object.entries(CAMPS_MENU).forEach(([c, d]) => validarCamp(d, l?.menu?.[idioma]?.[c], `menu.${idioma}.${c}`, errors));
     Object.entries(CAMPS_PEU).forEach(([c, d]) => validarCamp(d, l?.peu?.[idioma]?.[c], `peu.${idioma}.${c}`, errors));
+    (l?.peu?.[idioma]?.columnes || []).forEach((c, i) => {
+      if (!c?.contacte && !c?.elements?.length) errors.push(`peu.${idioma}.columnes[${i}]: buida (afegeix-hi enllaços o el contacte)`);
+    });
   }
   return errors;
 }

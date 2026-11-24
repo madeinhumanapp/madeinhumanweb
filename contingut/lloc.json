@@ -45,30 +45,30 @@
   "menu": {
     "ca": {
       "enllacos": [
-        [
-          "Serveis",
-          "/#serveis"
-        ],
-        [
-          "Mètode",
-          "/#metode"
-        ],
-        [
-          "FAQ",
-          "/#faq"
-        ],
-        [
-          "Actualitat",
-          "/#actualitat"
-        ],
-        [
-          "Diagnòstic gratuït",
-          "/diagnostic.html"
-        ],
-        [
-          "Contacte",
-          "/#contacte"
-        ]
+        {
+          "text": "Serveis",
+          "href": "/#serveis"
+        },
+        {
+          "text": "Mètode",
+          "href": "/#metode"
+        },
+        {
+          "text": "FAQ",
+          "href": "/#faq"
+        },
+        {
+          "text": "Actualitat",
+          "href": "/#actualitat"
+        },
+        {
+          "text": "Diagnòstic gratuït",
+          "href": "/diagnostic.html"
+        },
+        {
+          "text": "Contacte",
+          "href": "/#contacte"
+        }
       ],
       "altreIdioma": {
         "text": "Castellano",
@@ -83,18 +83,18 @@
     },
     "es": {
       "enllacos": [
-        [
-          "Servicios",
-          "/es/#servicios"
-        ],
-        [
-          "Método",
-          "/es/#metodo"
-        ],
-        [
-          "Contacto",
-          "/es/#contacto"
-        ]
+        {
+          "text": "Servicios",
+          "href": "/es/#servicios"
+        },
+        {
+          "text": "Método",
+          "href": "/es/#metodo"
+        },
+        {
+          "text": "Contacto",
+          "href": "/es/#contacto"
+        }
       ],
       "altreIdioma": {
         "text": "Català",
@@ -180,16 +180,8 @@
         },
         {
           "titol": "Legal i contacte",
+          "contacte": true,
           "elements": [
-            {
-              "tipus": "correu"
-            },
-            {
-              "tipus": "whatsapp"
-            },
-            {
-              "tipus": "adreca"
-            },
             {
               "text": "Avís legal",
               "href": "/avis-legal.html"
@@ -204,13 +196,11 @@
             },
             {
               "text": "APDCat ↗",
-              "href": "https://apdcat.gencat.cat",
-              "extern": true
+              "href": "https://apdcat.gencat.cat"
             },
             {
               "text": "AEPD ↗",
-              "href": "https://www.aepd.es",
-              "extern": true
+              "href": "https://www.aepd.es"
             }
           ]
         }
@@ -260,17 +250,8 @@
         },
         {
           "titol": "Contacto",
-          "elements": [
-            {
-              "tipus": "correu"
-            },
-            {
-              "tipus": "whatsapp"
-            },
-            {
-              "tipus": "adreca"
-            }
-          ]
+          "contacte": true,
+          "elements": []
         },
         {
           "titol": "Legal",
@@ -289,13 +270,11 @@
             },
             {
               "text": "APDCat ↗",
-              "href": "https://apdcat.gencat.cat",
-              "extern": true
+              "href": "https://apdcat.gencat.cat"
             },
             {
               "text": "AEPD ↗",
-              "href": "https://www.aepd.es",
-              "extern": true
+              "href": "https://www.aepd.es"
             }
           ]
         }
