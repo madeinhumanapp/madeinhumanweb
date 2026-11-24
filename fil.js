@@ -1,5 +1,5 @@
 /* =============================================================
-   MADEINHUMAN — El fil conductor de la portada (prototip per provar, v0.1)
+   MADEINHUMAN — El fil conductor de la portada (prototip per provar, v0.2 «arrodonit»; ?fil=v01 per a l'anterior)
 
    Dos fils de llum (coure: dades i persones; blau: IA) arriben solts a la capçalera, es trenen al
    cursor daurat del logo i acompanyen la lectura fins al contacte, on acaben en un cursor darrere
@@ -41,6 +41,34 @@
       fixos: '.nav, .whatsapp-float, .back-to-top, .scroll-progress, .cookie-banner, .fil-capa',
     },
   };
+
+  // ---------- Estils del traç ([mòbil, escriptori] on hi ha parells)
+  // · arrodonit (v0.2, per defecte): un sol traç per fil, gruixut i suau; la trena gira lenta (una volta cada
+  //   320 px) i amb profunditat gradual; on els fils es trenen, una aura compartida de color barrejat (simbiosi).
+  // · v01: el prototip anterior (tres fibres per fil, trena atapeïda). Es pot veure amb ?fil=v01 per comparar.
+  const ESTILS = {
+    arrodonit: {
+      fibres: [[0], [0]], radi: [5.5, 10], LB: [170, 320], V: [20, 42], gruix: [1.4, 1.9],
+      ona: [0.65, 0.35, 0], desfilat: 0, margeExtra: 1.5,
+      aura: [0.035, 0.05],
+      nivells: [
+        { z: 0.5, w: 1.15, halo: [0.07, 7], mig: [0.17, 2.8], nucli: [0.95, 0.5] },
+        { z: 0, w: 1.0, halo: [0.06, 6.5], mig: [0.15, 2.6], nucli: [0.85, 0.45] },
+        { z: -0.5, w: 0.88, halo: [0.05, 6], mig: [0.12, 2.4], nucli: [0.68, 0.36] },
+        { z: -Infinity, w: 0.78, halo: [0.04, 5.5], mig: [0.09, 2.2], nucli: [0.52, 0.28] },
+      ],
+    },
+    v01: {
+      fibres: [[0, 1], [-1, 0, 1]], radi: [3.5, 7], LB: [52, 130], V: [24, 50], gruix: [1.2, 1.35],
+      ona: [0.55, 0.30, 0.15], desfilat: 1, margeExtra: 0, aura: null,
+      nivells: [
+        { z: -0.05, w: 1, halo: [0.06, 9], mig: [0.15, 3.4], nucli: [0.95, 0.55] },
+        { z: -Infinity, w: 1, halo: [0.05, 7], mig: null, nucli: [0.42, 0.24] },
+      ],
+    },
+  };
+  const nomEstil = (() => { try { return new URLSearchParams(location.search).get('fil'); } catch (e) { return null; } })();
+  const E = ESTILS[nomEstil] || ESTILS.arrodonit;
 
   const TAU = Math.PI * 2;
   const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
@@ -209,7 +237,8 @@
     }
     // Esvaïment sota el text: marge conservador (desplaçament màxim de la mostra + gruix + resplendor)
     for (const p of totes) {
-      p.m = 1.5 * p.la + p.r + 2.5;          // desplaçament màxim + mig gruix del traç
+      // desplaçament màxim + mig gruix del traç (i, on hi ha trena, mitja amplada de l'aura)
+      p.m = 1.5 * p.la + Math.max(p.r + 2.5 + E.margeExtra, p.r > 0 ? C.mAura : 0);
       let dmin = Infinity;
       let lo = 0, hi = zones.length;           // primera zona que podria tocar (ordenades per y0)
       while (lo < hi) { const mid = (lo + hi) >> 1; if (zones[mid][1] < p.y - 260) lo = mid + 1; else hi = mid; }
@@ -236,10 +265,11 @@
     const R = new Ruta(vh);
     const C = {
       mobil, K, xL, xR, colors: colors(),
-      fibres: mobil ? [0, 1] : [-1, 0, 1],
-      radi: mobil ? 3.5 : 7, LB: mobil ? 52 : 130, V: mobil ? 24 : 50, gruix: mobil ? 1.2 : 1.35,
+      fibres: E.fibres[mobil ? 0 : 1],
+      radi: E.radi[mobil ? 0 : 1], LB: E.LB[mobil ? 0 : 1], V: E.V[mobil ? 0 : 1], gruix: E.gruix[mobil ? 0 : 1],
       solt: (mobil ? 50 : 56) * K, cursor: mobil ? [26, 7] : [46 * K, 12 * K],
     };
+    C.mAura = E.aura ? C.radi + 6 : 0;
 
     // 1) Capçalera: fils solts → cursor → trenats, i baixen pel marge dret
     const P = (fx, fy) => [fx * vw, hero.y + fy * H];
@@ -433,7 +463,8 @@
     const col = C.colors;
     g.setTransform(dpr, 0, 0, dpr, 0, -top * dpr);
     g.globalCompositeOperation = 'lighter';
-    g.lineCap = 'round'; g.lineJoin = 'round';
+    // Extrems rectes (v0.2): amb extrems arrodonits, les juntes entre trams se sumen i fan puntets de llum
+    g.lineCap = E.aura ? 'butt' : 'round'; g.lineJoin = 'round';
     const y0 = top - 90, y1 = top + h + 90, T = CONFIG.tempsBucle, VP = C.mobil ? 150 : 330;
     const polsos = [];
     if (!quiet) for (let k = Math.floor((t - 0.6 - C.uFinal / VP) / CONFIG.polsCada) - 1; k <= Math.floor((t - 0.6) / CONFIG.polsCada); k++) {
@@ -443,17 +474,46 @@
     const SIG = 160 * (C.mobil ? 0.5 : K), SIGF = 50 * (C.mobil ? 0.5 : K);
     const fibres = Q === 2 ? C.fibres : [0];
     let punta = null, dibuixat = false;
+    const NIV = E.nivells, NB = NIV.length;
+    const nivell = z => { for (let b = 0; b < NB - 1; b++) if (z >= NIV[b].z) return b; return NB - 1; };
+
+    // Aura compartida: on els dos fils es trenen, una llum suau del color barrejat (dades + IA) els embolcalla
+    if (E.aura && Q > 0) {
+      const ca = col.coure.map((v, i) => mix(v, col.blau[i], 0.5));
+      for (const pc of R.peces) {
+        if (pc.tipus !== 'comu') continue;
+        const m = pc.m;
+        if (m[0].trig > revela) break;
+        const path = new Path2D();
+        let prev = false, n = 0;
+        for (const [i0, i1, bMin, bMax] of pc.blocs) {
+          if (bMax < y0 || bMin > y1) { prev = false; continue; }
+          for (let i = i0; i < i1; i++) {
+            const p = m[i];
+            if (p.trig > revela || p.y < y0 || p.y > y1 || p.vis <= 0.5 || p.r < 0.4 * C.radi) { prev = false; continue; }
+            if (prev) { path.lineTo(p.x, p.y); n++; } else path.moveTo(p.x, p.y);
+            prev = true;
+          }
+        }
+        if (!n) continue;
+        dibuixat = true;
+        g.lineCap = 'round';
+        g.strokeStyle = rgba(ca, E.aura[0] * pc.int); g.lineWidth = 2 * C.radi + 10; g.stroke(path);
+        g.strokeStyle = rgba(ca, E.aura[1] * pc.int); g.lineWidth = 1.4 * C.radi; g.stroke(path);
+        g.lineCap = 'butt';
+      }
+    }
 
     for (let k = 0; k < 2; k++) {
       const cc = k ? col.blau : col.coure;
       for (const j of fibres) {
         const gr = C.gruix * (j === 0 ? 1.25 : 0.75), llums = [];
-        let prevIn = false, prevF = true, prevV = true, px = 0, py = 0, pu = 0;
+        let prevIn = false, prevB = 0, prevV = true, px = 0, py = 0, pu = 0;
         for (const pc of R.peces) {
           const m = pc.tipus === 'comu' ? pc.m : pc.m[k], blocs = pc.tipus === 'comu' ? pc.blocs : pc.blocs[k];
           if (m[0].trig > revela) break;
-          // quatre traços per tram: davant/darrere (volum de la trena) × visible/esvaït (sota un text)
-          const tr = [new Path2D(), new Path2D(), new Path2D(), new Path2D()];
+          // un traç per nivell de profunditat (volum de la trena) × visible/esvaït (sota un text)
+          const tr = Array.from({ length: 2 * NB }, () => new Path2D()), usat = new Array(2 * NB).fill(0);
           let n = 0;
           for (const [i0, i1, bMin, bMax] of blocs) {
             if (bMax < y0 || bMin > y1) { prevIn = false; continue; }
@@ -462,37 +522,38 @@
             if (p.trig > revela || p.y < y0 || p.y > y1) { prevIn = false; continue; }
             let off = 0, z = 0;
             if (p.la) {
-              const w = 0.55 * Math.sin(TAU * (p.s / (720 * K) - t / T) + (k ? 2.1 : 0.3))
-                      + 0.30 * Math.sin(TAU * (p.s / (360 * K) - 2 * t / T) + (k ? 4.0 : 1.2))
-                      + 0.15 * Math.sin(TAU * (p.s / (240 * K) - 3 * t / T) + (k ? 0.7 : 5.1));
+              const w = E.ona[0] * Math.sin(TAU * (p.s / (720 * K) - t / T) + (k ? 2.1 : 0.3))
+                      + E.ona[1] * Math.sin(TAU * (p.s / (360 * K) - 2 * t / T) + (k ? 4.0 : 1.2))
+                      + (E.ona[2] ? E.ona[2] * Math.sin(TAU * (p.s / (240 * K) - 3 * t / T) + (k ? 0.7 : 5.1)) : 0);
               off += p.la * (pc.tipus === 'comu' ? ((k ? -0.5 : 0.5) + w) : w * 0.6);
               z = 0.3 * Math.sin(TAU * (p.s / (360 * K) - 2 * t / T) + k * 2.6);
             }
             if (p.r) { const ph = TAU * (p.s - C.V * t) / C.LB + k * Math.PI; off += p.r * Math.sin(ph); z = Math.cos(ph) * Math.min(1, p.r / C.radi); }
             const esp = (C.mobil ? 0.9 : 1.2) + (p.la ? 6 * K * (p.la / C.solt) : 0);
-            const fj = j * esp + (p.la ? 3 * K * Math.sin(TAU * (p.s / (170 * K) - 4 * t / T) + j * 2.1 + k * 1.7) * (p.la / C.solt) : 0);
+            const fj = j * esp + (p.la && E.desfilat ? 3 * K * E.desfilat * Math.sin(TAU * (p.s / (170 * K) - 4 * t / T) + j * 2.1 + k * 1.7) * (p.la / C.solt) : 0);
             const x = p.x + p.nx * (off + fj), y = p.y + p.ny * (off + fj);
-            const f = z >= -0.05, v = p.vis > 0.5;
+            const b = nivell(z), v = p.vis > 0.5, idx = b + (v ? 0 : NB);
             if (prevIn) {
-              const path = tr[(f ? 0 : 1) + (v ? 0 : 2)];
-              if (f !== prevF || v !== prevV || i === 0) path.moveTo(px, py);
-              path.lineTo(x, y); n++;
+              const path = tr[idx];
+              if (b !== prevB || v !== prevV || i === 0) path.moveTo(px, py);
+              path.lineTo(x, y); n++; usat[idx] = 1;
               if (j === 0 && v && polsos.length) {
                 let gg = 0;
                 for (const up of polsos) { const dd = p.u - up, sg = dd < 0 ? SIG : SIGF; gg += Math.exp(-(dd * dd) / (sg * sg)); }
                 if (gg > 0.04) llums.push([px, py, x, y, gg * pc.int]);
               }
-            } else tr[(f ? 0 : 1) + (v ? 0 : 2)].moveTo(x, y);
-            prevIn = true; prevF = f; prevV = v; px = x; py = y; pu = p.u;
+            } else tr[idx].moveTo(x, y);
+            prevIn = true; prevB = b; prevV = v; px = x; py = y; pu = p.u;
           }
           }
           if (!n) continue;
           dibuixat = true;
-          for (const [idx, I] of [[0, pc.int], [1, pc.int], [2, pc.int * 0.1], [3, pc.int * 0.1]]) {
-            const path = tr[idx], davant = idx % 2 === 0;
-            if (Q > 0) { g.strokeStyle = rgba(cc, (davant ? 0.06 : 0.05) * I); g.lineWidth = (davant ? 9 : 7) * gr; g.stroke(path); }
-            if (Q > 0 && davant) { g.strokeStyle = rgba(cc, 0.15 * I); g.lineWidth = 3.4 * gr; g.stroke(path); }
-            g.strokeStyle = rgba(cc, (davant ? (j === 0 ? 0.95 : 0.55) : (j === 0 ? 0.42 : 0.24)) * I); g.lineWidth = gr; g.stroke(path);
+          for (let idx = 0; idx < 2 * NB; idx++) {
+            if (!usat[idx]) continue;
+            const path = tr[idx], nv = NIV[idx % NB], I = pc.int * (idx < NB ? 1 : 0.1), w = gr * nv.w;
+            if (Q > 0) { g.lineCap = 'round'; g.strokeStyle = rgba(cc, nv.halo[0] * I); g.lineWidth = nv.halo[1] * w; g.stroke(path); g.lineCap = E.aura ? 'butt' : 'round'; }
+            if (Q > 0 && nv.mig) { g.strokeStyle = rgba(cc, nv.mig[0] * I); g.lineWidth = nv.mig[1] * w; g.stroke(path); }
+            g.strokeStyle = rgba(cc, nv.nucli[j === 0 ? 0 : 1] * I); g.lineWidth = w; g.stroke(path);
           }
         }
         if (j === 0 && prevIn && pu < C.uFinal - 2 && !o.revelaTot) {
@@ -622,7 +683,7 @@
 
     // Accés per a les proves (proves/fil.mjs)
     window.madeinhumanFil = {
-      versio: '0.1',
+      versio: '0.2', estil: E === ESTILS.v01 ? 'v01' : 'arrodonit',
       render: (t, sy, o) => fil.render(t, sy, o),
       reconstruir: () => fil.mida(),
       estat: () => ({ ...estat, qualitat: fil.qualitat, llargada: Math.round(fil.C.uFinal), nodes: fil.R.nodes.length, esvaides: fil.C.esvaides }),

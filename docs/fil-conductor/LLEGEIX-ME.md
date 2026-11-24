@@ -49,3 +49,16 @@ El pedaç ja està aplicat a la branca `claude/web-testing-madeinhuman-i7rhdv` (
 `plantilles/base.mjs`, `package.json`): no cal tornar-lo a aplicar. `npm run comprovar` en verd, `npm run fil` inclòs.
 Els fitxers solts de `fitxers/` no es copien aquí perquè ja són a l'arrel i a `proves/`. El pedaç es conserva com a
 referència del canvi original. **No es fusiona a `main` sense la confirmació de l'Albert.**
+
+## v0.2 «arrodonit» (branca `demo-fil`)
+
+Petició de l'Albert: la v0.1 semblava «cadenes desfilades»; es vol una simbiosi entre dades i IA. Canvis a `fil.js`:
+
+- Un sol traç per fil (abans tres fibres), més gruixut i suau. Sense el tremolor extra dels fils solts de la capçalera.
+- La trena gira lenta: una volta cada 320 px a escriptori (abans 130) i 170 px a mòbil (abans 52); radi 10 / 5,5 px.
+- Profunditat gradual (quatre nivells en lloc de davant/darrere): ja no fa l'efecte d'anelles.
+- Aura compartida: on els fils es trenen, una llum suau del color barrejat (coure + blau) els embolcalla.
+- Extrems rectes al nucli del traç: les juntes ja no fan puntets de llum.
+- `?fil=v01` a la URL mostra el prototip anterior per comparar. `madeinhumanFil.estil` diu quin estil s'està fent servir.
+
+`npm run comprovar` en verd (inclou `npm run fil` a les quatre mides). Vista prèvia: `demo-fil.madeinhumanweb.pages.dev`.
