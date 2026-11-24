@@ -1509,3 +1509,25 @@ html { overflow-x: clip; }
 @media (max-width: 767px) {
   .legal-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
+
+/* ===== Mitjans: imatges, galeries i vídeos (blocs «imatge», «galeria» i «video») ===== */
+.block.media-imatge, .block.media-video { max-width: 960px; margin: 0 auto; padding: 120px var(--pad-x); }
+.block.media-imatge.media-ampla { max-width: var(--container); }
+@media (max-width: 700px) { .block.media-imatge, .block.media-video { padding: 80px var(--pad-x); } }
+.media-imatge img, .media-video video, .media-galeria-graella img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 24px; /* cantonades com les targetes */
+}
+.media-imatge figcaption, .media-video figcaption { margin-top: 12px; font-size: 14px; line-height: 1.6; color: var(--text-dim); }
+.media-galeria .section-title { max-width: var(--container); margin: 0 auto; padding: 0 var(--pad-x); }
+.media-galeria-graella {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: var(--container);
+  margin: 32px auto 0;
+  padding: 0 var(--pad-x);
+}
+@media (max-width: 767px) { .media-galeria-graella { grid-template-columns: 1fr; } }

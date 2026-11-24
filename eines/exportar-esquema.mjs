@@ -5,7 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ESQUEMA, BLOCS_PROTEGITS, BLOCS_AFEGIBLES, CAMPS_FAQ, CAMPS_NOTICIA, CAMPS_XARXES, CAMPS_CONTACTE, CAMPS_MENU, CAMPS_PEU } from '../esquema/blocs.mjs';
+import { ESQUEMA, BLOCS_PROTEGITS, BLOCS_AFEGIBLES, CAMPS_FAQ, CAMPS_NOTICIA, CAMPS_XARXES, CAMPS_CONTACTE, CAMPS_MENU, CAMPS_PEU, CAMPS_MEDIA } from '../esquema/blocs.mjs';
 import { CAMPS_SERVEI, CAMPS_PORTADA_ES, CAMPS_COMU, SERVEIS, SLUGS_ESTABLES } from '../esquema/serveis.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -18,6 +18,7 @@ const dades = {
   faq: CAMPS_FAQ,
   noticia: CAMPS_NOTICIA,
   xarxes: CAMPS_XARXES,
+  media: CAMPS_MEDIA,
   lloc: { contacte: CAMPS_CONTACTE, menu: CAMPS_MENU, peu: CAMPS_PEU },
   serveis: { serveis: SERVEIS, slugs: SLUGS_ESTABLES, servei: CAMPS_SERVEI, portada_es: CAMPS_PORTADA_ES, comu: CAMPS_COMU },
 };

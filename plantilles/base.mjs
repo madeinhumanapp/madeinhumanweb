@@ -77,8 +77,10 @@ function flotants(lloc, ctx) {
 
 // formularis: { id: plantilla HTML } de plantilles/formularis/ (protegits, no editables)
 // actualitat: targetes de les notícies publicades (plantilles/actualitat.mjs → targeta), de la més nova a la més antiga
-export function pagina(lloc, p, formularis = {}, faq = [], actualitat = []) {
-  const ctx = { ruta: p.ruta, idioma: p.idioma, formularis, faq, actualitat };
+// media: entrades de contingut/media.json (WEB-M02); imatges: { id: 'data:…' } només a la vista prèvia del panell
+export function pagina(lloc, p, formularis = {}, faq = [], actualitat = [], media = [], imatges = {}) {
+  const ctx = { ruta: p.ruta, idioma: p.idioma, formularis, faq, actualitat,
+    media: new Map((media || []).map(e => [e.id, e])), imatges: imatges || {} };
   return `<!DOCTYPE html>
 <html lang="${p.idioma}">
 ${cap(lloc, p, faq)}

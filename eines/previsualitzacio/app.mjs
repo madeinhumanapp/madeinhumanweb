@@ -12,10 +12,11 @@ import { validarPagina } from './esquema/blocs.mjs';
 import { validarServeis } from './esquema/serveis.mjs';
 
 const ORIGENS = ['https://rgpd.madeinhuman.cat', 'http://localhost:3000'];
-const [lloc, formularis, faq] = await Promise.all([
+const [lloc, formularis, faq, media] = await Promise.all([
   fetch('lloc.json').then(r => r.json()),
   fetch('formularis.json').then(r => r.json()),
   fetch('faq.json').then(r => r.json()),
+  fetch('media.json').then(r => (r.ok ? r.json() : [])),
 ]);
 const marc = document.getElementById('marc');
 const caixaErrors = document.getElementById('errors');
@@ -28,7 +29,7 @@ const CAP_PREVIA = `<head>
 
 window.addEventListener('message', e => {
   if (!ORIGENS.includes(e.origin)) return;
-  const { tipus, pagina: p, serveis, ruta } = e.data || {};
+  const { tipus, pagina: p, serveis, ruta, media: m, imatges } = e.data || {};
   if (tipus !== 'previsualitzar' || (!p && !serveis)) return;
   let errors, crea;
   if (serveis) {
@@ -37,7 +38,9 @@ window.addEventListener('message', e => {
     if (!errors.length && !crea()) errors = [`pàgina desconeguda: ${ruta}`];
   } else {
     errors = validarPagina(p);
-    crea = () => (p.plantilla === 'xarxes' ? paginaXarxes(lloc, p) : pagina(lloc, p, formularis, faq));
+    // «media» (les entrades de media.json de l'esborrany) i «imatges» ({ id: 'data:…' }) venen del panell
+    const entrades = Array.isArray(m) ? m : media;
+    crea = () => (p.plantilla === 'xarxes' ? paginaXarxes(lloc, p) : pagina(lloc, p, formularis, faq, [], entrades, imatges || {}));
   }
   caixaErrors.style.display = errors.length ? 'block' : 'none';
   caixaErrors.textContent = errors.length ? `No es pot mostrar: ${errors.join(' · ')}` : '';
