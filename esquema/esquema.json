@@ -160,7 +160,7 @@
           "etiqueta": "Presentació",
           "max": 200,
           "obligatori": false,
-          "ajuda": "Opcional: qui sou, abans del títol. «Madeinhuman» surt amb la lletra del logo; la primera *cursiva*, en coure (dades), i la segona, en blau (IA)"
+          "ajuda": "Opcional: qui sou, abans del títol. «Madeinhuman» surt amb la lletra del logo; la primera *cursiva*, en coure (dades), i la segona, en blau (IA). Un salt de línia separa el passat del futur: el punt del passat s'encén en la transició"
         },
         "titol": {
           "tipus": "enriquit",

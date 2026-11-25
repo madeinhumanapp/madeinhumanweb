@@ -61,7 +61,7 @@ export const ESQUEMA = {
     camps: {
       etiqueta: text('Etiqueta', 60, { obligatori: false, ajuda: 'Opcional: una línia curta a sobre de la presentació' }),
       presentacio: enriquit('Presentació', 200, { obligatori: false,
-        ajuda: 'Opcional: qui sou, abans del títol. «Madeinhuman» surt amb la lletra del logo; la primera *cursiva*, en coure (dades), i la segona, en blau (IA)' }),
+        ajuda: 'Opcional: qui sou, abans del títol. «Madeinhuman» surt amb la lletra del logo; la primera *cursiva*, en coure (dades), i la segona, en blau (IA). Un salt de línia separa el passat del futur: el punt del passat s\'encén en la transició' }),
       titol: enriquit('Títol', 50, { ajuda: '*cursiva*: la paraula que subratlla el fil (p. ex. Les nostres *premisses.*)' }),
       items: { tipus: 'llista', etiqueta: 'Premisses', min: 2, max: 4, element: enriquit('Premissa', 60, { ajuda: '*cursiva* i salt de línia' }) },
     },

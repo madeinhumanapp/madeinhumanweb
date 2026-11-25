@@ -3,6 +3,8 @@
 
    - Notes (2018, 2026…): l'any surt gran al centre, va al seu costat (on passa el fil) i hi entra el text. Posa
      --a1, --a2, --a3 (fases) i --dx (distància del centre a la posició final de l'any) i la classe .nota-viva.
+   - Presentació de les premisses (passat → futur): apareix el passat, el seu punt final s'encén com un punt de llum,
+     i entra el futur mentre el passat s'esmorteeix. Posa --b1, --b2, --b3 i la classe .intro-viva.
    - Venn: posa --fusio (de 0 a 1) a .fusio segons on és l'escena a la pantalla, i la classe .fusio-viva. Els
      estils fan créixer els dos àmbits l'un cap a l'altre fins que es superposen, i hi fan aparèixer el que tenen
      en comú. Sense JavaScript, o amb «reduir moviment», es veuen fusionats (--fusio val 1 per defecte).
@@ -42,6 +44,26 @@
         if (k === ultim) return;
         ultim = k;
         nota.style.setProperty('--a1', v[0]); nota.style.setProperty('--a2', v[1]); nota.style.setProperty('--a3', v[2]);
+      },
+    });
+  });
+
+  // ---------- Presentació: el passat, el punt que s'encén i el futur
+  document.querySelectorAll('.premisses-intro').forEach(intro => {
+    if (!intro.querySelector('.pres-futur')) return;
+    let top = 0, ultim = '';
+    animacions.push({
+      activa(viu) { intro.classList.toggle('intro-viva', viu); ultim = ''; if (!viu) ['--b1', '--b2', '--b3'].forEach(v => intro.style.removeProperty(v)); },
+      mesura() { top = posicio(intro); },
+      calcula(vh, sy) {
+        if (!intro.classList.contains('intro-viva')) return;
+        // comença quan entra per baix (90 %) i acaba quan arriba al 30 % de la pantalla
+        const p = Math.min(1, Math.max(0, (vh * 0.9 - (top - sy)) / (vh * 0.6)));
+        const v = [suau(p / 0.35), suau((p - 0.35) / 0.2), suau((p - 0.55) / 0.35)].map(x => String(Math.round(x * 1000) / 1000));
+        const k = v.join();
+        if (k === ultim) return;
+        ultim = k;
+        intro.style.setProperty('--b1', v[0]); intro.style.setProperty('--b2', v[1]); intro.style.setProperty('--b3', v[2]);
       },
     });
   });

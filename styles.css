@@ -1711,15 +1711,35 @@ html.dialeg-obert { overflow: hidden; scrollbar-gutter: stable; }   /* sense sal
 section.block.premisses { padding: 96px 0 72px; }
 .premisses-inner { text-align: center; }
 /* Presentació (qui som), abans del títol: etiqueta, i una frase amb la marca amb la lletra del logo */
-.premisses-intro { max-width: 40rem; margin: 0 auto clamp(64px, 9vh, 96px); display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.premisses-intro { max-width: 50rem; margin: 0 auto clamp(64px, 9vh, 96px); display: flex; flex-direction: column; align-items: center; gap: 20px; }
 .premisses-intro .eyebrow { justify-content: center; text-align: center; }
 @media (max-width: 767px) {
   /* al mòbil l'etiqueta fa dues línies: sense el traç i ben centrada */
   .premisses-intro .eyebrow { letter-spacing: 0.14em; line-height: 1.7; }
   .premisses-intro .eyebrow::before { display: none; }
 }
-.premisses-presentacio { font-size: clamp(18px, 1.7vw, 22px); line-height: 1.55; color: var(--text); text-wrap: balance; }
-.premisses-presentacio em { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 1.1em; }
+.premisses-presentacio { font-family: var(--font-serif); font-weight: 400; font-size: clamp(25px, 2.7vw, 36px); line-height: 1.3; letter-spacing: -0.01em; color: var(--text); text-wrap: balance; }
+.premisses-presentacio em { font-style: italic; font-weight: 400; }
+.pres-passat, .pres-futur { display: block; }
+.pres-futur { margin-top: 0.4em; }
+.premisses-presentacio .marca-text { font-size: 1em; }
+/* Transició passat → futur (portada.js: .intro-viva i --b1 el passat apareix, --b2 el punt s'encén, --b3 entra el
+   futur i el passat s'esmorteeix). Sense JavaScript o amb «reduir moviment», tot sencer i quiet. */
+.punt-temps { position: relative; }
+.intro-viva .eyebrow { opacity: var(--b1); }
+.intro-viva .pres-passat { opacity: calc(var(--b1) * (1 - 0.38 * var(--b3))); transform: translateY(calc((1 - var(--b1)) * 18px)); }
+.intro-viva .pres-futur { opacity: var(--b3); transform: translateY(calc((1 - var(--b3)) * 18px)); }
+.intro-viva .punt-temps { color: transparent; }
+.intro-viva .punt-temps::after {
+  content: "";
+  position: absolute; left: 50%; bottom: 0.2em;
+  width: 0.2em; height: 0.2em; margin-left: -0.1em;
+  border-radius: 50%;
+  background: var(--daurat-clar);
+  opacity: calc(0.35 + 0.65 * var(--b2));
+  transform: scale(calc(1 + 0.7 * var(--b2) * (1 - var(--b3))));
+  box-shadow: 0 0 calc(4px + 16px * var(--b2)) calc(1px + 3px * var(--b2)) color-mix(in srgb, var(--daurat) 55%, transparent);
+}
 .premisses-presentacio .to-dades { color: var(--copper-bright); }
 .premisses-presentacio .to-ia { color: var(--blau-clar); }
 .marca-text { font-family: var(--font-serif); font-weight: 500; font-size: 1.08em; letter-spacing: -0.015em; white-space: nowrap; }

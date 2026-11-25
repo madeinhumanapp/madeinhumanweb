@@ -97,6 +97,21 @@ for (const v of VISTES) {
   const final = fases[fases.length - 1].every(x => x === 1);
   ok(`${v.nom}: la nota 2018 fa la transició (l'any primer, després el text) sense tirar enrere`, nota.viva && ordre && creixen && final, JSON.stringify(fases.filter((_, i) => i % 3 === 0)));
 
+  // 0a') Presentació de les premisses: el passat (b1), el punt que s'encén (b2) i el futur (b3), en aquest ordre
+  const intro = await p.evaluate(() => { const n = document.querySelector('.premisses-intro'); let t = 0; for (let e = n; e; e = e.offsetParent) t += e.offsetTop; return { top: t, viva: n.classList.contains('intro-viva') }; });
+  const fasesB = [];
+  for (let y = Math.max(0, intro.top - vh); y <= intro.top; y += 30) {
+    await vesA(p, y);
+    fasesB.push(await p.evaluate(() => { const cs = getComputedStyle(document.querySelector('.premisses-intro')); return ['--b1', '--b2', '--b3'].map(k => parseFloat(cs.getPropertyValue(k)) || 0); }));
+  }
+  const ordreB = fasesB.every(([a, b, c]) => a >= b && b >= c);
+  const creixenB = fasesB.every((f, i) => !i || f.every((x, k) => x >= fasesB[i - 1][k]));
+  const opac = await p.evaluate(() => ['.pres-passat', '.pres-futur'].map(s => parseFloat(getComputedStyle(document.querySelector(s)).opacity)));
+  const punt = await p.evaluate(() => document.querySelector('.premisses-presentacio').textContent.includes('dades. Ara'));
+  ok(`${v.nom}: la presentació passa del passat al futur pel punt, sense tirar enrere (al final, el futur ple i el passat esmorteït)`,
+    intro.viva && ordreB && creixenB && fasesB[fasesB.length - 1].every(x => x === 1) && opac[1] === 1 && opac[0] > 0.5 && opac[0] < 0.8 && punt,
+    JSON.stringify({ fases: fasesB.filter((_, i) => i % 4 === 0), opac, punt }));
+
   // 0b) Subratllat: el fil passa just per sota de «premisses» i s'hi veu
   const sub = await p.evaluate(() => {
     const em = document.querySelector('[data-fil="subratllat"]'), rs = [...em.getClientRects()], r = rs[rs.length - 1];
@@ -244,8 +259,11 @@ for (const v of VISTES) {
   ok('amb «reduir moviment» els serveis es veuen fusionats i no s\'animen', !r.viva && r.valor === '1', JSON.stringify(r));
   ok('amb «reduir moviment» les vores de llum no giren', anim === 'none', anim);
   const rm = await p.evaluate(() => ({ notes: [...document.querySelectorAll('.nota')].some(n => n.classList.contains('nota-viva')),
+    intro: document.querySelector('.premisses-intro').classList.contains('intro-viva'),
+    futur: getComputedStyle(document.querySelector('.pres-futur')).opacity,
     encesos: [...document.querySelectorAll('.premissa, .step')].every(e => e.classList.contains('fil-arribat')) }));
-  ok('amb «reduir moviment» les notes no s\'animen i les premisses i els passos es veuen encesos', !rm.notes && rm.encesos, JSON.stringify(rm));
+  ok('amb «reduir moviment» les notes i la presentació no s\'animen (el futur es veu) i les premisses i els passos es veuen encesos',
+    !rm.notes && !rm.intro && rm.futur === '1' && rm.encesos, JSON.stringify(rm));
   await ctx.close();
 }
 

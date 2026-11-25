@@ -149,6 +149,11 @@ repeticions i les preguntes freqüents en una pàgina pròpia (SEO i més comerc
 - Bloc nou **`premisses`** («Les nostres *premisses.*» i 3 frases, sense definició): el fil subratlla la paraula en
   cursiva amb un sol cordó prim i després cus les premisses. Cada premissa s'encén quan hi arriba el fil (`fil.js`
   posa `.fil-arribat`). Els spots 1-3 s'han esborrat (els títols són ara les premisses).
+- Abans del títol, l'`etiqueta` («Projecte jove, professionals amb recorregut») i la `presentacio` en serif gran.
+  El salt de línia de la `presentacio` separa el passat del futur: apareix el passat, el seu punt final s'encén com un
+  punt de llum daurat (`.punt-temps`) i entra el futur mentre el passat s'esmorteeix (`portada.js`: `--b1`, `--b2`,
+  `--b3` i `.intro-viva`). «Madeinhuman» es pinta amb la lletra del logo; les cursives alternen el to de les dades
+  (coure) i el de la IA (blau). Sense JavaScript o amb «reduir moviment», es veu tot quiet.
 - Mètode sense entradeta: cada pas s'encén quan hi arriba el fil (número, llum a la vora de dalt i text).
 - Contacte: «24 hores» i sense la capçalera repetida de la targeta (`plantilles/formularis/contacte.html`, cap camp
   tocat).

@@ -45,12 +45,18 @@ const imgMedia = (e, alt, sizes, ctx) => {
 };
 
 // Presentació de les premisses: «Madeinhuman» amb la lletra del logo; les cursives alternen el color de cada àmbit
-// (la primera, coure: protecció de dades; la segona, blau: IA), com al Venn dels serveis
+// (la primera, coure: protecció de dades; la segona, blau: IA), com al Venn dels serveis. Un salt de línia separa
+// el passat (el que hem fet) del futur (el que farem): el punt final del passat és el punt de llum de la transició
+// (portada.js); el punt continua sent text per als lectors de pantalla i Google.
 const presentacio = t => {
   let n = 0;
-  return enriquit(t)
+  const pinta = s => enriquit(s)
     .replace(/<em>/g, () => `<em class="${n++ % 2 ? 'to-ia' : 'to-dades'}">`)
     .replace(/Madeinhuman/g, '<span class="marca-text">Madein<span>human</span></span>');
+  const [passat, ...resta] = String(t).split('\n');
+  if (!resta.length) return pinta(passat);
+  const amb = pinta(passat).replace(/\.((?:<\/em>)?)\s*$/, '<span class="punt-temps">.</span>$1');
+  return `<span class="pres-passat">${amb}</span> <span class="pres-futur">${pinta(resta.join(' '))}</span>`;
 };
 
 export const BLOCS = {
@@ -135,7 +141,7 @@ export const BLOCS = {
   premisses: d => `
 <section class="block premisses" data-fil="premisses">
   <div class="container premisses-inner">${d.etiqueta || d.presentacio ? `
-    <div class="premisses-intro reveal">${d.etiqueta ? `
+    <div class="premisses-intro">${d.etiqueta ? `
       <span class="eyebrow">${esc(d.etiqueta)}</span>` : ''}${d.presentacio ? `
       <p class="premisses-presentacio">${presentacio(d.presentacio)}</p>` : ''}
     </div>` : ''}
