@@ -78,9 +78,10 @@ function flotants(lloc, ctx) {
 // formularis: { id: plantilla HTML } de plantilles/formularis/ (protegits, no editables)
 // actualitat: targetes de les notícies publicades (plantilles/actualitat.mjs → targeta), de la més nova a la més antiga
 // media: entrades de contingut/media.json (WEB-M02); imatges: { id: 'data:…' } només a la vista prèvia del panell
-export function pagina(lloc, p, formularis = {}, faq = [], actualitat = [], media = [], imatges = {}) {
+// serveis: contingut/serveis.json (opcional): les finestres dels serveis de la portada en mostren l'entradeta
+export function pagina(lloc, p, formularis = {}, faq = [], actualitat = [], media = [], imatges = {}, serveis = null) {
   const ctx = { ruta: p.ruta, idioma: p.idioma, formularis, faq, actualitat,
-    media: new Map((media || []).map(e => [e.id, e])), imatges: imatges || {} };
+    media: new Map((media || []).map(e => [e.id, e])), imatges: imatges || {}, serveis };
   return `<!DOCTYPE html>
 <html lang="${p.idioma}">
 ${cap(lloc, p, faq)}
@@ -90,6 +91,7 @@ ${p.blocs.filter(b => !b.amagat).map(b => renderBloc(b, ctx)).join('\n')}
 ${peu(lloc, ctx)}
 ${flotants(lloc, ctx)}
 ${(p.scripts || []).map(s => `<script src="${s}"></script>`).join('\n')}${p.pagina === 'portada' ? `
+<script src="/portada.js" defer></script>
 <script src="/fil.js" defer></script>` : ''}
 <script src="/menu.js" defer></script>
 </body>

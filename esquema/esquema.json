@@ -78,8 +78,8 @@
           "tipus": "text",
           "etiqueta": "Número",
           "max": 3,
-          "obligatori": true,
-          "ajuda": "01, 02…"
+          "obligatori": false,
+          "ajuda": "Opcional: 01, 02… (buit: sense número)"
         },
         "titol": {
           "tipus": "enriquit",
@@ -98,6 +98,50 @@
         "alternat": {
           "tipus": "bool",
           "etiqueta": "Fons alternat"
+        }
+      }
+    },
+    "nota": {
+      "nom": "Nota (xifra i frase)",
+      "camps": {
+        "clau": {
+          "tipus": "text",
+          "etiqueta": "Xifra o data",
+          "max": 12,
+          "obligatori": false,
+          "ajuda": "Opcional. Si és un nombre (p. ex. 30.931), es mostra comptant quan apareix"
+        },
+        "text": {
+          "tipus": "enriquit",
+          "etiqueta": "Frase",
+          "max": 160,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "font": {
+          "tipus": "text",
+          "etiqueta": "Font",
+          "max": 80,
+          "ajuda": "Opcional: d'on surt la dada"
+        },
+        "costat": {
+          "tipus": "seleccio",
+          "etiqueta": "Costat",
+          "opcions": [
+            "esquerra",
+            "dreta"
+          ],
+          "obligatori": true,
+          "ajuda": "A quin costat de la pàgina va la nota (el fil hi passa pel costat)"
+        },
+        "to": {
+          "tipus": "seleccio",
+          "etiqueta": "Àmbit",
+          "opcions": [
+            "rgpd",
+            "ia"
+          ],
+          "ajuda": "Color de la xifra: rgpd, coure (per defecte) · ia, blau"
         }
       }
     },
@@ -258,7 +302,7 @@
       }
     },
     "serveis": {
-      "nom": "Serveis (pilars, transversal i enllaços)",
+      "nom": "Serveis (els dos àmbits i el que tenen en comú)",
       "camps": {
         "ancora": {
           "tipus": "text",
@@ -283,41 +327,17 @@
         "entradeta": {
           "tipus": "enriquit",
           "etiqueta": "Entradeta",
-          "max": 160,
+          "max": 120,
           "obligatori": true,
           "ajuda": "*cursiva*, **negreta**, salt de línia"
         },
         "pilars": {
           "tipus": "llista",
-          "etiqueta": "Pilars",
-          "min": 1,
-          "max": 3,
+          "etiqueta": "Àmbits",
+          "min": 2,
+          "max": 2,
+          "ajuda": "El primer va a l'esquerra (coure) i el segon a la dreta (blau)",
           "element": {
-            "variant": {
-              "tipus": "seleccio",
-              "etiqueta": "Color del pilar",
-              "opcions": [
-                "estàndard",
-                "blau"
-              ],
-              "obligatori": true,
-              "ajuda": "blau: pilar destacat"
-            },
-            "retard": {
-              "tipus": "text",
-              "etiqueta": "Retard (no editable)",
-              "max": 10,
-              "obligatori": true,
-              "bloquejat": true,
-              "ajuda": "No es pot editar des del panell"
-            },
-            "num": {
-              "tipus": "text",
-              "etiqueta": "Número",
-              "max": 20,
-              "obligatori": true,
-              "ajuda": "Pilar 01, Pilar 02…"
-            },
             "insigniaVariant": {
               "tipus": "seleccio",
               "etiqueta": "Color de la insignia",
@@ -343,80 +363,74 @@
             "titol": {
               "tipus": "enriquit",
               "etiqueta": "Títol",
-              "max": 70,
+              "max": 50,
               "obligatori": true,
               "ajuda": "*cursiva*, **negreta**, salt de línia"
             },
-            "descripcio": {
+            "promesa": {
               "tipus": "enriquit",
-              "etiqueta": "Descripció",
-              "max": 250,
+              "etiqueta": "Promesa",
+              "max": 120,
               "obligatori": true,
-              "ajuda": "*cursiva*, **negreta**, salt de línia"
+              "ajuda": "Una frase: què aconsegueixes"
             },
-            "llista": {
+            "resultats": {
               "tipus": "llista",
-              "etiqueta": "Llista de serveis",
+              "etiqueta": "Resultats",
               "min": 1,
-              "max": 10,
+              "max": 3,
               "element": {
-                "tipus": "enriquit",
-                "etiqueta": "Servei",
+                "tipus": "text",
+                "etiqueta": "Resultat",
                 "max": 60,
-                "obligatori": true,
-                "ajuda": "*cursiva*, **negreta**, salt de línia"
+                "obligatori": true
               }
             },
-            "peu": {
-              "tipus": "enriquit",
-              "etiqueta": "Nota del peu",
-              "max": 350,
-              "obligatori": true,
-              "ajuda": "**Per a qui:** … o **Nota:** …"
+            "enllacos": {
+              "tipus": "llista",
+              "etiqueta": "Serveis",
+              "min": 1,
+              "max": 6,
+              "ajuda": "Cada servei obre una finestra amb l'entradeta de la seva pàgina i un enllaç per veure'n més",
+              "element": {
+                "text": {
+                  "tipus": "text",
+                  "etiqueta": "Nom del servei",
+                  "max": 50,
+                  "obligatori": true
+                },
+                "href": {
+                  "tipus": "enllac",
+                  "etiqueta": "Pàgina del servei",
+                  "obligatori": true
+                }
+              }
             }
           }
         },
-        "transversalEtiqueta": {
-          "tipus": "text",
-          "etiqueta": "Etiqueta del servei transversal",
-          "max": 30,
-          "obligatori": true
-        },
-        "transversalTitol": {
-          "tipus": "text",
-          "etiqueta": "Títol del servei transversal",
-          "max": 30,
-          "obligatori": true
-        },
-        "transversalText": {
-          "tipus": "enriquit",
-          "etiqueta": "Descripció del servei transversal",
-          "max": 210,
+        "junts": {
+          "tipus": "grup",
+          "etiqueta": "Al mig: el que guanyes amb tots dos",
           "obligatori": true,
-          "ajuda": "*cursiva*, **negreta**, salt de línia"
-        },
-        "enllacosTitol": {
-          "tipus": "text",
-          "etiqueta": "Títol dels enllaços",
-          "max": 20,
-          "obligatori": true
-        },
-        "enllacos": {
-          "tipus": "llista",
-          "etiqueta": "Enllaços en detall",
-          "min": 1,
-          "max": 8,
-          "element": {
-            "text": {
-              "tipus": "text",
-              "etiqueta": "Text de l’enllaç",
-              "max": 50,
-              "obligatori": true
+          "camps": {
+            "titol": {
+              "tipus": "enriquit",
+              "etiqueta": "Títol",
+              "max": 40,
+              "obligatori": true,
+              "ajuda": "*cursiva*, **negreta**, salt de línia"
             },
-            "href": {
-              "tipus": "enllac",
-              "etiqueta": "Enllaç",
-              "obligatori": true
+            "items": {
+              "tipus": "llista",
+              "etiqueta": "Punts",
+              "min": 1,
+              "max": 3,
+              "element": {
+                "tipus": "text",
+                "etiqueta": "Punt",
+                "max": 50,
+                "obligatori": true
+              }
             }
           }
         }
@@ -502,6 +516,18 @@
           "max": 400,
           "obligatori": true,
           "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "avantatges": {
+          "tipus": "llista",
+          "etiqueta": "Avantatges",
+          "max": 3,
+          "element": {
+            "tipus": "text",
+            "etiqueta": "Avantatge",
+            "max": 40,
+            "obligatori": true
+          },
+          "ajuda": "Opcional: punts curts que surten sota el titular (només al formulari d'adequació)"
         }
       }
     },
@@ -681,6 +707,7 @@
     ],
     "afegibles": [
       "spot",
+      "nota",
       "context",
       "separador",
       "imatge",

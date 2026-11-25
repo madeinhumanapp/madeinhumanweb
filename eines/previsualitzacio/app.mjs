@@ -12,11 +12,13 @@ import { validarPagina } from './esquema/blocs.mjs';
 import { validarServeis } from './esquema/serveis.mjs';
 
 const ORIGENS = ['https://rgpd.madeinhuman.cat', 'http://localhost:3000'];
-const [lloc, formularis, faq, media] = await Promise.all([
+const [lloc, formularis, faq, media, dadesServeis] = await Promise.all([
   fetch('lloc.json').then(r => r.json()),
   fetch('formularis.json').then(r => r.json()),
   fetch('faq.json').then(r => r.json()),
   fetch('media.json').then(r => (r.ok ? r.json() : [])),
+  // entradetes dels serveis per a les finestres de la portada (si no hi és, les finestres només porten l'enllaç)
+  fetch('serveis.json').then(r => (r.ok ? r.json() : null)).catch(() => null),
 ]);
 const marc = document.getElementById('marc');
 const caixaErrors = document.getElementById('errors');
@@ -40,7 +42,7 @@ window.addEventListener('message', e => {
     errors = validarPagina(p);
     // «media» (les entrades de media.json de l'esborrany) i «imatges» ({ id: 'data:…' }) venen del panell
     const entrades = Array.isArray(m) ? m : media;
-    crea = () => (p.plantilla === 'xarxes' ? paginaXarxes(lloc, p) : pagina(lloc, p, formularis, faq, [], entrades, imatges || {}));
+    crea = () => (p.plantilla === 'xarxes' ? paginaXarxes(lloc, p) : pagina(lloc, p, formularis, faq, [], entrades, imatges || {}, dadesServeis));
   }
   caixaErrors.style.display = errors.length ? 'block' : 'none';
   caixaErrors.textContent = errors.length ? `No es pot mostrar: ${errors.join(' · ')}` : '';

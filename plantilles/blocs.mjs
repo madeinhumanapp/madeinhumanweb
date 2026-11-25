@@ -101,12 +101,24 @@ export const BLOCS = {
 
   spot: d => `
 <section class="spot${d.alternat ? ' spot-alt' : ''}">
-  <div class="container spot-inner">
-    <span class="spot-num reveal">${esc(d.num)}</span>
+  <div class="container spot-inner">${d.num ? `
+    <span class="spot-num reveal">${esc(d.num)}</span>` : ''}
     <h2 class="spot-title reveal" style="transition-delay:.1s">${enriquit(d.titol)}</h2>
     <p class="spot-text reveal" style="transition-delay:.2s">${enriquit(d.text)}</p>
   </div>
 </section>`,
+
+  // Nota breu al llarg del fil: una xifra o una data i una frase (el fil hi passa pel costat i hi deixa un punt)
+  nota: d => `
+<aside class="block nota nota-${d.costat === 'dreta' ? 'dreta' : 'esquerra'}${d.to === 'ia' ? ' nota-ia' : ''}" data-fil="nota">
+  <div class="container nota-inner reveal">${d.clau ? `
+    <div class="nota-clau">${esc(d.clau)}</div>` : ''}
+    <div class="nota-cos">
+      <p class="nota-text">${enriquit(d.text)}</p>${d.font ? `
+      <div class="nota-font">${esc(d.font)}</div>` : ''}
+    </div>
+  </div>
+</aside>`,
 
   context: d => `
 <section class="block statement">
@@ -154,47 +166,56 @@ export const BLOCS = {
 </section>`;
   },
 
-  serveis: (d, ctx) => `
+  // Serveis: els dos àmbits es fonen com un Venn en fer scroll (portada.js posa --fusio de 0 a 1; sense JavaScript
+  // es veuen fusionats). Cada servei és un enllaç a la seva pàgina que, amb JavaScript, obre una finestra amb
+  // l'entradeta de la pàgina (ctx.serveis: contingut/serveis.json) i un enllaç per veure'n més.
+  serveis: (d, ctx) => {
+    // id estable de la finestra: el nom de la pàgina del servei (/serveis/dpo-extern/ → detall-dpo-extern)
+    const fitxa = (e, i) => {
+      const slug = /^\/serveis\/([a-z0-9-]+)\/$/.exec(e.href)?.[1] || `servei-${i + 1}`;
+      const slugs = ctx.serveis?.SLUG?.ca || {};
+      const clau = Object.keys(slugs).find(k => slugs[k] === slug);
+      return { clau: slug, lede: (clau && ctx.serveis?.PAGINES?.[clau]?.ca?.lede) || '' };
+    };
+    const ambits = d.pilars.map((p, i) => ({ p, costat: i === 0 ? 'rgpd' : 'ia', serveis: p.enllacos.map((e, j) => ({ ...e, ...fitxa(e, i * 10 + j) })) }));
+    return `
 <section class="block services"${attr('id', d.ancora)}>
   <div class="container">
-    <div class="services-head-row reveal">
-      <div class="section-head">
-        <span class="eyebrow">${esc(d.etiqueta)}</span>
-        <h2 class="section-title">${enriquit(d.titol)}</h2>
-        <p class="section-lead">${enriquit(d.entradeta)}</p>
-      </div>
-    </div>
-    <div class="pillar-grid">${d.pilars.map(p => `
-      <article class="pillar${p.variant === 'blau' ? ' pillar-blue' : ''} reveal-scale"${attr('style', `transition-delay:${p.retard}`)}>
-        <div class="pillar-inner">
-          <div class="pillar-head">
-            <span class="pillar-num">${esc(p.num)}</span>
-            <span class="badge badge-${p.insigniaVariant}"><span class="dot"></span>${esc(p.insignia)}</span>
-          </div>
-          <div class="pillar-eyebrow">${esc(p.subtitol)}</div>
-          <h3>${enriquit(p.titol)}</h3>
-          <p class="pillar-lede">${enriquit(p.descripcio)}</p>
-          <ul class="svc-list">
-${p.llista.map(i => `            <li>${enriquit(i)}</li>`).join('\n')}
+    ${capSeccio(d)}
+    <div class="fusio" data-fil="serveis-escena">${ambits.map(({ p, costat, serveis }) => `
+      <article class="fusio-ambit fusio-${costat}">
+        <div class="fusio-cos">
+          <span class="badge badge-${p.insigniaVariant}"><span class="dot"></span>${esc(p.insignia)}</span>
+          <div class="fusio-subtitol">${esc(p.subtitol)}</div>
+          <h3 class="fusio-titol">${enriquit(p.titol)}</h3>
+          <p class="fusio-promesa">${enriquit(p.promesa)}</p>
+          <ul class="fusio-resultats">
+${p.resultats.map(r => `            <li>${esc(r)}</li>`).join('\n')}
           </ul>
-          <div class="pillar-foot">${enriquit(p.peu)}</div>
+          <div class="detall-items">
+${serveis.map(e => `            <a class="detall-item detall-${costat}" href="${esc(enllac(e.href, ctx))}" data-detall="${esc(e.clau)}" aria-haspopup="dialog"><span>${esc(e.text)}</span></a>`).join('\n')}
+          </div>
         </div>
-      </article>`).join('\n')}
-    </div>
-    <div class="crossover reveal">
-      <div>
-        <div class="crossover-label">${esc(d.transversalEtiqueta)}</div>
-        <div class="crossover-title">${esc(d.transversalTitol)}</div>
+      </article>`).join('')}
+      <div class="fusio-junts">
+        <h3 class="fusio-junts-titol">${enriquit(d.junts.titol)}</h3>
+        <ul>
+${d.junts.items.map(i => `          <li>${esc(i)}</li>`).join('\n')}
+        </ul>
       </div>
-      <p class="crossover-body">${enriquit(d.transversalText)}</p>
-      <a href="#contacte" class="crossover-arrow" aria-label="Parlem-ne">&rarr;</a>
-    </div>
-    <nav class="serveis-detall" aria-label="Serveis en detall">
-      <span class="serveis-detall-titol">${esc(d.enllacosTitol)}</span>
-${d.enllacos.map(e => `      <a href="${esc(enllac(e.href, ctx))}">${esc(e.text)}</a>`).join('\n')}
-    </nav>
+    </div>${ambits.flatMap(({ p, costat, serveis }) => serveis.map(e => `
+    <dialog class="detall-dialeg detall-dialeg-${costat}" id="detall-${esc(e.clau)}" aria-labelledby="detall-${esc(e.clau)}-titol">
+      <div class="detall-dialeg-cos">
+        <button type="button" class="detall-tanca" aria-label="Tanca"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button>
+        <span class="detall-dialeg-ambit">${esc(p.subtitol)}</span>
+        <h3 class="detall-dialeg-titol" id="detall-${esc(e.clau)}-titol">${esc(e.text)}</h3>${e.lede ? `
+        <p class="detall-dialeg-text">${enriquit(e.lede)}</p>` : ''}
+        <a class="detall-dialeg-mes" href="${esc(enllac(e.href, ctx))}">Vols més detalls? <span>Els trobaràs aquí</span> <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      </div>
+    </dialog>`)).join('')}
   </div>
-</section>`,
+</section>`;
+  },
 
   // FAQ: les preguntes són a contingut/faq.json (una sola font per a la llista visible i el JSON-LD).
   // Es pinten amb script.js a partir de les dades incrustades a #dades-faq.
@@ -237,7 +258,9 @@ ${d.pestanyes.map((t, i) => `        <button class="tab${i === 0 ? ' active' : '
   formulari: (d, ctx) =>
     ctx.formularis[d.formulari]
       .replace('{{titol}}', enriquit(d.titol))
-      .replace('{{entradeta}}', enriquit(d.entradeta)),
+      .replace('{{entradeta}}', enriquit(d.entradeta))
+      .replace('{{avantatges}}', d.avantatges?.length
+        ? `<ul class="adequacio-avantatges reveal">${d.avantatges.map(a => `<li>${esc(a)}</li>`).join('')}</ul>` : ''),
 };
 
 export function renderBloc(bloc, ctx) {

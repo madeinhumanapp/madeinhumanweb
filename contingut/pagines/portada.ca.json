@@ -218,7 +218,7 @@
       "tipus": "hero",
       "subtitol": "Consultoria en protecció de dades i IA",
       "titol": "Protegir\nés *avançar.*",
-      "text": "Ajudem pimes a complir amb la normativa de protecció de dades i a implantar la IA amb garanties.",
+      "text": "Protecció de dades i IA per a pimes, explicades en clar i fetes a la teva mida.",
       "botons": [
         {
           "text": "Sol·licitar adequació",
@@ -239,171 +239,144 @@
       ]
     },
     {
-      "tipus": "separador"
-    },
-    {
-      "tipus": "context",
-      "etiqueta": "El context",
-      "titol": "Afecta totes\nles empreses.",
-      "paragrafs": [
-        "El RGPD és una **obligació vigent** des de 2018. Qualsevol empresa que tracti dades personals — clients, treballadors, proveïdors — l'ha de complir. L'Agència Espanyola de Protecció de Dades (AEPD) i l'Autoritat Catalana de Protecció de Dades (APDCat) supervisen el seu compliment a Espanya i Catalunya.",
-        "El Reglament europeu d'IA s'aplica progressivament entre 2025 i 2028. Per a les pimes que ja utilitzen eines d'IA, preparar-se amb temps és una **decisió estratègica**."
-      ],
-      "xifres": [
-        {
-          "clau": "RGPD",
-          "etiqueta": "Protecció de dades",
-          "text": "Obligació vigent des de 2018. El 2025, l'AEPD va rebre 30.931 reclamacions, la xifra més alta de la seva història."
-        },
-        {
-          "clau": "AI Act",
-          "etiqueta": "Reglament europeu d'IA",
-          "text": "Les regles de transparència s'apliquen des de l'agost de 2026. Els sistemes d'alt risc, des del desembre de 2027 (o l'agost de 2028 si van integrats en productes regulats)."
-        },
-        {
-          "clau": "30.931",
-          "etiqueta": "Reclamacions a l'AEPD el 2025 (+64%)",
-          "text": "La videovigilància va ser l'àrea amb més procediments sancionadors. La mida de l'empresa no exclou l'obligació.",
-          "font": "Font: AEPD, Memòria anual 2025"
-        }
-      ]
+      "tipus": "nota",
+      "clau": "2018",
+      "text": "Des d'aleshores, el RGPD obliga **qualsevol empresa** que tracti dades personals: clients, equip, proveïdors.",
+      "costat": "dreta"
     },
     {
       "tipus": "spot",
       "alternat": false,
-      "num": "01",
       "titol": "Des del disseny\ni *per defecte.*",
-      "text": "Ho fem amb un enfocament pràctic, útil i adaptat a un marc normatiu en constant evolució, sense que la burocràcia es converteixi en un obstacle."
+      "text": "Pràctic i sense paperassa: la privacitat entra a la teva manera de treballar."
     },
     {
       "tipus": "spot",
       "alternat": true,
-      "num": "02",
       "titol": "Només allò\nque *necessites.*",
-      "text": "Analitzem l'activitat de la teva empresa i establim un pla d'actuació centrat en les teves necessitats. Ni més ni menys."
+      "text": "Mirem com treballes i fem un pla a la teva mida. Ni més ni menys."
+    },
+    {
+      "tipus": "nota",
+      "clau": "30.931",
+      "text": "reclamacions a l'AEPD el 2025, un 64 % més que l'any anterior. La mida de l'empresa no eximeix de complir.",
+      "font": "Font: AEPD, Memòria anual 2025",
+      "costat": "dreta"
     },
     {
       "tipus": "spot",
       "alternat": false,
-      "num": "03",
       "titol": "Complir i\n*demostrar-ho.*",
-      "text": "La teva adequació és molt més que un tràmit: és confiança davant dels clients i les administracions. Rebràs documentació tècnica i jurídica, però també resums executius per demostrar que «ho estàs fent bé»."
+      "text": "Documentació tècnica i jurídica, i un resum clar per ensenyar a clients i inspeccions."
     },
     {
       "tipus": "spot",
       "alternat": true,
-      "num": "04",
       "titol": "Si no ho entens,\n*no estàs complint.*",
-      "text": "T'expliquem tot el que t'entreguem, ho acompanyem de guies i restem a la teva disposició. Formació per a directius i equips sota demanda."
+      "text": "T'expliquem tot el que t'entreguem, ho acompanyem de guies i restem a la teva disposició. Formació per a directius i equips sota demanda.",
+      "amagat": true
     },
     {
       "tipus": "serveis",
       "ancora": "serveis",
       "etiqueta": "Serveis",
       "titol": "Dos àmbits, *un sol equip.*",
-      "entradeta": "La protecció de dades i la regulació de la IA estan estretament relacionades. Treballem els dos àmbits de forma coordinada.",
+      "entradeta": "Dades i IA van juntes: les treballem alhora.",
       "pilars": [
         {
-          "variant": "estàndard",
-          "retard": ".1s",
-          "num": "Pilar 01",
           "insigniaVariant": "vigent",
           "insignia": "Vigent",
           "subtitol": "Protecció de dades · RGPD",
-          "titol": "Adequació al RGPD. *Pas a pas, sense complicacions.*",
-          "descripcio": "El RGPD és obligatori per a tota empresa que tracti dades personals. T'ajudem a complir-lo d'una forma pràctica i proporcionada a la teva mida.",
-          "llista": [
-            "Adequació RGPD completa",
-            "Auditories de privacitat",
-            "Registre d'activitats de tractament (RAT)",
-            "Delegat de protecció de dades (DPO) extern",
-            "Clàusules i avisos legals",
-            "Acompanyament en inspeccions AEPD",
-            "Formació als equips"
+          "titol": "Adequació al *RGPD.*",
+          "promesa": "Compleixes la llei sense aturar el negoci.",
+          "resultats": [
+            "Saps quines dades tens i per què",
+            "Documents i textos legals al dia",
+            "Preparat per a una inspecció"
           ],
-          "peu": "**Per a qui:** empreses i autònoms que tracten dades de clients, treballadors, proveïdors o visitants web. Pràcticament tothom."
+          "enllacos": [
+            {
+              "text": "Adequació al RGPD",
+              "href": "/serveis/adequacio-rgpd-girona/"
+            },
+            {
+              "text": "DPO extern",
+              "href": "/serveis/dpo-extern/"
+            },
+            {
+              "text": "Auditoria de protecció de dades",
+              "href": "/serveis/auditoria-proteccio-dades/"
+            },
+            {
+              "text": "Textos legals i formularis web",
+              "href": "/serveis/textos-legals-web/"
+            }
+          ]
         },
         {
-          "variant": "blau",
-          "retard": ".25s",
-          "num": "Pilar 02",
           "insigniaVariant": "prep",
           "insignia": "Preparació 2025–2028",
           "subtitol": "Reglament d'intel·ligència artificial",
-          "titol": "Preparació per al *Reglament d'IA.*",
-          "descripcio": "El Reglament d'IA s'aplica progressivament fins al 2028. Si la teva empresa ja utilitza eines d'IA — chatbots, CRM intel·ligent, automatitzacions — convé començar a preparar-se amb temps.",
-          "llista": [
-            "Avaluació de sistemes d'IA existents",
-            "Classificació de risc segons el Reglament",
-            "Anàlisi d'impacte sobre dades personals",
-            "Govern de models i agents d'IA",
-            "Preparació per a la supervisió regulatòria"
+          "titol": "IA *amb garanties.*",
+          "promesa": "Fas servir la IA amb confiança i sense sorpreses.",
+          "resultats": [
+            "Cada eina d'IA, inventariada i classificada",
+            "Normes clares per a l'equip",
+            "A punt per a cada termini del Reglament"
           ],
-          "peu": "**Nota:** el Reglament ja s'aplica en part: les pràctiques prohibides i la formació de l'equip des de febrer de 2025, i la transparència des d'agost de 2026. L'alt risc arriba el desembre de 2027 (agost de 2028 per a productes regulats). La preparació demana mesos."
+          "enllacos": [
+            {
+              "text": "Reglament d'IA i ús de la IA",
+              "href": "/serveis/reglament-ia-empreses/"
+            }
+          ]
         }
       ],
-      "transversalEtiqueta": "Servei transversal",
-      "transversalTitol": "Consultoria estratègica",
-      "transversalText": "Acompanyament executiu per integrar la privacitat i la IA dins l'estratègia de l'empresa. Privacy by Design, estratègia d'adopció d'IA, formació directiva.",
-      "enllacosTitol": "En detall",
-      "enllacos": [
-        {
-          "text": "Adequació al RGPD",
-          "href": "/serveis/adequacio-rgpd-girona/"
-        },
-        {
-          "text": "DPO extern",
-          "href": "/serveis/dpo-extern/"
-        },
-        {
-          "text": "Auditoria de protecció de dades",
-          "href": "/serveis/auditoria-proteccio-dades/"
-        },
-        {
-          "text": "Reglament d'IA i ús de la IA",
-          "href": "/serveis/reglament-ia-empreses/"
-        },
-        {
-          "text": "Textos legals i formularis web",
-          "href": "/serveis/textos-legals-web/"
-        }
-      ]
+      "junts": {
+        "titol": "Junts, *un sol pla.*",
+        "items": [
+          "IA que respecta les dades personals",
+          "Una sola anàlisi de riscos",
+          "Formació conjunta de l'equip"
+        ]
+      }
     },
     {
-      "tipus": "separador"
+      "tipus": "nota",
+      "clau": "2026",
+      "text": "L'AI Act ja exigeix transparència a qui fa servir IA. L'alt risc arriba el desembre de 2027.",
+      "costat": "esquerra",
+      "to": "ia"
     },
     {
       "tipus": "spot",
       "alternat": false,
-      "num": "05",
       "titol": "Acostumats\nal *canvi.*",
-      "text": "Projecte jove, professionals amb recorregut. Hem vist l'evolució del marc legal i estem preparats pel canvi que suposa la intel·ligència artificial."
-    },
-    {
-      "tipus": "separador"
+      "text": "Projecte jove, professionals amb recorregut. Hem vist l'evolució del marc legal i estem preparats pel canvi que suposa la intel·ligència artificial.",
+      "amagat": true
     },
     {
       "tipus": "metode",
       "ancora": "metode",
       "etiqueta": "Mètode",
       "titol": "Com *treballem.*",
-      "entradeta": "Un procés estructurat en quatre fases, pensat per ser clar, mesurable i sostenible al llarg del temps.",
+      "entradeta": "Quatre passos clars, de la foto inicial al manteniment.",
       "passos": [
         {
           "titol": "Diagnosi",
-          "text": "Analitzem la teva situació: quines dades tractes, quins sistemes d'IA uses i quins riscos existeixen. Una fotografia real del punt de partida."
+          "text": "Analitzem quines dades tractes, quines eines d'IA fas servir i on són els riscos."
         },
         {
           "titol": "Pla d'acció",
-          "text": "Full de ruta prioritzat per risc i impacte. Cada lliurable és accionable, amb dates i responsables definits."
+          "text": "Prioritzat per risc i impacte, amb dates i responsables."
         },
         {
           "titol": "Implementació",
-          "text": "Acompanyament pràctic amb els teus equips tècnics i jurídics. Treballem de forma iterativa fins que tot quedi en ordre."
+          "text": "Ho fem amb el teu equip i t'expliquem tot el que t'entreguem."
         },
         {
           "titol": "Govern continu",
-          "text": "La conformitat no és un projecte, és un estat. Manteniment anual, actualitzacions regulatòries i revisions periòdiques."
+          "text": "Revisions periòdiques i actualitzacions quan canvia la normativa."
         }
       ]
     },
@@ -414,7 +387,7 @@
       "tipus": "formulari",
       "formulari": "contacte",
       "titol": "Parla amb *nosaltres.*",
-      "entradeta": "Si tens un dubte, escriu-nos. Per a una proposta personalitzada, utilitza el formulari d'adequació que trobaràs a continuació."
+      "entradeta": "Tens un dubte? Escriu-nos i et responem en menys de 24 hores laborables."
     },
     {
       "tipus": "separador"
@@ -423,7 +396,12 @@
       "tipus": "formulari",
       "formulari": "adequacio",
       "titol": "Sol·licitud d'adequació *al RGPD.*",
-      "entradeta": "Omple el formulari per rebre una proposta personalitzada. La informació que facilitis ens permet dimensionar correctament el servei i calcular els honoraris."
+      "entradeta": "Explica'ns com és la teva empresa i et preparem una proposta a mida.",
+      "avantatges": [
+        "Proposta personalitzada",
+        "Sense compromís",
+        "Dades només per preparar-la"
+      ]
     },
     {
       "tipus": "separador"

@@ -90,6 +90,8 @@ for (const n of totes) {
 }
 const noticies = errors.length ? [] : publicades(totes, AVUI);
 const targetes = noticies.map(targeta);
+// Pàgines de servei (contingut/serveis.json): a la portada, les finestres dels serveis en mostren l'entradeta
+const dadesServeis = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/serveis.json'), 'utf8'));
 
 let generades = 0;
 const paginesBlocs = [];
@@ -102,7 +104,7 @@ for (const f of fs.readdirSync(path.join(ARREL, 'contingut/pagines'))) {
   // Pàgines legals: marc propi i cos en Markdown (contingut/legal/*.md)
   const html = p.plantilla === 'legal' ? paginaLegal(lloc, p, fs.readFileSync(path.join(ARREL, 'contingut', p.cos), 'utf8'))
     : p.plantilla === 'xarxes' ? paginaXarxes(lloc, p)
-    : pagina(lloc, p, formularis, faq, targetes, media);
+    : pagina(lloc, p, formularis, faq, targetes, media, {}, dadesServeis);
   fs.writeFileSync(path.join(SORTIDA, p.fitxer), html);
   generades++;
 }
@@ -148,6 +150,7 @@ fs.writeFileSync(path.join(PREV, 'formularis.json'), JSON.stringify(formularis))
 fs.writeFileSync(path.join(PREV, 'lloc.json'), JSON.stringify(lloc));
 fs.writeFileSync(path.join(PREV, 'faq.json'), JSON.stringify(faq));
 fs.writeFileSync(path.join(PREV, 'media.json'), JSON.stringify(media));
+fs.writeFileSync(path.join(PREV, 'serveis.json'), JSON.stringify(dadesServeis));
 // L'esquema són dades: el panell en genera els formularis sense dependre del codi de la web
 fs.writeFileSync(path.join(PREV, 'esquema.json'), JSON.stringify(ESQUEMA, null, 2));
 // Esquemes dels continguts que no són blocs de pàgina (els formularis del panell en surten igual)

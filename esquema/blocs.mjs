@@ -12,7 +12,7 @@ export const PATRO_ID_MEDIA = /^\d{4}-\d{2}-[a-z0-9]+(-[a-z0-9]+)*-[0-9a-f]{8}$/
 // Blocs de la portada que el panell no deixa amagar ni treure: la capçalera, els formularis (connectors amb
 // rgpd-tool) i els que són destinació d'enllaços del menú. Els afegibles són els que el panell pot crear.
 export const BLOCS_PROTEGITS = ['hero', 'formulari', 'serveis', 'metode', 'faq', 'actualitat'];
-export const BLOCS_AFEGIBLES = ['spot', 'context', 'separador', 'imatge', 'galeria', 'video'];
+export const BLOCS_AFEGIBLES = ['spot', 'nota', 'context', 'separador', 'imatge', 'galeria', 'video'];
 
 export const ESQUEMA = {
   hero: {
@@ -36,10 +36,22 @@ export const ESQUEMA = {
   spot: {
     nom: 'Frase destacada',
     camps: {
-      num: text('Número', 3, { ajuda: '01, 02…' }),
+      num: text('Número', 3, { obligatori: false, ajuda: 'Opcional: 01, 02… (buit: sense número)' }),
       titol: enriquit('Titular', 80),
       text: enriquit('Text', 300),
       alternat: { tipus: 'bool', etiqueta: 'Fons alternat' },
+    },
+  },
+  // Nota breu al llarg del fil conductor: una xifra o una data i una frase que reforça per què cal actuar
+  nota: {
+    nom: 'Nota (xifra i frase)',
+    camps: {
+      clau: text('Xifra o data', 12, { obligatori: false, ajuda: 'Opcional. Si és un nombre (p. ex. 30.931), es mostra comptant quan apareix' }),
+      text: enriquit('Frase', 160),
+      font: { tipus: 'text', etiqueta: 'Font', max: 80, ajuda: "Opcional: d'on surt la dada" },
+      costat: { tipus: 'seleccio', etiqueta: 'Costat', opcions: ['esquerra', 'dreta'], obligatori: true,
+        ajuda: 'A quin costat de la pàgina va la nota (el fil hi passa pel costat)' },
+      to: { tipus: 'seleccio', etiqueta: 'Àmbit', opcions: ['rgpd', 'ia'], ajuda: 'Color de la xifra: rgpd, coure (per defecte) · ia, blau' },
     },
   },
   context: {
@@ -83,39 +95,43 @@ export const ESQUEMA = {
     },
     comprova: b => (b.origen !== 'actualitat' && !b.noticies?.length ? ['noticies: com a mínim 1 (o origen «actualitat»)'] : []),
   },
+  // Serveis: els dos àmbits (RGPD i IA) es fonen com un Venn en fer scroll; al mig, el que guanyes amb tots dos.
+  // Els serveis de cada àmbit obren una finestra amb l'entradeta de la seva pàgina (contingut/serveis.json).
   serveis: {
-    nom: 'Serveis (pilars, transversal i enllaços)',
+    nom: 'Serveis (els dos àmbits i el que tenen en comú)',
     camps: {
       ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'No el canviïs: hi apunten enllaços interns de la web' },
       etiqueta: text('Etiqueta', 10),
       titol: enriquit('Titular', 40),
-      entradeta: enriquit('Entradeta', 160),
+      entradeta: enriquit('Entradeta', 120),
       pilars: {
-        tipus: 'llista', etiqueta: 'Pilars', min: 1, max: 3,
+        tipus: 'llista', etiqueta: 'Àmbits', min: 2, max: 2, ajuda: 'El primer va a l\'esquerra (coure) i el segon a la dreta (blau)',
         element: {
-          variant: { tipus: 'seleccio', etiqueta: 'Color del pilar', opcions: ['estàndard', 'blau'], obligatori: true,
-            ajuda: 'blau: pilar destacat' },
-          retard: text('Retard (no editable)', 10, { bloquejat: true, ajuda: 'No es pot editar des del panell' }),
-          num: text('Número', 20, { ajuda: 'Pilar 01, Pilar 02…' }),
           insigniaVariant: { tipus: 'seleccio', etiqueta: 'Color de la insignia', opcions: ['vigent', 'prep'], obligatori: true,
             ajuda: 'vigent: coure · prep: blau' },
           insignia: text('Text de la insignia', 30),
           subtitol: text('Subtítol', 50),
-          titol: enriquit('Títol', 70),
-          descripcio: enriquit('Descripció', 250),
-          llista: { tipus: 'llista', etiqueta: 'Llista de serveis', min: 1, max: 10, element: enriquit('Servei', 60) },
-          peu: enriquit('Nota del peu', 350, { ajuda: '**Per a qui:** … o **Nota:** …' }),
+          titol: enriquit('Títol', 50),
+          promesa: enriquit('Promesa', 120, { ajuda: "Una frase: què aconsegueixes" }),
+          resultats: { tipus: 'llista', etiqueta: 'Resultats', min: 1, max: 3, element: text('Resultat', 60) },
+          enllacos: {
+            tipus: 'llista', etiqueta: 'Serveis', min: 1, max: 6,
+            ajuda: 'Cada servei obre una finestra amb l\'entradeta de la seva pàgina i un enllaç per veure\'n més',
+            element: { text: text('Nom del servei', 50), href: { tipus: 'enllac', etiqueta: 'Pàgina del servei', obligatori: true } },
+          },
         },
       },
-      transversalEtiqueta: text('Etiqueta del servei transversal', 30),
-      transversalTitol: text('Títol del servei transversal', 30),
-      transversalText: enriquit('Descripció del servei transversal', 210),
-      enllacosTitol: text('Títol dels enllaços', 20),
-      enllacos: {
-        tipus: 'llista', etiqueta: 'Enllaços en detall', min: 1, max: 8,
-        element: { text: text('Text de l’enllaç', 50), href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true } },
+      junts: {
+        tipus: 'grup', etiqueta: 'Al mig: el que guanyes amb tots dos', obligatori: true,
+        camps: {
+          titol: enriquit('Títol', 40),
+          items: { tipus: 'llista', etiqueta: 'Punts', min: 1, max: 3, element: text('Punt', 50) },
+        },
       },
     },
+    comprova: b => (b.pilars || []).flatMap((p, i) => (p?.enllacos || [])
+      .filter(e => e?.href && !/^\/serveis\/[a-z0-9-]+\/$/.test(e.href))
+      .map(e => `pilars[${i}].enllacos: «${e.href}» ha de ser una pàgina de servei (/serveis/…/)`)),
   },
   metode: {
     nom: 'Mètode (passos)',
@@ -134,6 +150,8 @@ export const ESQUEMA = {
         ajuda: "Els camps del formulari no es poden editar des d'aquí." },
       titol: enriquit('Titular', 80),
       entradeta: enriquit('Entradeta', 400),
+      avantatges: { tipus: 'llista', etiqueta: 'Avantatges', max: 3, element: text('Avantatge', 40),
+        ajuda: 'Opcional: punts curts que surten sota el titular (només al formulari d\'adequació)' },
     },
   },
   faq: {

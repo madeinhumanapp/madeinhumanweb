@@ -355,8 +355,9 @@ function showResult(formCard, type, msg) {
   const NUM = /^(\d{1,3}(?:\.\d{3})+|\d+)(?:,(\d+))?(.*)$/;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (!('IntersectionObserver' in window)) return;
-  const keys = Array.from(document.querySelectorAll('.metric-key'))
-    .filter(k => NUM.test(k.textContent.trim()));
+  // Xifres del bloc de context i de les notes. Els anys (2018, 2026…) no compten: es queden com són.
+  const keys = Array.from(document.querySelectorAll('.metric-key, .nota-clau'))
+    .filter(k => NUM.test(k.textContent.trim()) && !/^(19|20)\d{2}$/.test(k.textContent.trim()));
   if (!keys.length) return;
 
   function format(n, decimals, grouped) {
@@ -384,12 +385,16 @@ function showResult(formCard, type, msg) {
   }
 
   const originals = new Map();
-  keys.forEach(k => {
-    const text = k.textContent.trim();
-    originals.set(k, text);
-    const [, , decPart = '', suffix] = text.match(NUM);
+  keys.forEach(k => originals.set(k, k.textContent.trim()));
+
+  // Abans de posar-les a zero, es fixa l'amplada final (amb les tipografies ja carregades): així el text no fa
+  // saltar la maqueta mentre compta i el fil conductor (fil.js) en protegeix la caixa sencera
+  const aZero = () => keys.forEach(k => {
+    k.style.minWidth = Math.ceil(k.getBoundingClientRect().width) + 'px';
+    const [, , decPart = '', suffix] = originals.get(k).match(NUM);
     k.textContent = format(0, decPart.length, false) + suffix;
   });
+  const preparat = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
 
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -399,7 +404,7 @@ function showResult(formCard, type, msg) {
       }
     });
   }, { threshold: 0.5 });
-  keys.forEach(k => obs.observe(k));
+  preparat.then(() => { aZero(); keys.forEach(k => obs.observe(k)); });
 })();
 
 // -----------------------------------------------

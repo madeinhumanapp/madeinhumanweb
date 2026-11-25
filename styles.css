@@ -313,32 +313,7 @@ section.block { padding: 120px 0; position: relative; }
 .metric-body p { color: var(--text-dim); font-size: 15px; line-height: 1.5; }
 .metric-body .metric-source { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); letter-spacing: 0.06em; margin-top: 8px; }
 
-/* ===== SERVICES (two pillars) ===== */
-.services-head-row { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-bottom: 64px; flex-wrap: wrap; }
-.services-head-row .section-head { margin-bottom: 0; }
-.pillar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
-@media (max-width: 900px) { .pillar-grid { grid-template-columns: 1fr; } }
-.pillar {
-  position: relative;
-  background: var(--bg-card);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 40px;
-  transition: border-color 240ms, transform 240ms;
-  overflow: hidden;
-}
-.pillar:hover { border-color: var(--border-strong); }
-.pillar::before {
-  content: ""; position: absolute; inset: 0; border-radius: 24px;
-  background: radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--daurat) 8%, transparent), transparent 50%);
-  pointer-events: none;
-}
-.pillar-blue::before { background: radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--blau) 10%, transparent), transparent 55%); }
-.pillar-inner { position: relative; }
-.pillar-head { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
-.pillar-num { font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); letter-spacing: 0.16em; }
+/* ===== Insígnies (serveis) ===== */
 .badge {
   font-family: var(--font-mono);
   font-size: 10.5px;
@@ -351,61 +326,6 @@ section.block { padding: 120px 0; position: relative; }
 .badge-vigent { background: color-mix(in srgb, var(--daurat) 14%, transparent); color: var(--copper-bright); border: 1px solid color-mix(in srgb, var(--daurat) 35%, transparent); }
 .badge-prep { background: color-mix(in srgb, var(--blau) 12%, transparent); color: var(--blau-clar); border: 1px solid color-mix(in srgb, var(--blau) 32%, transparent); }
 .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 8px currentColor; }
-.pillar-eyebrow { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--text-faint); margin-bottom: 8px; }
-.pillar h3 {
-  font-family: var(--font-serif);
-  font-weight: 500;
-  font-size: clamp(28px, 3vw, 38px);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin-bottom: 18px;
-}
-.pillar h3 em { color: var(--copper); font-style: italic; }
-.pillar-blue h3 em { color: var(--blau-clar); }
-.pillar-lede { color: var(--text-dim); font-size: 16px; line-height: 1.6; margin-bottom: 32px; }
-.svc-list { list-style: none; display: flex; flex-direction: column; gap: 2px; margin-bottom: 32px; }
-.svc-list li {
-  display: grid;
-  grid-template-columns: 18px 1fr;
-  gap: 14px;
-  padding: 12px 0;
-  border-top: 1px solid var(--border);
-  font-size: 14.5px;
-  color: var(--text);
-  align-items: center;
-}
-.svc-list li:last-child { border-bottom: 1px solid var(--border); }
-.svc-list li::before {
-  content: "";
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--copper);
-  justify-self: start;
-  margin-left: 6px;
-}
-.pillar-blue .svc-list li::before { background: var(--blue-elec); }
-.pillar-foot { font-size: 14px; color: var(--text-dim); line-height: 1.6; padding: 18px 20px; border-radius: 14px; background: rgba(0,0,0,0.25); border: 1px solid var(--border); }
-.pillar-foot strong { color: var(--text); font-weight: 500; }
-
-.crossover {
-  margin-top: 28px;
-  padding: 32px 40px;
-  background: var(--bg-card);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 28px;
-  align-items: center;
-}
-@media (max-width: 760px) { .crossover { grid-template-columns: 1fr; gap: 18px; padding: 28px; } }
-.crossover-label { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--copper); }
-.crossover-title { font-family: var(--font-serif); font-size: 22px; font-weight: 500; margin-bottom: 6px; letter-spacing: -0.01em; }
-.crossover-body { color: var(--text-dim); font-size: 14.5px; line-height: 1.55; max-width: 64ch; }
-.crossover-body strong { color: var(--text); }
-.crossover-arrow { color: var(--copper); font-size: 22px; }
 
 /* ===== METHOD ===== */
 .method { background: var(--bg-deep); border-top: 1px solid var(--border); }
@@ -820,15 +740,6 @@ footer { background: var(--bg-deep); border-top: 1px solid var(--border); paddin
   .metrics { gap: 24px; }
 }
 
-/* --- Pillar cards: reduce padding --- */
-@media (max-width: 600px) {
-  .pillar { padding: 28px 24px; border-radius: 18px; }
-  .pillar h3 { font-size: 26px; }
-  .pillar-lede { font-size: 15px; }
-  .svc-list li { font-size: 14px; padding: 10px 0; }
-  .crossover { padding: 22px 20px; }
-}
-
 /* --- Steps: tighter padding --- */
 @media (max-width: 560px) {
   .step { padding: 32px 20px 36px; }
@@ -882,14 +793,6 @@ footer { background: var(--bg-deep); border-top: 1px solid var(--border); paddin
   .metric { grid-template-columns: 1fr; gap: 10px; padding-left: 14px; }
   .metric-key { font-size: 28px; min-width: auto; }
   .metric-body p { font-size: 14px; }
-  .pillar { padding: 22px 18px; border-radius: 16px; }
-  .pillar h3 { font-size: 22px; }
-  .pillar-head { flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-  .pillar-lede { font-size: 14px; margin-bottom: 24px; }
-  .pillar-foot { padding: 14px 16px; font-size: 13px; }
-  .crossover { padding: 18px 16px; gap: 14px; border-radius: 14px; }
-  .crossover-title { font-size: 18px; }
-  .crossover-body { font-size: 13px; }
   .step { padding: 24px 16px 28px; }
   .step-num { font-size: 40px; margin-bottom: 14px; }
   .step-title { font-size: 18px; }
@@ -1206,25 +1109,9 @@ body::before {
   color: var(--copper);
 }
 
-/* ===== Pillar glow on hover ===== */
-.pillar::after {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: 24px;
-  opacity: 0;
-  transition: opacity .4s ease;
-  pointer-events: none;
-  box-shadow: 0 0 40px color-mix(in srgb, var(--daurat) 12%, transparent), inset 0 0 40px color-mix(in srgb, var(--daurat) 4%, transparent);
-}
-.pillar:hover::after { opacity: 1; }
-.pillar-blue::after {
-  box-shadow: 0 0 40px color-mix(in srgb, var(--blau) 12%, transparent), inset 0 0 40px color-mix(in srgb, var(--blau) 4%, transparent);
-}
-
 /* ===== SPOTS (full-screen push messages) ===== */
 .spot {
-  min-height: 70vh;
+  min-height: 58vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1498,10 +1385,6 @@ footer address { font-style: normal; color: var(--text-dim); font-size: 14.5px; 
 .nav-links .nav-idioma, .nav-mobile .nav-idioma { font-family: var(--font-mono); font-size: 12px; }
 
 /* Enllaços a les pàgines de servei, sota els pilars */
-.serveis-detall { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 28px; }
-.serveis-detall-titol { font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); margin-right: 6px; }
-.serveis-detall a { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 16px; border: 1px solid var(--border-strong); border-radius: 999px; font-size: 14.5px; color: var(--text-dim); transition: border-color 180ms, color 180ms; }
-.serveis-detall a:hover { border-color: var(--copper); color: var(--text); }
 
 /* Mòbil: l'animació d'entrada lateral no ha d'eixamplar la pàgina, i les taules
    legals amples es desplacen dins el seu contenidor en lloc de tallar-se */
@@ -1531,6 +1414,285 @@ html { overflow-x: clip; }
   padding: 0 var(--pad-x);
 }
 @media (max-width: 767px) { .media-galeria-graella { grid-template-columns: 1fr; } }
+
+/* ===== NOTES al llarg del fil (bloc «nota») =====
+   Una xifra o una data i una frase curta que reforcen per què cal actuar. El fil hi passa pel costat. */
+.nota { padding: 40px 0; position: relative; }
+.nota-inner { display: flex; align-items: center; gap: 24px; }
+.nota-dreta .nota-inner { flex-direction: row-reverse; text-align: right; }
+.nota-clau {
+  flex: none;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--copper);
+  font-variant-numeric: tabular-nums;
+}
+.nota-ia .nota-clau { color: var(--blau-clar); }
+.nota-cos { max-width: 46ch; }
+.nota-text { color: var(--text-dim); font-size: 16.5px; line-height: 1.5; }
+.nota-text strong { color: var(--text); font-weight: 500; }
+.nota-font { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); letter-spacing: 0.06em; margin-top: 8px; }
+@media (max-width: 767px) {
+  .nota { padding: 28px 0; }
+  .nota-inner { gap: 16px; }
+  /* el fil passa pel marge: una mica més d'aire al costat de la nota */
+  .nota-esquerra .nota-inner { padding-left: calc(var(--pad-x) + 8px); }
+  .nota-dreta .nota-inner { padding-right: calc(var(--pad-x) + 8px); }
+  .nota-clau { font-size: 34px; }
+  .nota-text { font-size: 15px; }
+}
+
+/* ===== SERVEIS: els dos àmbits es fonen (Venn) =====
+   portada.js posa --fusio de 0 (separats) a 1 (fusionats) segons el scroll i la classe .fusio-viva. Sense
+   JavaScript, o amb «reduir moviment», es veuen fusionats. Només es mouen transform i opacity: la maqueta no
+   canvia. Escriptori: dues targetes del 56 % que es superposen al mig (12 %); a la zona compartida hi ha una
+   llum barrejada i, a sota, el panell «Junts». Mòbil i tauleta: apilades, amb «Junts» a la juntura. */
+/* més aire a sota: el fil hi surt del Venn i va cap a la nota següent */
+section.block.services { padding-bottom: 160px; }
+@media (max-width: 700px) { section.block.services { padding-bottom: 104px; } }
+.services .section-head { margin-bottom: 56px; }
+.fusio {
+  --fusio: 1;
+  --q: clamp(0, calc((var(--fusio) - 0.55) / 0.45), 1);   /* segona meitat: apareix el que tenen en comú */
+  position: relative;
+  display: grid;
+  grid-template-columns: 44fr 12fr 44fr;
+  align-items: stretch;
+}
+.fusio-ambit {
+  position: relative;
+  grid-row: 1;
+  border-radius: 28px;
+  padding: 44px 44px 104px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--daurat) 10%, transparent), color-mix(in srgb, var(--daurat) 2%, transparent) 65%), var(--bg-card);
+  border: 1px solid color-mix(in srgb, var(--daurat) 26%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.fusio-rgpd { grid-column: 1 / 3; padding-right: calc(12% + 36px); }
+.fusio-ia {
+  grid-column: 2 / 4;
+  padding-left: calc(12% + 36px);
+  background: linear-gradient(200deg, color-mix(in srgb, var(--blau) 12%, transparent), color-mix(in srgb, var(--blau) 3%, transparent) 65%), var(--bg-card);
+  border-color: color-mix(in srgb, var(--blau) 30%, transparent);
+}
+/* llum a la zona compartida (la intersecció del Venn): una lent suau, de coure a blau */
+.fusio::before {
+  content: "";
+  grid-column: 2;
+  grid-row: 1;
+  align-self: stretch;
+  margin: 6% -60% 14%;
+  background:
+    radial-gradient(ellipse 50% 46% at 50% 44%, color-mix(in srgb, var(--crema) 9%, transparent), transparent 70%),
+    radial-gradient(ellipse 36% 50% at 42% 46%, color-mix(in srgb, var(--daurat-clar) 16%, transparent), transparent 72%),
+    radial-gradient(ellipse 36% 50% at 58% 50%, color-mix(in srgb, var(--blau-clar) 16%, transparent), transparent 72%);
+  opacity: var(--q);
+  z-index: 1;
+  pointer-events: none;
+}
+.fusio-cos { position: relative; z-index: 2; }
+.fusio-cos .badge { margin-bottom: 22px; }
+.fusio-subtitol { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--text-faint); margin-bottom: 10px; }
+.fusio-titol { font-family: var(--font-serif); font-weight: 500; font-size: clamp(28px, 3vw, 38px); line-height: 1.1; letter-spacing: -0.015em; }
+.fusio-titol em { font-style: italic; font-weight: 400; color: var(--copper); }
+.fusio-ia .fusio-titol em { color: var(--blau-clar); }
+.fusio-promesa { color: var(--text); font-size: 18px; line-height: 1.5; margin: 16px 0 22px; max-width: 34ch; }
+.fusio-resultats { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.fusio-resultats li { position: relative; padding-left: 22px; color: var(--text-dim); font-size: 15.5px; line-height: 1.45; }
+.fusio-resultats li::before {
+  content: ""; position: absolute; left: 0; top: 0.62em; width: 12px; height: 1px;
+  background: var(--copper);
+}
+.fusio-ia .fusio-resultats li::before { background: var(--blau-clar); }
+.fusio-junts {
+  position: relative;
+  z-index: 3;
+  grid-column: 1 / 4;
+  grid-row: 2;
+  justify-self: center;
+  width: min(640px, 64%);
+  margin-top: -72px;
+  padding: 24px 32px 26px;
+  border-radius: 22px;
+  text-align: center;
+  background: color-mix(in srgb, var(--nit) 88%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid color-mix(in srgb, var(--crema) 14%, transparent);
+  isolation: isolate;
+}
+.fusio-junts-titol { font-family: var(--font-serif); font-weight: 500; font-size: 24px; letter-spacing: -0.01em; }
+.fusio-junts-titol em { font-style: italic; font-weight: 400; color: var(--copper-bright); }
+.fusio-junts ul { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 20px; margin-top: 14px; }
+.fusio-junts li { color: var(--text-dim); font-size: 14.5px; line-height: 1.4; }
+.fusio-junts li::before {
+  content: ""; display: block; width: 5px; height: 5px; margin: 0 auto 8px; border-radius: 50%;
+  background: linear-gradient(90deg, var(--daurat-clar), var(--blau-clar));
+}
+/* animació de fusió (només amb JavaScript i sense «reduir moviment») */
+.fusio-viva .fusio-ambit { opacity: calc(0.72 + 0.28 * var(--fusio)); will-change: transform; }
+.fusio-viva .fusio-rgpd { transform-origin: left center; transform: scale(calc(0.86 + 0.14 * var(--fusio))); }
+.fusio-viva .fusio-ia { transform-origin: right center; transform: scale(calc(0.86 + 0.14 * var(--fusio))); }
+.fusio-viva .fusio-junts { opacity: var(--q); transform: translateY(calc((1 - var(--q)) * 28px)); }
+@media (max-width: 1023px) {
+  .fusio { display: flex; flex-direction: column; }
+  .fusio::before { display: none; }
+  .fusio-ambit { padding: 32px 26px; }
+  .fusio-rgpd { order: 1; padding-right: 26px; padding-bottom: 128px; }
+  .fusio-junts { order: 2; width: calc(100% - 32px); margin: -96px auto -96px; padding: 22px 20px; background: color-mix(in srgb, var(--nit) 95%, transparent); }
+  .fusio-ia { order: 3; padding-left: 26px; padding-top: 128px; }
+  .fusio-junts ul { grid-template-columns: 1fr; gap: 8px; }
+  .fusio-junts li::before { display: inline-block; margin: 0 8px 2px 0; vertical-align: middle; }
+  .fusio-viva .fusio-rgpd { transform: none; }
+  .fusio-viva .fusio-ia { transform: translateY(calc((1 - var(--fusio)) * 120px)); }
+  .fusio-viva .fusio-junts { transform: translateY(calc((1 - var(--fusio)) * 60px)); }
+}
+@media (max-width: 767px) {
+  .fusio-ambit { border-radius: 22px; padding-left: 22px; padding-right: 22px; }
+  .fusio-rgpd { padding-bottom: 124px; }
+  .fusio-ia { padding-top: 124px; }
+  .fusio-promesa { font-size: 16.5px; }
+}
+
+/* ===== Vora de llum (ítems dels serveis, panell «Junts» i targeta d'adequació) =====
+   Un reflex que recorre la vora: conic-gradient amb una màscara que només en deixa veure 1 px. Només gira
+   quan l'element és a la pantalla (portada.js hi posa .llum-activa) i mai amb «reduir moviment». */
+@property --angle-llum { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@keyframes gir-llum { to { --angle-llum: 360deg; } }
+.detall-item, .fusio-junts, .adequacio > .container { --llum-a: var(--daurat-clar); --llum-b: var(--crema); --llum-c: var(--daurat); }
+.detall-ia, .fusio-junts { --llum-a: var(--blau-clar); --llum-c: var(--blau); }
+.detall-item::before, .fusio-junts::before, .adequacio > .container::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--angle-llum, 0deg), transparent 0deg 240deg, var(--llum-c) 290deg, var(--llum-b) 318deg, var(--llum-a) 334deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.detall-item.llum-activa::before, .fusio-junts.llum-activa::before, .adequacio > .container.llum-activa::after { animation: gir-llum 6s linear infinite; }
+.fusio-junts.llum-activa::before { animation-duration: 9s; }
+.adequacio > .container.llum-activa::after { animation-duration: 14s; }
+.detall-item:nth-child(2)::before { animation-delay: -1.6s; }
+.detall-item:nth-child(3)::before { animation-delay: -3.1s; }
+.detall-item:nth-child(4)::before { animation-delay: -4.4s; }
+.detall-item:nth-child(5)::before { animation-delay: -5.2s; }
+
+/* Ítems dels serveis: obren una finestra amb el resum (sense JavaScript, enllaç a la pàgina del servei) */
+.detall-items { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.detall-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  color: var(--text);
+  background: color-mix(in srgb, var(--nit) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--daurat) 24%, transparent);
+  transition: border-color 220ms, box-shadow 300ms, background 220ms;
+}
+.detall-ia { border-color: color-mix(in srgb, var(--blau) 28%, transparent); }
+.detall-item:hover, .detall-item:focus-visible {
+  background: color-mix(in srgb, var(--llum-c) 10%, var(--nit));
+  box-shadow: 0 0 22px color-mix(in srgb, var(--llum-c) 22%, transparent);
+}
+.detall-item:focus-visible { outline: 2px solid var(--llum-a); outline-offset: 3px; }
+
+/* Finestra del resum: semitransparent però llegible; al mòbil, full inferior */
+html.dialeg-obert { overflow: hidden; scrollbar-gutter: stable; }   /* sense salt quan desapareix la barra */
+.detall-dialeg {
+  border: 0;
+  padding: 0;
+  margin: auto;
+  width: min(520px, calc(100vw - 32px));
+  max-width: none;
+  background: transparent;
+  color: var(--text);
+  overflow: visible;
+}
+.detall-dialeg::backdrop { background: color-mix(in srgb, var(--nit-profund) 55%, transparent); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+.detall-dialeg-cos {
+  position: relative;
+  padding: 34px 34px 28px;
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--nit) 82%, transparent);
+  backdrop-filter: blur(18px) saturate(130%);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  border: 1px solid color-mix(in srgb, var(--daurat) 32%, transparent);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+.detall-dialeg-ia .detall-dialeg-cos { border-color: color-mix(in srgb, var(--blau) 34%, transparent); }
+.detall-dialeg[open] .detall-dialeg-cos { animation: aparicio-dialeg 220ms ease-out; }
+@keyframes aparicio-dialeg { from { opacity: 0; transform: translateY(10px) scale(0.98); } }
+.detall-tanca {
+  position: absolute; top: 12px; right: 12px;
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: color 180ms, border-color 180ms;
+}
+.detall-tanca:hover, .detall-tanca:focus-visible { color: var(--text); border-color: var(--border-strong); }
+.detall-dialeg-ambit { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--copper); }
+.detall-dialeg-ia .detall-dialeg-ambit { color: var(--blau-clar); }
+.detall-dialeg-titol { font-family: var(--font-serif); font-weight: 500; font-size: 28px; line-height: 1.15; letter-spacing: -0.01em; margin: 10px 48px 14px 0; }
+.detall-dialeg-text { color: var(--text-dim); font-size: 16px; line-height: 1.6; }
+.detall-dialeg-mes { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 18px; font-size: 15px; color: var(--text-dim); }
+.detall-dialeg-mes span:first-of-type { color: var(--copper-bright); }
+.detall-dialeg-ia .detall-dialeg-mes span:first-of-type { color: var(--blau-clar); }
+.detall-dialeg-mes:hover span:first-of-type { text-decoration: underline; text-underline-offset: 3px; }
+.detall-dialeg-mes .arrow { color: var(--text); transition: transform 180ms; }
+.detall-dialeg-mes:hover .arrow { transform: translateX(3px); }
+@media (max-width: 767px) {
+  .detall-dialeg { margin: auto auto 0; width: 100vw; }
+  .detall-dialeg-cos { border-radius: 24px 24px 0 0; padding: 30px 22px calc(24px + env(safe-area-inset-bottom)); }
+  .detall-dialeg-titol { font-size: 24px; }
+}
+
+/* ===== Sol·licitud d'adequació, destacada: targeta amb vora de llum (lenta) i avantatges ===== */
+.adequacio > .container { position: relative; isolation: isolate; border-radius: 32px; }
+.adequacio > .container::before {
+  content: "";
+  position: absolute;
+  inset: -56px max(4px, calc(var(--pad-x) - 40px));
+  z-index: -1;
+  border-radius: 32px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--daurat) 7%, transparent), color-mix(in srgb, var(--blau) 4%, transparent) 55%, color-mix(in srgb, var(--nit) 40%, transparent));
+  border: 1px solid color-mix(in srgb, var(--daurat) 24%, transparent);
+}
+.adequacio > .container::after { inset: -56px max(4px, calc(var(--pad-x) - 40px)); border-radius: 32px; z-index: -1; }
+.adequacio .section-title { font-size: clamp(36px, 5vw, 62px); }
+.adequacio-avantatges { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.adequacio-avantatges li {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 8px 15px;
+  border-radius: 999px;
+  font-size: 14px;
+  color: var(--text);
+  background: color-mix(in srgb, var(--daurat) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--daurat) 26%, transparent);
+}
+.adequacio-avantatges li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--copper); }
+@media (max-width: 700px) {
+  .adequacio > .container::before, .adequacio > .container::after { inset: -36px 6px; border-radius: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .detall-item.llum-activa::before, .fusio-junts.llum-activa::before, .adequacio > .container.llum-activa::after { animation: none; }
+  .detall-dialeg[open] .detall-dialeg-cos { animation: none; }
+}
 
 /* ===== Fil conductor de la portada (fil.js) =====
    La capa del fil (rajoles de canvas dins de la pàgina, creada per fil.js) va per sobre de tot el contingut
