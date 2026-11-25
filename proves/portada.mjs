@@ -97,20 +97,40 @@ for (const v of VISTES) {
   const final = fases[fases.length - 1].every(x => x === 1);
   ok(`${v.nom}: la nota 2018 fa la transició (l'any primer, després el text) sense tirar enrere`, nota.viva && ordre && creixen && final, JSON.stringify(fases.filter((_, i) => i % 3 === 0)));
 
-  // 0a') Presentació de les premisses: el passat (b1), el punt que s'encén (b2) i el futur (b3), en aquest ordre
-  const intro = await p.evaluate(() => { const n = document.querySelector('.premisses-intro'); let t = 0; for (let e = n; e; e = e.offsetParent) t += e.offsetTop; return { top: t, viva: n.classList.contains('intro-viva') }; });
-  const fasesB = [];
-  for (let y = Math.max(0, intro.top - vh); y <= intro.top; y += 30) {
-    await vesA(p, y);
-    fasesB.push(await p.evaluate(() => { const cs = getComputedStyle(document.querySelector('.premisses-intro')); return ['--b1', '--b2', '--b3'].map(k => parseFloat(cs.getPropertyValue(k)) || 0); }));
-  }
-  const ordreB = fasesB.every(([a, b, c]) => a >= b && b >= c);
-  const creixenB = fasesB.every((f, i) => !i || f.every((x, k) => x >= fasesB[i - 1][k]));
-  const opac = await p.evaluate(() => ['.pres-passat', '.pres-futur'].map(s => parseFloat(getComputedStyle(document.querySelector(s)).opacity)));
-  const punt = await p.evaluate(() => document.querySelector('.premisses-presentacio').textContent.includes('dades. Ara'));
-  ok(`${v.nom}: la presentació passa del passat al futur pel punt, sense tirar enrere (al final, el futur ple i el passat esmorteït)`,
-    intro.viva && ordreB && creixenB && fasesB[fasesB.length - 1].every(x => x === 1) && opac[1] === 1 && opac[0] > 0.5 && opac[0] < 0.8 && punt,
-    JSON.stringify({ fases: fasesB.filter((_, i) => i % 4 === 0), opac, punt }));
+  // 0a') Presentació, per trams: el passat s'escriu d'esquerra a dreta, el punt s'encén i el futur espera que s'hi
+  // arribi; llavors s'escriu i el passat s'esmorteeix. Si es torna amunt fins que surt per baix, es reinicia.
+  const gi = await p.evaluate(() => {
+    const top = el => { let y = 0; for (let e = el; e; e = e.offsetParent) y += e.offsetTop; return y; };
+    const i = document.querySelector('.premisses-intro');
+    return { top: top(i), passat: top(i.querySelector('.pres-passat')), futur: top(i.querySelector('.pres-futur')), viva: i.classList.contains('intro-viva'),
+      marca: [...i.querySelectorAll('.marca-text .paraula')].map(e => getComputedStyle(e).fontStyle).join(),
+      text: i.querySelector('.premisses-presentacio').textContent.replace(/\s+/g, ' ').trim() };
+  });
+  const llegeix = () => p.evaluate(() => {
+    const i = document.querySelector('.premisses-intro'), op = s => [...i.querySelectorAll(s)].map(e => Math.round(+getComputedStyle(e).opacity * 100) / 100);
+    return { fases: ['fase-passat', 'fase-punt', 'fase-futur'].filter(c => i.classList.contains(c)), passat: op('.pres-passat .paraula'), futur: op('.pres-futur .paraula'),
+      opPassat: +getComputedStyle(i.querySelector('.pres-passat')).opacity };
+  });
+  const sotaI = Math.max(0, gi.top - vh - 40);
+  await vesA(p, sotaI); await p.waitForTimeout(150);
+  const i0 = await llegeix();                                    // encara és a sota: res escrit
+  await vesA(p, gi.passat - vh * 0.65); await p.waitForTimeout(450);
+  const i1 = await llegeix();                                    // el passat, a mig escriure
+  await p.waitForTimeout(2600);
+  const i2 = await llegeix();                                    // passat escrit i punt encès; el futur, encara no
+  await vesA(p, gi.futur - vh * 0.5); await p.waitForTimeout(2600);
+  const i3 = await llegeix();                                    // futur escrit i passat esmorteït
+  await vesA(p, sotaI); await p.waitForTimeout(150);
+  const i4 = await llegeix();                                    // ha sortit per baix: es reinicia
+  const tots = (a, x) => a.length > 0 && a.every(o => o === x);
+  ok(`${v.nom}: la presentació s'escriu per trams (passat d'esquerra a dreta, punt, futur quan s'hi arriba) i es reinicia en tornar amunt`,
+    gi.viva && gi.text.includes('dades. Ara') && gi.marca === 'normal,italic'
+    && !i0.fases.length && tots(i0.passat, 0)
+    && i1.fases.join() === 'fase-passat' && i1.passat[0] > i1.passat[i1.passat.length - 1] + 0.3 && tots(i1.futur, 0)
+    && i2.fases.join() === 'fase-passat,fase-punt' && tots(i2.passat, 1) && tots(i2.futur, 0)
+    && i3.fases.length === 3 && tots(i3.futur, 1) && i3.opPassat > 0.5 && i3.opPassat < 0.8
+    && !i4.fases.length,
+    JSON.stringify({ text: gi.text.slice(0, 40), marca: gi.marca, i0: i0.fases, i1: [i1.fases, i1.passat], i2: [i2.fases, i2.futur], i3: [i3.fases, i3.opPassat], i4: i4.fases }));
 
   // 0b) Subratllat: el fil passa just per sota de «premisses» i s'hi veu
   const sub = await p.evaluate(() => {

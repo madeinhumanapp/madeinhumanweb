@@ -150,10 +150,19 @@ repeticions i les preguntes freqüents en una pàgina pròpia (SEO i més comerc
   cursiva amb un sol cordó prim i després cus les premisses. Cada premissa s'encén quan hi arriba el fil (`fil.js`
   posa `.fil-arribat`). Els spots 1-3 s'han esborrat (els títols són ara les premisses).
 - Abans del títol, l'`etiqueta` («Projecte jove, professionals amb recorregut») i la `presentacio` en serif gran.
-  El salt de línia de la `presentacio` separa el passat del futur: apareix el passat, el seu punt final s'encén com un
-  punt de llum daurat (`.punt-temps`) i entra el futur mentre el passat s'esmorteeix (`portada.js`: `--b1`, `--b2`,
-  `--b3` i `.intro-viva`). «Madeinhuman» es pinta amb la lletra del logo; les cursives alternen el to de les dades
-  (coure) i el de la IA (blau). Sense JavaScript o amb «reduir moviment», es veu tot quiet.
+  El salt de línia de la `presentacio` separa el passat del futur. La transició va **per trams i per temps** (no
+  lligada a la velocitat del scroll; `portada.js` parteix el text en `.paraula` amb el retard `--d`, proporcional a
+  les lletres que té davant):
+  1. quan el passat arriba al 72 % de la pantalla, s'escriu d'esquerra a dreta (`.fase-passat`);
+  2. en acabar, el seu punt final s'encén com un punt de llum daurat (`.fase-punt`, `.punt-temps`);
+  3. quan el futur arriba al 62 %, s'escriu igual i el passat s'esmorteeix (`.fase-futur`). Si es baixa de pressa
+     (el futur ja és al 45 %), s'escriu sense esperar.
+
+  Si es torna amunt fins que la frase surt per baix, es reinicia; si ja ha passat per dalt, es veu sencera.
+  «Madeinhuman» es pinta amb la lletra del logo; les cursives alternen el to de les dades (coure) i el de la IA (blau).
+  Sense JavaScript o amb «reduir moviment», es veu tot quiet.
+- `fil.js` descarta els punts d'un tram que tornarien amunt per la mateixa vertical (al mòbil, l'inici de la primera
+  nota quedava 10 px per sobre del final de la capçalera i la trena hi feia un nus quadrat).
 - Mètode sense entradeta: cada pas s'encén quan hi arriba el fil (número, llum a la vora de dalt i text).
 - Contacte: «24 hores» i sense la capçalera repetida de la targeta (`plantilles/formularis/contacte.html`, cap camp
   tocat).
