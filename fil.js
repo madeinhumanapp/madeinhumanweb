@@ -43,6 +43,7 @@
       capcalera: '[data-fil="capcalera"], header.hero',
       context: '[data-fil="context"], .statement', xifra: '.metric',
       principi: '[data-fil="principi"], .spot', titolPrincipi: '.spot-title', nota: '[data-fil="nota"], .nota',
+      subratllat: '[data-fil="subratllat"]', premissa: '[data-fil="premissa"]',
       serveis: '[data-fil="serveis"], #serveis', escena: '[data-fil="serveis-escena"], .fusio', pilar: '.fusio-ambit', junts: '.fusio-junts',
       metode: '[data-fil="metode"], #metode', fase: '.step', numFase: '.step-num',
       contacte: '[data-fil="contacte"], #contacte', titolContacte: '.section-title', etiquetaContacte: '.eyebrow',
@@ -183,9 +184,13 @@
     while (e && e !== document.body && getComputedStyle(e).display === 'inline') e = e.parentElement;
     return e || el;
   }
-  function aDocument(r, ref) {       // rectangle de pantalla → document, compensant les translacions
+  // Rectangle de pantalla → document, compensant les transformacions de les animacions (translació i escala; p. ex.
+  // l'any d'una nota que comença gran al centre, o els àmbits del Venn que creixen): sempre la posició final
+  function aDocument(r, ref) {
     const r0 = ref.getBoundingClientRect(), c = caixa(ref);
-    return [c.x + (r.left - r0.left), c.y + (r.top - r0.top), c.x + (r.right - r0.left), c.y + (r.bottom - r0.top)];
+    const ex = c.w && r0.width ? r0.width / c.w : 1, ey = c.h && r0.height ? r0.height / c.h : 1;
+    const fx = v => c.x + (v - r0.left) / ex, fy = v => c.y + (v - r0.top) / ey;
+    return [fx(r.left), fy(r.top), fx(r.right), fy(r.bottom)];
   }
   function fiDeText(el) {            // final de l'última línia d'un titular
     const rng = document.createRange(); rng.selectNodeContents(el);
@@ -289,7 +294,8 @@
     for (const z of zones) hmax = Math.max(hmax, z[3] - z[1]);
     const ABAST = 80;                          // fins on es mira la distància lliure
     for (const p of totes) {
-      p.m = 1.5 * p.la + Math.max(p.r + 2.5 + E.margeExtra, p.r > 0 ? C.mAura : 0);
+      // el subratllat (un sol cordó prim) pot anar a tocar de la paraula: marge i esvaïment mínims
+      p.m = p.sub ? p.r + 1.5 : 1.5 * p.la + Math.max(p.r + 2.5 + E.margeExtra, p.r >= 0.4 * C.radi ? C.mAura : 0);
       let dmin = Infinity, lliure = ABAST;
       let lo = 0, hi = zones.length;           // primera zona que podria tocar (ordenades per y0)
       while (lo < hi) { const mid = (lo + hi) >> 1; if (zones[mid][1] < p.y - hmax - ABAST) lo = mid + 1; else hi = mid; }
@@ -301,7 +307,7 @@
         if (!lliure) break;
       }
       p.lliure = lliure;
-      p.vis = smooth(dmin / C.fade);
+      p.vis = smooth(dmin / (p.sub ? 3 : C.fade));
     }
     C.zones = zones; C.hmax = hmax;
     C.esvaides = totes.filter(p => p.vis < 0.5).length;
@@ -365,9 +371,32 @@
     //    creua la pàgina pel mig de l'espai que les separa. A cada nota deixa un punt i a cada principi, un nus.
     let tram = [[xR, hero.b + 40]];
     let opcionsTram = { radi: C.radi, entrada: 0 };
-    const nusos = [];
+    const nusos = [], aprimats = [];       // nusos: la trena s'estreny · aprimats: trams de subratllat (un sol cordó)
     const tancaTram = (o = {}) => {
-      R.comu(tram, { ...opcionsTram, ...o, prep: m => { for (const p of m) { let dm = 1e9; for (const [x, y] of nusos) dm = Math.min(dm, Math.hypot(p.x - x, p.y - y)); p.r *= 0.15 + 0.85 * smooth(dm / (mobil ? 40 : 70)); } } });
+      R.comu(tram, { ...opcionsTram, ...o, prep: m => { for (const p of m) {
+        let dm = 1e9; for (const [x, y] of nusos) dm = Math.min(dm, Math.hypot(p.x - x, p.y - y));
+        p.r *= 0.15 + 0.85 * smooth(dm / (mobil ? 40 : 70));
+        for (const a of aprimats) {
+          const dx = Math.max(a.x0 - p.x, 0, p.x - a.x1), d = Math.hypot(dx, p.y - a.y), f = 0.12 + 0.88 * smooth(d / (mobil ? 30 : 50));
+          p.r *= f;
+          if (f < 0.35) p.sub = true;            // subratllat: cordó prim, a tocar de la paraula
+        }
+      } } });
+    };
+    // Rectangle (en coordenades de document) de l'última línia d'un element en línia, p. ex. una <em>
+    const ultimaLinia = el => {
+      const rng = document.createRange(); rng.selectNodeContents(el);
+      const rs = [...rng.getClientRects()].filter(r => r.width > 0), r = rs[rs.length - 1];
+      if (!r) { const c = caixa(referencia(el)); return { x0: c.x, x1: c.r, y0: c.y, y1: c.b }; }
+      const z = aDocument(r, referencia(el));
+      return { x0: z[0], x1: z[2], y0: z[1], y1: z[3] };
+    };
+    // Extrems del text d'un bloc (les premisses són centrades: el fil hi fa el nus a tocar)
+    const extremsText = el => {
+      const rng = document.createRange(); rng.selectNodeContents(el);
+      const rs = [...rng.getClientRects()].filter(r => r.width > 0).map(r => aDocument(r, el));
+      if (!rs.length) { const c = caixa(el); return { x0: c.x, x1: c.r }; }
+      return { x0: Math.min(...rs.map(z => z[0])), x1: Math.max(...rs.map(z => z[2])) };
     };
     const serveisEl = q(S.serveis), svY = serveisEl ? caixa(serveisEl).y : Infinity;
     const metEl = q(S.metode), mtY = metEl ? caixa(metEl).y : Infinity;
@@ -381,17 +410,49 @@
       const c = caixa(q('.container', el) || el), t = caixa(q(S.titolPrincipi, el) || el);
       estacions.push({ tipus: 'spot', y: t.y, b: c.b, t });
     }
+    for (const el of qa(S.subratllat)) {
+      const l = ultimaLinia(el);
+      estacions.push({ tipus: 'subratllat', y: l.y0, b: l.y1, l, yU: l.y1 + 8 });
+    }
+    for (const el of qa(S.premissa)) {
+      const c = caixa(el), e = extremsText(el);
+      estacions.push({ tipus: 'premissa', y: c.y, b: c.b, ny: c.y + c.h / 2, e, el });
+    }
     const ctxEl = q(S.context);
     if (ctxEl) { const sb = caixa(ctxEl); estacions.push({ tipus: 'context', y: sb.y, b: sb.b, costat: 'dreta', el: ctxEl }); }
     estacions.sort((a, b) => a.y - b.y);
-    let costatActual = 'dreta', ultimB = hero.b;
+    let costatActual = 'dreta', ultimB = hero.b, anterior = null;
     const recorre = llista => {
       for (const st of llista) {
+        // Subratllat: el fil hi arriba pel seu costat, passa per sota de la paraula (un sol cordó) i surt per l'altre
+        if (st.tipus === 'subratllat') {
+          const { x0, x1 } = st.l, yU = st.yU, dePerDreta = costatActual !== 'esquerra';
+          const [xa, xb] = dePerDreta ? [x1, x0] : [x0, x1], s = dePerDreta ? 1 : -1;
+          // punts alineats cada 32 px: el tram del subratllat queda recte (la corba no s'hi pot arquejar cap a la paraula)
+          const pas = 32, n = Math.max(1, Math.round(Math.abs(xb - xa) / pas)), recte = [];
+          for (let i = 0; i <= n; i++) recte.push([mix(xa + s * 6, xb - s * 6, i / n), yU]);
+          tram.push([dePerDreta ? xR : xL, yU - (mobil ? 40 : 70)], [xa + s * (mobil ? 26 : 60), yU], ...recte, [xb - s * (mobil ? 22 : 44), yU + (mobil ? 18 : 30)]);
+          aprimats.push({ x0: x0 - 6, x1: x1 + 6, y: yU });
+          costatActual = dePerDreta ? 'esquerra' : 'dreta'; ultimB = yU + (mobil ? 18 : 30); anterior = st;
+          continue;
+        }
+        // Principis: alternen; premisses: la primera, pel costat per on arriba el fil, i després alternen
         if (st.tipus === 'spot') st.costat = costatActual === 'dreta' ? 'esquerra' : 'dreta';
+        if (st.tipus === 'premissa') st.costat = anterior && anterior.tipus === 'premissa'
+          ? (costatActual === 'dreta' ? 'esquerra' : 'dreta') : (costatActual === 'dreta' ? 'dreta' : 'esquerra');
         const esq = st.costat === 'esquerra';
         const x = st.tipus === 'spot' && !mobil ? (esq ? st.t.x / 2 : (st.t.r + vw) / 2) : (esq ? xL : xR);
         // canvi de costat: creua pel mig de l'espai lliure (si ve del mig, va directament cap al costat)
         if (st.costat !== costatActual) tram.push([costatActual === 'mig' ? x : vw / 2, (ultimB + st.y) / 2]);
+        if (st.tipus === 'premissa') {
+          // el nus, a tocar del text (centrat): el fil cus les premisses
+          const g = mobil ? 22 : 34, xp = esq ? Math.max(mobil ? 7 : xL, st.e.x0 - g) : Math.min(mobil ? vw - 7 : xR, st.e.x1 + g);
+          tram.push([xp, st.y - (mobil ? 26 : 40)], [xp, st.ny], [xp, st.b + (mobil ? 24 : 28)]);
+          nusos.push([xp, st.ny]);
+          R.nodes.push({ tipus: 'nus', x: xp, y: st.ny, ax: xp, ay: st.ny, el: st.el });
+          costatActual = st.costat; ultimB = st.b; anterior = st;
+          continue;
+        }
         if (st.tipus === 'spot') {
           const ny = st.t.y + st.t.h / 2;
           tram.push([x, st.y - 70], [x, ny], [x, st.b - 10]);
@@ -410,7 +471,7 @@
           }
           tram.push([x, st.b - 30]);
         }
-        costatActual = st.costat; ultimB = st.b;
+        costatActual = st.costat; ultimB = st.b; anterior = st;
       }
     };
     recorre(estacions.filter(st => st.y < svY));
@@ -447,16 +508,16 @@
     recorre(estacions.filter(st => st.y > svY && st.y < mtY));
     let ultimX = tram[tram.length - 1][0], ultimY = tram[tram.length - 1][1];
     if (mE && costatActual !== 'esquerra') tram.push([costatActual === 'mig' ? xL : vw / 2, (ultimB + mE.y) / 2]);
-    const fases = qa(S.fase, metEl).map(caixa), nums = qa(S.numFase, metEl).map(caixa);
+    const elsFase = qa(S.fase, metEl), fases = elsFase.map(caixa), nums = qa(S.numFase, metEl).map(caixa);
     if (metEl && fases.length) {
       const mb = caixa(metEl);
       if (!mobil) {
         const yT = (finalCap(metEl, fases[0].y) + fases[0].y) / 2;
         tram.push([xL, mE.y], [xL, yT - 40], [xL + 40, yT], [vw / 2, yT], [xR - 40, yT], [xR, yT + 40], [xR, mb.b - 40]);
-        (nums.length ? nums : fases).forEach(n => R.nodes.push({ tipus: 'cursor', fita: true, x: n.x + C.cursor[0] / 2, y: yT + 18 * K, w: C.cursor[0] * 0.8, h: C.cursor[1] * 0.8, ax: n.x + C.cursor[0] / 2, ay: yT }));
+        (nums.length ? nums : fases).forEach((n, i) => R.nodes.push({ tipus: 'cursor', fita: true, x: n.x + C.cursor[0] / 2, y: yT + 18 * K, w: C.cursor[0] * 0.8, h: C.cursor[1] * 0.8, ax: n.x + C.cursor[0] / 2, ay: yT, el: elsFase[i] }));
       } else {
         tram.push([xL, mE.y], [xL, mb.b - 40]);
-        (nums.length ? nums : fases).forEach(n => R.nodes.push({ tipus: 'cursor', fita: true, x: xL + 0.5, y: n.y + n.h / 2, w: 12, h: 4, ax: xL, ay: n.y + n.h / 2 }));
+        (nums.length ? nums : fases).forEach((n, i) => R.nodes.push({ tipus: 'cursor', fita: true, x: xL + 0.5, y: n.y + n.h / 2, w: 12, h: 4, ax: xL, ay: n.y + n.h / 2, el: elsFase[i] }));
       }
       ultimX = tram[tram.length - 1][0]; ultimY = tram[tram.length - 1][1];
     }
@@ -588,6 +649,12 @@
       if (this.dibuixa(rj.g, i * RAJOLA, RAJOLA, t, sy, o)) dibuixat = true;
     }
     for (const rj of this.rajoles) if (rj.idx === -1 && rj.visible) { rj.visible = false; rj.cv.style.display = 'none'; }
+    // Premisses i passos del mètode: s'encenen quan hi arriba la punta del fil (i s'apaguen si es torna amunt)
+    for (const n of this.R.nodes) {
+      if (!n.el) continue;
+      const arribat = !!o.revelaTot || n.trig <= sy;
+      if (n.el.__filArribat !== arribat) { n.el.__filArribat = arribat; n.el.classList.toggle('fil-arribat', arribat); }
+    }
     return dibuixat;
   };
 

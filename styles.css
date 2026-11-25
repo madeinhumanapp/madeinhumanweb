@@ -1417,7 +1417,7 @@ html { overflow-x: clip; }
 
 /* ===== NOTES al llarg del fil (bloc «nota») =====
    Una xifra o una data i una frase curta que reforcen per què cal actuar. El fil hi passa pel costat. */
-.nota { padding: 40px 0; position: relative; }
+.nota { position: relative; }
 .nota-inner { display: flex; align-items: center; gap: 24px; }
 .nota-dreta .nota-inner { flex-direction: row-reverse; text-align: right; }
 .nota-clau {
@@ -1436,7 +1436,6 @@ html { overflow-x: clip; }
 .nota-text strong { color: var(--text); font-weight: 500; }
 .nota-font { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); letter-spacing: 0.06em; margin-top: 8px; }
 @media (max-width: 767px) {
-  .nota { padding: 28px 0; }
   .nota-inner { gap: 16px; }
   /* el fil passa pel marge: una mica més d'aire al costat de la nota */
   .nota-esquerra .nota-inner { padding-left: calc(var(--pad-x) + 8px); }
@@ -1692,6 +1691,91 @@ html.dialeg-obert { overflow: hidden; scrollbar-gutter: stable; }   /* sense sal
 @media (prefers-reduced-motion: reduce) {
   .detall-item.llum-activa::before, .fusio-junts.llum-activa::before, .adequacio > .container.llum-activa::after { animation: none; }
   .detall-dialeg[open] .detall-dialeg-cos { animation: none; }
+}
+
+/* ===== Notes: transició cinematogràfica (portada.js posa .nota-viva i --a1, --a2, --a3, --dx) =====
+   --a1: l'any apareix gran al centre · --a2: va al seu costat i s'encongeix · --a3: hi entra el text.
+   Sense JavaScript, o amb «reduir moviment», no hi ha .nota-viva: es veu l'estat final. */
+.nota-viva .nota-clau {
+  opacity: var(--a1);
+  transform: translate(calc(var(--dx, 0px) * (1 - var(--a2))), calc((1 - var(--a1)) * 18px)) scale(calc(1 + 0.55 * (1 - var(--a2))));
+  will-change: transform, opacity;
+}
+.nota-viva .nota-cos { opacity: var(--a3); transform: translateX(calc((1 - var(--a3)) * 22px)); }
+.nota-viva.nota-esquerra .nota-cos { transform: translateX(calc((1 - var(--a3)) * -22px)); }
+.nota { padding: 56px 0; }
+@media (max-width: 767px) { .nota { padding: 40px 0; } }
+
+/* ===== Les nostres premisses: el fil subratlla la paraula i cus les premisses =====
+   Amb el fil (.amb-fil), cada premissa s'encén quan el fil hi arriba (.fil-arribat); sense, es veuen totes. */
+section.block.premisses { padding: 96px 0 72px; }
+.premisses-inner { text-align: center; }
+.premisses-titol { font-family: var(--font-serif); font-weight: 500; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -0.02em; }
+.premisses-titol em { font-style: italic; font-weight: 400; color: var(--copper); }
+/* prou aire entre premisses perquè el fil hi creui sense tocar el text */
+.premisses-llista { list-style: none; display: flex; flex-direction: column; align-items: center; gap: clamp(92px, 13vh, 132px); margin-top: clamp(80px, 12vh, 124px); }
+.premissa { font-family: var(--font-serif); font-weight: 500; font-size: clamp(28px, 4vw, 50px); line-height: 1.15; letter-spacing: -0.015em; }
+.premissa em { font-style: italic; font-weight: 400; color: var(--copper); }
+.amb-fil .premissa { transition: opacity 0.8s cubic-bezier(.2, .7, .3, 1), transform 0.8s cubic-bezier(.2, .7, .3, 1), filter 0.8s ease; }
+.amb-fil .premissa:not(.fil-arribat) { opacity: 0.26; transform: translateY(14px); filter: blur(1px); }
+@media (max-width: 700px) { section.block.premisses { padding: 72px 0 48px; } }
+
+/* ===== Mètode: cada pas s'encén quan el fil hi arriba (número, llum a la vora de dalt i text) ===== */
+.step::after {
+  content: "";
+  position: absolute; left: 0; right: 0; top: -1px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--daurat-clar), var(--crema) 50%, var(--blau-clar), transparent);
+  transform: scaleX(0); transform-origin: left center;
+  pointer-events: none;
+}
+.amb-fil .step { transition: opacity 0.8s cubic-bezier(.2, .7, .3, 1), transform 0.8s cubic-bezier(.2, .7, .3, 1), background 240ms; }
+.amb-fil .step:not(.fil-arribat) { opacity: 0.3; transform: translateY(14px); }
+.amb-fil .step.fil-arribat { opacity: 1; transform: none; }
+.amb-fil .step.fil-arribat:hover { transform: translateY(-2px); }
+.amb-fil .step::after { transition: transform 1s cubic-bezier(.2, .7, .3, 1) 0.1s; }
+.amb-fil .step.fil-arribat::after { transform: scaleX(1); }
+.step-num { transition: color 0.6s ease, text-shadow 0.6s ease; }
+.amb-fil .step.fil-arribat .step-num { color: var(--copper-bright); opacity: 1; text-shadow: 0 0 22px color-mix(in srgb, var(--daurat) 35%, transparent); }
+
+/* ===== Crida: línia discreta o targeta amb botons ===== */
+section.block.crida-linia { padding: 40px 0; }
+.crida-linia-text { text-align: center; color: var(--text-dim); font-size: 16px; }
+.crida-linia-text a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--copper-bright); }
+.crida-linia-text a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.crida-cos {
+  --llum-a: var(--daurat-clar); --llum-b: var(--crema); --llum-c: var(--daurat);
+  position: relative;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 56px 48px;
+  text-align: center;
+  border-radius: 28px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--daurat) 7%, transparent), color-mix(in srgb, var(--blau) 4%, transparent));
+  border: 1px solid color-mix(in srgb, var(--daurat) 22%, transparent);
+  isolation: isolate;
+}
+.crida-cos .section-lead { margin: 16px auto 0; }
+.crida-cos .cta-row { justify-content: center; margin-top: 30px; }
+.crida-cos::before {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+  background: conic-gradient(from var(--angle-llum, 0deg), transparent 0deg 240deg, var(--llum-c) 290deg, var(--llum-b) 318deg, var(--llum-a) 334deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: gir-llum 12s linear infinite;
+}
+@media (max-width: 700px) { .crida-cos { padding: 40px 22px; border-radius: 22px; } }
+
+/* ===== Preguntes freqüents: servei relacionat i filtre ===== */
+.faq-item[hidden] { display: none; }
+.faq-servei { margin-top: 12px; font-size: 14px; color: var(--text-faint); }
+.faq-servei a { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; color: var(--copper-bright); }
+.faq-servei a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .amb-fil .premissa, .amb-fil .step, .amb-fil .step::after, .step-num { transition: none; }
+  .crida-cos::before { animation: none; }
 }
 
 /* ===== Fil conductor de la portada (fil.js) =====
