@@ -38,6 +38,9 @@ function ambContacte(j, lloc) {
   return recorre(j);
 }
 
+// Rutes de fulls d'estil i scripts sempre absolutes: la pàgina pot ser dins d'una carpeta (/preguntes-frequents/)
+const absoluta = u => (/^(\/|https:\/\/)/.test(u) ? u : `/${u}`);
+
 function cap(lloc, p, faq) {
   const c = p.cap, d = lloc.cap;
   const og = { ...d.og, ...c.og };
@@ -56,7 +59,7 @@ function cap(lloc, p, faq) {
 ${JSON.stringify(j, null, 2)}
   </script>`).join('\n')}${d.precarregar.map(f => `
   <link rel="preload" href="${f}" as="font" type="font/woff2" crossorigin />`).join('\n')}${(c.estils || d.estils).map(e => `
-  <link rel="stylesheet" href="${e}" />`).join('\n')}
+  <link rel="stylesheet" href="${absoluta(e)}" />`).join('\n')}
 </head>`;
 }
 
@@ -90,7 +93,7 @@ ${menu(lloc, ctx)}
 ${p.blocs.filter(b => !b.amagat).map(b => renderBloc(b, ctx)).join('\n')}
 ${peu(lloc, ctx)}
 ${flotants(lloc, ctx)}
-${(p.scripts || []).map(s => `<script src="${s}"></script>`).join('\n')}${p.pagina === 'portada' ? `
+${(p.scripts || []).map(s => `<script src="${absoluta(s)}"></script>`).join('\n')}${p.pagina === 'portada' ? `
 <script src="/portada.js" defer></script>
 <script src="/fil.js" defer></script>` : ''}
 <script src="/menu.js" defer></script>

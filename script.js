@@ -51,52 +51,40 @@ document.addEventListener('change', (e) => {
 // -----------------------------------------------
 // FAQ accordion
 // -----------------------------------------------
-// Les preguntes són a contingut/faq.json; el generador les incrusta a la pàgina (#dades-faq)
-const FAQ_DATA = (() => {
-  const el = document.getElementById('dades-faq');
-  try { return el ? JSON.parse(el.textContent) : []; } catch { return []; }
-})();
-
-let faqTab = 'tots';
-let faqOpen = 0;
-
-function renderFAQ() {
-  const list = document.getElementById('faqList');
-  const filtered = faqTab === 'tots' ? FAQ_DATA : FAQ_DATA.filter(f => f.cat === faqTab);
-  list.innerHTML = filtered.map((item, i) => `
-    <div class="faq-item${faqOpen === i ? ' open' : ''}" data-idx="${i}">
-      <button class="faq-q" type="button">
-        <span class="num">${String(i + 1).padStart(2, '0')}</span>
-        <span>${item.q}</span>
-        <span class="plus"></span>
-      </button>
-      <div class="faq-a">
-        <div class="faq-a-inner">${item.a}</div>
-      </div>
-    </div>
-  `).join('');
-
-  list.querySelectorAll('.faq-q').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const idx = parseInt(btn.closest('.faq-item').dataset.idx);
-      faqOpen = faqOpen === idx ? -1 : idx;
-      renderFAQ();
+// Les preguntes són a contingut/faq.json; el generador les pinta en HTML (totes obertes: sense JavaScript es
+// llegeixen totes). Aquí només es filtren per pestanyes i se'n deixa oberta una, la primera de la pestanya.
+(function () {
+  const llista = document.getElementById('faqList');
+  if (!llista) return;
+  const items = Array.from(llista.querySelectorAll('.faq-item'));
+  let pestanya = 'tots', oberta = 0;
+  const visibles = () => items.filter(it => pestanya === 'tots' || it.dataset.cat === pestanya);
+  function pinta() {
+    const vis = visibles();
+    items.forEach(it => { it.hidden = !vis.includes(it); });
+    vis.forEach((it, i) => {
+      const obert = i === oberta;
+      it.querySelector('.num').textContent = String(i + 1).padStart(2, '0');
+      it.classList.toggle('open', obert);
+      it.querySelector('.faq-q').setAttribute('aria-expanded', String(obert));
     });
-  });
-}
-
-if (document.getElementById('faqTabs')) {
-  document.getElementById('faqTabs').addEventListener('click', (e) => {
+  }
+  items.forEach(it => it.querySelector('.faq-q').addEventListener('click', () => {
+    const i = visibles().indexOf(it);
+    oberta = oberta === i ? -1 : i;
+    pinta();
+  }));
+  const pestanyes = document.getElementById('faqTabs');
+  if (pestanyes) pestanyes.addEventListener('click', e => {
     const tab = e.target.closest('.tab');
     if (!tab) return;
-    faqTab = tab.dataset.cat;
-    faqOpen = 0;
-    document.querySelectorAll('#faqTabs .tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    renderFAQ();
+    pestanya = tab.dataset.cat;
+    oberta = 0;
+    pestanyes.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === tab));
+    pinta();
   });
-  renderFAQ();
-}
+  pinta();
+})();
 
 // -----------------------------------------------
 // API

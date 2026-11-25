@@ -108,10 +108,11 @@ export const BLOCS = {
   </div>
 </section>`,
 
-  // Nota breu al llarg del fil: una xifra o una data i una frase (el fil hi passa pel costat i hi deixa un punt)
+  // Nota breu al llarg del fil: una xifra o una data i una frase (el fil hi passa pel costat i hi deixa un punt).
+  // Transició (portada.js): l'any surt gran al centre, va al seu costat i hi entra el text. Sense JavaScript, estat final.
   nota: d => `
 <aside class="block nota nota-${d.costat === 'dreta' ? 'dreta' : 'esquerra'}${d.to === 'ia' ? ' nota-ia' : ''}" data-fil="nota">
-  <div class="container nota-inner reveal">${d.clau ? `
+  <div class="container nota-inner">${d.clau ? `
     <div class="nota-clau">${esc(d.clau)}</div>` : ''}
     <div class="nota-cos">
       <p class="nota-text">${enriquit(d.text)}</p>${d.font ? `
@@ -119,6 +120,35 @@ export const BLOCS = {
     </div>
   </div>
 </aside>`,
+
+  // Les nostres premisses: el fil subratlla la paraula en cursiva del títol i cus les premisses (fil.js hi posa
+  // .fil-arribat quan hi arriba; sense JavaScript es veuen totes)
+  premisses: d => `
+<section class="block premisses" data-fil="premisses">
+  <div class="container premisses-inner">
+    <h2 class="premisses-titol">${enriquit(d.titol).replace('<em>', '<em data-fil="subratllat">')}</h2>
+    <ol class="premisses-llista">
+${d.items.map(i => `      <li class="premissa" data-fil="premissa">${enriquit(i)}</li>`).join('\n')}
+    </ol>
+  </div>
+</section>`,
+
+  // Crida: una línia discreta (amb àncora opcional) o una targeta amb botons i vora de llum
+  crida: (d, ctx) => d.variant === 'linia' ? `
+<section class="block crida crida-linia"${attr('id', d.ancora)}>
+  <div class="container">
+    <p class="crida-linia-text"><span>${enriquit(d.titol)}</span>${d.text ? ` <span class="crida-linia-detall">${enriquit(d.text)}</span>` : ''}${d.botons.map(b => ` <a href="${esc(enllac(b.href, ctx))}">${esc(b.text)}${b.fletxa ? ' <span class="arrow" aria-hidden="true">&rarr;</span>' : ''}</a>`).join('')}</p>
+  </div>
+</section>` : `
+<section class="block crida crida-targeta"${attr('id', d.ancora)}>
+  <div class="container">
+    <div class="crida-cos">
+      <h2 class="section-title">${enriquit(d.titol)}</h2>${d.text ? `
+      <p class="section-lead">${enriquit(d.text)}</p>` : ''}
+      <div class="cta-row">${d.botons.map(b => boto(b, ctx)).join('\n')}</div>
+    </div>
+  </div>
+</section>`,
 
   context: d => `
 <section class="block statement">
@@ -217,10 +247,15 @@ ${d.junts.items.map(i => `          <li>${esc(i)}</li>`).join('\n')}
 </section>`;
   },
 
-  // FAQ: les preguntes són a contingut/faq.json (una sola font per a la llista visible i el JSON-LD).
-  // Es pinten amb script.js a partir de les dades incrustades a #dades-faq.
+  // FAQ: les preguntes són a contingut/faq.json (una sola font per a la llista i el JSON-LD) i es pinten en HTML,
+  // totes obertes: sense JavaScript es llegeixen totes. script.js filtra per pestanyes i en deixa oberta una.
+  // Si una pregunta té «servei», sota la resposta hi ha l'enllaç a la pàgina del servei (ctx.serveis).
   faq: (d, ctx) => {
-    const dades = (ctx.faq || []).map(f => ({ cat: f.cat, q: esc(f.pregunta), a: enriquit(f.resposta) }));
+    const servei = clau => {
+      const slug = ctx.serveis?.SLUG?.ca?.[clau], nom = ctx.serveis?.PAGINES?.[clau]?.ca?.curt;
+      return slug && nom ? `
+          <p class="faq-servei">Et pot interessar: <a href="/serveis/${esc(slug)}/">${esc(nom)} <span class="arrow" aria-hidden="true">&rarr;</span></a></p>` : '';
+    };
     return `
 <section class="block faq"${attr('id', d.ancora)}>
   <div class="container">
@@ -232,8 +267,18 @@ ${d.junts.items.map(i => `          <li>${esc(i)}</li>`).join('\n')}
 ${d.pestanyes.map((t, i) => `        <button class="tab${i === 0 ? ' active' : ''}" data-cat="${esc(t.cat)}">${esc(t.text)}</button>`).join('\n')}
       </div>
     </div>
-    <div class="faq-list" id="faqList"></div>
-    <script type="application/json" id="dades-faq">${JSON.stringify(dades).replace(/</g, '\\u003c')}</script>
+    <div class="faq-list" id="faqList">${(ctx.faq || []).map((f, i) => `
+      <div class="faq-item open" data-cat="${esc(f.cat)}">
+        <button class="faq-q" type="button" aria-expanded="true" aria-controls="faq-r${i + 1}">
+          <span class="num">${String(i + 1).padStart(2, '0')}</span>
+          <span>${esc(f.pregunta)}</span>
+          <span class="plus"></span>
+        </button>
+        <div class="faq-a" id="faq-r${i + 1}">
+          <div class="faq-a-inner">${enriquit(f.resposta)}${f.servei ? servei(f.servei) : ''}</div>
+        </div>
+      </div>`).join('')}
+    </div>
   </div>
 </section>`;
   },
