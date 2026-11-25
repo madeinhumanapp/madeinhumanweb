@@ -373,6 +373,11 @@
     let opcionsTram = { radi: C.radi, entrada: 0 };
     const nusos = [], aprimats = [];       // nusos: la trena s'estreny · aprimats: trams de subratllat (un sol cordó)
     const tancaTram = (o = {}) => {
+      // Sense marxes enrere: un punt que tornaria amunt per la mateixa vertical (p. ex. l'inici de la primera nota, que
+      // al mòbil queda més amunt que el final de la capçalera) plegaria la trena i hi faria un nus quadrat
+      const net = [];
+      for (const p of tram) { const u = net[net.length - 1]; if (u && Math.abs(p[0] - u[0]) < 1 && p[1] <= u[1] + 2) continue; net.push(p); }
+      tram = net;
       R.comu(tram, { ...opcionsTram, ...o, prep: m => { for (const p of m) {
         let dm = 1e9; for (const [x, y] of nusos) dm = Math.min(dm, Math.hypot(p.x - x, p.y - y));
         p.r *= 0.15 + 0.85 * smooth(dm / (mobil ? 40 : 70));

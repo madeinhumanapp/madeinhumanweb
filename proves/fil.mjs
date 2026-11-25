@@ -222,6 +222,11 @@ for (const v of VISTES) {
   });
   ok(`${v.nom}: la capa del fil és decorativa, no rep clics i no allarga la pàgina`, cv && cv.aria === 'true' && cv.pos === 'absolute' && cv.pe === 'none' && cv.classe && cv.alcada < cv.pagina, JSON.stringify(cv));
   ok(`${v.nom}: recorregut complet (${e.llargada} px, ${e.nodes} nodes)`, e.llargada > 3000 && e.nodes >= 8);
+  // cap marxa enrere per la mateixa vertical: plegaria la trena i hi faria un nus quadrat (p. ex. capçalera → 1a nota al mòbil)
+  const enrere = await p.evaluate(() => { const m = madeinhumanFil.mostres(), out = [];
+    for (let i = 1; i < m.length; i++) if (m[i][1] < m[i - 1][1] - 0.5 && Math.abs(m[i][0] - m[i - 1][0]) < 1.5) out.push(`${Math.round(m[i][0])},${Math.round(m[i][1])}`);
+    return out; });
+  ok(`${v.nom}: el fil no torna mai amunt per la mateixa vertical (cap plec a la trena)`, !enrere.length, enrere.slice(0, 4).join(' · '));
 
   // El cursor final és just darrere del títol del contacte
   const fi = await p.evaluate(() => {
