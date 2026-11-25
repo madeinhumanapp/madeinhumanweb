@@ -45,3 +45,9 @@ jobs:
         run: npm run previsualitzacio
       - name: Seguretat de contingut (CSP)
         run: npm run csp
+      - name: Fil conductor (capes, text, espurnes, rendiment)
+        run: npm run fil
+      - name: Portada (notes, premisses, Venn, finestres)
+        run: npm run portada
+      - name: Pàgina de preguntes freqüents
+        run: npm run faq
