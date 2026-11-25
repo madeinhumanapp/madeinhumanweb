@@ -145,6 +145,98 @@
         }
       }
     },
+    "premisses": {
+      "nom": "Premisses (títol i frases curtes)",
+      "camps": {
+        "titol": {
+          "tipus": "enriquit",
+          "etiqueta": "Títol",
+          "max": 50,
+          "obligatori": true,
+          "ajuda": "*cursiva*: la paraula que subratlla el fil (p. ex. Les nostres *premisses.*)"
+        },
+        "items": {
+          "tipus": "llista",
+          "etiqueta": "Premisses",
+          "min": 2,
+          "max": 4,
+          "element": {
+            "tipus": "enriquit",
+            "etiqueta": "Premissa",
+            "max": 60,
+            "obligatori": true,
+            "ajuda": "*cursiva* i salt de línia"
+          }
+        }
+      }
+    },
+    "crida": {
+      "nom": "Crida (línia o targeta amb botons)",
+      "camps": {
+        "ancora": {
+          "tipus": "text",
+          "etiqueta": "Àncora",
+          "max": 30,
+          "ajuda": "Opcional: id per enllaçar-hi (#faq). Si n'hi ha, no el canviïs: hi poden apuntar enllaços"
+        },
+        "variant": {
+          "tipus": "seleccio",
+          "etiqueta": "Format",
+          "opcions": [
+            "linia",
+            "targeta"
+          ],
+          "obligatori": true,
+          "ajuda": "linia: una sola línia discreta · targeta: títol, text i botons destacats"
+        },
+        "titol": {
+          "tipus": "enriquit",
+          "etiqueta": "Títol",
+          "max": 60,
+          "obligatori": true,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "text": {
+          "tipus": "enriquit",
+          "etiqueta": "Text",
+          "max": 200,
+          "obligatori": false,
+          "ajuda": "*cursiva*, **negreta**, salt de línia"
+        },
+        "botons": {
+          "tipus": "llista",
+          "etiqueta": "Botons",
+          "min": 1,
+          "max": 3,
+          "element": {
+            "text": {
+              "tipus": "text",
+              "etiqueta": "Text del botó",
+              "max": 40,
+              "obligatori": true
+            },
+            "href": {
+              "tipus": "enllac",
+              "etiqueta": "Enllaç",
+              "obligatori": true
+            },
+            "estil": {
+              "tipus": "seleccio",
+              "etiqueta": "Estil",
+              "opcions": [
+                "primari",
+                "secundari"
+              ],
+              "obligatori": true
+            },
+            "fletxa": {
+              "tipus": "bool",
+              "etiqueta": "Amb fletxa"
+            }
+          }
+        }
+      }
+    },
     "context": {
       "nom": "Context i xifres",
       "camps": {
@@ -463,7 +555,7 @@
           "tipus": "enriquit",
           "etiqueta": "Entradeta",
           "max": 300,
-          "obligatori": true,
+          "obligatori": false,
           "ajuda": "*cursiva*, **negreta**, salt de línia"
         },
         "passos": {
@@ -708,6 +800,8 @@
     "afegibles": [
       "spot",
       "nota",
+      "premisses",
+      "crida",
       "context",
       "separador",
       "imatge",
@@ -738,6 +832,18 @@
     "destacada": {
       "tipus": "bool",
       "etiqueta": "Destacada (també a Google)"
+    },
+    "servei": {
+      "tipus": "seleccio",
+      "etiqueta": "Servei relacionat",
+      "opcions": [
+        "adequacio",
+        "dpo",
+        "auditoria",
+        "ia",
+        "web"
+      ],
+      "ajuda": "Opcional: sota la resposta surt «Et pot interessar» amb l'enllaç a la pàgina del servei"
     }
   },
   "noticia": {

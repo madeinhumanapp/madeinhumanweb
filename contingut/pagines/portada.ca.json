@@ -185,10 +185,6 @@
       },
       {
         "@context": "https://schema.org",
-        "@type": "FAQPage"
-      },
-      {
-        "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
           {
@@ -218,7 +214,7 @@
       "tipus": "hero",
       "subtitol": "Consultoria en protecció de dades i IA",
       "titol": "Protegir\nés *avançar.*",
-      "text": "Protecció de dades i IA per a pimes, explicades en clar i fetes a la teva mida.",
+      "text": "Ajudem pimes a complir amb la normativa de protecció de dades i a implantar la IA amb garanties.",
       "botons": [
         {
           "text": "Sol·licitar adequació",
@@ -241,33 +237,24 @@
     {
       "tipus": "nota",
       "clau": "2018",
-      "text": "Des d'aleshores, el RGPD obliga **qualsevol empresa** que tracti dades personals: clients, equip, proveïdors.",
+      "text": "Comença a aplicar-se el RGPD: qualsevol empresa que tracti dades personals (clients, equip, proveïdors) ho ha de fer amb un alt nivell de garanties.",
       "costat": "dreta"
-    },
-    {
-      "tipus": "spot",
-      "alternat": false,
-      "titol": "Des del disseny\ni *per defecte.*",
-      "text": "Pràctic i sense paperassa: la privacitat entra a la teva manera de treballar."
-    },
-    {
-      "tipus": "spot",
-      "alternat": true,
-      "titol": "Només allò\nque *necessites.*",
-      "text": "Mirem com treballes i fem un pla a la teva mida. Ni més ni menys."
     },
     {
       "tipus": "nota",
-      "clau": "30.931",
-      "text": "reclamacions a l'AEPD el 2025, un 64 % més que l'any anterior. La mida de l'empresa no eximeix de complir.",
-      "font": "Font: AEPD, Memòria anual 2025",
-      "costat": "dreta"
+      "clau": "2026",
+      "text": "La IA entra als fluxos de feina i obliga a revisar com es tracten les dades. Protegir-les continua sent obligatori, i l'AI Act hi afegeix una nova capa.",
+      "costat": "dreta",
+      "to": "ia"
     },
     {
-      "tipus": "spot",
-      "alternat": false,
-      "titol": "Complir i\n*demostrar-ho.*",
-      "text": "Documentació tècnica i jurídica, i un resum clar per ensenyar a clients i inspeccions."
+      "tipus": "premisses",
+      "titol": "Les nostres *premisses.*",
+      "items": [
+        "Des del disseny i *per defecte.*",
+        "Només allò *que necessites.*",
+        "Complir i *demostrar-ho.*"
+      ]
     },
     {
       "tipus": "spot",
@@ -342,13 +329,6 @@
       }
     },
     {
-      "tipus": "nota",
-      "clau": "2026",
-      "text": "L'AI Act ja exigeix transparència a qui fa servir IA. L'alt risc arriba el desembre de 2027.",
-      "costat": "esquerra",
-      "to": "ia"
-    },
-    {
       "tipus": "spot",
       "alternat": false,
       "titol": "Acostumats\nal *canvi.*",
@@ -360,7 +340,6 @@
       "ancora": "metode",
       "etiqueta": "Mètode",
       "titol": "Com *treballem.*",
-      "entradeta": "Quatre passos clars, de la foto inicial al manteniment.",
       "passos": [
         {
           "titol": "Diagnosi",
@@ -387,7 +366,7 @@
       "tipus": "formulari",
       "formulari": "contacte",
       "titol": "Parla amb *nosaltres.*",
-      "entradeta": "Tens un dubte? Escriu-nos i et responem en menys de 24 hores laborables."
+      "entradeta": "Tens un dubte? Escriu-nos i et responem en menys de 24 hores."
     },
     {
       "tipus": "separador"
@@ -404,34 +383,16 @@
       ]
     },
     {
-      "tipus": "separador"
-    },
-    {
-      "tipus": "faq",
+      "tipus": "crida",
       "ancora": "faq",
-      "etiqueta": "FAQ",
-      "titol": "Preguntes *habituals.*",
-      "entradeta": "Aclariments per a pimes i autònoms sense perfil jurídic especialitzat. El glossari recull els termes regulatoris més habituals.",
-      "pestanyes": [
+      "variant": "linia",
+      "titol": "Tens dubtes?",
+      "botons": [
         {
-          "cat": "tots",
-          "text": "Totes"
-        },
-        {
-          "cat": "rgpd",
-          "text": "RGPD"
-        },
-        {
-          "cat": "ia",
-          "text": "IA"
-        },
-        {
-          "cat": "practic",
-          "text": "Pràctic"
-        },
-        {
-          "cat": "glossari",
-          "text": "Glossari"
+          "text": "Les preguntes freqüents, aquí",
+          "href": "/preguntes-frequents/",
+          "estil": "secundari",
+          "fletxa": true
         }
       ]
     },

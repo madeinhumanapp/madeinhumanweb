@@ -12,7 +12,7 @@ export const PATRO_ID_MEDIA = /^\d{4}-\d{2}-[a-z0-9]+(-[a-z0-9]+)*-[0-9a-f]{8}$/
 // Blocs de la portada que el panell no deixa amagar ni treure: la capçalera, els formularis (connectors amb
 // rgpd-tool) i els que són destinació d'enllaços del menú. Els afegibles són els que el panell pot crear.
 export const BLOCS_PROTEGITS = ['hero', 'formulari', 'serveis', 'metode', 'faq', 'actualitat'];
-export const BLOCS_AFEGIBLES = ['spot', 'nota', 'context', 'separador', 'imatge', 'galeria', 'video'];
+export const BLOCS_AFEGIBLES = ['spot', 'nota', 'premisses', 'crida', 'context', 'separador', 'imatge', 'galeria', 'video'];
 
 export const ESQUEMA = {
   hero: {
@@ -52,6 +52,34 @@ export const ESQUEMA = {
       costat: { tipus: 'seleccio', etiqueta: 'Costat', opcions: ['esquerra', 'dreta'], obligatori: true,
         ajuda: 'A quin costat de la pàgina va la nota (el fil hi passa pel costat)' },
       to: { tipus: 'seleccio', etiqueta: 'Àmbit', opcions: ['rgpd', 'ia'], ajuda: 'Color de la xifra: rgpd, coure (per defecte) · ia, blau' },
+    },
+  },
+  // Les nostres premisses: un títol (la *cursiva* és la paraula que subratlla el fil) i frases curtes, sense definició.
+  // El fil les cus: fa un nus al costat de cadascuna i s'encenen quan hi arriba.
+  premisses: {
+    nom: 'Premisses (títol i frases curtes)',
+    camps: {
+      titol: enriquit('Títol', 50, { ajuda: '*cursiva*: la paraula que subratlla el fil (p. ex. Les nostres *premisses.*)' }),
+      items: { tipus: 'llista', etiqueta: 'Premisses', min: 2, max: 4, element: enriquit('Premissa', 60, { ajuda: '*cursiva* i salt de línia' }) },
+    },
+  },
+  // Crida: una línia discreta (p. ex. cap a una altra pàgina) o una targeta amb botons
+  crida: {
+    nom: 'Crida (línia o targeta amb botons)',
+    camps: {
+      ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, ajuda: 'Opcional: id per enllaçar-hi (#faq). Si n\'hi ha, no el canviïs: hi poden apuntar enllaços' },
+      variant: { tipus: 'seleccio', etiqueta: 'Format', opcions: ['linia', 'targeta'], obligatori: true, ajuda: 'linia: una sola línia discreta · targeta: títol, text i botons destacats' },
+      titol: enriquit('Títol', 60),
+      text: enriquit('Text', 200, { obligatori: false }),
+      botons: {
+        tipus: 'llista', etiqueta: 'Botons', min: 1, max: 3,
+        element: {
+          text: text('Text del botó', 40),
+          href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true },
+          estil: { tipus: 'seleccio', etiqueta: 'Estil', opcions: ['primari', 'secundari'], obligatori: true },
+          fletxa: { tipus: 'bool', etiqueta: 'Amb fletxa' },
+        },
+      },
     },
   },
   context: {
@@ -139,7 +167,7 @@ export const ESQUEMA = {
       ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'No el canviïs: hi apunten enllaços interns de la web' },
       etiqueta: text('Etiqueta', 30),
       titol: enriquit('Titular', 80),
-      entradeta: enriquit('Entradeta', 300),
+      entradeta: enriquit('Entradeta', 300, { obligatori: false }),
       passos: { tipus: 'llista', etiqueta: 'Passos', min: 2, max: 6, element: { titol: text('Títol del pas', 40), text: enriquit('Descripció', 300) } },
     },
   },
@@ -315,6 +343,8 @@ export const CAMPS_FAQ = {
   pregunta: text('Pregunta', 150),
   resposta: enriquit('Resposta', 900),
   destacada: { tipus: 'bool', etiqueta: 'Destacada (també a Google)' },
+  servei: { tipus: 'seleccio', etiqueta: 'Servei relacionat', opcions: ['adequacio', 'dpo', 'auditoria', 'ia', 'web'],
+    ajuda: 'Opcional: sota la resposta surt «Et pot interessar» amb l\'enllaç a la pàgina del servei' },
 };
 export function validarFaq(faq) {
   if (!Array.isArray(faq) || !faq.length) return ['ha de ser una llista amb preguntes'];
