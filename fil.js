@@ -42,8 +42,8 @@
     sel: {
       capcalera: '[data-fil="capcalera"], header.hero',
       context: '[data-fil="context"], .statement', xifra: '.metric',
-      principi: '[data-fil="principi"], .spot', numPrincipi: '.spot-num',
-      serveis: '[data-fil="serveis"], #serveis', pilar: '.pillar', transversal: '.crossover',
+      principi: '[data-fil="principi"], .spot', titolPrincipi: '.spot-title', nota: '[data-fil="nota"], .nota',
+      serveis: '[data-fil="serveis"], #serveis', escena: '[data-fil="serveis-escena"], .fusio', pilar: '.fusio-ambit', junts: '.fusio-junts',
       metode: '[data-fil="metode"], #metode', fase: '.step', numFase: '.step-num',
       contacte: '[data-fil="contacte"], #contacte', titolContacte: '.section-title', etiquetaContacte: '.eyebrow',
       fixos: '.nav, .whatsapp-float, .back-to-top, .scroll-progress, .cookie-banner, .fil-capa',
@@ -360,70 +360,93 @@
       return { s0: r(1), o: r(2) * 2 - 1, k: r(3) < 0.5 ? 0 : 1, r: 0.8 + r(4) * 1.3, al: 0.3 + r(5) * 0.5, ph: r(6), m: 1 + Math.floor(r(7) * 3) };
     });
 
-    // 2) Context (xifres) i principis: un tram trenat que fa esses pels costats, amb un nus a cada principi
+    // 2) Estacions: notes (xifra i frase), principis (spots) i, si n'hi ha, el bloc de context. El fil hi passa pel
+    //    costat (les notes porten el seu; els principis alternen) i, entre dues estacions de costats diferents,
+    //    creua la pàgina pel mig de l'espai que les separa. A cada nota deixa un punt i a cada principi, un nus.
     let tram = [[xR, hero.b + 40]];
     let opcionsTram = { radi: C.radi, entrada: 0 };
     const nusos = [];
     const tancaTram = (o = {}) => {
       R.comu(tram, { ...opcionsTram, ...o, prep: m => { for (const p of m) { let dm = 1e9; for (const [x, y] of nusos) dm = Math.min(dm, Math.hypot(p.x - x, p.y - y)); p.r *= 0.15 + 0.85 * smooth(dm / (mobil ? 40 : 70)); } } });
     };
-    const ctxEl = q(S.context);
-    if (ctxEl) {
-      const sb = caixa(ctxEl);
-      tram.push([xR, sb.y + 50]);
-      for (const m of qa(S.xifra, ctxEl).map(caixa)) {
-        tram.push([xR, m.y + m.h / 2]);
-        R.nodes.push({ tipus: 'punt', x: xR, y: m.y + m.h / 2, ax: xR, ay: m.y + m.h / 2 });
-      }
-      tram.push([xR, sb.b - 30]);
-    }
     const serveisEl = q(S.serveis), svY = serveisEl ? caixa(serveisEl).y : Infinity;
-    const spots = qa(S.principi).map(s => ({ c: caixa(q('.container', s) || s), n: caixa(q(S.numPrincipi, s) || s) }));
-    const spotsA = spots.filter(s => s.n.y < svY), spotsB = spots.filter(s => s.n.y > svY);
-    const costat = (sp, k) => (mobil ? (k % 2 ? xL : xR) : (k % 2 ? sp.n.x / 2 : (sp.n.x + sp.n.w + vw) / 2));
-    spotsA.forEach((sp, k) => {
-      const x = costat(sp, k), ny = sp.n.y + sp.n.h / 2;
-      tram.push([x, sp.n.y - 70], [x, ny], [x, sp.c.b - 10]);
-      nusos.push([x, ny]);
-      R.nodes.push({ tipus: 'nus', x, y: ny, ax: x, ay: ny });
-      if (spotsA[k + 1]) tram.push([vw / 2, (sp.c.b + spotsA[k + 1].n.y) / 2]);
-    });
+    const metEl = q(S.metode), mtY = metEl ? caixa(metEl).y : Infinity;
+    const mE = metEl ? caixa(q('.eyebrow', metEl) || q('.section-title', metEl) || metEl) : null;
+    const estacions = [];
+    for (const el of qa(S.nota)) {
+      const c = caixa(q('.nota-inner', el) || el), k = caixa(q('.nota-clau', el) || q('.nota-text', el) || el);
+      estacions.push({ tipus: 'nota', y: c.y, b: c.b, costat: el.classList.contains('nota-dreta') ? 'dreta' : 'esquerra', ny: k.y + k.h / 2, kx: k.x, kr: k.r });
+    }
+    for (const el of qa(S.principi)) {
+      const c = caixa(q('.container', el) || el), t = caixa(q(S.titolPrincipi, el) || el);
+      estacions.push({ tipus: 'spot', y: t.y, b: c.b, t });
+    }
+    const ctxEl = q(S.context);
+    if (ctxEl) { const sb = caixa(ctxEl); estacions.push({ tipus: 'context', y: sb.y, b: sb.b, costat: 'dreta', el: ctxEl }); }
+    estacions.sort((a, b) => a.y - b.y);
+    let costatActual = 'dreta', ultimB = hero.b;
+    const recorre = llista => {
+      for (const st of llista) {
+        if (st.tipus === 'spot') st.costat = costatActual === 'dreta' ? 'esquerra' : 'dreta';
+        const esq = st.costat === 'esquerra';
+        const x = st.tipus === 'spot' && !mobil ? (esq ? st.t.x / 2 : (st.t.r + vw) / 2) : (esq ? xL : xR);
+        // canvi de costat: creua pel mig de l'espai lliure (si ve del mig, va directament cap al costat)
+        if (st.costat !== costatActual) tram.push([costatActual === 'mig' ? x : vw / 2, (ultimB + st.y) / 2]);
+        if (st.tipus === 'spot') {
+          const ny = st.t.y + st.t.h / 2;
+          tram.push([x, st.y - 70], [x, ny], [x, st.b - 10]);
+          nusos.push([x, ny]);
+          R.nodes.push({ tipus: 'nus', x, y: ny, ax: x, ay: ny });
+        } else if (st.tipus === 'nota') {
+          tram.push([x, st.y - 10], [x, st.ny], [x, st.b + 10]);
+          nusos.push([x, st.ny]);
+          // un punt a l'altura de la xifra i una línia de llum que hi apunta
+          R.nodes.push({ tipus: 'punt', x, y: st.ny, ax: x, ay: st.ny, cap: esq ? st.kx - 14 : st.kr + 14 });
+        } else {
+          tram.push([x, st.y + 50]);
+          for (const m of qa(S.xifra, st.el).map(caixa)) {
+            tram.push([x, m.y + m.h / 2]);
+            R.nodes.push({ tipus: 'punt', x, y: m.y + m.h / 2, ax: x, ay: m.y + m.h / 2 });
+          }
+          tram.push([x, st.b - 30]);
+        }
+        costatActual = st.costat; ultimB = st.b;
+      }
+    };
+    recorre(estacions.filter(st => st.y < svY));
 
-    // 3) Serveis: el coure acompanya el pilar d'RGPD i el blau el d'IA; es retroben a sota («un sol equip»)
-    const pil = qa(S.pilar, serveisEl).map(caixa);
-    let ultimX = tram[tram.length - 1][0], ultimY = tram[tram.length - 1][1];
-    if (serveisEl && pil.length >= 2) {
+    // 3) Serveis (el Venn): el coure baixa pel costat de l'àmbit de RGPD i el blau pel de l'IA; es retroben a sota,
+    //    al mig, després del que tenen en comú («Junts»). L'escena s'anima amb transform: les caixes són les finals.
+    const escena = serveisEl && q(S.escena, serveisEl);
+    const ambits = escena ? qa(S.pilar, escena).map(caixa) : [];
+    if (escena && ambits.length >= 2) {
+      const sc = caixa(escena), jEl = q(S.junts, escena), jb = jEl ? caixa(jEl).b : sc.b;
       const svE = caixa(q('.eyebrow', serveisEl) || q('.section-title', serveisEl) || serveisEl);
-      const crEl = q(S.transversal, serveisEl), cr = crEl ? caixa(crEl) : { y: Math.max(...pil.map(p => p.b)) + 120, b: Math.max(...pil.map(p => p.b)) + 120 };
-      const ySplit = (finalCap(serveisEl, pil[0].y) + pil[0].y) / 2, yJoin = (Math.max(...pil.map(p => p.b)) + cr.y) / 2;
-      const xCu = mobil ? xL : (xL + pil[0].x) / 2, xBl = mobil ? xR : (pil[pil.length - 1].r + xR) / 2;
-      if (spotsA.length) { const u = spotsA[spotsA.length - 1]; tram.push([mobil ? xL : Math.min(costat(u, spotsA.length - 1), xCu + 30), u.c.b + 60]); }
+      const esq = ambits.reduce((a, b) => (b.x < a.x ? b : a)), dre = ambits.reduce((a, b) => (b.r > a.r ? b : a));
+      const ySplit = (finalCap(serveisEl, sc.y) + sc.y) / 2, yJoin = Math.max(sc.b, jb) + (mobil ? 30 : 40);
+      const xCu = mobil ? xL : (xL + esq.x) / 2, xBl = mobil ? xR : (dre.r + xR) / 2;
+      if (costatActual !== 'esquerra') tram.push([vw / 2, (ultimB + svE.y) / 2]);
       tram.push([xCu, svE.y - 30], [xCu, ySplit]);
       tancaTram({ sortida: mobil ? 54 : 90 });
-      const e = mobil ? 30 : 50;
+      const e = mobil ? 30 : 50, mig = vw / 2;
       R.separat(
-        [[xCu, ySplit], [xCu, ySplit + e], [xCu, yJoin - e], [xCu + e, yJoin], [vw / 2, yJoin], [xBl - 2 * e, yJoin], [xBl - 0.4 * e, yJoin + 0.25 * e], [xBl, yJoin + e]],
-        [[xCu, ySplit], [xCu + e, ySplit], [vw / 2, ySplit], [xBl - e, ySplit + 2], [xBl, ySplit + e], [xBl, yJoin - e], [xBl, yJoin + e]],
+        [[xCu, ySplit], [xCu, ySplit + e], [xCu, yJoin - e], [xCu + e, yJoin], [mig - 2 * e, yJoin], [mig - 0.4 * e, yJoin + 0.25 * e], [mig, yJoin + e]],
+        [[xCu, ySplit], [xCu + e, ySplit], [mig, ySplit], [xBl - e, ySplit + 2], [xBl, ySplit + e], [xBl, yJoin - e], [xBl - e, yJoin], [mig + 2 * e, yJoin], [mig + 0.4 * e, yJoin + 0.25 * e], [mig, yJoin + e]],
         { ona: mobil ? 1.5 : 3 });
-      tram = [[xBl, yJoin + e], [xR, cr.y + 20], [xR, cr.b + 20]];
+      tram = [[mig, yJoin + e]];
       opcionsTram = { radi: C.radi, entrada: 80 };
+      costatActual = 'mig'; ultimB = yJoin + e;
     } else if (serveisEl) {
       const sb = caixa(serveisEl);
+      if (costatActual !== 'dreta') tram.push([vw / 2, (ultimB + sb.y) / 2]);
       tram.push([xR, sb.y + 40], [xR, sb.b - 40]);
+      costatActual = 'dreta'; ultimB = sb.b;
     }
-    ultimX = tram[tram.length - 1][0]; ultimY = tram[tram.length - 1][1];
 
-    // 4) Frase posterior i mètode: la trena fa de línia de temps i encén un cursor a cada fase
-    const metEl = q(S.metode);
-    const mE = metEl ? caixa(q('.eyebrow', metEl) || q('.section-title', metEl) || metEl) : null;
-    const sp5 = spotsB[0];
-    if (sp5) {
-      const x = mobil ? xR : costat(sp5, 0), ny = sp5.n.y + sp5.n.h / 2;
-      tram.push([x, sp5.n.y - 70], [x, ny], [x, sp5.c.b - 10]);
-      R.nodes.push({ tipus: 'nus', x, y: ny, ax: x, ay: ny });
-      nusos.push([x, ny]);
-      if (mE) tram.push([vw / 2, (sp5.c.b + mE.y) / 2]);
-    }
+    // 4) Estacions entre els serveis i el mètode; al mètode, la trena fa de línia de temps i encén un cursor a cada fase
+    recorre(estacions.filter(st => st.y > svY && st.y < mtY));
+    let ultimX = tram[tram.length - 1][0], ultimY = tram[tram.length - 1][1];
+    if (mE && costatActual !== 'esquerra') tram.push([costatActual === 'mig' ? xL : vw / 2, (ultimB + mE.y) / 2]);
     const fases = qa(S.fase, metEl).map(caixa), nums = qa(S.numFase, metEl).map(caixa);
     if (metEl && fases.length) {
       const mb = caixa(metEl);
@@ -882,6 +905,13 @@
         const rg = g.createRadialGradient(n.x, n.y, 0, n.x, n.y, hr);
         rg.addColorStop(0, `rgba(${dr},${dg},${db},${0.22 * a + 0.35 * esclat})`); rg.addColorStop(1, `rgba(${dr},${dg},${db},0)`);
         g.fillStyle = rg; g.fillRect(n.x - hr, n.y - hr, 2 * hr, 2 * hr);
+        // nota: una línia de llum que surt del punt cap a la xifra (la màscara la retalla abans del text)
+        if (n.cap !== undefined && Q > 0 && Math.abs(n.cap - n.x) > 10) {
+          const dir = Math.sign(n.cap - n.x), x0 = n.x + dir * 5;
+          const lg = g.createLinearGradient(x0, 0, n.cap, 0);
+          lg.addColorStop(0, `rgba(${cr},${cg},${cbl},${0.55 * a})`); lg.addColorStop(1, `rgba(${cr},${cg},${cbl},0)`);
+          g.fillStyle = lg; g.fillRect(Math.min(x0, n.cap), n.y - 0.6, Math.abs(n.cap - x0), 1.2);
+        }
         // detall: una ona que s'eixampla a cada xifra i una òrbita que gira a cada nus
         if (espurnes && n.tipus === 'punt') {
           const f = (((t / 4.5 + ni * 0.27) % 1) + 1) % 1, rad = mix(C.mobil ? 2 : 3, C.mobil ? 8 : 15, 1 - (1 - f) ** 3);
