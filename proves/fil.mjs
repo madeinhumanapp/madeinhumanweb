@@ -224,7 +224,8 @@ for (const v of VISTES) {
   ok(`${v.nom}: recorregut complet (${e.llargada} px, ${e.nodes} nodes)`, e.llargada > 3000 && e.nodes >= 8);
   // cap marxa enrere per la mateixa vertical: plegaria la trena i hi faria un nus quadrat (p. ex. capçalera → 1a nota al mòbil)
   const enrere = await p.evaluate(() => { const m = madeinhumanFil.mostres(), out = [];
-    for (let i = 1; i < m.length; i++) if (m[i][1] < m[i - 1][1] - 0.5 && Math.abs(m[i][0] - m[i - 1][0]) < 1.5) out.push(`${Math.round(m[i][0])},${Math.round(m[i][1])}`);
+    // (mostres consecutives d'un mateix tram: un salt de més de 10 px és el pas d'un tram, o d'un fil, al següent)
+    for (let i = 1; i < m.length; i++) if (m[i][1] < m[i - 1][1] - 0.5 && Math.abs(m[i][0] - m[i - 1][0]) < 1.5 && m[i - 1][1] - m[i][1] < 10) out.push(`${Math.round(m[i][0])},${Math.round(m[i][1])}`);
     return out; });
   ok(`${v.nom}: el fil no torna mai amunt per la mateixa vertical (cap plec a la trena)`, !enrere.length, enrere.slice(0, 4).join(' · '));
 
@@ -249,9 +250,12 @@ for (const v of VISTES) {
     const st = document.createElement('style'); st.textContent = '*{transition:none!important;animation:none!important}';
     document.head.appendChild(st);
     document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el => el.classList.add('revealed'));
-    // L'escena dels serveis, fusionada, i les premisses i els passos, encesos: és l'estat que es veu allà on el fil
-    // ja és dibuixat (ho comprova proves/portada.mjs)
+    // L'escena dels serveis, fusionada, les notes i la presentació acabades, i les premisses i els passos, encesos: és
+    // l'estat que es veu allà on el fil ja és dibuixat (el fil hi arriba al 62 % de la pantalla, quan les notes ja han
+    // acabat la transició; ho comprova proves/portada.mjs)
     const fusio = document.querySelector('.fusio'); if (fusio) fusio.classList.remove('fusio-viva');
+    document.querySelectorAll('.nota').forEach(n => n.classList.remove('nota-viva'));
+    document.querySelectorAll('.premisses-intro').forEach(n => n.classList.remove('intro-viva'));
     document.querySelectorAll('.premissa, .step').forEach(e => e.classList.add('fil-arribat'));
     const fixos = '.nav, .whatsapp-float, .back-to-top, .scroll-progress, .cookie-banner, .fil-capa, script, style';
     const zs = [], rng = document.createRange();

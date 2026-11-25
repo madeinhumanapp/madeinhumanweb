@@ -149,18 +149,26 @@ repeticions i les preguntes freqüents en una pàgina pròpia (SEO i més comerc
 - Bloc nou **`premisses`** («Les nostres *premisses.*» i 3 frases, sense definició): el fil subratlla la paraula en
   cursiva amb un sol cordó prim i després cus les premisses. Cada premissa s'encén quan hi arriba el fil (`fil.js`
   posa `.fil-arribat`). Els spots 1-3 s'han esborrat (els títols són ara les premisses).
-- Abans del títol, l'`etiqueta` («Projecte jove, professionals amb recorregut») i la `presentacio` en serif gran.
-  El salt de línia de la `presentacio` separa el passat del futur. La transició va **per trams i per temps** (no
+- Abans del títol, la `presentacio` en serif gran, dins de **dues càpsules aero** com els àmbits del Venn (la de les
+  dades, coure; la de la IA, blau). L'`etiqueta` és opcional i ara no s'hi posa. El salt de línia de la `presentacio`
+  separa el passat (càpsula de les dades) del futur (càpsula de la IA). La transició va **per trams i per temps** (no
   lligada a la velocitat del scroll; `portada.js` parteix el text en `.paraula` amb el retard `--d`, proporcional a
   les lletres que té davant):
-  1. quan el passat arriba al 72 % de la pantalla, s'escriu d'esquerra a dreta (`.fase-passat`);
+  1. quan el passat arriba al 72 % de la pantalla, apareix la seva càpsula i s'hi escriu d'esquerra a dreta
+     (`.fase-passat`);
   2. en acabar, el seu punt final s'encén com un punt de llum daurat (`.fase-punt`, `.punt-temps`);
-  3. quan el futur arriba al 62 %, s'escriu igual i el passat s'esmorteeix (`.fase-futur`). Si es baixa de pressa
-     (el futur ja és al 45 %), s'escriu sense esperar.
+  3. quan el futur arriba al 62 %, apareix la càpsula de la IA, separada, i s'hi escriu el futur mentre el passat
+     s'esmorteeix (`.fase-futur`). Si es baixa de pressa (el futur ja és al 45 %), s'escriu sense esperar;
+  4. en acabar, les dues càpsules s'acosten i es fonen del tot en una, amb la vora de llum que gira (`.fase-fusio`).
 
-  Si es torna amunt fins que la frase surt per baix, es reinicia; si ja ha passat per dalt, es veu sencera.
-  «Madeinhuman» es pinta amb la lletra del logo; les cursives alternen el to de les dades (coure) i el de la IA (blau).
-  Sense JavaScript o amb «reduir moviment», es veu tot quiet.
+  Separades, cada càpsula embolcalla la seva part (`--cap-a`, `--cap-b`) i totes dues s'aparten `--cap-d` del lloc
+  final (`portada.js` ho mesura). Si es torna amunt fins que la frase surt per baix, es reinicia; si ja ha passat per
+  dalt, es veu sencera i fusionada. «Madeinhuman» es pinta amb la lletra del logo; les cursives alternen el to de les
+  dades (coure) i el de la IA (blau). Sense JavaScript o amb «reduir moviment», es veu tot quiet i ja fusionat.
+- **El fil encercla la frase** (`data-fil="capsula"`, estació `capsula` de `fil.js`): arriba en vertical al mig, a
+  sobre, i es parteix en una «Y»; el coure l'encercla per l'esquerra i el blau per la dreta, i es retroben en un nus a
+  sota. Després passa per sobre del títol fins al final de «premisses» i la subratlla. El cercle es dibuixa abans que
+  la resta del fil (`avanc`, `kmin`), perquè quedi tancat quan la frase és al mig de la pantalla.
 - `fil.js` descarta els punts d'un tram que tornarien amunt per la mateixa vertical (al mòbil, l'inici de la primera
   nota quedava 10 px per sobre del final de la capçalera i la trena hi feia un nus quadrat).
 - Mètode sense entradeta: cada pas s'encén quan hi arriba el fil (número, llum a la vora de dalt i text).

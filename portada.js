@@ -3,9 +3,10 @@
 
    - Notes (2018, 2026…): l'any surt gran al centre, va al seu costat (on passa el fil) i hi entra el text. Posa
      --a1, --a2, --a3 (fases) i --dx (distància del centre a la posició final de l'any) i la classe .nota-viva.
-   - Presentació de les premisses (passat → futur), per trams i per temps: el passat s'escriu d'esquerra a dreta
-     (.fase-passat), el seu punt final s'encén (.fase-punt) i, en baixar una mica més, s'escriu el futur mentre el
-     passat s'esmorteeix (.fase-futur). Parteix el text en paraules (.paraula, amb el retard --d) i posa .intro-viva.
+   - Presentació de les premisses (passat → futur), per trams i per temps, dins de dues càpsules: el passat s'escriu
+     d'esquerra a dreta (.fase-passat), el seu punt final s'encén (.fase-punt), en baixar una mica més s'escriu el
+     futur (.fase-futur) i les dues càpsules es fonen en una (.fase-fusio). Parteix el text en paraules (.paraula,
+     amb el retard --d), mesura les càpsules separades (--cap-a, --cap-b, --cap-d) i posa .intro-viva.
    - Venn: posa --fusio (de 0 a 1) a .fusio segons on és l'escena a la pantalla, i la classe .fusio-viva. Els
      estils fan créixer els dos àmbits l'un cap a l'altre fins que es superposen, i hi fan aparèixer el que tenen
      en comú. Sense JavaScript, o amb «reduir moviment», es veuen fusionats (--fusio val 1 per defecte).
@@ -49,12 +50,13 @@
     });
   });
 
-  // ---------- Presentació, per trams: el passat s'escriu d'esquerra a dreta, el seu punt s'encén i, en baixar una mica
-  // més, s'escriu el futur. Va per temps (no lligat a la velocitat del scroll): cada tram comença quan la seva part
+  // ---------- Presentació, per trams: apareix la càpsula de les dades i el passat s'hi escriu d'esquerra a dreta, el
+  // seu punt s'encén i, en baixar una mica més, apareix la càpsula de la IA i s'hi escriu el futur; al final, les dues
+  // càpsules es fonen en una. Va per temps (no lligat a la velocitat del scroll): cada tram comença quan la seva part
   // arriba a la seva alçada de la pantalla i mai abans que acabi l'anterior. Si es torna amunt fins que la frase
-  // surt per baix, es reinicia; si ja ha passat per dalt, es veu sencera.
+  // surt per baix, es reinicia; si ja ha passat per dalt, es veu sencera i fusionada.
   document.querySelectorAll('.premisses-intro').forEach(intro => {
-    const passat = intro.querySelector('.pres-passat'), futur = intro.querySelector('.pres-futur');
+    const passat = intro.querySelector('.pres-passat'), futur = intro.querySelector('.pres-futur'), caps = intro.querySelector('.capsules');
     if (!passat || !futur) return;
     const MS_LLETRA = 14, INICI = 150, DURADA = 800, PUNT = 550;
     // Parteix el text en paraules sense tocar les etiquetes (cursives, marca): cada paraula porta el seu retard (--d)
@@ -81,18 +83,21 @@
       }
       return ultim + DURADA;                     // quan acaba d'aparèixer l'última paraula
     };
-    let partit = false, durPassat = 0, fase = 0, llest = 0, rellotge = 0;
+    let partit = false, durPassat = 0, durFutur = 0, fase = 0, llest = 0, rellotge = 0;
     let topIntro = 0, alt = 0, topPassat = 0, topFutur = 0;
     const posa = f => {
       fase = f;
       intro.classList.toggle('fase-passat', f >= 1);
       intro.classList.toggle('fase-punt', f >= 2);
       intro.classList.toggle('fase-futur', f >= 3);
+      intro.classList.toggle('fase-fusio', f >= 4);
     };
+    // el futur s'escriu i, quan acaba, les càpsules es fonen
+    const escriuFutur = () => { clearTimeout(rellotge); posa(3); rellotge = setTimeout(() => { if (fase === 3) posa(4); }, durFutur + 150); };
     const avanca = (vh = window.innerHeight, sy = window.scrollY) => {
       if (!intro.classList.contains('intro-viva')) return;
       if (topIntro - sy > vh) { if (fase) { clearTimeout(rellotge); llest = 0; posa(0); } return; }     // ha sortit per baix
-      if (topIntro + alt - sy < 0) { if (fase < 3) { clearTimeout(rellotge); posa(3); } return; }       // ja ha passat per dalt
+      if (topIntro + alt - sy < 0) { if (fase < 4) { clearTimeout(rellotge); posa(4); } return; }       // ja ha passat per dalt
       if (fase === 0 && topPassat - sy <= vh * 0.72) {
         posa(1);
         rellotge = setTimeout(() => { llest = 1; avanca(); }, durPassat);
@@ -100,18 +105,29 @@
         posa(2);
         rellotge = setTimeout(() => { llest = 2; avanca(); }, PUNT);
       } else if (fase === 2 && llest >= 2 && topFutur - sy <= vh * 0.62) {
-        posa(3);
+        escriuFutur();
       }
       // si es baixa de pressa i el futur ja és a la meitat de dalt, s'escriu ara (el passat acaba d'escriure's igualment)
-      if (fase >= 1 && fase < 3 && topFutur - sy <= vh * 0.45) { clearTimeout(rellotge); posa(3); }
+      if (fase >= 1 && fase < 3 && topFutur - sy <= vh * 0.45) escriuFutur();
     };
     animacions.push({
       activa(viu) {
-        if (viu && !partit) { durPassat = parteix(passat); parteix(futur); partit = true; }
+        if (viu && !partit) { durPassat = parteix(passat); durFutur = parteix(futur); partit = true; }
         intro.classList.toggle('intro-viva', viu);
         clearTimeout(rellotge); llest = 0; posa(0);
       },
-      mesura() { topIntro = posicio(intro); alt = intro.offsetHeight; topPassat = posicio(passat); topFutur = posicio(futur); },
+      mesura() {
+        topIntro = posicio(intro); alt = intro.offsetHeight; topPassat = posicio(passat); topFutur = posicio(futur);
+        if (!caps) return;
+        // Separades, cada càpsula embolcalla la seva part (amb el 60 % del marge interior a la juntura) i s'aparten prou
+        // per deixar-hi un buit; fusionades, totes dues ocupen tota la caixa
+        const y0 = posicio(caps), pv = 0.6 * (parseFloat(getComputedStyle(caps).paddingTop) || 0);
+        const a = topPassat + passat.offsetHeight - y0 + pv, b = topFutur - y0 - pv;
+        const d = Math.max(10, (a - b) / 2 + (window.innerWidth < 768 ? 8 : 10));
+        caps.style.setProperty('--cap-a', `${Math.round(a)}px`);
+        caps.style.setProperty('--cap-b', `${Math.round(b)}px`);
+        caps.style.setProperty('--cap-d', `${Math.round(d)}px`);
+      },
       calcula: avanca,
     });
   });
@@ -185,7 +201,7 @@
   }
 
   // ---------- Vores de llum: només giren a la pantalla
-  const llums = document.querySelectorAll('.detall-item, .fusio-junts, .adequacio > .container');
+  const llums = document.querySelectorAll('.detall-item, .fusio-junts, .adequacio > .container, .capsules');
   if (llums.length && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('llum-activa', e.isIntersecting)), { rootMargin: '80px 0px' });
     llums.forEach(el => io.observe(el));

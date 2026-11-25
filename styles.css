@@ -1708,39 +1708,96 @@ html.dialeg-obert { overflow: hidden; scrollbar-gutter: stable; }   /* sense sal
 
 /* ===== Les nostres premisses: el fil subratlla la paraula i cus les premisses =====
    Amb el fil (.amb-fil), cada premissa s'encén quan el fil hi arriba (.fil-arribat); sense, es veuen totes. */
-section.block.premisses { padding: 96px 0 72px; }
+section.block.premisses { padding: clamp(150px, 22vh, 200px) 0 72px; }   /* aire a sobre: el fil hi creua cap al mig */
 .premisses-inner { text-align: center; }
-/* Presentació (qui som), abans del títol: etiqueta, i una frase amb la marca amb la lletra del logo */
-.premisses-intro { max-width: 50rem; margin: 0 auto clamp(112px, 18vh, 180px); display: flex; flex-direction: column; align-items: center; gap: 20px; }
+/* Presentació (qui som), abans del títol: la frase dins de dues càpsules aero, com els àmbits del Venn (la de les
+   dades, coure; la de la IA, blau), que es fonen en una de sola. El fil l'encercla (fil.js, data-fil="capsula"). */
+.premisses-intro { max-width: 52rem; margin: 0 auto clamp(140px, 22vh, 210px); display: flex; flex-direction: column; align-items: center; gap: 20px; }
 .premisses-intro .eyebrow { justify-content: center; text-align: center; }
 @media (max-width: 767px) {
   /* al mòbil l'etiqueta fa dues línies: sense el traç i ben centrada */
   .premisses-intro .eyebrow { letter-spacing: 0.14em; line-height: 1.7; }
   .premisses-intro .eyebrow::before { display: none; }
 }
-.premisses-presentacio { font-family: var(--font-serif); font-weight: 400; font-size: clamp(25px, 2.7vw, 36px); line-height: 1.3; letter-spacing: -0.01em; color: var(--text); text-wrap: balance; }
+.capsules {
+  position: relative;
+  width: 100%;
+  padding: 44px clamp(28px, 5vw, 60px) 46px;
+  border-radius: 28px;
+  isolation: isolate;
+  --llum-a: var(--daurat-clar); --llum-b: var(--crema); --llum-c: var(--blau-clar);
+}
+.capsula {
+  position: absolute; inset: 0; z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.capsula-dades {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--daurat) 12%, transparent), color-mix(in srgb, var(--daurat) 2%, transparent) 70%), var(--bg-card);
+  border: 1px solid color-mix(in srgb, var(--daurat) 26%, transparent);
+}
+.capsula-ia {
+  background: linear-gradient(0deg, color-mix(in srgb, var(--blau) 14%, transparent), color-mix(in srgb, var(--blau) 3%, transparent) 70%), var(--bg-card);
+  border: 1px solid color-mix(in srgb, var(--blau) 30%, transparent);
+}
+/* fusionades: una sola vora, amb el reflex de llum que la recorre (de blau a coure), com el panell «Junts» */
+.capsules::after {
+  content: "";
+  position: absolute; inset: -1px; z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--angle-llum, 0deg), transparent 0deg 240deg, var(--llum-c) 290deg, var(--llum-b) 318deg, var(--llum-a) 334deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.capsules.llum-activa::after { animation: gir-llum 9s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .capsules.llum-activa::after { animation: none; } }
+@media (max-width: 767px) {
+  /* més estreta que la pàgina: el fil hi passa pels dos costats */
+  .capsules { width: calc(100% - 16px); padding: 28px 20px 30px; border-radius: 22px; }
+}
+.premisses-presentacio { font-family: var(--font-serif); font-weight: 400; font-size: clamp(23px, 2.6vw, 34px); line-height: 1.3; letter-spacing: -0.01em; color: var(--text); text-wrap: balance; }
 .premisses-presentacio em { font-style: italic; font-weight: 400; }
 .pres-passat, .pres-futur { display: block; }
-.pres-futur { margin-top: 0.65em; }
+.pres-futur { margin-top: 0.75em; }
 .premisses-presentacio .marca-text { font-size: 1em; }
-/* Transició passat → futur, per trams (portada.js, .intro-viva):
-   1. .fase-passat: el passat s'escriu d'esquerra a dreta, paraula per paraula, al ritme de lectura;
+/* Transició, per trams i per temps (portada.js, .intro-viva):
+   1. .fase-passat: apareix la càpsula de les dades i el passat s'hi escriu d'esquerra a dreta, paraula per paraula;
    2. .fase-punt: el seu punt final s'encén com un punt de llum;
-   3. .fase-futur: en baixar una mica més, el futur s'escriu igual i el passat s'esmorteeix.
-   Cada paraula (.paraula) porta el seu retard (--d), proporcional a les lletres que té davant. Va per temps, no
-   lligat a la velocitat del scroll. Sense JavaScript o amb «reduir moviment», tot sencer i quiet. */
-.premisses-intro { --corba-escriu: cubic-bezier(0.2, 0.65, 0.3, 1); }
+   3. .fase-futur: en baixar una mica més, apareix la càpsula de la IA, separada, i el futur s'hi escriu igual;
+   4. .fase-fusio: les dues càpsules s'acosten i es fonen del tot en una (i s'hi encén la vora de llum).
+   Cada paraula (.paraula) porta el seu retard (--d), proporcional a les lletres que té davant. Separades, cada
+   càpsula embolcalla la seva part (--cap-a: final de la de les dades; --cap-b: inici de la de la IA) i totes dues
+   s'aparten --cap-d del lloc final. Sense JavaScript o amb «reduir moviment», tot sencer, quiet i ja fusionat. */
+.premisses-intro { --corba-escriu: cubic-bezier(0.2, 0.65, 0.3, 1); --corba-fusio: cubic-bezier(0.65, 0, 0.25, 1); }
 .punt-temps { position: relative; }
 .intro-viva .eyebrow { opacity: 0; transform: translateY(8px); }
 .intro-viva.fase-passat .eyebrow { opacity: 1; transform: none; transition: opacity 0.9s ease, transform 0.9s var(--corba-escriu); }
+.intro-viva .capsula { opacity: 0; transform: scale(0.97); }
+.intro-viva .capsula-dades { bottom: calc(100% - var(--cap-a, 100%)); translate: 0 calc(-1 * var(--cap-d, 0px)); }
+.intro-viva .capsula-ia { top: var(--cap-b, 0px); translate: 0 var(--cap-d, 0px); }
+.intro-viva .pres-passat { translate: 0 calc(-1 * var(--cap-d, 0px)); transition: opacity 1.6s ease 0.2s; }
+.intro-viva .pres-futur { translate: 0 var(--cap-d, 0px); }
+.intro-viva.fase-passat .capsula-dades,
+.intro-viva.fase-futur .capsula-ia { opacity: 1; transform: none; transition: opacity 0.9s ease, transform 1.1s var(--corba-escriu); }
+.intro-viva.fase-fusio .capsula-dades { bottom: 0; translate: none; }
+.intro-viva.fase-fusio .capsula-ia { top: 0; translate: none; }
+.intro-viva.fase-fusio .capsula { transition: opacity 0.9s ease, transform 1.1s var(--corba-escriu), top 1.4s var(--corba-fusio), bottom 1.4s var(--corba-fusio), translate 1.4s var(--corba-fusio); }
+.intro-viva.fase-fusio .pres-passat { translate: none; transition: opacity 1.6s ease 0.2s, translate 1.4s var(--corba-fusio); }
+.intro-viva.fase-fusio .pres-futur { translate: none; transition: translate 1.4s var(--corba-fusio); }
+.intro-viva .capsules::after { opacity: 0; }
+.intro-viva.fase-fusio .capsules::after { opacity: 1; transition: opacity 1.2s ease 0.9s; }
 .intro-viva .paraula { display: inline-block; opacity: 0; filter: blur(6px); transform: translateY(0.22em); }
 .intro-viva.fase-passat .pres-passat .paraula,
 .intro-viva.fase-futur .pres-futur .paraula {
   opacity: 1; filter: blur(0); transform: none;
   transition: opacity 0.9s var(--corba-escriu) var(--d), filter 0.9s var(--corba-escriu) var(--d), transform 1.1s var(--corba-escriu) var(--d);
 }
-.intro-viva .pres-passat { transition: opacity 1.6s ease 0.2s; }
-.intro-viva.fase-futur .pres-passat { opacity: 0.62; }
+.intro-viva.fase-futur .pres-passat { opacity: 0.66; }
 .intro-viva .punt-temps { color: transparent; }
 .intro-viva .punt-temps::after {
   content: "";
@@ -1769,7 +1826,7 @@ section.block.premisses { padding: 96px 0 72px; }
 .premissa em { font-style: italic; font-weight: 400; color: var(--copper); }
 .amb-fil .premissa { transition: opacity 0.8s cubic-bezier(.2, .7, .3, 1), transform 0.8s cubic-bezier(.2, .7, .3, 1), filter 0.8s ease; }
 .amb-fil .premissa:not(.fil-arribat) { opacity: 0.26; transform: translateY(14px); filter: blur(1px); }
-@media (max-width: 700px) { section.block.premisses { padding: 72px 0 48px; } }
+@media (max-width: 700px) { section.block.premisses { padding: 112px 0 48px; } }
 
 /* ===== Mètode: cada pas s'encén quan el fil hi arriba (número, llum a la vora de dalt i text) ===== */
 .step::after {

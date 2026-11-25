@@ -136,14 +136,19 @@ export const BLOCS = {
   </div>
 </aside>`,
 
-  // Les nostres premisses: el fil subratlla la paraula en cursiva del títol i cus les premisses (fil.js hi posa
-  // .fil-arribat quan hi arriba; sense JavaScript es veuen totes)
+  // Les nostres premisses: la presentació va dins de dues càpsules (dades i IA) que es fonen en una sola i que el fil
+  // encercla; el fil subratlla la paraula en cursiva del títol i cus les premisses (fil.js hi posa .fil-arribat quan
+  // hi arriba; sense JavaScript es veu tot, amb les càpsules ja fusionades)
   premisses: d => `
 <section class="block premisses" data-fil="premisses">
   <div class="container premisses-inner">${d.etiqueta || d.presentacio ? `
     <div class="premisses-intro">${d.etiqueta ? `
       <span class="eyebrow">${esc(d.etiqueta)}</span>` : ''}${d.presentacio ? `
-      <p class="premisses-presentacio">${presentacio(d.presentacio)}</p>` : ''}
+      <div class="capsules" data-fil="capsula">
+        <span class="capsula capsula-dades" aria-hidden="true"></span>${String(d.presentacio).includes('\n') ? `
+        <span class="capsula capsula-ia" aria-hidden="true"></span>` : ''}
+        <p class="premisses-presentacio">${presentacio(d.presentacio)}</p>
+      </div>` : ''}
     </div>` : ''}
     <h2 class="premisses-titol">${enriquit(d.titol).replace('<em>', '<em data-fil="subratllat">')}</h2>
     <ol class="premisses-llista">

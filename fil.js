@@ -43,7 +43,7 @@
       capcalera: '[data-fil="capcalera"], header.hero',
       context: '[data-fil="context"], .statement', xifra: '.metric',
       principi: '[data-fil="principi"], .spot', titolPrincipi: '.spot-title', nota: '[data-fil="nota"], .nota',
-      subratllat: '[data-fil="subratllat"]', premissa: '[data-fil="premissa"]',
+      subratllat: '[data-fil="subratllat"]', premissa: '[data-fil="premissa"]', capsula: '[data-fil="capsula"]',
       serveis: '[data-fil="serveis"], #serveis', escena: '[data-fil="serveis-escena"], .fusio', pilar: '.fusio-ambit', junts: '.fusio-junts',
       metode: '[data-fil="metode"], #metode', fase: '.step', numFase: '.step-num',
       contacte: '[data-fil="contacte"], #contacte', titolContacte: '.section-title', etiquetaContacte: '.eyebrow',
@@ -172,6 +172,12 @@
     return out;
   }
   const corba = pts => remostrejar(corbaCR(ancorar(pts)), CONFIG.pas);
+  // Punts alineats als trams rectes llargs: la corba no s'hi arqueja
+  const densa = (pts, pas) => pts.flatMap((p, i) => {
+    if (!i) return [p];
+    const [x0, y0] = pts[i - 1], n = Math.floor(Math.hypot(p[0] - x0, p[1] - y0) / pas);
+    return [...Array.from({ length: n }, (_, k) => [mix(x0, p[0], (k + 1) / (n + 1)), mix(y0, p[1], (k + 1) / (n + 1))]), p];
+  });
 
   // ---------- Mesures del DOM en coordenades de document (sense les translacions de les animacions d'aparició)
   function caixa(el) {
@@ -263,14 +269,16 @@
     this.peces.push({ tipus: 'comu', m, int: o.int || 0.72 });
     return m;
   };
-  // Tram separat: cada fil pel seu camí fins que es tornen a trobar
+  // Tram separat: cada fil pel seu camí fins que es tornen a trobar. o.avanc (px): es dibuixa abans, com si fos més
+  // amunt; o.kmin: px de scroll per px de fil (p. ex. el cercle de la càpsula, que s'ha de tancar quan la frase és al
+  // mig de la pantalla)
   Ruta.prototype.separat = function (ptsA, ptsB, o = {}) {
     const ms = [corba(ptsA), corba(ptsB)], Ls = ms.map(m => m[m.length - 1].d), L = Math.max(...Ls), t0 = this.trig, fins = [];
     ms.forEach((m, k) => {
       let tr = t0;
       m.forEach((p, i) => {
         p.r = 0; p.la = o.ona || 0; p.s = this.s + p.d; p.u = this.u + p.d * (L / Ls[k]);
-        tr = Math.max(i ? tr + CONFIG.pas * CONFIG.kmin : tr, p.y - CONFIG.lectura * this.vh); p.trig = tr;
+        tr = Math.max(i ? tr + CONFIG.pas * (o.kmin || CONFIG.kmin) : tr, p.y - (o.avanc || 0) - CONFIG.lectura * this.vh); p.trig = tr;
       });
       fins.push(tr);
     });
@@ -415,6 +423,7 @@
       const c = caixa(q('.container', el) || el), t = caixa(q(S.titolPrincipi, el) || el);
       estacions.push({ tipus: 'spot', y: t.y, b: c.b, t });
     }
+    for (const el of qa(S.capsula)) { const c = caixa(el); estacions.push({ tipus: 'capsula', y: c.y, b: c.b, box: c }); }
     for (const el of qa(S.subratllat)) {
       const l = ultimaLinia(el);
       estacions.push({ tipus: 'subratllat', y: l.y0, b: l.y1, l, yU: l.y1 + 8 });
@@ -429,6 +438,28 @@
     let costatActual = 'dreta', ultimB = hero.b, anterior = null;
     const recorre = llista => {
       for (const st of llista) {
+        // Càpsula (la presentació de les premisses): la trena es parteix a sobre i l'encercla, el coure per l'esquerra
+        // i el blau per la dreta, fins a retrobar-se a sota, al mig. Les càpsules s'animen amb transform: la caixa és
+        // la final (fusionada).
+        if (st.tipus === 'capsula') {
+          // gV: prou aire perquè les càpsules, separades, no toquin el cercle (portada.js les aparta --cap-d)
+          const bx = st.box, mig = vw / 2, gS = mobil ? 13 : 36, gV = mobil ? 38 : 54, e = mobil ? 28 : 46;
+          const xa = Math.max(xL, bx.x - gS), xb = Math.min(xR, bx.r + gS), ya = bx.y - gV, yb = bx.b + gV;
+          const rc = Math.min(mobil ? 30 : 60, (yb - ya) / 2), ySplit = ya - e, yJoin = yb + e;
+          // hi arriba en vertical i es parteix en una «Y» suau
+          if (costatActual !== 'mig') tram.push([mix(costatActual === 'esquerra' ? xL : xR, mig, 0.55), (ultimB + ySplit - e) / 2]);
+          tram.push([mig, ySplit - e], [mig, ySplit]);
+          tancaTram({ sortida: mobil ? 44 : 70 });
+          const volta = (x, s) => densa([   // s: -1, per l'esquerra (coure); +1, per la dreta (blau)
+            [mig, ySplit], [mig + s * e * 0.22, ySplit + e * 0.45], [mig + s * e * 1.3, ya], [x - s * rc, ya],
+            [x - s * rc * 0.293, ya + rc * 0.293], [x, ya + rc], [x, yb - rc], [x - s * rc * 0.293, yb - rc * 0.293], [x - s * rc, yb],
+            [mig + s * e * 1.3, yb], [mig + s * e * 0.22, yJoin - e * 0.45], [mig, yJoin]], 40);
+          R.separat(volta(xa, -1), volta(xb, 1), { ona: mobil ? 1.2 : 2.4, avanc: yb - ya, kmin: 0.12 });
+          tram = [[mig, yJoin]];
+          opcionsTram = { radi: C.radi, entrada: mobil ? 60 : 90 };
+          costatActual = 'mig'; ultimB = yJoin; anterior = st;
+          continue;
+        }
         // Subratllat: el fil hi arriba pel seu costat, passa per sota de la paraula (un sol cordó) i surt per l'altre
         if (st.tipus === 'subratllat') {
           const { x0, x1 } = st.l, yU = st.yU, dePerDreta = costatActual !== 'esquerra';
@@ -436,7 +467,10 @@
           // punts alineats cada 32 px: el tram del subratllat queda recte (la corba no s'hi pot arquejar cap a la paraula)
           const pas = 32, n = Math.max(1, Math.round(Math.abs(xb - xa) / pas)), recte = [];
           for (let i = 0; i <= n; i++) recte.push([mix(xa + s * 6, xb - s * 6, i / n), yU]);
-          tram.push([dePerDreta ? xR : xL, yU - (mobil ? 40 : 70)], [xa + s * (mobil ? 26 : 60), yU], ...recte, [xb - s * (mobil ? 22 : 44), yU + (mobil ? 18 : 30)]);
+          // ve del mig (de sota la càpsula): passa per sobre del títol fins al final de la paraula; si no, des del seu marge
+          const entra = costatActual === 'mig'
+            ? [[clamp(xa + s * (mobil ? 36 : 90), xL, xR), st.y - (mobil ? 20 : 30)]] : [[dePerDreta ? xR : xL, yU - (mobil ? 40 : 70)]];
+          tram.push(...entra, [xa + s * (mobil ? 26 : 60), yU], ...recte, [xb - s * (mobil ? 22 : 44), yU + (mobil ? 18 : 30)]);
           aprimats.push({ x0: x0 - 6, x1: x1 + 6, y: yU });
           costatActual = dePerDreta ? 'esquerra' : 'dreta'; ultimB = yU + (mobil ? 18 : 30); anterior = st;
           continue;

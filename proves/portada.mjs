@@ -97,8 +97,9 @@ for (const v of VISTES) {
   const final = fases[fases.length - 1].every(x => x === 1);
   ok(`${v.nom}: la nota 2018 fa la transició (l'any primer, després el text) sense tirar enrere`, nota.viva && ordre && creixen && final, JSON.stringify(fases.filter((_, i) => i % 3 === 0)));
 
-  // 0a') Presentació, per trams: el passat s'escriu d'esquerra a dreta, el punt s'encén i el futur espera que s'hi
-  // arribi; llavors s'escriu i el passat s'esmorteeix. Si es torna amunt fins que surt per baix, es reinicia.
+  // 0a') Presentació, per trams, dins de dues càpsules: el passat s'escriu d'esquerra a dreta a la càpsula de les dades,
+  // el punt s'encén i el futur espera que s'hi arribi; llavors apareix la càpsula de la IA, separada, s'hi escriu el
+  // futur i les dues càpsules es fonen del tot en una. Si es torna amunt fins que surt per baix, es reinicia.
   const gi = await p.evaluate(() => {
     const top = el => { let y = 0; for (let e = el; e; e = e.offsetParent) y += e.offsetTop; return y; };
     const i = document.querySelector('.premisses-intro');
@@ -108,8 +109,9 @@ for (const v of VISTES) {
   });
   const llegeix = () => p.evaluate(() => {
     const i = document.querySelector('.premisses-intro'), op = s => [...i.querySelectorAll(s)].map(e => Math.round(+getComputedStyle(e).opacity * 100) / 100);
-    return { fases: ['fase-passat', 'fase-punt', 'fase-futur'].filter(c => i.classList.contains(c)), passat: op('.pres-passat .paraula'), futur: op('.pres-futur .paraula'),
-      opPassat: +getComputedStyle(i.querySelector('.pres-passat')).opacity };
+    const rc = s => { const e = i.querySelector(s), r = e.getBoundingClientRect(); return { t: Math.round(r.top), b: Math.round(r.bottom), l: Math.round(r.left), r: Math.round(r.right), o: +getComputedStyle(e).opacity }; };
+    return { fases: ['fase-passat', 'fase-punt', 'fase-futur', 'fase-fusio'].filter(c => i.classList.contains(c)), passat: op('.pres-passat .paraula'), futur: op('.pres-futur .paraula'),
+      opPassat: +getComputedStyle(i.querySelector('.pres-passat')).opacity, caixa: rc('.capsules'), dades: rc('.capsula-dades'), ia: rc('.capsula-ia') };
   });
   const sotaI = Math.max(0, gi.top - vh - 40);
   await vesA(p, sotaI); await p.waitForTimeout(150);
@@ -118,19 +120,43 @@ for (const v of VISTES) {
   const i1 = await llegeix();                                    // el passat, a mig escriure
   await p.waitForTimeout(2600);
   const i2 = await llegeix();                                    // passat escrit i punt encès; el futur, encara no
-  await vesA(p, gi.futur - vh * 0.5); await p.waitForTimeout(2600);
-  const i3 = await llegeix();                                    // futur escrit i passat esmorteït
+  await vesA(p, gi.futur - vh * 0.5); await p.waitForTimeout(900);
+  const i3a = await llegeix();                                   // càpsula de la IA, encara separada; el futur s'escriu
+  await p.waitForTimeout(2700);
+  const i3 = await llegeix();                                    // futur escrit, passat esmorteït i càpsules fusionades
   await vesA(p, sotaI); await p.waitForTimeout(150);
   const i4 = await llegeix();                                    // ha sortit per baix: es reinicia
   const tots = (a, x) => a.length > 0 && a.every(o => o === x);
+  const igual = (a, b) => ['t', 'b', 'l', 'r'].every(k => Math.abs(a[k] - b[k]) <= 1);
   ok(`${v.nom}: la presentació s'escriu per trams (passat d'esquerra a dreta, punt, futur quan s'hi arriba) i es reinicia en tornar amunt`,
     gi.viva && gi.text.includes('dades. Ara') && gi.marca === 'normal,italic'
     && !i0.fases.length && tots(i0.passat, 0)
     && i1.fases.join() === 'fase-passat' && i1.passat[0] > i1.passat[i1.passat.length - 1] + 0.3 && tots(i1.futur, 0)
     && i2.fases.join() === 'fase-passat,fase-punt' && tots(i2.passat, 1) && tots(i2.futur, 0)
-    && i3.fases.length === 3 && tots(i3.futur, 1) && i3.opPassat > 0.5 && i3.opPassat < 0.8
+    && i3.fases.length === 4 && tots(i3.futur, 1) && i3.opPassat > 0.5 && i3.opPassat < 0.8
     && !i4.fases.length,
     JSON.stringify({ text: gi.text.slice(0, 40), marca: gi.marca, i0: i0.fases, i1: [i1.fases, i1.passat], i2: [i2.fases, i2.futur], i3: [i3.fases, i3.opPassat], i4: i4.fases }));
+  ok(`${v.nom}: dues càpsules independents (dades i IA) que es fonen del tot en una`,
+    i2.dades.o === 1 && i2.ia.o === 0 && i2.dades.b < i2.caixa.b - 20
+    && i3a.ia.o > 0.5 && i3a.dades.b + 4 < i3a.ia.t && i3a.dades.t < i3a.caixa.t && i3a.ia.b > i3a.caixa.b
+    && i3.dades.o === 1 && i3.ia.o === 1 && igual(i3.dades, i3.caixa) && igual(i3.ia, i3.caixa),
+    JSON.stringify({ i2: [i2.dades, i2.ia, i2.caixa], i3a: [i3a.dades, i3a.ia], i3: [i3.dades, i3.ia, i3.caixa] }));
+
+  // 0a'') El fil encercla la càpsula: hi passa pels quatre costats, sense entrar-hi mai
+  const cercle = await p.evaluate(() => {
+    const c = document.querySelector('.capsules'); let x = 0, y = 0;
+    for (let e = c; e; e = e.offsetParent) { x += e.offsetLeft; y += e.offsetTop; }
+    const B = { x0: x, y0: y, x1: x + c.offsetWidth, y1: y + c.offsetHeight }, m = madeinhumanFil.mostres();
+    const dins = (q, a, b) => q >= a && q <= b;
+    const costat = f => m.filter(f);
+    const esq = costat(([px, py]) => px < B.x0 - 4 && dins(py, B.y0, B.y1)), dre = costat(([px, py]) => px > B.x1 + 4 && dins(py, B.y0, B.y1));
+    const dalt = costat(([px, py]) => py < B.y0 - 4 && py > B.y0 - 90 && dins(px, B.x0, B.x1)), baix = costat(([px, py]) => py > B.y1 + 4 && py < B.y1 + 90 && dins(px, B.x0, B.x1));
+    const cob = (a, k, lo, hi) => a.length ? (Math.max(...a.map(q => q[k])) - Math.min(...a.map(q => q[k]))) / (hi - lo) : 0;
+    return { esq: cob(esq, 1, B.y0, B.y1), dre: cob(dre, 1, B.y0, B.y1), dalt: cob(dalt, 0, B.x0, B.x1), baix: cob(baix, 0, B.x0, B.x1),
+      dins: m.filter(([px, py]) => dins(px, B.x0 + 2, B.x1 - 2) && dins(py, B.y0 + 2, B.y1 - 2)).length };
+  });
+  ok(`${v.nom}: el fil encercla la càpsula (pels quatre costats, sense entrar-hi)`,
+    cercle.esq > 0.9 && cercle.dre > 0.9 && cercle.dalt > 0.8 && cercle.baix > 0.8 && cercle.dins === 0, JSON.stringify(cercle));
 
   // 0b) Subratllat: el fil passa just per sota de «premisses» i s'hi veu
   const sub = await p.evaluate(() => {
@@ -281,9 +307,11 @@ for (const v of VISTES) {
   const rm = await p.evaluate(() => ({ notes: [...document.querySelectorAll('.nota')].some(n => n.classList.contains('nota-viva')),
     intro: document.querySelector('.premisses-intro').classList.contains('intro-viva'),
     futur: getComputedStyle(document.querySelector('.pres-futur')).opacity,
+    fusionades: ['.capsula-dades', '.capsula-ia'].every(sel => { const a = document.querySelector(sel).getBoundingClientRect(), b = document.querySelector('.capsules').getBoundingClientRect();
+      return Math.abs(a.top - b.top) <= 1 && Math.abs(a.bottom - b.bottom) <= 1 && getComputedStyle(document.querySelector(sel)).opacity === '1'; }),
     encesos: [...document.querySelectorAll('.premissa, .step')].every(e => e.classList.contains('fil-arribat')) }));
-  ok('amb «reduir moviment» les notes i la presentació no s\'animen (el futur es veu) i les premisses i els passos es veuen encesos',
-    !rm.notes && !rm.intro && rm.futur === '1' && rm.encesos, JSON.stringify(rm));
+  ok('amb «reduir moviment» les notes i la presentació no s\'animen (el futur es veu, les càpsules ja fusionades) i les premisses i els passos es veuen encesos',
+    !rm.notes && !rm.intro && rm.futur === '1' && rm.fusionades && rm.encesos, JSON.stringify(rm));
   await ctx.close();
 }
 
