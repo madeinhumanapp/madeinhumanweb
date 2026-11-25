@@ -1,5 +1,7 @@
-// Proves de la portada amb navegador (portada.js + estils): els serveis es fonen com un Venn en fer scroll, les
-// finestres dels serveis s'obren i es tanquen bé, i tot funciona sense JavaScript i amb «reduir moviment».
+// Proves de la portada amb navegador (portada.js, fil.js i estils): les notes fan la seva transició (primer l'any,
+// després el text), el fil subratlla «premisses» i encén les premisses i els passos del mètode quan hi arriba, els
+// serveis es fonen com un Venn en fer scroll, les finestres dels serveis s'obren i es tanquen bé, i tot funciona
+// sense JavaScript i amb «reduir moviment».
 // Serveix dist/ amb la CSP general de _headers, a 375, 768 i 1280 px.
 // Ús: npm run construir && node proves/portada.mjs
 //     NAVEGADOR=/ruta/a/chrome si Playwright no té el seu navegador instal·lat (npm run navegador)
@@ -83,6 +85,40 @@ for (const v of VISTES) {
   });
   ok(`${v.nom}: el Venn s'anima amb JavaScript (.fusio-viva)`, geo.viva);
 
+  // 0a) Notes: en baixar, primer apareix l'any (a1), després va al seu costat (a2) i al final entra el text (a3)
+  const nota = await p.evaluate(() => { const n = document.querySelector('.nota'); let t = 0; for (let e = n; e; e = e.offsetParent) t += e.offsetTop; return { top: t, viva: n.classList.contains('nota-viva') }; });
+  const fases = [];
+  for (let y = Math.max(0, nota.top - vh); y <= nota.top + 40; y += 30) {
+    await vesA(p, y);
+    fases.push(await p.evaluate(() => { const cs = getComputedStyle(document.querySelector('.nota')); return ['--a1', '--a2', '--a3'].map(k => parseFloat(cs.getPropertyValue(k)) || 0); }));
+  }
+  const ordre = fases.every(([a, b, c]) => a >= b && b >= c);
+  const creixen = fases.every((f, i) => !i || f.every((x, k) => x >= fases[i - 1][k]));
+  const final = fases[fases.length - 1].every(x => x === 1);
+  ok(`${v.nom}: la nota 2018 fa la transició (l'any primer, després el text) sense tirar enrere`, nota.viva && ordre && creixen && final, JSON.stringify(fases.filter((_, i) => i % 3 === 0)));
+
+  // 0b) Subratllat: el fil passa just per sota de «premisses» i s'hi veu
+  const sub = await p.evaluate(() => {
+    const em = document.querySelector('[data-fil="subratllat"]'), rs = [...em.getClientRects()], r = rs[rs.length - 1];
+    const y1 = r.bottom + scrollY, x0 = r.left + scrollX, x1 = r.right + scrollX;
+    const m = madeinhumanFil.mostres().filter(([x, y, , vis]) => x > x0 && x < x1 && y > y1 && y < y1 + 22 && vis >= 0.8);
+    return { mostres: m.length, cobreix: m.length ? (Math.max(...m.map(q => q[0])) - Math.min(...m.map(q => q[0]))) / (x1 - x0) : 0 };
+  });
+  ok(`${v.nom}: el fil subratlla «premisses» (${Math.round(sub.cobreix * 100)} % de la paraula)`, sub.mostres > 10 && sub.cobreix > 0.8, JSON.stringify(sub));
+
+  // 0c) Premisses i passos del mètode: s'encenen quan hi arriba el fil i s'apaguen si es torna amunt
+  const encesos = () => p.evaluate(() => ({ prem: [...document.querySelectorAll('.premissa')].map(e => e.classList.contains('fil-arribat')), passos: [...document.querySelectorAll('.step')].map(e => e.classList.contains('fil-arribat')) }));
+  await vesA(p, 0); await p.waitForTimeout(250);
+  const dalt = await encesos();
+  const metode = await p.evaluate(() => { const m = document.querySelector('#metode'); let t = 0; for (let e = m; e; e = e.offsetParent) t += e.offsetTop; return t + m.offsetHeight; });
+  await vesA(p, metode); await p.waitForTimeout(250);
+  const baix = await encesos();
+  await vesA(p, 0); await p.waitForTimeout(250);
+  const altre = await encesos();
+  ok(`${v.nom}: les premisses i els passos s'encenen quan hi arriba el fil (i s'apaguen en tornar amunt)`,
+    [...dalt.prem, ...dalt.passos].every(x => !x) && [...baix.prem, ...baix.passos].every(x => x) && [...altre.prem, ...altre.passos].every(x => !x) && baix.prem.length === 3 && baix.passos.length === 4,
+    JSON.stringify({ dalt, baix, altre }));
+
   // 1) Fusió: separats abans d'arribar-hi; en baixar, el valor creix (mai enrere) passant per valors intermedis
   //    fins a 1. Comprova també que no hi ha desbordament horitzontal en cap moment.
   await vesA(p, 0);
@@ -165,6 +201,18 @@ for (const v of VISTES) {
   await ctx.close();
 }
 
+// Contacte sense repeticions i línia #faq cap a la pàgina de preguntes freqüents
+{
+  const { ctx, p } = await obre(VISTES[2]);
+  const r = await p.evaluate(() => {
+    const c = document.querySelector('#contacte'), f = document.querySelector('#faq');
+    return { text: c.textContent.replace(/\s+/g, ' '), faq: f && f.querySelector('a') && f.querySelector('a').getAttribute('href') };
+  });
+  ok('el contacte no repeteix el missatge i diu «24 hores» (sense «laborables»)', !/Contacte ràpid|laborals|laborables/.test(r.text) && /24 hores/.test(r.text) && (r.text.match(/Tens un dubte/g) || []).length === 1, r.text.slice(0, 200));
+  ok('la portada manté #faq amb una línia cap a /preguntes-frequents/', r.faq === '/preguntes-frequents/', String(r.faq));
+  await ctx.close();
+}
+
 // Sense JavaScript: els serveis es veuen fusionats i els ítems són enllaços a les pàgines de servei
 {
   const ctx = await navegador.newContext({ viewport: { width: 1280, height: 800 }, javaScriptEnabled: false });
@@ -195,6 +243,9 @@ for (const v of VISTES) {
   const anim = await p.evaluate(() => getComputedStyle(document.querySelector('.detall-item'), '::before').animationName);
   ok('amb «reduir moviment» els serveis es veuen fusionats i no s\'animen', !r.viva && r.valor === '1', JSON.stringify(r));
   ok('amb «reduir moviment» les vores de llum no giren', anim === 'none', anim);
+  const rm = await p.evaluate(() => ({ notes: [...document.querySelectorAll('.nota')].some(n => n.classList.contains('nota-viva')),
+    encesos: [...document.querySelectorAll('.premissa, .step')].every(e => e.classList.contains('fil-arribat')) }));
+  ok('amb «reduir moviment» les notes no s\'animen i les premisses i els passos es veuen encesos', !rm.notes && rm.encesos, JSON.stringify(rm));
   await ctx.close();
 }
 

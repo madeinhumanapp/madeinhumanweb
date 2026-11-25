@@ -135,3 +135,44 @@ retroben al mig, sota «Junts».
 
 **Pendent:** revisió dels textos per l'Albert, prova a l'iPhone, portada en castellà (segona fase) i, abans de
 fusionar, comprovar que la branca `esborrany` del panell no tingui canvis a `portada.ca.json`.
+
+## Segona ronda: relat 2018 → 2026 → premisses, i pàgina de preguntes freqüents (25/11/2026)
+
+Petició de l'Albert: un relat més clar, transicions més seguides i polides, cap «bait» de sancions, el contacte sense
+repeticions i les preguntes freqüents en una pàgina pròpia (SEO i més comercial).
+
+**Portada:**
+- Capçalera amb l'entradeta anterior.
+- Notes **2018** i **2026** a la dreta, encadenades pel fil com un eix del temps, amb transició cinematogràfica
+  (`portada.js`: `--a1` l'any apareix gran al centre, `--a2` va al seu costat, `--a3` hi entra el text; `--dx` és la
+  distància). Fora la nota 30.931.
+- Bloc nou **`premisses`** («Les nostres *premisses.*» i 3 frases, sense definició): el fil subratlla la paraula en
+  cursiva amb un sol cordó prim i després cus les premisses. Cada premissa s'encén quan hi arriba el fil (`fil.js`
+  posa `.fil-arribat`). Els spots 1-3 s'han esborrat (els títols són ara les premisses).
+- Mètode sense entradeta: cada pas s'encén quan hi arriba el fil (número, llum a la vora de dalt i text).
+- Contacte: «24 hores» i sense la capçalera repetida de la targeta (`plantilles/formularis/contacte.html`, cap camp
+  tocat).
+- Bloc nou **`crida`** (línia o targeta amb botons). A la portada, la línia `#faq` porta a la pàgina nova; l'àncora
+  es manté pel contracte d'adreces estables.
+
+**Pàgina `/preguntes-frequents/`** (`contingut/pagines/preguntes-frequents.json`):
+- les preguntes es pinten en HTML (abans només hi eren en un JSON incrustat), i `script.js` només filtra i obre;
+- `faq.json` té un camp nou opcional, `servei`, que afegeix «Et pot interessar: <servei> →»;
+- crida final amb el diagnòstic, el test del DPO i el contacte;
+- el `FAQPage` del JSON-LD s'hi trasllada des de la portada;
+- menú, peu i mapa del lloc actualitzats.
+
+**Correccions de fons:**
+- `aDocument` (fil) compensa també l'escala de les animacions: abans, l'any escalat de les notes feia que el fil s'hi
+  esvaís sense motiu.
+- Els fulls d'estil i els scripts de les pàgines de blocs van amb ruta absoluta (pàgines dins de carpetes).
+- Les premisses tenen prou aire perquè el fil hi creui sense tocar el text.
+
+**Proves:**
+- `npm run faq` (nova);
+- `npm run portada`: notes, subratllat, encesa de premisses i passos, contacte, línia `#faq`;
+- `npm run serveis`: blocs nous i `faq.servei`.
+
+En total, 296 comprovacions en verd.
+
+**Pendent:** registrar la pàgina nova al panell (rgpd-tool, `WEB-P10`) i, en una segona fase, la portada en castellà.

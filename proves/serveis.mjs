@@ -56,11 +56,27 @@ const casosPortada = [
   ['quatre resultats en un àmbit', d => { bloc(d, 'serveis').pilars[1].resultats.push('Un altre'); }, /com a màxim 3/],
   ['camp antic de serveis (transversal)', d => { bloc(d, 'serveis').transversalTitol = 'Consultoria'; }, /camp no previst/],
   ['quatre avantatges a l\'adequació', d => { d.blocs.find(b => b.formulari === 'adequacio').avantatges.push('Un altre'); }, /com a màxim 3/],
+  ['premisses amb una sola premissa', d => { bloc(d, 'premisses').items = ['Només una']; }, /com a mínim 2/],
+  ['premissa amb HTML', d => { bloc(d, 'premisses').items[0] = '<b>Disseny</b>'; }, /HTML/],
+  ['crida amb un format desconegut', d => { bloc(d, 'crida').variant = 'banner'; }, /no és cap de/],
+  ['crida sense botons', d => { bloc(d, 'crida').botons = []; }, /obligatori/],
+  ['crida amb un enllaç no segur', d => { bloc(d, 'crida').botons[0].href = 'javascript:alert(1)'; }, /enllaç no permès/],
 ];
 for (const [nom, canvi, patro] of casosPortada) {
   const e = ambPortada(canvi);
   ok(`portada, rebutja: ${nom}`, e.some(x => patro.test(x)), e.join('; ') || 'cap error');
 }
+// Preguntes freqüents: el servei relacionat ha de ser un dels serveis
+const { validarFaq } = await import('../esquema/blocs.mjs');
+const faqActual = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/faq.json'), 'utf8'));
+const eFaq = validarFaq(faqActual);
+ok('les preguntes freqüents actuals són vàlides (amb el servei relacionat)', !eFaq.length, eFaq.join('; '));
+const faqMal = structuredClone(faqActual); faqMal[0].servei = 'consultoria';
+ok('preguntes freqüents, rebutja: un servei relacionat que no existeix', validarFaq(faqMal).some(e => /no és cap de/.test(e)));
+const pf = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/pagines/preguntes-frequents.json'), 'utf8'));
+const ePf = validarPagina(pf);
+ok('la pàgina de preguntes freqüents és vàlida', !ePf.length, ePf.join('; '));
+
 // Finestres dels serveis: amb serveis.json porten l'entradeta de la pàgina; sense (vista prèvia antiga), només l'enllaç
 const ambDades = pagina(lloc, portada, formularis, [], [], [], {}, original);
 const senseDades = pagina(lloc, portada, formularis);

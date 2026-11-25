@@ -244,8 +244,10 @@ for (const v of VISTES) {
     const st = document.createElement('style'); st.textContent = '*{transition:none!important;animation:none!important}';
     document.head.appendChild(st);
     document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el => el.classList.add('revealed'));
-    // L'escena dels serveis, fusionada: és l'estat que es veu quan el fil hi arriba (ho comprova proves/portada.mjs)
+    // L'escena dels serveis, fusionada, i les premisses i els passos, encesos: és l'estat que es veu allà on el fil
+    // ja és dibuixat (ho comprova proves/portada.mjs)
     const fusio = document.querySelector('.fusio'); if (fusio) fusio.classList.remove('fusio-viva');
+    document.querySelectorAll('.premissa, .step').forEach(e => e.classList.add('fil-arribat'));
     const fixos = '.nav, .whatsapp-float, .back-to-top, .scroll-progress, .cookie-banner, .fil-capa, script, style';
     const zs = [], rng = document.createRange();
     const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: n => (n.nodeValue.trim() ? 1 : 2) });
