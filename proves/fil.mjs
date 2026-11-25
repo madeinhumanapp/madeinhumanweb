@@ -2,11 +2,14 @@
 // a quatre mides de pantalla, comprova que el fil es posa en marxa, que no mou la maqueta, que mai es veu per sobre
 // d'un text o d'un botó, que acaba al contacte, que no hi ha errors ni infraccions de CSP, el mode «reduir moviment»
 // i que sempre es mou. També n'informa del rendiment (no fa fallar la prova: cal mirar-ho en un mòbil real).
+// Proves per píxels (v0.3): cap capa de la web tapa el fil, cap llum sobre el text, els controls ni la imatgeria,
+// el fil és invisible sota les capes fixes (navegació, botons flotants) i hi ha espurnes (cap amb «reduir moviment»).
 // Ús: npm run construir && node proves/fil.mjs [--captures]
 //     NAVEGADOR=/ruta/a/chrome si Playwright no té el seu navegador instal·lat (npm run navegador)
 import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
+import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 
@@ -14,6 +17,31 @@ const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ARREL, 'dist');
 const CAPTURES = process.argv.includes('--captures');
 let fallades = 0;
+// Descodificador PNG mínim (8 bits, RGB/RGBA, sense entrellaçat: el que fa Playwright): torna RGB per píxel
+function llegeixPNG(buf) {
+  let p = 8, w, h, ct; const idat = [];
+  while (p < buf.length) {
+    const len = buf.readUInt32BE(p), tipus = buf.toString('ascii', p + 4, p + 8), d = buf.subarray(p + 8, p + 8 + len);
+    if (tipus === 'IHDR') { w = d.readUInt32BE(0); h = d.readUInt32BE(4); ct = d[9]; if (d[8] !== 8 || d[12] !== 0 || (ct !== 2 && ct !== 6)) throw new Error('PNG no suportat'); }
+    else if (tipus === 'IDAT') idat.push(d); else if (tipus === 'IEND') break;
+    p += 12 + len;
+  }
+  const bpp = ct === 6 ? 4 : 3, raw = zlib.inflateSync(Buffer.concat(idat)), st = w * bpp, out = new Uint8Array(w * h * 3);
+  let prev = new Uint8Array(st);
+  for (let y = 0; y < h; y++) {
+    const f = raw[y * (st + 1)], line = Uint8Array.from(raw.subarray(y * (st + 1) + 1, (y + 1) * (st + 1)));
+    for (let x = 0; x < st; x++) {
+      const a = x >= bpp ? line[x - bpp] : 0, b = prev[x], c = x >= bpp ? prev[x - bpp] : 0;
+      let v = line[x];
+      if (f === 1) v += a; else if (f === 2) v += b; else if (f === 3) v += (a + b) >> 1;
+      else if (f === 4) { const pa = Math.abs(b - c), pb = Math.abs(a - c), pc = Math.abs(a + b - 2 * c); v += pa <= pb && pa <= pc ? a : pb <= pc ? b : c; }
+      line[x] = v & 255;
+    }
+    for (let x = 0; x < w; x++) for (let k = 0; k < 3; k++) out[(y * w + x) * 3 + k] = line[x * bpp + k];
+    prev = line;
+  }
+  return { w, h, d: out };
+}
 const ok = (nom, cond, detall = '') => { if (!cond) fallades++; console.log(`${cond ? '✓' : '✗'} ${nom}${!cond && detall ? ' — ' + detall : ''}`); };
 const info = t => console.log(`· ${t}`);
 
@@ -76,6 +104,99 @@ async function obre(opcions, { manual = true, senseFil = false } = {}) {
   await p.evaluate(() => document.fonts.ready);
   await p.waitForTimeout(500);       // el fil es reconstrueix quan acaben de carregar les tipografies
   return { ctx, p, errors };
+}
+
+// Proves per píxels, en un context net amb totes les aparicions acabades i sense animacions (tret de la del body,
+// que només fa aparèixer la pàgina) ni la textura de gra (body::before, una pel·lícula uniforme sobre tota la web).
+// A cada posició del recorregut:
+//  1) llum sobre el text: alfa màxim del canvas dins de cada línia de text, control o imatge (ha de ser 0);
+//  2) capes fixes: alfa màxim del canvas sota la navegació i els botons flotants (ha de ser 0);
+//  3) capes que tapen el fil: es pinta de magenta opac tot el que el fil hi té dibuixat amb prou opacitat
+//     (≥ 25 %), es fa una captura i cada píxel ha de sortir magenta, tret del text i de les capes fixes.
+async function capesIPixels(v) {
+  const ctx = await navegador.newContext(v);
+  await ctx.addInitScript(() => { window.FIL_MANUAL = true; try { localStorage.setItem('cookie_consent', 'rejected'); } catch (e) {} });
+  const p = await ctx.newPage();
+  await p.goto(BASE + '/', { waitUntil: 'networkidle' });
+  await p.evaluate(() => document.fonts.ready);
+  await p.addStyleTag({ content: '*, *::before, *::after { transition: none !important; scroll-behavior: auto !important } *:not(body), *::before, *::after { animation: none !important } body { opacity: 1 !important; animation: none !important } body::before { display: none !important }' });
+  await p.evaluate(() => { document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(e => e.classList.add('revealed')); madeinhumanFil.reconstruir(); });
+  // el fil es reconstrueix sol (tipografies, ResizeObserver, 150 ms d'espera) i en fer-ho buida les rajoles:
+  // cal esperar que s'aturi abans de pintar-les de magenta i fer la captura
+  await p.waitForTimeout(600);
+  const D = v.deviceScaleFactor || 1, vh = v.viewport.height;
+  const fi = await p.evaluate(() => madeinhumanFil.nodes().filter(n => n.tipus === 'cursor').pop().trig + 400);
+  let cand = 0, tapats = 0, maxText = 0, maxFix = 0; const onText = [], onTapat = [];
+  for (let y = 0; y <= fi; y += Math.round(vh * 0.5)) {
+    const r = await p.evaluate(([y, t]) => {
+      scrollTo(0, y); madeinhumanFil.render(t, scrollY);
+      const D = devicePixelRatio, W = Math.round(innerWidth * D), H = Math.round(innerHeight * D), sy = scrollY;
+      const fixos = '.nav, .whatsapp-float, .back-to-top, .scroll-progress, .cookie-banner, .fil-capa, script, style';
+      const prot = [], fix = [], rng = document.createRange();
+      const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: n => (n.nodeValue.trim() ? 1 : 2) });
+      for (let n = tw.nextNode(); n; n = tw.nextNode()) {
+        if (!n.parentElement || n.parentElement.closest(fixos)) continue;
+        rng.selectNodeContents(n);
+        for (const q of rng.getClientRects()) if (q.width >= 1 && q.height >= 1 && q.bottom > 0 && q.top < innerHeight) prot.push([q.left, q.top, q.right, q.bottom, n.nodeValue.trim().slice(0, 30)]);
+      }
+      for (const el of document.querySelectorAll('a.btn, button, input, select, textarea, img, svg, video, iframe')) {
+        if (el.closest(fixos)) continue;
+        const q = el.getBoundingClientRect();
+        if (q.width && q.height && q.bottom > 0 && q.top < innerHeight) prot.push([q.left, q.top, q.right, q.bottom, `<${el.tagName.toLowerCase()}>`]);
+      }
+      for (const el of document.querySelectorAll('.nav, .whatsapp-float, .back-to-top, .scroll-progress, .cookie-banner')) {
+        const cs = getComputedStyle(el);
+        if (cs.display === 'none' || cs.visibility === 'hidden' || +cs.opacity < 0.02) continue;
+        const q = el.getBoundingClientRect();
+        if (q.width && q.height) fix.push([q.left, q.top, q.right, q.bottom, el.className.split(' ')[0]]);
+      }
+      const ex = [...prot, ...fix].map(q => [Math.floor((q[0] - 2) * D), Math.floor((q[1] - 2) * D), Math.ceil((q[2] + 2) * D), Math.ceil((q[3] + 2) * D)]);
+      const mask = new Uint8Array(W * H);
+      let maxT = 0, quinT = '', maxF = 0, quinF = '';
+      const maxDins = (d, cw, ch, off, q) => {           // alfa màxim dins d'un rectangle (1 px de marge cap endins)
+        let m = 0;
+        const x0 = Math.max(0, Math.ceil(q[0] * D) + 1), x1 = Math.min(cw, Math.floor(q[2] * D) - 1);
+        const y0 = Math.max(0, Math.ceil(q[1] * D) + 1 - off), y1 = Math.min(ch, Math.floor(q[3] * D) - 1 - off);
+        for (let yy = y0; yy < y1; yy++) for (let xx = x0; xx < x1; xx++) m = Math.max(m, d[(yy * cw + xx) * 4 + 3]);
+        return m;
+      };
+      for (const cv of document.querySelectorAll('.fil-capa canvas')) {
+        if (cv.style.display === 'none') continue;
+        const g = cv.getContext('2d'), img = g.getImageData(0, 0, cv.width, cv.height), d = img.data, off = Math.round((cv.offsetTop - sy) * D);
+        for (const q of prot) { const m = maxDins(d, cv.width, cv.height, off, q); if (m > maxT) { maxT = m; quinT = q[4]; } }
+        for (const q of fix) { const m = maxDins(d, cv.width, cv.height, off, q); if (m > maxF) { maxF = m; quinF = q[4]; } }
+        for (let cy = 0; cy < cv.height; cy++) {
+          const ry = cy + off; if (ry < 0 || ry >= H) continue;
+          for (let cx = 0; cx < Math.min(cv.width, W); cx++) {
+            const i = (cy * cv.width + cx) * 4; if (!d[i + 3]) continue;
+            const visible = d[i + 3] >= 64;
+            d[i] = 255; d[i + 1] = 0; d[i + 2] = 255; d[i + 3] = 255;
+            if (!visible) continue;
+            let fora = false; for (const e of ex) if (cx >= e[0] && cx < e[2] && ry >= e[1] && ry < e[3]) { fora = true; break; }
+            if (!fora) mask[ry * W + cx] = 1;
+          }
+        }
+        g.putImageData(img, 0, 0);
+      }
+      let s = ''; for (let i = 0; i < mask.length; i += 8192) s += String.fromCharCode.apply(null, mask.subarray(i, i + 8192));
+      return { W, mask: btoa(s), maxT, quinT, maxF, quinF };
+    }, [y, 3.4 + y / 500]);
+    if (r.maxT > maxText) maxText = r.maxT;
+    if (r.maxT > 2) onText.push(`y=${y}: ${r.maxT}/255 a «${r.quinT}»`);
+    if (r.maxF > maxFix) maxFix = r.maxF;
+    if (r.maxF > 2) onText.push(`y=${y}: ${r.maxF}/255 sota ${r.quinF}`);
+    const img = llegeixPNG(await p.screenshot({ type: 'png' }));
+    const mask = Buffer.from(r.mask, 'base64');
+    for (let i = 0; i < mask.length; i++) {
+      if (!mask[i]) continue;
+      cand++;
+      if (Math.max(255 - img.d[i * 3], img.d[i * 3 + 1], 255 - img.d[i * 3 + 2]) > 8) { tapats++; if (onTapat.length < 3) onTapat.push(`y=${y}: (${((i % r.W) / D) | 0}, ${(Math.floor(i / r.W) / D) | 0})`); }
+    }
+  }
+  ok(`${v.nom}: cap llum del fil sobre el text, els controls ni la imatgeria (màx. ${maxText}/255)`, maxText <= 2, onText.filter(t => !t.includes('sota')).slice(0, 3).join(' · '));
+  ok(`${v.nom}: el fil no es veu mai sota la navegació ni els botons flotants (màx. ${maxFix}/255)`, maxFix <= 2, onText.filter(t => t.includes('sota')).slice(0, 3).join(' · '));
+  ok(`${v.nom}: cap capa de la web tapa el fil (${tapats} de ${cand} píxels)`, cand > 1000 && tapats === 0, onTapat.join(' · '));
+  await ctx.close();
 }
 
 // Posicions de la maqueta (sense les translacions de les animacions d'aparició)
@@ -179,6 +300,17 @@ for (const v of VISTES) {
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
   info(`${v.nom}: ${r1.mitjana.toFixed(1)} ms per fotograma (p95 ${r1.p95.toFixed(1)}) · amb la CPU ×4: ${r4.mitjana.toFixed(1)} ms (p95 ${r4.p95.toFixed(1)})`);
 
+  // Espurnes: en un tram trenat, en uns segons n'hi ha d'haver (destells, espurnetes, pols d'or)
+  const esp = await p.evaluate(() => {
+    const fi = madeinhumanFil.nodes().filter(n => n.tipus === 'cursor').pop().trig;
+    let max = 0;
+    for (let t = 20; t < 26; t += 0.1) { madeinhumanFil.render(t, fi * 0.5); max = Math.max(max, madeinhumanFil.estat().espurnes); }
+    return max;
+  });
+  ok(`${v.nom}: hi ha espurnes (fins a ${esp} alhora en un tram trenat)`, esp > 0);
+
+  await capesIPixels(v);
+
   if (CAPTURES) {
     const dir = path.join(ARREL, 'captures', 'fil');
     fs.mkdirSync(dir, { recursive: true });
@@ -218,6 +350,37 @@ for (const v of VISTES) {
   const c = await p.evaluate(() => madeinhumanFil.estat().renders);
   ok('amb «reduir moviment» no hi ha animació contínua', b === a, `${b - a} fotogrames sense fer scroll`);
   ok('amb «reduir moviment» es redibuixa en fer scroll', c > b);
+  const ep = await p.evaluate(() => madeinhumanFil.estat().espurnes);
+  ok('amb «reduir moviment» no hi ha espurnes', ep === 0, `${ep} espurnes`);
+  await ctx.close();
+}
+
+// Bàner de galetes (primera visita, sense consentiment desat): el fil no s'hi veu mai a sota
+{
+  const ctx = await navegador.newContext(VISTES[0]);
+  await ctx.addInitScript(() => { window.FIL_MANUAL = true; });
+  const p = await ctx.newPage();
+  await p.goto(BASE + '/', { waitUntil: 'networkidle' });
+  await p.waitForTimeout(800);
+  const r = await p.evaluate(() => {
+    const b = document.querySelector('.cookie-banner');
+    if (!b || getComputedStyle(b).display === 'none') return { sense: true };
+    const fi = madeinhumanFil.nodes().filter(n => n.tipus === 'cursor').pop().trig;
+    let max = 0;
+    for (let i = 0; i <= 12; i++) {
+      const y = Math.round(fi * i / 12);
+      window.scrollTo({ top: y, behavior: 'instant' }); madeinhumanFil.render(3 + i, scrollY);
+      const q = b.getBoundingClientRect();
+      for (const cv of document.querySelectorAll('.fil-capa canvas')) {
+        if (cv.style.display === 'none') continue;
+        const D = devicePixelRatio, off = Math.round((cv.offsetTop - scrollY) * D), d = cv.getContext('2d').getImageData(0, 0, cv.width, cv.height).data;
+        const y0 = Math.max(0, Math.ceil(q.top * D) + 1 - off), y1 = Math.min(cv.height, Math.floor(q.bottom * D) - 1 - off);
+        for (let yy = y0; yy < y1; yy++) for (let xx = 0; xx < cv.width; xx++) max = Math.max(max, d[(yy * cv.width + xx) * 4 + 3]);
+      }
+    }
+    return { max };
+  });
+  ok(`amb el bàner de galetes, el fil no s'hi veu a sota${r.sense ? ' (no hi ha bàner: no es comprova)' : ` (màx. ${r.max}/255)`}`, r.sense || r.max <= 2);
   await ctx.close();
 }
 

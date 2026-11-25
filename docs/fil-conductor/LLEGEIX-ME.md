@@ -62,3 +62,38 @@ Petició de l'Albert: la v0.1 semblava «cadenes desfilades»; es vol una simbio
 - `?fil=v01` a la URL mostra el prototip anterior per comparar. `madeinhumanFil.estil` diu quin estil s'està fent servir.
 
 `npm run comprovar` en verd (inclou `npm run fil` a les quatre mides). Vista prèvia: `demo-fil.madeinhumanweb.pages.dev`.
+
+## v0.3 «premium» (branca `demo-fil`)
+
+Petició de l'Albert: un toc més premium i detallat, que el fil no quedi mai sota cap capa de la web i espurnes elegants.
+
+**Capes.** Una prova per píxels va trobar que la quadrícula de la capçalera (`.grid-lines`) pintava per sobre del fil i
+que les vores de les targetes del mètode i de la «crossover» (mòbil) en tallaven les resplendors. Ara:
+
+- La capa del fil va per sobre de tot el contingut (`z-index: 30`) i per sota de les capes fixes (navegació 50, barra
+  de progrés 100, botons flotants 998-999, bàner de galetes). Les regles `.amb-fil … > .container` ja no calen.
+- Màscara suau: el fil no pinta mai res sobre el text, els controls (botons, camps) ni la imatgeria (img, svg, vídeo).
+  Abans es veia a un 10 % sota el text i el cursor final deixava llum sobre «nosaltres.»; ara s'esvaeix del tot.
+- S'esvaeix abans d'arribar a la navegació, als botons flotants (inclosa l'ona del de WhatsApp) i al bàner de galetes:
+  no sembla mai que passi per sota de res. Aquestes capes es mesuren a cada fotograma.
+
+**Detall.** Reflex de fibra òptica a la cara de davant de cada fil, que s'encén a poc a poc en girar; profunditat
+contínua en 8 nivells i halo d'un sol traç (sense taques ni esglaons); òrbita amb satèl·lit als nusos dels principis
+i una ona que s'eixampla a les xifres.
+
+**Espurnes.** Destells d'intercanvi (estrella de quatre puntes) on els fils es creuen, amb espurnetes que se'n
+desprenen; cap de cometa amb rastre als polsos de llum; pols d'or que llisca dins l'aura; estrella amb tres motes a la
+punta. Cap no surt prop d'un text. Amb «reduir moviment» no n'hi ha cap. Paràmetres a `C.esp` (`construir`).
+
+**Rendiment.** Espurnes amb sprites precalculats i preparades un cop per fotograma, camins creats només si es fan servir,
+polsos de llum agrupats per intensitat i estils de les rajoles escrits només quan canvien. Mòbil 390 px amb la CPU ×4:
+5–8 ms per fotograma (la v0.2 sense optimitzar en feia 6–7). La qualitat adaptativa treu primer la pols i les
+espurnetes (qualitat 1) i després totes les espurnes i els halos (qualitat 0).
+
+**Proves noves a `npm run fil`** (58 comprovacions): per píxels a les quatre mides, cap capa tapa el fil (es pinta de
+magenta i es comprova a la captura), cap llum sobre el text, els controls ni la imatgeria, res sota la navegació ni els
+botons flotants; hi ha espurnes; cap espurna amb «reduir moviment»; res sota el bàner de galetes. La prova de capes es
+va validar en negatiu: amb la capa antiga (`z-index: 1`) falla.
+
+`?fil=v02` i `?fil=v01` mostren les versions anteriors (amb les capes i màscares noves). `madeinhumanFil.estil` diu
+quina s'està fent servir.
