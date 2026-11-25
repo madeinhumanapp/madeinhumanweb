@@ -44,6 +44,15 @@ const imgMedia = (e, alt, sizes, ctx) => {
     `${attr('width', px(e.amplada))}${attr('height', px(e.alcada))} alt="${esc(alt)}" loading="lazy" decoding="async" />`;
 };
 
+// Presentació de les premisses: «Madeinhuman» amb la lletra del logo; les cursives alternen el color de cada àmbit
+// (la primera, coure: protecció de dades; la segona, blau: IA), com al Venn dels serveis
+const presentacio = t => {
+  let n = 0;
+  return enriquit(t)
+    .replace(/<em>/g, () => `<em class="${n++ % 2 ? 'to-ia' : 'to-dades'}">`)
+    .replace(/Madeinhuman/g, '<span class="marca-text">Madein<span>human</span></span>');
+};
+
 export const BLOCS = {
   // Transitori: HTML tal qual, mentre un bloc no tingui plantilla pròpia
   html: d => d.html,
@@ -125,7 +134,11 @@ export const BLOCS = {
   // .fil-arribat quan hi arriba; sense JavaScript es veuen totes)
   premisses: d => `
 <section class="block premisses" data-fil="premisses">
-  <div class="container premisses-inner">
+  <div class="container premisses-inner">${d.etiqueta || d.presentacio ? `
+    <div class="premisses-intro reveal">${d.etiqueta ? `
+      <span class="eyebrow">${esc(d.etiqueta)}</span>` : ''}${d.presentacio ? `
+      <p class="premisses-presentacio">${presentacio(d.presentacio)}</p>` : ''}
+    </div>` : ''}
     <h2 class="premisses-titol">${enriquit(d.titol).replace('<em>', '<em data-fil="subratllat">')}</h2>
     <ol class="premisses-llista">
 ${d.items.map(i => `      <li class="premissa" data-fil="premissa">${enriquit(i)}</li>`).join('\n')}

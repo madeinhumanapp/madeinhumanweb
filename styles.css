@@ -1710,6 +1710,20 @@ html.dialeg-obert { overflow: hidden; scrollbar-gutter: stable; }   /* sense sal
    Amb el fil (.amb-fil), cada premissa s'encén quan el fil hi arriba (.fil-arribat); sense, es veuen totes. */
 section.block.premisses { padding: 96px 0 72px; }
 .premisses-inner { text-align: center; }
+/* Presentació (qui som), abans del títol: etiqueta, i una frase amb la marca amb la lletra del logo */
+.premisses-intro { max-width: 40rem; margin: 0 auto clamp(64px, 9vh, 96px); display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.premisses-intro .eyebrow { justify-content: center; text-align: center; }
+@media (max-width: 767px) {
+  /* al mòbil l'etiqueta fa dues línies: sense el traç i ben centrada */
+  .premisses-intro .eyebrow { letter-spacing: 0.14em; line-height: 1.7; }
+  .premisses-intro .eyebrow::before { display: none; }
+}
+.premisses-presentacio { font-size: clamp(18px, 1.7vw, 22px); line-height: 1.55; color: var(--text); text-wrap: balance; }
+.premisses-presentacio em { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 1.1em; }
+.premisses-presentacio .to-dades { color: var(--copper-bright); }
+.premisses-presentacio .to-ia { color: var(--blau-clar); }
+.marca-text { font-family: var(--font-serif); font-weight: 500; font-size: 1.08em; letter-spacing: -0.015em; white-space: nowrap; }
+.marca-text span { color: var(--copper); font-style: italic; }
 .premisses-titol { font-family: var(--font-serif); font-weight: 500; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -0.02em; }
 .premisses-titol em { font-style: italic; font-weight: 400; color: var(--copper); }
 /* prou aire entre premisses perquè el fil hi creui sense tocar el text */

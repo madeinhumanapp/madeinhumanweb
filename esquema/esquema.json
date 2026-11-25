@@ -148,6 +148,20 @@
     "premisses": {
       "nom": "Premisses (títol i frases curtes)",
       "camps": {
+        "etiqueta": {
+          "tipus": "text",
+          "etiqueta": "Etiqueta",
+          "max": 60,
+          "obligatori": false,
+          "ajuda": "Opcional: una línia curta a sobre de la presentació"
+        },
+        "presentacio": {
+          "tipus": "enriquit",
+          "etiqueta": "Presentació",
+          "max": 200,
+          "obligatori": false,
+          "ajuda": "Opcional: qui sou, abans del títol. «Madeinhuman» surt amb la lletra del logo; la primera *cursiva*, en coure (dades), i la segona, en blau (IA)"
+        },
         "titol": {
           "tipus": "enriquit",
           "etiqueta": "Títol",

@@ -83,6 +83,8 @@ const senseDades = pagina(lloc, portada, formularis);
 const lede = original.PAGINES.dpo.ca.lede;
 ok('la finestra del DPO porta l\'entradeta de la seva pàgina i l\'enllaç', ambDades.includes('id="detall-dpo-extern"') && ambDades.includes(lede.slice(0, 40)) && /<dialog[^>]*id="detall-dpo-extern"[\s\S]*?href="\/serveis\/dpo-extern\/"/.test(ambDades));
 ok('sense les dades dels serveis, la finestra encara porta l\'enllaç', senseDades.includes('id="detall-dpo-extern"') && !senseDades.includes(lede.slice(0, 40)) && senseDades.includes('Els trobaràs aquí'));
+ok('la presentació de les premisses porta la marca amb la lletra del logo i les cursives amb el color de cada àmbit',
+  ambDades.includes('<span class="marca-text">Madein<span>human</span></span>') && ambDades.includes('<em class="to-dades">') && ambDades.includes('<em class="to-ia">'));
 ok('les notes es pinten amb la seva xifra i els principis ja no porten número', !/class="spot-num/.test(ambDades) && ambDades.includes('<div class="nota-clau">2018</div>'));
 
 // Textos legals: {{adreca}} i {{correu}} surten de lloc.json; una marca desconeguda atura la construcció
