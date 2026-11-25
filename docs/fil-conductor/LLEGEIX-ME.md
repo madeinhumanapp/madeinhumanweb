@@ -97,3 +97,41 @@ va validar en negatiu: amb la capa antiga (`z-index: 1`) falla.
 
 `?fil=v02` i `?fil=v01` mostren les versions anteriors (amb les capes i màscares noves). `madeinhumanFil.estil` diu
 quina s'està fent servir.
+
+## Portada més visual i lleugera (branca `demo-fil`, 25/11/2026)
+
+Petició de l'Albert després de provar la v0.3 a l'iPhone: menys text, més visual, transicions fluides i llenguatge
+planer. Pla aprovat: menys blocs, notes al fil, Venn als serveis, finestres de resum i adequació destacada.
+
+**Contingut (`contingut/pagines/portada.ca.json`, editable des del panell):**
+- Fora el bloc de context: les 3 dades clau són ara **notes** (bloc nou `nota`: `clau`, `text`, `font`, `costat`,
+  `to`) al llarg del fil: «2018», «30.931» i «2026».
+- Principis sense número (`spot.num` és opcional). El 04 i el 05 estan **amagats** (`amagat: true`), no esborrats.
+- Serveis: bloc `serveis` nou, amb 2 àmbits (`insignia`, `subtitol`, `titol`, `promesa`, `resultats` [1-3] i `enllacos`
+  [pàgines /serveis/…/]) i `junts` (el que tenen en comú). Fora la consultoria transversal i «En detall».
+- Formulari d'adequació: camp opcional `avantatges` (marcador `{{avantatges}}` a `plantilles/formularis/adequacio.html`;
+  cap `name=""` tocat).
+- Textos reescrits més curts (pendents de la revisió de l'Albert a la vista prèvia).
+
+**Comportament (`portada.js`, nou):**
+- Venn: `--fusio` (0 → 1) segons el scroll. A l'escriptori, els àmbits creixen l'un cap a l'altre fins a
+  superposar-se. Al mòbil i a la tauleta, l'àmbit d'IA puja fins a la juntura amb «Junts». Sense JavaScript o amb
+  «reduir moviment», es veu fusionat.
+- Ítems dels serveis amb vora de llum (`conic-gradient` amb `@property`, només gira a la pantalla). En fer-hi clic,
+  finestra (`<dialog>`) amb l'entradeta de la pàgina del servei (`serveis.json`), la X, Esc i clic fora per tancar, i
+  «Vols més detalls? Els trobaràs aquí». Sense JavaScript, són enllaços.
+- `pagina()` (`plantilles/base.mjs`) rep `serveis.json` com a 8è paràmetre. El generador i la vista prèvia del panell
+  l'hi passen.
+
+**Fil:** recorregut per estacions (notes, principis, context si n'hi ha) amb un costat cadascuna. A cada nota, un
+punt i una línia de llum cap a la xifra. Als serveis, el coure baixa per l'àmbit de RGPD i el blau pel d'IA, i es
+retroben al mig, sota «Junts».
+
+**Proves:**
+- `npm run portada` (nova, a `comprovar`): fusió progressiva sense retrocessos; quan el fil arriba a la juntura, la
+  fusió és completa; cap text tapat; finestres (contingut, tancament i focus); zones de toc; sense desbordament; sense
+  JavaScript; «reduir moviment».
+- `npm run serveis`: validació dels blocs nous.
+
+**Pendent:** revisió dels textos per l'Albert, prova a l'iPhone, portada en castellà (segona fase) i, abans de
+fusionar, comprovar que la branca `esborrany` del panell no tingui canvis a `portada.ca.json`.

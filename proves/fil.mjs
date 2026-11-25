@@ -120,7 +120,12 @@ async function capesIPixels(v) {
   await p.goto(BASE + '/', { waitUntil: 'networkidle' });
   await p.evaluate(() => document.fonts.ready);
   await p.addStyleTag({ content: '*, *::before, *::after { transition: none !important; scroll-behavior: auto !important } *:not(body), *::before, *::after { animation: none !important } body { opacity: 1 !important; animation: none !important } body::before { display: none !important }' });
-  await p.evaluate(() => { document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(e => e.classList.add('revealed')); madeinhumanFil.reconstruir(); });
+  await p.evaluate(() => {
+    document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(e => e.classList.add('revealed'));
+    // l'escena dels serveis, fusionada: és l'estat que es veu quan el fil hi arriba (ho comprova proves/portada.mjs)
+    const fusio = document.querySelector('.fusio'); if (fusio) fusio.classList.remove('fusio-viva');
+    madeinhumanFil.reconstruir();
+  });
   // el fil es reconstrueix sol (tipografies, ResizeObserver, 150 ms d'espera) i en fer-ho buida les rajoles:
   // cal esperar que s'aturi abans de pintar-les de magenta i fer la captura
   await p.waitForTimeout(600);
@@ -239,6 +244,8 @@ for (const v of VISTES) {
     const st = document.createElement('style'); st.textContent = '*{transition:none!important;animation:none!important}';
     document.head.appendChild(st);
     document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el => el.classList.add('revealed'));
+    // L'escena dels serveis, fusionada: és l'estat que es veu quan el fil hi arriba (ho comprova proves/portada.mjs)
+    const fusio = document.querySelector('.fusio'); if (fusio) fusio.classList.remove('fusio-viva');
     const fixos = '.nav, .whatsapp-float, .back-to-top, .scroll-progress, .cookie-banner, .fil-capa, script, style';
     const zs = [], rng = document.createRange();
     const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: n => (n.nodeValue.trim() ? 1 : 2) });

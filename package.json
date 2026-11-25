@@ -6,7 +6,7 @@
     "construir": "node eines/construir.mjs",
     "contractes": "node proves/formularis.cjs --arrel dist",
     "previsualitzacio": "node proves/previsualitzacio.cjs",
-    "comprovar": "npm run sense-html && npm run exportar-esquema -- --comprovar && npm run construir && npm run actualitat && npm run serveis && npm run media && npm run contractes && npm run previsualitzacio && npm run csp && npm run fil",
+    "comprovar": "npm run sense-html && npm run exportar-esquema -- --comprovar && npm run construir && npm run actualitat && npm run serveis && npm run media && npm run contractes && npm run previsualitzacio && npm run csp && npm run fil && npm run portada",
     "navegador": "playwright install chromium",
     "revisio": "node eines/comprovar-revisio.mjs",
     "actualitat": "node proves/actualitat.mjs",
@@ -16,7 +16,8 @@
     "exportar-esquema": "node eines/exportar-esquema.mjs",
     "captures": "node proves/captures.cjs",
     "sense-html": "node eines/sense-html.mjs",
-    "fil": "node proves/fil.mjs"
+    "fil": "node proves/fil.mjs",
+    "portada": "node proves/portada.mjs"
   },
   "devDependencies": {
     "playwright": "1.63.0"

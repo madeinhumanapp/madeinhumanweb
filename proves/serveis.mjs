@@ -43,6 +43,32 @@ ok('un bloc amagat és vàlid i no es pinta', !validarPagina(ambAmagat).length &
 const formAmagat = structuredClone(portada); formAmagat.blocs.find(b => b.tipus === 'formulari').amagat = true;
 ok('un formulari no es pot amagar', validarPagina(formAmagat).some(e => /no es pot amagar/.test(e)));
 
+// Portada: notes al llarg del fil, serveis com a Venn (dos àmbits i «Junts») i avantatges de l'adequació
+const ambPortada = canvi => { const d = structuredClone(portada); canvi(d); return validarPagina(d); };
+const bloc = (d, t) => d.blocs.find(b => b.tipus === t);
+const casosPortada = [
+  ['nota amb un costat desconegut', d => { bloc(d, 'nota').costat = 'centre'; }, /no és cap de/],
+  ['nota sense frase', d => { bloc(d, 'nota').text = ''; }, /obligatori/],
+  ['nota amb HTML', d => { bloc(d, 'nota').text = '<b>2018</b>'; }, /HTML/],
+  ['servei que no és una pàgina de servei', d => { bloc(d, 'serveis').pilars[0].enllacos[0].href = '/#contacte'; }, /pàgina de servei/],
+  ['serveis amb tres àmbits', d => { const s = bloc(d, 'serveis'); s.pilars.push(structuredClone(s.pilars[0])); }, /com a màxim 2/],
+  ['serveis sense «Junts»', d => { delete bloc(d, 'serveis').junts; }, /junts: obligatori/],
+  ['quatre resultats en un àmbit', d => { bloc(d, 'serveis').pilars[1].resultats.push('Un altre'); }, /com a màxim 3/],
+  ['camp antic de serveis (transversal)', d => { bloc(d, 'serveis').transversalTitol = 'Consultoria'; }, /camp no previst/],
+  ['quatre avantatges a l\'adequació', d => { d.blocs.find(b => b.formulari === 'adequacio').avantatges.push('Un altre'); }, /com a màxim 3/],
+];
+for (const [nom, canvi, patro] of casosPortada) {
+  const e = ambPortada(canvi);
+  ok(`portada, rebutja: ${nom}`, e.some(x => patro.test(x)), e.join('; ') || 'cap error');
+}
+// Finestres dels serveis: amb serveis.json porten l'entradeta de la pàgina; sense (vista prèvia antiga), només l'enllaç
+const ambDades = pagina(lloc, portada, formularis, [], [], [], {}, original);
+const senseDades = pagina(lloc, portada, formularis);
+const lede = original.PAGINES.dpo.ca.lede;
+ok('la finestra del DPO porta l\'entradeta de la seva pàgina i l\'enllaç', ambDades.includes('id="detall-dpo-extern"') && ambDades.includes(lede.slice(0, 40)) && /<dialog[^>]*id="detall-dpo-extern"[\s\S]*?href="\/serveis\/dpo-extern\/"/.test(ambDades));
+ok('sense les dades dels serveis, la finestra encara porta l\'enllaç', senseDades.includes('id="detall-dpo-extern"') && !senseDades.includes(lede.slice(0, 40)) && senseDades.includes('Els trobaràs aquí'));
+ok('les notes es pinten amb la seva xifra i els principis ja no porten número', !/class="spot-num/.test(ambDades) && ambDades.includes('<div class="nota-clau">2018</div>'));
+
 // Textos legals: {{adreca}} i {{correu}} surten de lloc.json; una marca desconeguda atura la construcció
 const legal = fs.readFileSync(path.join(ARREL, 'contingut/legal/avis-legal.md'), 'utf8');
 ok('els textos legals prenen l\'adreça i el correu de les dades del lloc', legal.includes('{{adreca}}') && ambDadesDelLloc(legal, lloc).includes(lloc.contacte.carrer) && !ambDadesDelLloc(legal, lloc).includes('{{'));
