@@ -137,6 +137,7 @@ input, textarea, select { font: inherit; color: inherit; }
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100lvh;   /* l'alçada gran: no canvia quan el navegador del mòbil amaga les barres */
   padding-top: 140px;
   padding-bottom: 100px;
   overflow: hidden;
@@ -722,7 +723,7 @@ footer { background: var(--bg-deep); border-top: 1px solid var(--border); paddin
 
 /* --- Hero: tighten on small screens --- */
 @media (max-width: 700px) {
-  .hero { padding-top: 100px; padding-bottom: 72px; min-height: 92vh; }
+  .hero { padding-top: 100px; padding-bottom: 72px; min-height: 92vh; min-height: 92lvh; }
   .hero-title { margin: 16px 0 20px; }
   .hero-sub { font-size: 16px; margin-bottom: 32px; max-width: 100%; }
   .scroll-ind { display: none; }
@@ -1112,6 +1113,7 @@ body::before {
 /* ===== SPOTS (full-screen push messages) ===== */
 .spot {
   min-height: 58vh;
+  min-height: 58lvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1169,13 +1171,13 @@ body::before {
   margin: 0 auto;
 }
 @media (max-width: 700px) {
-  .spot { min-height: 60vh; padding: 64px 0; }
+  .spot { min-height: 60vh; min-height: 60lvh; padding: 64px 0; }
   .spot-title { font-size: clamp(32px, 8vw, 48px); margin-bottom: 28px; }
   .spot-text { font-size: 16px; }
   .spot-num { font-size: 11px; margin-bottom: 20px; }
 }
 @media (max-width: 420px) {
-  .spot { min-height: 55vh; padding: 48px 0; }
+  .spot { min-height: 55vh; min-height: 55lvh; padding: 48px 0; }
   .spot-title { font-size: 30px; }
   .spot-text { font-size: 15px; }
 }
@@ -1708,11 +1710,11 @@ html.dialeg-obert { overflow: hidden; scrollbar-gutter: stable; }   /* sense sal
 
 /* ===== Les nostres premisses: el fil subratlla la paraula i cus les premisses =====
    Amb el fil (.amb-fil), cada premissa s'encén quan el fil hi arriba (.fil-arribat); sense, es veuen totes. */
-section.block.premisses { padding: clamp(150px, 22vh, 200px) 0 72px; }   /* aire a sobre: el fil hi creua cap al mig */
+section.block.premisses { padding: clamp(150px, 22vh, 200px) 0 72px; padding-top: clamp(150px, 22lvh, 200px); }   /* aire a sobre: el fil hi creua cap al mig */
 .premisses-inner { text-align: center; }
 /* Presentació (qui som), abans del títol: la frase dins de dues càpsules aero, com els àmbits del Venn (la de les
    dades, coure; la de la IA, blau), que es fonen en una de sola. El fil l'encercla (fil.js, data-fil="capsula"). */
-.premisses-intro { max-width: 52rem; margin: 0 auto clamp(140px, 22vh, 210px); display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.premisses-intro { max-width: 52rem; margin: 0 auto clamp(140px, 22vh, 210px); margin-bottom: clamp(140px, 22lvh, 210px); display: flex; flex-direction: column; align-items: center; gap: 20px; }
 .premisses-intro .eyebrow { justify-content: center; text-align: center; }
 @media (max-width: 767px) {
   /* al mòbil l'etiqueta fa dues línies: sense el traç i ben centrada */
@@ -1821,7 +1823,8 @@ section.block.premisses { padding: clamp(150px, 22vh, 200px) 0 72px; }   /* aire
 .premisses-titol { font-family: var(--font-serif); font-weight: 500; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -0.02em; }
 .premisses-titol em { font-style: italic; font-weight: 400; color: var(--copper); }
 /* prou aire entre premisses perquè el fil hi creui sense tocar el text */
-.premisses-llista { list-style: none; display: flex; flex-direction: column; align-items: center; gap: clamp(92px, 13vh, 132px); margin-top: clamp(80px, 12vh, 124px); }
+.premisses-llista { list-style: none; display: flex; flex-direction: column; align-items: center; gap: clamp(92px, 13vh, 132px); margin-top: clamp(80px, 12vh, 124px);
+  gap: clamp(92px, 13lvh, 132px); margin-top: clamp(80px, 12lvh, 124px); }
 .premissa { font-family: var(--font-serif); font-weight: 500; font-size: clamp(28px, 4vw, 50px); line-height: 1.15; letter-spacing: -0.015em; }
 .premissa em { font-style: italic; font-weight: 400; color: var(--copper); }
 .amb-fil .premissa { transition: opacity 0.8s cubic-bezier(.2, .7, .3, 1), transform 0.8s cubic-bezier(.2, .7, .3, 1), filter 0.8s ease; }

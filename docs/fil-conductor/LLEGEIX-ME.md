@@ -169,6 +169,11 @@ repeticions i les preguntes freqüents en una pàgina pròpia (SEO i més comerc
   sobre, i es parteix en una «Y»; el coure l'encercla per l'esquerra i el blau per la dreta, i es retroben en un nus a
   sota. Després passa per sobre del títol fins al final de «premisses» i la subratlla. El cercle es dibuixa abans que
   la resta del fil (`avanc`, `kmin`), perquè quedi tancat quan la frase és al mig de la pantalla.
+- **Rendiment al mòbil:** el recorregut sencer (mesurar tot el text i fer la ruta) només es refà si canvia la maqueta
+  (amplada o alçada de la pàgina) o arriben les fonts. Quan el navegador amaga les barres en fer scroll, només canvia
+  l'alçada de la finestra i no es refà res (abans encallava el scroll mig segon). La qualitat adaptativa no compta el
+  primer segon i mig i, quan baixa, només canvia la resolució dels llenços (`requalifica`). Les alçades de la maqueta
+  van amb `lvh` (l'alçada gran, que no canvia amb les barres). `madeinhumanFil.estat().reconstruccions` les compta.
 - `fil.js` descarta els punts d'un tram que tornarien amunt per la mateixa vertical (al mòbil, l'inici de la primera
   nota quedava 10 px per sobre del final de la capçalera i la trena hi feia un nus quadrat).
 - Mètode sense entradeta: cada pas s'encén quan hi arriba el fil (número, llum a la vora de dalt i text).

@@ -222,6 +222,12 @@ for (const v of VISTES) {
   });
   ok(`${v.nom}: la capa del fil és decorativa, no rep clics i no allarga la pàgina`, cv && cv.aria === 'true' && cv.pos === 'absolute' && cv.pe === 'none' && cv.classe && cv.alcada < cv.pagina, JSON.stringify(cv));
   ok(`${v.nom}: recorregut complet (${e.llargada} px, ${e.nodes} nodes)`, e.llargada > 3000 && e.nodes >= 8);
+  // Un canvi d'alçada de la finestra sense canvi de maqueta (al mòbil, el navegador amaga les barres en fer scroll) no
+  // refà el recorregut: refer-lo vol dir mesurar tot el text de la pàgina i encallava el scroll
+  const rc0 = (await p.evaluate(() => madeinhumanFil.estat())).reconstruccions;
+  await p.evaluate(() => window.dispatchEvent(new Event('resize'))); await p.waitForTimeout(400);
+  const rc1 = (await p.evaluate(() => madeinhumanFil.estat())).reconstruccions;
+  ok(`${v.nom}: canviar només l'alçada de la finestra no refà el recorregut`, rc1 === rc0, `${rc0} → ${rc1}`);
   // cap marxa enrere per la mateixa vertical: plegaria la trena i hi faria un nus quadrat (p. ex. capçalera → 1a nota al mòbil)
   const enrere = await p.evaluate(() => { const m = madeinhumanFil.mostres(), out = [];
     // (mostres consecutives d'un mateix tram: un salt de més de 10 px és el pas d'un tram, o d'un fil, al següent)

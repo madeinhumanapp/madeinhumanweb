@@ -613,7 +613,11 @@
     this.qualitat = 2;                 // 2: completa · 1: sense fibres laterals · 0: mínima
     this.mida();
   }
+  // Recorregut sencer: mesura tot el text de la pàgina i torna a fer la ruta. És car (a l'iPhone, centenars de ms):
+  // només quan canvia la maqueta (amplada, alçada de la pàgina, fonts), mai quan només canvia l'alçada de la finestra
   Fil.prototype.mida = function () {
+    const vw0 = this.vw, dpr0 = this.dpr;
+    this.reconstruccions = (this.reconstruccions || 0) + 1;
     this.vw = document.documentElement.clientWidth; this.vh = window.innerHeight;
     this.dpr = Math.min(window.devicePixelRatio || 1, this.qualitat === 0 ? 1 : 2);
     const r = construir(this.vw, this.vh);
@@ -623,7 +627,16 @@
     // La capa només arriba fins al final del fil: no pot allargar mai la pàgina
     this.alcada = Math.ceil(this.C.yMax);
     this.capa.style.height = this.alcada + 'px';
-    for (const rj of this.rajoles) { rj.idx = -1; rj.visible = false; rj.cv.style.display = 'none'; this.dimensiona(rj); }
+    // es tornen a pintar al fotograma següent (cada fotograma les repinta); el llenç només es refà si canvia de mida
+    const refes = this.vw !== vw0 || this.dpr !== dpr0;
+    for (const rj of this.rajoles) { rj.idx = -1; if (refes) this.dimensiona(rj); }
+  };
+  // Canvi de qualitat (qualitat adaptativa): el recorregut no canvia; només la resolució dels llenços, si cal
+  Fil.prototype.requalifica = function () {
+    const dpr = Math.min(window.devicePixelRatio || 1, this.qualitat === 0 ? 1 : 2);
+    if (dpr === this.dpr) return;
+    this.dpr = dpr;
+    for (const rj of this.rajoles) this.dimensiona(rj);
   };
   // Sprites de les espurnes: es pinten una sola vegada (per color) i després només es copien amb drawImage,
   // molt més ràpid que crear gradients i camins a cada espurna i a cada fotograma
@@ -1115,10 +1128,11 @@
       const ms = performance.now() - a;
       estat.renders++;
       estat.msPerFotograma = estat.msPerFotograma ? estat.msPerFotograma * 0.92 + ms * 0.08 : ms;
-      // Qualitat adaptativa: si va just, primer menys detall i després 30 fotogrames per segon
-      if (estat.msPerFotograma > CONFIG.msObjectiu && ++lents > 45) {
+      // Qualitat adaptativa: si va just, primer menys detall i després 30 fotogrames per segon. No compta el primer
+      // segon i mig (s'hi pinten les primeres rajoles i sempre va més lent) i no refà mai el recorregut (requalifica)
+      if (now - t0 < 1500) { /* escalfament */ } else if (estat.msPerFotograma > CONFIG.msObjectiu && ++lents > 45) {
         lents = 0;
-        if (fil.qualitat > 0) { fil.qualitat--; fil.mida(); estat.msPerFotograma = 0; } else estat.fps30 = true;
+        if (fil.qualitat > 0) { fil.qualitat--; fil.requalifica(); estat.msPerFotograma = 0; } else estat.fps30 = true;
       } else if (estat.msPerFotograma <= CONFIG.msObjectiu) lents = 0;
       // Sempre es mou mentre hi ha fil a la pantalla; si no n'hi ha, espera el proper scroll
       if (!reduir.matches && hiHa) raf = requestAnimationFrame(pas);
@@ -1127,18 +1141,32 @@
     window.addEventListener('scroll', demana, { passive: true });
     document.addEventListener('visibilitychange', demana);
     if (reduir.addEventListener) reduir.addEventListener('change', demana);
-    let espera = 0;
-    const reconstruir = () => { clearTimeout(espera); espera = setTimeout(() => { fil.mida(); demana(); }, 150); };
-    window.addEventListener('resize', reconstruir);
-    if ('ResizeObserver' in window) new ResizeObserver(reconstruir).observe(document.body);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(reconstruir);
+    // Només es refà el recorregut si ha canviat la maqueta (amplada o alçada de la pàgina) o han arribat les fonts.
+    // Al mòbil, en fer el primer scroll el navegador amaga les barres i l'alçada de la finestra canvia: llavors
+    // només s'actualitza l'alçada visible (refer-ho tot en aquell moment encallava el scroll).
+    let espera = 0, forcat = false;
+    const firma = () => `${document.documentElement.clientWidth}x${document.body.offsetHeight}`;
+    let firmaFeta = firma();
+    const reconstruir = forca => {
+      if (forca === true) forcat = true;
+      clearTimeout(espera);
+      espera = setTimeout(() => {
+        const f = firma();
+        if (!forcat && f === firmaFeta) { fil.vh = window.innerHeight; demana(); return; }
+        forcat = false; firmaFeta = f; fil.mida(); demana();
+      }, 150);
+    };
+    window.addEventListener('resize', () => reconstruir());
+    if ('ResizeObserver' in window) new ResizeObserver(() => reconstruir()).observe(document.body);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => reconstruir(true));
 
     // Accés per a les proves (proves/fil.mjs)
     window.madeinhumanFil = {
       versio: '0.3', estil: NOM_ESTIL,
       render: (t, sy, o) => fil.render(t, sy, o),
       reconstruir: () => fil.mida(),
-      estat: () => ({ ...estat, qualitat: fil.qualitat, llargada: Math.round(fil.C.uFinal), nodes: fil.R.nodes.length, esvaides: fil.C.esvaides, espurnes: fil.espurnes || 0 }),
+      estat: () => ({ ...estat, qualitat: fil.qualitat, llargada: Math.round(fil.C.uFinal), nodes: fil.R.nodes.length, esvaides: fil.C.esvaides, espurnes: fil.espurnes || 0,
+        reconstruccions: fil.reconstruccions }),
       mostres: () => fil.R.mostres().map(p => [p.x, p.y, p.m, p.vis]),
       nodes: () => fil.R.nodes.map(n => ({ tipus: n.tipus, x: n.x, y: n.y, trig: n.trig })),
       aturar: () => { estat.actiu = false; },
