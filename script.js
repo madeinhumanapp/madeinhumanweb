@@ -161,6 +161,8 @@ function showResult(formCard, type, msg) {
       email: fd.get('email'),
       empresa: fd.get('empresa') || undefined,
       missatge: fd.get('missatge'),
+      // Casella opcional de comunicacions comercials: rgpd-tool envia un correu per confirmar-la (doble opt-in)
+      comercial: fd.get('comunicacions') === 'on',
       ...utmDelFormulari(fd),
     };
     Object.keys(body).forEach(k => body[k] === undefined && delete body[k]);
@@ -245,6 +247,8 @@ function showResult(formCard, type, msg) {
       grupEmpresarial: boolVal('grupEmpresarial'),
       diversesSeus: boolVal('diversesSeus'),
       observacions: fd.get('observacions') || undefined,
+      // Casella opcional de comunicacions comercials: rgpd-tool envia un correu per confirmar-la (doble opt-in)
+      comercial: fd.get('comunicacions') === 'on',
       ...utmDelFormulari(fd),
     };
     Object.keys(body).forEach(k => body[k] === undefined && delete body[k]);
