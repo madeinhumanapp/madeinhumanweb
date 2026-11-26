@@ -14,18 +14,30 @@ const EMPTY = {
 
 // ------- Storage helpers -------
 const LS_KEY = "rgpd_form_draft_v1";
+// L'esborrany local caduca: passats 7 dies sense tocar-lo, s'esborra del navegador
+const DIES_ESBORRANY = 7;
+
+function esborrarDraft() {
+  try { localStorage.removeItem(LS_KEY); } catch {}
+}
 
 function loadDraft() {
   try {
     const raw = localStorage.getItem(LS_KEY);
     if (!raw) return null;
-    return JSON.parse(raw);
+    const d = JSON.parse(raw);
+    // Esborranys antics sense data: es conserven i compten des d'ara
+    if (!d.desatAt) { d.desatAt = Date.now(); saveDraft(d); }
+    if (Date.now() - d.desatAt > DIES_ESBORRANY * 86400000) { esborrarDraft(); return null; }
+    return d;
   } catch { return null; }
 }
 
 function saveDraft(d) {
-  try { localStorage.setItem(LS_KEY, JSON.stringify(d)); } catch {}
+  try { localStorage.setItem(LS_KEY, JSON.stringify({ ...d, desatAt: Date.now() })); } catch {}
 }
+
+const ES_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
 function uuid() {
   return "MIH-" + Math.random().toString(36).substring(2, 6).toUpperCase() + "-" +
@@ -66,18 +78,23 @@ function TokenGate({ onValid }) {
     .then(function (d) {
       setLoading(false);
       if (d.valid) {
-        onValid({ token: val, clientId: d.clientId, empresa: d.empresa });
+        onValid({ token: val });
       } else {
-        setError("Codi no vàlid. Comproveu que l'heu introduït correctament.");
+        // Codi inexistent, caducat o ja enviat: si hi havia un esborrany d'aquest codi, s'esborra
+        const esb = loadDraft();
+        if (esb && esb.token === val) esborrarDraft();
+        setError("Aquest codi no és vàlid o ja no està actiu. Comproveu-lo o demaneu-nos-en un de nou.");
       }
     })
     .catch(function () {
       setLoading(false);
-      // Fallback per proves locals: accepta qualsevol token MIH-*
-      if (val.startsWith("MIH-") && val.length >= 10) {
-        onValid({ token: val, clientId: null, empresa: null });
-      } else {
+      // Només en proves locals (sense rgpd-tool): accepta qualsevol codi MIH-*
+      if (ES_LOCAL && val.startsWith("MIH-") && val.length >= 10) {
+        onValid({ token: val });
+      } else if (!/^MIH-[A-Z2-9]{4}-[A-Z2-9]{4}-[A-Z2-9]{4}$/.test(val)) {
         setError("Codi no vàlid. Ha de tenir el format MIH-XXXX-XXXX-XXXX.");
+      } else {
+        setError("No hem pogut comprovar el codi. Torneu-ho a provar d'aquí una estona.");
       }
     });
   }
@@ -129,6 +146,8 @@ function Wizard() {
   const [showSave, setShowSave] = useStateApp(false);
   const [savedCode, setSavedCode] = useStateApp("");
   const [savedTime, setSavedTime] = useStateApp("");
+  const [sendError, setSendError] = useStateApp("");
+  const [sending, setSending] = useStateApp(false);
 
   // Hydrate from draft
   useEffectApp(() => {
@@ -160,8 +179,6 @@ function Wizard() {
     if (d && d.data && d.token === info.token) {
       setData(d.data);
       setStep(d.step || 1);
-    } else if (info.empresa) {
-      setData({ ...EMPTY, empresa: { ...EMPTY.empresa, rao_social: info.empresa } });
     }
     setPhase("wizard");
   }
@@ -217,15 +234,30 @@ function Wizard() {
   };
 
   const handleSend = () => {
-    // Try to submit to API
+    if (sending) return;
+    setSending(true);
+    setSendError("");
     fetch(WIZARD_API_URL + "/api/public/recollida/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: tokenInfo?.token, data: data }),
-    }).catch(function () {});
-
-    setPhase("success");
-    try { localStorage.removeItem(LS_KEY); } catch {}
+    })
+    .then(function (res) {
+      setSending(false);
+      if (res.ok || ES_LOCAL) {
+        setPhase("success");
+        esborrarDraft();
+      } else if (res.status === 401) {
+        setSendError("Aquest codi ja no està actiu (ha caducat o el formulari ja s'havia enviat). Les dades es queden en aquest navegador: escriviu-nos i us enviarem un codi nou.");
+      } else {
+        setSendError("No s'ha pogut enviar el formulari. Les dades es queden en aquest navegador: torneu-ho a provar d'aquí una estona.");
+      }
+    })
+    .catch(function () {
+      setSending(false);
+      if (ES_LOCAL) { setPhase("success"); esborrarDraft(); return; }
+      setSendError("No s'ha pogut enviar el formulari. Comproveu la connexió i torneu-ho a provar.");
+    });
   };
 
   // --- RENDER ---
@@ -329,6 +361,7 @@ function Wizard() {
               {step === 7 && <Step7 data={data} setData={setData} />}
               {step === 8 && <Step8 data={data} setData={setData} />}
               {step === 9 && <Step9 data={data} setData={setData} />}
+              {step === 10 && sendError && <p className="token-gate-error" role="alert">{sendError}</p>}
               {step === 10 && <Step10 data={data} setData={setData} onGoto={goto} onSend={handleSend} />}
             </div>
 
