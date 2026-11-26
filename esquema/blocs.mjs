@@ -461,16 +461,35 @@ export function usosDeMedia(pagines, entrades) {
 // El format és el dels esborranys de Mistral (rgpdtool, encàrrec WEB-A05).
 export const ETIQUETES_NOTICIA = ['rgpd', 'ia', 'apdcat'];
 export const SERVEIS_NOTICIA = ['adequacio', 'dpo', 'auditoria', 'ia', 'web'];
+export const NINXOLS_NOTICIA = ['general', 'salut', 'educacio', 'comerc', 'serveis', 'hostaleria', 'social', 'saas'];
+export const TIPUS_ARTICLE_NOTICIA = ['noticia', 'guia'];
+export const CTA_DESTI_NOTICIA = ['diagnostic', 'contacte', 'servei'];
 export const CAMPS_NOTICIA = {
   titol: text('Títol', 130, { ajuda: 'Millor fins a 70 caràcters (Google en talla la resta)' }),
   resum: text('Resum', 440, { ajuda: 'Surt a la targeta i a Google: 1 o 2 frases (millor fins a 160 caràcters)' }),
+  meta_descripcio: { tipus: 'text', etiqueta: 'Descripció per a Google (meta)', max: 155,
+    ajuda: 'Opcional: si s\'omple, substitueix el resum a Google i a les xarxes' },
   data: { tipus: 'data', etiqueta: 'Data de publicació', obligatori: true, ajuda: 'No surt a la web abans d\'aquest dia' },
+  data_revisio: { tipus: 'data', etiqueta: 'Data de revisió jurídica',
+    ajuda: 'Opcional: mostra la barra de revisió sota el titular i actualitza el dateModified de Google' },
+  revisat_per: { tipus: 'text', etiqueta: 'Revisat per', max: 120,
+    ajuda: 'Opcional: text de la barra de revisió (buit: «Revisat per un consultor RGPD i DPO extern de madeinhuman»)' },
   etiqueta: { tipus: 'seleccio', etiqueta: 'Tema', opcions: ETIQUETES_NOTICIA, obligatori: true, ajuda: 'rgpd: coure · ia: blau · apdcat: verd' },
+  ninxol: { tipus: 'seleccio', etiqueta: 'Sector', opcions: NINXOLS_NOTICIA,
+    ajuda: 'Opcional: sector al qual s\'adreça l\'article' },
+  tipus_article: { tipus: 'seleccio', etiqueta: 'Tipus d\'article', opcions: TIPUS_ARTICLE_NOTICIA,
+    ajuda: 'Opcional: noticia (NewsArticle, per defecte) o guia (Article)' },
   font_nom: text('Font (organisme)', 80, { ajuda: 'AEPD, APDCat, Comissió Europea, DOUE…' }),
   font_url: { tipus: 'enllac', etiqueta: 'Enllaç a la font', ajuda: 'Obligatori si la notícia té pàgina pròpia' },
+  fonts_addicionals: { tipus: 'text', etiqueta: 'Fonts addicionals', max: 600,
+    ajuda: 'Opcional: adreces https:// separades per « | »; amb l\'enllaç a la font formen el bloc «Fonts»' },
   data_font: { tipus: 'data', etiqueta: 'Data de la publicació original' },
   servei_relacionat: { tipus: 'seleccio', etiqueta: 'Servei relacionat', opcions: SERVEIS_NOTICIA,
     ajuda: 'Opcional: al final de la notícia s\'hi enllaçarà aquest servei' },
+  cta_desti: { tipus: 'seleccio', etiqueta: 'Crida a l\'acció (destí)', opcions: CTA_DESTI_NOTICIA,
+    ajuda: 'Opcional: caixa final amb botó cap a /diagnostic, /#contacte o el servei relacionat' },
+  cta_text: { tipus: 'text', etiqueta: 'Text del botó de crida', max: 80,
+    ajuda: 'Opcional: si és buit, es fa servir el text per defecte del destí' },
   estat: { tipus: 'seleccio', etiqueta: 'Estat', opcions: ['esborrany', 'publicat'], obligatori: true,
     ajuda: 'esborrany: no surt a la web · publicat: surt a partir de la seva data, un cop publiquis els canvis' },
   idioma: { tipus: 'seleccio', etiqueta: 'Idioma', opcions: ['ca'], obligatori: true, ajuda: 'De moment, només català' },
@@ -485,6 +504,14 @@ export function validarNoticia(n) {
   for (const k of Object.keys(n.cap || {})) if (!CAMPS_NOTICIA[k]) errors.push(`camp no previst «${k}»`);
   const u = n.cap?.font_url;
   if (u && !/^https:\/\//.test(u)) errors.push('font_url: ha de començar per https://');
+  const fa = n.cap?.fonts_addicionals;
+  if (typeof fa === 'string' && fa.trim()) {
+    for (const x of fa.split('|').map(s => s.trim())) {
+      if (!x || !/^https:\/\/[^\s]+$/.test(x)) errors.push(`fonts_addicionals: cada adreça ha de començar per https:// (${x || 'buit'})`);
+    }
+  }
+  if (n.cap?.cta_desti === 'servei' && !n.cap?.servei_relacionat)
+    errors.push('cta_desti: amb «servei» cal indicar servei_relacionat');
   if (n.cap?.estat === 'publicat' && n.cos.trim() && !u) errors.push('font_url: obligatori per publicar una notícia amb cos');
   if (/<[a-z/!]/i.test(n.cos.replace(/<!--[\s\S]*?-->/g, ''))) errors.push("cos: no s'hi pot posar HTML (fes servir Markdown)");
   if (n.cap?.estat === 'publicat' && /\[REVISAR/.test(JSON.stringify(n.cap) + n.cos))

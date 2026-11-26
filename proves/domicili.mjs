@@ -67,6 +67,19 @@ for (const f of pagines) {
 }
 ok('cap JSON-LD de cap pàgina té streetAddress, postalCode ni geo', !maus.length, maus.join(', '));
 
+// 3b. Cap coordenada precisa: com a molt 2 decimals (uns 1 km), el centre de la ciutat i no el domicili
+const precises = [];
+const coordenades = (o, f) => {
+  if (Array.isArray(o)) return o.forEach(x => coordenades(x, f));
+  if (!o || typeof o !== 'object') return;
+  for (const [k, v] of Object.entries(o)) {
+    if ((k === 'latitude' || k === 'longitude') && /\.\d{3,}/.test(String(v))) precises.push(`${rel(f)} (${k})`);
+    else coordenades(v, f);
+  }
+};
+for (const f of pagines) for (const j of jsonlds(llegir(f))) if (j) coordenades(j, f);
+ok('cap JSON-LD té coordenades de més de 2 decimals', !precises.length, precises.join(', '));
+
 // 4. El text de contacte.zona surt al peu de la portada
 ok('el peu de la portada (index.html) mostra la zona de treball', llegir(path.join(DIST, 'index.html')).includes(zona));
 
