@@ -1,0 +1,23 @@
+{
+  "pagina": "politica-privacidad",
+  "idioma": "es",
+  "ruta": "/es/politica-privacidad/",
+  "fitxer": "es/politica-privacidad/index.html",
+  "plantilla": "legal",
+  "cap": {
+    "titol": "Política de privacidad — Madeinhuman",
+    "descripcio": "Política de privacidad de Madeinhuman. Información sobre el tratamiento de datos personales, derechos RGPD y medidas de seguridad.",
+    "robots": "noindex, follow",
+    "canonica": "https://madeinhuman.cat/es/politica-privacidad/",
+    "alternatives": [
+      { "idioma": "es", "href": "https://madeinhuman.cat/es/politica-privacidad/" },
+      { "idioma": "ca", "href": "https://madeinhuman.cat/politica-privacitat.html" },
+      { "idioma": "x-default", "href": "https://madeinhuman.cat/politica-privacitat.html" }
+    ]
+  },
+  "etiqueta": "Legal",
+  "titol": "Política de privacidad",
+  "entradeta": "Tu derecho a saber, explicado con claridad · Última actualización: 15 de junio de 2026",
+  "notaFinal": "Última actualización: 15 de junio de 2026 · Versión generada por RGPD-TOOL · MADEINHUMAN, ESPJ · NIF: ES-41534172-J",
+  "cos": "legal/politica-privacidad.md"
+}

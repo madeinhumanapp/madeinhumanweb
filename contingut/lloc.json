@@ -260,16 +260,16 @@
           "titol": "Legal",
           "elements": [
             {
-              "text": "Aviso legal (catalán)",
-              "href": "/avis-legal.html"
+              "text": "Aviso legal",
+              "href": "/es/aviso-legal/"
             },
             {
-              "text": "Política de privacidad (catalán)",
-              "href": "/politica-privacitat.html"
+              "text": "Política de privacidad",
+              "href": "/es/politica-privacidad/"
             },
             {
-              "text": "Política de cookies (catalán)",
-              "href": "/politica-cookies.html"
+              "text": "Política de cookies",
+              "href": "/es/politica-cookies/"
             },
             {
               "text": "APDCat ↗",

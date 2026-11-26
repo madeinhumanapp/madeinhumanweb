@@ -8,7 +8,12 @@
     "titol": "Política de privacitat — Madeinhuman",
     "descripcio": "Política de privacitat de Madeinhuman. Informació sobre el tractament de dades personals, drets RGPD i mesures de seguretat.",
     "robots": "noindex, follow",
-    "canonica": "https://madeinhuman.cat/politica-privacitat.html"
+    "canonica": "https://madeinhuman.cat/politica-privacitat.html",
+    "alternatives": [
+      { "idioma": "ca", "href": "https://madeinhuman.cat/politica-privacitat.html" },
+      { "idioma": "es", "href": "https://madeinhuman.cat/es/politica-privacidad/" },
+      { "idioma": "x-default", "href": "https://madeinhuman.cat/politica-privacitat.html" }
+    ]
   },
   "etiqueta": "Legal",
   "titol": "Política de privacitat",

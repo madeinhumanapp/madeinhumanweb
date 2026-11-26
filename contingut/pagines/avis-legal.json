@@ -8,7 +8,12 @@
     "titol": "Avís legal — Madeinhuman",
     "descripcio": "Avís legal de Madeinhuman ESPJ, consultoria de protecció de dades RGPD i IA a Girona. Identificació del titular, condicions d'ús i propietat intel·lectual.",
     "robots": "noindex, follow",
-    "canonica": "https://madeinhuman.cat/avis-legal.html"
+    "canonica": "https://madeinhuman.cat/avis-legal.html",
+    "alternatives": [
+      { "idioma": "ca", "href": "https://madeinhuman.cat/avis-legal.html" },
+      { "idioma": "es", "href": "https://madeinhuman.cat/es/aviso-legal/" },
+      { "idioma": "x-default", "href": "https://madeinhuman.cat/avis-legal.html" }
+    ]
   },
   "etiqueta": "Legal",
   "titol": "Avís legal",
