@@ -32,7 +32,7 @@ export function peu(lloc, ctx) {
   const contacte = [
     `<li><a href="mailto:${esc(k.correu)}">${esc(k.correu)}</a></li>`,
     `<li><a href="https://wa.me/${k.telefon.replace(/\D/g, '')}" target="_blank" rel="noopener">WhatsApp: ${esc(k.telefonVisible)}</a></li>`,
-    `<li>${esc(ctx.zona ?? k.zona)}</li>`,
+    `<li class="peu-zona">${esc(ctx.zona ?? k.zona)}</li>`,
   ];
   // Les adreces d'altres webs s'obren en una pestanya nova
   const item = e => `<li><a href="${esc(enllac(e.href, ctx))}"${/^https?:\/\//.test(e.href) ? ' target="_blank" rel="noopener"' : ''}>${esc(e.text)}</a></li>`;
