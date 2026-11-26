@@ -195,16 +195,11 @@ ${noticies.map(n => {
   return out;
 }
 
-/** Afegeix al mapa del lloc el llistat i les notícies amb pàgina (abans de </urlset>). */
-export function ambNoticiesAlMapa(sitemap, WEB, noticies) {
-  const url = (loc, lastmod, freq, prio) => `  <url>
-    <loc>${WEB}${loc}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>${freq}</changefreq>
-    <priority>${prio}</priority>
-  </url>
-`;
-  const extra = url(RUTA, noticies[0].cap.data, 'weekly', '0.7')
-    + noticies.filter(teCos).map(n => url(urlNoticia(n), n.cap.data, 'yearly', '0.6')).join('');
-  return sitemap.replace('</urlset>', `${extra}</urlset>`);
+/** Dates `lastmod` del mapa del lloc per al llistat d'actualitat i les notícies amb pàgina. */
+export function datesActualitatMapa(WEB, noticies) {
+  const dates = new Map();
+  if (!noticies.length) return dates;
+  dates.set(`${WEB}${RUTA}`, noticies[0].cap.data);
+  for (const n of noticies.filter(teCos)) dates.set(`${WEB}${urlNoticia(n)}`, n.cap.data);
+  return dates;
 }

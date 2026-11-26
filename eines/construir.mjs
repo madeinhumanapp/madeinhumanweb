@@ -8,7 +8,7 @@ import { paginaLegal } from '../plantilles/legal.mjs';
 import { paginaXarxes } from '../plantilles/xarxes.mjs';
 import { validarServeis, CAMPS_SERVEI, CAMPS_PORTADA_ES, CAMPS_COMU } from '../esquema/serveis.mjs';
 import { validarPagina, validarFaq, validarNoticia, validarLloc, ESQUEMA, CAMPS_NOTICIA, CAMPS_XARXES, validarMedia, usosDeMedia, PATRO_ID_MEDIA } from '../esquema/blocs.mjs';
-import { llegirNoticia, publicades, targeta, paginesActualitat, ambNoticiesAlMapa } from '../plantilles/actualitat.mjs';
+import { llegirNoticia, publicades, targeta, paginesActualitat, datesActualitatMapa } from '../plantilles/actualitat.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -16,7 +16,7 @@ const SORTIDA = path.resolve(ARREL, args.includes('--sortida') ? args[args.index
 
 // El que no es publica: fonts del generador, proves, eines i fitxers del repositori
 const NO_PUBLICAR = new Set(['contingut', 'captures', 'plantilles', 'esquema', 'eines', 'proves', 'marca', 'docs', 'dist', 'AGENTS.md',
-  'node_modules', '.git', '.github', '.wrangler', 'CLAUDE.md', '.gitignore', 'package.json', 'package-lock.json']);
+  'node_modules', '.git', '.github', '.wrangler', 'CLAUDE.md', '.gitignore', 'package.json', 'package-lock.json', 'sitemap.xml']);
 
 const t0 = Date.now();
 fs.rmSync(SORTIDA, { recursive: true, force: true });
@@ -124,7 +124,7 @@ for (const [f, p] of paginesBlocs) errors.push(...usosDeMedia([p], media).map(x 
     generades++;
   }
 }
-// 2c. Actualitat: llistat, pàgines de les notícies amb cos, RSS i mapa del lloc (només si n'hi ha de publicades)
+// 2c. Actualitat: llistat, pàgines de les notícies amb cos i RSS (només si n'hi ha de publicades)
 if (noticies.length) {
   const dades = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/serveis.json'), 'utf8'));
   const portada = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/pagines/portada.ca.json'), 'utf8'));
@@ -134,10 +134,51 @@ if (noticies.length) {
     fs.writeFileSync(path.join(SORTIDA, rel), contingut);
     if (rel.endsWith('.html')) generades++;
   }
-  const mapa = path.join(SORTIDA, 'sitemap.xml');
-  fs.writeFileSync(mapa, ambNoticiesAlMapa(fs.readFileSync(mapa, 'utf8'), lloc.web, noticies));
 }
 if (errors.length) { console.error('El contingut no és vàlid:\n  ' + errors.join('\n  ')); process.exit(1); }
+
+// 2d. Mapa del lloc (WEB-T01): recorre els .html de SORTIDA (sense _previsualitzacio/) i hi inclou tota
+//     pàgina amb <link rel="canonical"> i sense noindex, amb l'adreça canònica (sense .html final).
+function atributHtml(etiqueta, nom) {
+  const m = new RegExp(`\\b${nom}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s"'=<>\`]+))`, 'i').exec(etiqueta);
+  return m ? (m[1] ?? m[2] ?? m[3]) : null;
+}
+function urlIndexable(html) {
+  const cap = (/<head\b[^>]*>([\s\S]*?)<\/head>/i.exec(html)?.[1] ?? html).replace(/<!--[\s\S]*?-->/g, '');
+  for (const m of cap.matchAll(/<meta\b[^>]*>/gi)) {
+    if ((atributHtml(m[0], 'name') || '').trim().toLowerCase() === 'robots'
+      && /\bnoindex\b/i.test(atributHtml(m[0], 'content') || '')) return null;
+  }
+  for (const m of cap.matchAll(/<link\b[^>]*>/gi)) {
+    const rel = atributHtml(m[0], 'rel');
+    if (rel && rel.toLowerCase().split(/\s+/).includes('canonical')) {
+      const href = atributHtml(m[0], 'href')?.trim();
+      if (href) return href.replace(/&amp;/g, '&').replace(/\.html$/i, '');
+    }
+  }
+  return null;
+}
+function generarMapa(dir, dates) {
+  const urls = new Set();
+  (function recorre(rel = '') {
+    for (const e of fs.readdirSync(path.join(dir, rel), { withFileTypes: true })) {
+      if (!rel && e.name === '_previsualitzacio') continue;
+      const r = path.join(rel, e.name);
+      if (e.isDirectory()) recorre(r);
+      else if (e.name.endsWith('.html')) {
+        const loc = urlIndexable(fs.readFileSync(path.join(dir, r), 'utf8'));
+        if (loc) urls.add(loc);
+      }
+    }
+  })();
+  const escXml = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[ch]));
+  const entrades = [...urls].sort().map(loc => {
+    const lastmod = dates.get(loc);
+    return `  <url>\n    <loc>${escXml(loc)}</loc>${lastmod ? `\n    <lastmod>${escXml(lastmod)}</lastmod>` : ''}\n  </url>\n`;
+  }).join('');
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entrades}</urlset>\n`;
+}
+fs.writeFileSync(path.join(SORTIDA, 'sitemap.xml'), generarMapa(SORTIDA, datesActualitatMapa(lloc.web, noticies)));
 
 // 3. Vista prèvia del panell: les mateixes plantilles, servides al navegador
 const PREV = path.join(SORTIDA, '_previsualitzacio');
