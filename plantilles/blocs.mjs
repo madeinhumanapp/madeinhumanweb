@@ -271,14 +271,17 @@ ${d.junts.items.map(i => `          <li>${esc(i)}</li>`).join('\n')}
 </section>`;
   },
 
-  // FAQ: les preguntes són a contingut/faq.json (una sola font per a la llista i el JSON-LD) i es pinten en HTML,
-  // totes obertes: sense JavaScript es llegeixen totes. script.js filtra per pestanyes i en deixa oberta una.
-  // Si una pregunta té «servei», sota la resposta hi ha l'enllaç a la pàgina del servei (ctx.serveis).
+  // FAQ: les preguntes són a contingut/faq.json (ca) o contingut/faq.es.json (es), segons l'idioma de la pàgina
+  // (una sola font per a la llista i el JSON-LD) i es pinten en HTML, totes obertes: sense JavaScript es llegeixen
+  // totes. script.js filtra per pestanyes i en deixa oberta una.
+  // Si una pregunta té «servei», sota la resposta hi ha l'enllaç a la pàgina del servei en l'idioma de la pàgina (ctx.serveis).
   faq: (d, ctx) => {
+    const es = ctx.idioma === 'es';
     const servei = clau => {
-      const slug = ctx.serveis?.SLUG?.ca?.[clau], nom = ctx.serveis?.PAGINES?.[clau]?.ca?.curt;
+      const lang = es ? 'es' : 'ca';
+      const slug = ctx.serveis?.SLUG?.[lang]?.[clau], nom = ctx.serveis?.PAGINES?.[clau]?.[lang]?.curt;
       return slug && nom ? `
-          <p class="faq-servei">Et pot interessar: <a href="/serveis/${esc(slug)}/">${esc(nom)} <span class="arrow" aria-hidden="true">&rarr;</span></a></p>` : '';
+          <p class="faq-servei">${es ? 'Te puede interesar' : 'Et pot interessar'}: <a href="/${es ? 'es/servicios' : 'serveis'}/${esc(slug)}/">${esc(nom)} <span class="arrow" aria-hidden="true">&rarr;</span></a></p>` : '';
     };
     return `
 <section class="block faq"${attr('id', d.ancora)}>

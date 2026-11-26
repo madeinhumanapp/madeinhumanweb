@@ -1,0 +1,88 @@
+[
+  {
+    "cat": "rgpd",
+    "pregunta": "¿Mi empresa de 5 trabajadores necesita adecuarse al RGPD?",
+    "resposta": "Sí, sin excepciones. El RGPD se aplica a cualquier organización que trate datos personales — y tratar datos significa tener clientes, trabajadores, proveedores o incluso un formulario de contacto en la web. La diferencia respecto a una multinacional es el volumen y la complejidad, no la obligación. Para una pyme, la adecuación es más sencilla y asequible de lo que parece.",
+    "destacada": true,
+    "servei": "adequacio"
+  },
+  {
+    "cat": "rgpd",
+    "pregunta": "¿Qué es un DPO y cuándo es obligatorio tener uno?",
+    "resposta": "El Delegado de Protección de Datos (DPO) es la figura que supervisa el cumplimiento del RGPD en la organización. Es obligatorio si tratas datos a gran escala, datos sensibles (salud, ideología, biometría) o si haces observación sistemática. Muchas pymes no necesitan un DPO obligatorio, pero sí alguien que asuma la responsabilidad de privacidad. Ofrecemos DPO externo cuando hace falta. Si quieres saber si necesitas uno, [responde unas cuantas preguntas](/necessito-dpo/).",
+    "destacada": true,
+    "servei": "dpo"
+  },
+  {
+    "cat": "ia",
+    "pregunta": "Uso ChatGPT en mi empresa. ¿Me afecta el Reglamento de IA?",
+    "resposta": "Probablemente sí, de forma leve. Si tu empresa usa herramientas de IA, debe tomar medidas para formar al equipo que las utiliza. Si pones un chatbot de cara al público o publicas contenidos generados con IA, se aplican obligaciones de transparencia desde agosto de 2026. Y, como siempre, no puedes tratar datos personales sin base legal. Si usas la IA para tomar decisiones sobre personas (selección de personal, créditos...), las obligaciones aumentan con el régimen de alto riesgo, a partir de diciembre de 2027.",
+    "destacada": true,
+    "servei": "ia"
+  },
+  {
+    "cat": "ia",
+    "pregunta": "¿Quién supervisa el cumplimiento del Reglamento de IA en España?",
+    "resposta": "La AESIA (Agencia Española de Supervisión de la Inteligencia Artificial) es el organismo encargado de supervisar el Reglamento de IA a nivel estatal. En materia de protección de datos, la AEPD y la APDCat (en Cataluña) siguen teniendo un papel clave, ya que la mayoría de sistemas de IA tratan datos personales.",
+    "servei": "ia"
+  },
+  {
+    "cat": "practic",
+    "pregunta": "¿Cuánto tiempo lleva el proceso?",
+    "resposta": "Una adecuación RGPD para pyme se completa habitualmente en 4–8 semanas desde el diagnóstico hasta la implementación. La preparación para el Reglamento de IA depende del número de sistemas a evaluar — contamos entre 2 y 4 meses para un proyecto estándar. Trabajamos por fases para no parar tu actividad.",
+    "destacada": true,
+    "servei": "adequacio"
+  },
+  {
+    "cat": "rgpd",
+    "pregunta": "¿Qué pasa si tengo una inspección de la AEPD?",
+    "resposta": "Si has hecho el trabajo, nada grave. La AEPD valora positivamente a las empresas que demuestran diligencia — registro de actividades, análisis de riesgos, formación interna. Te acompañamos en todo el proceso, desde la primera comunicación hasta la respuesta formal, siempre con el objetivo de minimizar el impacto y corregir lo que haga falta.",
+    "servei": "auditoria"
+  },
+  {
+    "cat": "practic",
+    "pregunta": "¿Trabajáis fuera de Cataluña?",
+    "resposta": "Sí. La mayor parte de nuestra cartera es catalana — pymes y autónomos de aquí — y el catalán es nuestro idioma por defecto. Pero acompañamos a clientes de todo el Estado y de Europa cuando tratamos materia de RGPD o AI Act, en castellano o inglés si hace falta."
+  },
+  {
+    "cat": "glossari",
+    "pregunta": "RGPD — Reglamento General de Protección de Datos",
+    "resposta": "Reglamento europeo (UE) 2016/679, en vigor desde el 25 de mayo de 2018. Establece las normas para el tratamiento de datos personales en todos los Estados miembros de la UE. Sustituye a la Directiva 95/46/CE y es de aplicación directa, sin necesidad de transposición."
+  },
+  {
+    "cat": "glossari",
+    "pregunta": "LOPDGDD — Ley Orgánica de Protección de Datos",
+    "resposta": "Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y Garantía de los Derechos Digitales. Norma estatal española que adapta y complementa el RGPD. Regula aspectos como el derecho a la desconexión digital, la privacidad en los centros educativos o el tratamiento de datos en relaciones laborales."
+  },
+  {
+    "cat": "glossari",
+    "pregunta": "DPO / DPD — Delegado de Protección de Datos",
+    "resposta": "Figura prevista en el RGPD (art. 37–39) encargada de supervisar el cumplimiento interno de la normativa de protección de datos. Puede ser interno o externo. Es obligatorio en determinados casos (tratamiento a gran escala, datos sensibles, autoridades públicas) y recomendable en muchos otros.",
+    "servei": "dpo"
+  },
+  {
+    "cat": "glossari",
+    "pregunta": "AEPD — Agencia Española de Protección de Datos",
+    "resposta": "Autoridad de control independiente encargada de velar por el cumplimiento del RGPD y la LOPDGDD en España. Tiene potestad sancionadora, publica guías y herramientas de cumplimiento, y resuelve las reclamaciones de los ciudadanos. Web: aepd.es."
+  },
+  {
+    "cat": "glossari",
+    "pregunta": "APDCat — Autoridad Catalana de Protección de Datos",
+    "resposta": "Autoridad de control independiente de Cataluña, competente respecto a las administraciones públicas catalanas y los partidos políticos con actividad en Cataluña. Colabora activamente en el desarrollo de metodologías para la evaluación de impacto de la IA sobre derechos fundamentales. Web: apdcat.gencat.cat."
+  },
+  {
+    "cat": "glossari",
+    "pregunta": "AESIA — Agencia Española de Supervisión de la IA",
+    "resposta": "Organismo estatal creado para supervisar la aplicación del Reglamento europeo de IA en España. Publica guías y buenas prácticas dirigidas a empresas y administraciones. Será la autoridad sancionadora en materia de IA cuando el Reglamento esté plenamente en vigor. Web: aesia.digital.gob.es."
+  },
+  {
+    "cat": "glossari",
+    "pregunta": "RAT — Registro de Actividades de Tratamiento",
+    "resposta": "Documento obligatorio (RGPD, art. 30) para la mayoría de organizaciones que tratan datos personales. Recoge todas las actividades de tratamiento que realiza la empresa: finalidad, categorías de datos, destinatarios, plazos de conservación y medidas de seguridad. Es el punto de partida de cualquier adecuación al RGPD."
+  },
+  {
+    "cat": "glossari",
+    "pregunta": "EIPD — Evaluación de Impacto en la Protección de Datos",
+    "resposta": "Análisis obligatorio (RGPD, art. 35) cuando un tratamiento puede suponer un riesgo elevado para los derechos y las libertades de las personas. Habitual en videovigilancia a gran escala, tratamientos biométricos, o sistemas automatizados de toma de decisiones. La AEPD publica una lista de casos en los que es obligatoria."
+  }
+]

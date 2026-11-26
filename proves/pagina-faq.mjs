@@ -38,6 +38,33 @@ const blocFaq = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/pagines/p
 const h1 = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
 ok('la pàgina té exactament un <h1> i és el titular del bloc faq', h1.length === 1 && h1[0][1] === enriquit(blocFaq.titol), `h1 trobats: ${h1.length}; contingut: ${h1[0]?.[1]}`);
 
+// 1b) Pàgina en castellà (/es/preguntas-frecuentes/, WEB-T07): mateixes comprovacions, en castellà
+const FITXER_ES = path.join(DIST, 'es/preguntas-frecuentes/index.html');
+ok('dist/es/preguntas-frecuentes/index.html existeix', fs.existsSync(FITXER_ES));
+const faqEs = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/faq.es.json'), 'utf8'));
+const htmlEs = fs.existsSync(FITXER_ES) ? fs.readFileSync(FITXER_ES, 'utf8') : '';
+ok(`la pàgina en castellà té lang="es" i totes les preguntes (${faqEs.length}) a l'HTML`,
+  /<html lang="es">/.test(htmlEs) && faqEs.every(f => htmlEs.includes(esc(f.pregunta))) && (htmlEs.match(/class="faq-item/g) || []).length === faqEs.length);
+const ambServeiEs = faqEs.filter(f => f.servei);
+ok(`les ${ambServeiEs.length} respostes amb servei enllacen a /es/servicios/`,
+  ambServeiEs.every(f => htmlEs.includes(`href="/es/servicios/${serveis.SLUG.es[f.servei]}/"`)) && (htmlEs.match(/class="faq-servei"/g) || []).length === ambServeiEs.length);
+const fpEs = jsonld(htmlEs).find(j => j['@type'] === 'FAQPage');
+const destacadesEs = faqEs.filter(f => f.destacada);
+ok('el FAQPage del JSON-LD és a la pàgina en castellà, amb les destacades en castellà',
+  !!fpEs && fpEs.mainEntity.length === destacadesEs.length && destacadesEs.length > 0
+  && fpEs.mainEntity.every((q, i) => q.name === destacadesEs[i].pregunta));
+ok('la pàgina en castellà té canònica, parell hreflang amb la catalana i és al mapa del lloc',
+  htmlEs.includes('<link rel="canonical" href="https://madeinhuman.cat/es/preguntas-frecuentes/"')
+  && htmlEs.includes('<link rel="alternate" hreflang="es" href="https://madeinhuman.cat/es/preguntas-frecuentes/"')
+  && htmlEs.includes('<link rel="alternate" hreflang="ca" href="https://madeinhuman.cat/preguntes-frequents/"')
+  && htmlEs.includes('<link rel="alternate" hreflang="x-default" href="https://madeinhuman.cat/preguntes-frequents/"')
+  && html.includes('<link rel="alternate" hreflang="es" href="https://madeinhuman.cat/es/preguntas-frecuentes/"')
+  && fs.readFileSync(path.join(DIST, 'sitemap.xml'), 'utf8').includes('https://madeinhuman.cat/es/preguntas-frecuentes/'));
+const blocFaqEs = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/pagines/preguntas-frecuentes.json'), 'utf8')).blocs.find(b => b.tipus === 'faq');
+const h1Es = [...htmlEs.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
+ok('la pàgina en castellà té exactament un <h1> (el titular del bloc faq)', h1Es.length === 1 && h1Es[0][1] === enriquit(blocFaqEs.titol), `h1 trobats: ${h1Es.length}; contingut: ${h1Es[0]?.[1]}`);
+ok('el menú en castellà porta a /es/preguntas-frecuentes/', (htmlEs.match(/href="\/es\/preguntas-frecuentes\/"/g) || []).length >= 2);
+
 // 2) Navegador
 const csp = (() => {
   let dins = false;

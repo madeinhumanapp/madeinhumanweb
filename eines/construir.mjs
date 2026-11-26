@@ -52,9 +52,14 @@ const lloc = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/lloc.json'),
 const DIR_FORMS = path.join(ARREL, 'plantilles/formularis');
 const formularis = Object.fromEntries(fs.readdirSync(DIR_FORMS).filter(f => f.endsWith('.html'))
   .map(f => [path.basename(f, '.html'), fs.readFileSync(path.join(DIR_FORMS, f), 'utf8')]));
-// FAQ: una sola font per a la llista visible i el JSON-LD
+// FAQ: una sola font per a la llista visible i el JSON-LD (per idioma: faq.json en ca, faq.es.json en es, WEB-T07)
 const faq = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/faq.json'), 'utf8'));
-const errors = [...validarFaq(faq).map(e => `faq.json: ${e}`), ...validarLloc(lloc).map(e => `lloc.json: ${e}`)];
+const faqEs = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/faq.es.json'), 'utf8'));
+const errors = [...validarFaq(faq).map(e => `faq.json: ${e}`), ...validarFaq(faqEs).map(e => `faq.es.json: ${e}`),
+  ...validarLloc(lloc).map(e => `lloc.json: ${e}`)];
+// faq.es.json ha de tenir les mateixes preguntes (cat, servei) en el mateix ordre que faq.json
+if (faq.length !== faqEs.length || faq.some((f, i) => f.cat !== faqEs[i]?.cat || f.servei !== faqEs[i]?.servei))
+  errors.push('faq.es.json: ha de tenir les mateixes preguntes (cat, servei) en el mateix ordre que faq.json');
 // Mitjans (WEB-M02): contingut/media.json (si no existeix, buida) i els fitxers de media/
 const media = fs.existsSync(FITXER_MEDIA) ? JSON.parse(fs.readFileSync(FITXER_MEDIA, 'utf8')) : [];
 errors.push(...validarMedia(media).map(e => `media.json: ${e}`));
@@ -104,7 +109,7 @@ for (const f of fs.readdirSync(path.join(ARREL, 'contingut/pagines'))) {
   // Pàgines legals: marc propi i cos en Markdown (contingut/legal/*.md)
   const html = p.plantilla === 'legal' ? paginaLegal(lloc, p, fs.readFileSync(path.join(ARREL, 'contingut', p.cos), 'utf8'))
     : p.plantilla === 'xarxes' ? paginaXarxes(lloc, p)
-    : pagina(lloc, p, formularis, faq, targetes, media, {}, dadesServeis);
+    : pagina(lloc, p, formularis, p.idioma === 'es' ? faqEs : faq, targetes, media, {}, dadesServeis);
   fs.writeFileSync(path.join(SORTIDA, p.fitxer), html);
   generades++;
 }
