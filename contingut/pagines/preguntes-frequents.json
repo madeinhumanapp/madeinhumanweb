@@ -7,6 +7,20 @@
     "titol": "Preguntes freqüents sobre RGPD i IA · Madeinhuman",
     "descripcio": "Respostes clares sobre el RGPD, el DPO, el Reglament d'IA i com adequar la teva empresa: per a pimes i autònoms de Girona i Catalunya.",
     "canonica": "https://madeinhuman.cat/preguntes-frequents/",
+    "alternatives": [
+      {
+        "idioma": "ca",
+        "href": "https://madeinhuman.cat/preguntes-frequents/"
+      },
+      {
+        "idioma": "es",
+        "href": "https://madeinhuman.cat/es/preguntas-frecuentes/"
+      },
+      {
+        "idioma": "x-default",
+        "href": "https://madeinhuman.cat/preguntes-frequents/"
+      }
+    ],
     "og": {
       "titol": "Preguntes freqüents sobre RGPD i IA · Madeinhuman",
       "descripcio": "Respostes clares sobre el RGPD, el DPO i el Reglament d'IA per a pimes i autònoms.",

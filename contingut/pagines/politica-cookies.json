@@ -8,7 +8,12 @@
     "titol": "Política de cookies — Madeinhuman",
     "descripcio": "Política de cookies de Madeinhuman. Tipus de cookies utilitzades, finalitats i com gestionar les teves preferències de consentiment.",
     "robots": "noindex, follow",
-    "canonica": "https://madeinhuman.cat/politica-cookies.html"
+    "canonica": "https://madeinhuman.cat/politica-cookies.html",
+    "alternatives": [
+      { "idioma": "ca", "href": "https://madeinhuman.cat/politica-cookies.html" },
+      { "idioma": "es", "href": "https://madeinhuman.cat/es/politica-cookies/" },
+      { "idioma": "x-default", "href": "https://madeinhuman.cat/politica-cookies.html" }
+    ]
   },
   "etiqueta": "Legal",
   "titol": "Política de cookies",
