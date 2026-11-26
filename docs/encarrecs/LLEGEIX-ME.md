@@ -26,10 +26,12 @@ Estat: ▶ a punt · ◐ en curs · ☑ integrat · ☐ encara no (depèn d'una 
 | WEB-T04 | [Descripcions de 155 caràcters com a màxim](WEB-T04-meta-descripcions.md) (Mistral) | ☑ | `mistral/WEB-T04` | — | T01, T03 |
 | WEB-T05 | [El domicili només a l'avís legal](WEB-T05-domicili.md) (Mistral) | ☑ | `mistral/WEB-T05` | — | T02 |
 | WEB-T06 | [Plantilla d'article per a SEO](WEB-T06-plantilla-article.md) (Gemini) | ▶ | `gemini/WEB-T06` | — | T07, T08 |
-| WEB-T07 | [Preguntes freqüents en castellà](WEB-T07-faq-castella.md) (Mistral) — no es fusiona sense validació | ▶ | `mistral/WEB-T07` | — | T06 |
-| WEB-T08 | [Esborrany del test d'obligacions d'IA](WEB-T08-test-ia.md) (Mistral) — no es fusiona sense validació | ▶ | `mistral/WEB-T08` | — | T06 |
+| WEB-T07 | [Preguntes freqüents en castellà](WEB-T07-faq-castella.md) (Mistral) — no es fusiona sense validació | ◐ validació | `mistral/WEB-T07` | — | T06 |
+| WEB-T08 | [Esborrany del test d'obligacions d'IA](WEB-T08-test-ia.md) (Mistral) — no es fusiona sense validació | ◐ correcció | `mistral/WEB-T08` | — | T06 |
+| WEB-T09 | [Textos legals en castellà](WEB-T09-legal-castella.md) (Mistral) — no es fusiona sense validació | ▶ | `mistral/WEB-T09` | — | T06 |
+| WEB-T10 | [Títols i descripcions dins dels límits](WEB-T10-titols.md) (Mistral) | ▶ | `mistral/WEB-T10` | — | T06 |
 
-Ordre recomanat ara: **Gemini** WEB-T06; **Mistral** WEB-T07 → WEB-T08. Un sol encàrrec obert per sessió
+Ordre recomanat ara: **Gemini** WEB-T06; **Mistral** correcció de WEB-T08 → WEB-T10 → WEB-T09. Un sol encàrrec obert per sessió
 (de Vibe o d'Antigravity). Branca base: `main`.
 
 Quan un encàrrec queda integrat, Claude n'actualitza l'estat aquí i, si cal, escriu el següent.
