@@ -1,0 +1,117 @@
+{
+  "pagina": "preguntas-frecuentes",
+  "idioma": "es",
+  "ruta": "/es/preguntas-frecuentes/",
+  "fitxer": "es/preguntas-frecuentes/index.html",
+  "cap": {
+    "titol": "Preguntas frecuentes sobre RGPD e IA · Madeinhuman",
+    "descripcio": "Respuestas claras sobre el RGPD, el DPO, el Reglamento de IA y cómo adecuar tu empresa: para pymes y autónomos de Girona y Cataluña.",
+    "canonica": "https://madeinhuman.cat/es/preguntas-frecuentes/",
+    "alternatives": [
+      {
+        "idioma": "ca",
+        "href": "https://madeinhuman.cat/preguntes-frequents/"
+      },
+      {
+        "idioma": "es",
+        "href": "https://madeinhuman.cat/es/preguntas-frecuentes/"
+      },
+      {
+        "idioma": "x-default",
+        "href": "https://madeinhuman.cat/preguntes-frequents/"
+      }
+    ],
+    "og": {
+      "titol": "Preguntas frecuentes sobre RGPD e IA · Madeinhuman",
+      "descripcio": "Respuestas claras sobre el RGPD, el DPO y el Reglamento de IA para pymes y autónomos.",
+      "tipus": "website",
+      "url": "https://madeinhuman.cat/es/preguntas-frecuentes/",
+      "locale": "es_ES",
+      "localeAlternatiu": "ca_ES"
+    },
+    "jsonld": [
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://madeinhuman.cat/es/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Preguntas frecuentes",
+            "item": "https://madeinhuman.cat/es/preguntas-frecuentes/"
+          }
+        ]
+      }
+    ]
+  },
+  "blocs": [
+    {
+      "tipus": "faq",
+      "ancora": "preguntas",
+      "etiqueta": "Preguntas frecuentes",
+      "titol": "Dudas *habituales.*",
+      "entradeta": "Respuestas claras para pymes y autónomos, sin perfil jurídico. Si te afecta de cerca, te enlazamos el servicio que puede ayudarte.",
+      "titolPrincipal": true,
+      "pestanyes": [
+        {
+          "cat": "tots",
+          "text": "Todas"
+        },
+        {
+          "cat": "rgpd",
+          "text": "RGPD"
+        },
+        {
+          "cat": "ia",
+          "text": "IA"
+        },
+        {
+          "cat": "practic",
+          "text": "Práctico"
+        },
+        {
+          "cat": "glossari",
+          "text": "Glosario"
+        }
+      ]
+    },
+    {
+      "tipus": "crida",
+      "variant": "targeta",
+      "titol": "¿No encuentras *la respuesta?*",
+      "text": "Empieza con una herramienta gratuita o escríbenos directamente.",
+      "botons": [
+        {
+          "text": "Diagnóstico gratuito (catalán) · 4 min",
+          "href": "/diagnostic.html",
+          "estil": "primari",
+          "fletxa": true
+        },
+        {
+          "text": "¿Necesito un DPO? (catalán)",
+          "href": "/necessito-dpo/",
+          "estil": "secundari"
+        },
+        {
+          "text": "Habla con nosotros",
+          "href": "/es/#contacto",
+          "estil": "secundari"
+        }
+      ]
+    }
+  ],
+  "scripts": [
+    "utm.js",
+    "script.js"
+  ]
+}
