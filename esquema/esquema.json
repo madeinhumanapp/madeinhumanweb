@@ -667,6 +667,11 @@
           "obligatori": true,
           "ajuda": "*cursiva*, **negreta**, salt de línia"
         },
+        "titolPrincipal": {
+          "tipus": "bool",
+          "etiqueta": "Títol principal de la pàgina (H1)",
+          "ajuda": "Marca-ho només si aquest bloc és el títol de la pàgina"
+        },
         "pestanyes": {
           "tipus": "llista",
           "etiqueta": "Pestanyes",

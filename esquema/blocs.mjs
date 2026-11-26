@@ -192,6 +192,7 @@ export const ESQUEMA = {
       etiqueta: text('Etiqueta', 20),
       titol: enriquit('Titular', 60),
       entradeta: enriquit('Entradeta', 200),
+      titolPrincipal: { tipus: 'bool', etiqueta: 'Títol principal de la pàgina (H1)', ajuda: 'Marca-ho només si aquest bloc és el títol de la pàgina' },
       pestanyes: {
         tipus: 'llista', etiqueta: 'Pestanyes', min: 2, max: 6, ajuda: 'La primera ha de ser «tots» (totes les preguntes)',
         element: { cat: text('Categoria', 20, { ajuda: 'Valors possibles: tots, rgpd, ia, practic, glossari…' }), text: text('Text de la pestanya', 20) },

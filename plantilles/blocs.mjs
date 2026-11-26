@@ -285,7 +285,7 @@ ${d.junts.items.map(i => `          <li>${esc(i)}</li>`).join('\n')}
   <div class="container">
     <div class="faq-header reveal">
       <span class="eyebrow">${esc(d.etiqueta)}</span>
-      <h2 class="section-title" style="margin-top:18px">${enriquit(d.titol)}</h2>
+      <${d.titolPrincipal ? 'h1' : 'h2'} class="section-title" style="margin-top:18px">${enriquit(d.titol)}</${d.titolPrincipal ? 'h1' : 'h2'}>
       <p class="section-lead">${enriquit(d.entradeta)}</p>
       <div class="tabs" id="faqTabs">
 ${d.pestanyes.map((t, i) => `        <button class="tab${i === 0 ? ' active' : ''}" data-cat="${esc(t.cat)}">${esc(t.text)}</button>`).join('\n')}
