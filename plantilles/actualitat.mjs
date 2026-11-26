@@ -113,7 +113,7 @@ export function paginesActualitat(lloc, dades, noticies, bloc) {
       { '@type': 'ListItem', position: 2, name: bloc.etiqueta, item: WEB + RUTA }] },
   ] };
   out.push([`${RUTA.slice(1)}index.html`,
-    m.cap('ca', `${titolLlistat} · Madeinhuman`, pla(bloc.entradeta), RUTA, [['ca', RUTA]], ldLlistat, { comentari: false, capExtra: rss })
+    m.cap('ca', `${titolLlistat} · Madeinhuman`, pla(bloc.entradeta), RUTA, [['ca', RUTA], ['x-default', RUTA]], ldLlistat, { comentari: false, capExtra: rss })
     + m.nav('ca', '/es/') + `  <main class="pagina">
     <div class="container pagina-contingut">
 ${molles(bloc.etiqueta)}
@@ -148,7 +148,7 @@ ${cta}    </div>
 ` : '';
     const altres = noticies.filter(x => x !== n).slice(0, 3);
     out.push([`${url.slice(1)}index.html`,
-      m.cap('ca', `${k.titol} · Madeinhuman`, k.resum, url, [['ca', url]], ld, { ogType: 'article', comentari: false,
+      m.cap('ca', `${k.titol} · Madeinhuman`, k.resum, url, [['ca', url], ['x-default', url]], ld, { ogType: 'article', comentari: false,
         capExtra: rss + `  <meta property="article:published_time" content="${k.data}" />\n` })
       + m.nav('ca', '/es/') + `  <main class="pagina">
     <div class="container pagina-contingut legal-content">
