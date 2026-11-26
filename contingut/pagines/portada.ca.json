@@ -411,6 +411,7 @@
   ],
   "scripts": [
     "utm.js",
+    "turnstile.js",
     "script.js"
   ]
 }

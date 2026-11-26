@@ -12,7 +12,8 @@
     ? 'http://localhost:3000'
     : 'https://rgpd.madeinhuman.cat';
   var CALENDARI_URL = 'index.html#contacte';   // ✏️ enllaç de reserva (Cal.com, etc.) quan estigui decidit
-  var TURNSTILE_SITE_KEY = '';                  // ✏️ clau pública de Cloudflare Turnstile (buida = desactivat)
+  // Clau pública de Cloudflare Turnstile: una sola font per als tres formularis (turnstile.js). Buida = desactivat
+  var TURNSTILE_SITE_KEY = window.MIH_TURNSTILE ? window.MIH_TURNSTILE.clau() : '';
 
   // ── Preguntes ─────────────────────────────────────────────────────
   var Q = [
