@@ -45,16 +45,9 @@
         "email": "info@madeinhuman.cat",
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "Passatge de Ricard Giralt i Casadesús, 16",
           "addressLocality": "Girona",
-          "postalCode": "17007",
           "addressRegion": "Girona",
           "addressCountry": "ES"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 41.9794,
-          "longitude": 2.8214
         },
         "areaServed": [
           {

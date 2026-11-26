@@ -29,7 +29,7 @@ function ambContacte(j, lloc) {
     if (!o || typeof o !== 'object') return o;
     let r = Object.fromEntries(Object.entries(o).map(([c, v]) => [c, recorre(v)]));
     if (r['@type'] === 'PostalAddress') {
-      r = posa(r, 'streetAddress', k.carrer); r = posa(r, 'postalCode', k.cp); r = posa(r, 'addressLocality', k.ciutat);
+      r = posa(r, 'addressLocality', k.ciutat);
     } else if (r.address || r.telephone) {
       r = posa(r, 'telephone', k.telefon); r = posa(r, 'email', k.correu);
     }

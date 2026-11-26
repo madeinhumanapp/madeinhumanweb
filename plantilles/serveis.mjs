@@ -6,6 +6,8 @@ import { markdown } from './markdown.mjs';
 import { menu, peu as peuComu } from './marc.mjs';
 
 const CARPETA = { ca: 'serveis', es: 'es/servicios' };
+// Peu de les pàgines en castellà (WEB-T05): la zona de treball en lloc del domicili
+const ZONA_ES = 'Girona · Presencial en la demarcación y en remoto en toda España';
 
 // Marc comú de les pàgines interiors (cap, menú, peu, bloc final): també el fan servir les notícies
 export function marcInterior(lloc, dades) {
@@ -44,8 +46,7 @@ export function marcInterior(lloc, dades) {
       telephone: NAP.telefon,
       email: NAP.correu,
       image: `${WEB}/og-image.png`,
-      address: { '@type': 'PostalAddress', streetAddress: NAP.carrer, postalCode: NAP.cp,
-                 addressLocality: NAP.ciutat, addressRegion: 'Girona', addressCountry: 'ES' },
+      address: { '@type': 'PostalAddress', addressLocality: NAP.ciutat, addressRegion: 'Girona', addressCountry: 'ES' },
       areaServed: ZONA.map(z => ({ '@type': 'AdministrativeArea', name: z })),
     };
   }
@@ -94,7 +95,7 @@ ${JSON.stringify(ld, null, 2)}
   }
 
   function peu(lang) {
-    return `${peuComu(lloc, { idioma: lang, ruta: null })}
+    return `${peuComu(lloc, { idioma: lang, ruta: null, zona: lang === 'es' ? ZONA_ES : lloc.contacte.zona })}
 <script src="/menu.js" defer></script>
 </body>
 </html>
@@ -222,7 +223,7 @@ ${seccions}${bloc_final(lang, clau)}    </div>
       <aside class="pagina-cta" id="contacto">
         <h2>${e(p.contacte_titol)}</h2>
         <p>${e(p.contacte_text)}</p>
-        <p><a href="mailto:${NAP.correu}">${NAP.correu}</a> · <a href="tel:${NAP.telefon}">${NAP.telefon_visible}</a> · ${e(NAP.carrer)}, ${NAP.cp} ${NAP.ciutat}</p>
+        <p><a href="mailto:${NAP.correu}">${NAP.correu}</a> · <a href="tel:${NAP.telefon}">${NAP.telefon_visible}</a> · ${e(ZONA_ES)}</p>
         <div class="pagina-cta-botons">
           <a class="btn btn-primary" href="mailto:${NAP.correu}">Escríbenos</a>
           <a class="btn btn-ghost" href="https://wa.me/${NAP.telefon.replace(/^\++/, '')}" target="_blank" rel="noopener">WhatsApp</a>

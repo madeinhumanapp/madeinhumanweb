@@ -502,6 +502,7 @@ export const CAMPS_CONTACTE = {
   carrer: text('Adreça', 80),
   cp: text('Codi postal', 5),
   ciutat: text('Població', 40),
+  zona: text('Zona de treball (peu)', 80, { ajuda: 'Surt al peu en lloc de l’adreça' }),
 };
 // L'ajuda dels enllaços va a la llista (una sola vegada), no a cada element
 const elementEnllac = max => ({ text: text('Text', max), href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true } });
