@@ -26,7 +26,7 @@ export function paginaLegal(lloc, p, cosFont) {
   <title>${esc(c.titol)}</title>
   <meta name="description" content="${esc(c.descripcio)}" />
   <meta name="robots" content="${esc(c.robots)}" />
-  <link rel="canonical" href="${esc(c.canonica)}" />
+  <link rel="canonical" href="${esc(c.canonica)}" />${(c.alternatives || []).map(a => `\n  <link rel="alternate" hreflang="${a.idioma}" href="${esc(a.href)}" />`).join('\n')}
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/playfair-display-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="icon" href="/favicon.ico" sizes="32x32" />

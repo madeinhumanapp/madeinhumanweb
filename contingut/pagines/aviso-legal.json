@@ -1,0 +1,23 @@
+{
+  "pagina": "aviso-legal",
+  "idioma": "es",
+  "ruta": "/es/aviso-legal/",
+  "fitxer": "es/aviso-legal/index.html",
+  "plantilla": "legal",
+  "cap": {
+    "titol": "Aviso legal — Madeinhuman",
+    "descripcio": "Aviso legal de Madeinhuman ESPJ, consultoría de protección de datos RGPD e IA en Girona. Titular, condiciones de uso y propiedad intelectual.",
+    "robots": "noindex, follow",
+    "canonica": "https://madeinhuman.cat/es/aviso-legal/",
+    "alternatives": [
+      { "idioma": "es", "href": "https://madeinhuman.cat/es/aviso-legal/" },
+      { "idioma": "ca", "href": "https://madeinhuman.cat/avis-legal.html" },
+      { "idioma": "x-default", "href": "https://madeinhuman.cat/avis-legal.html" }
+    ]
+  },
+  "etiqueta": "Legal",
+  "titol": "Aviso legal",
+  "entradeta": "Última actualización: 15 de junio de 2026",
+  "notaFinal": "Última actualización: 15 de junio de 2026 · MADEINHUMAN, ESPJ · [https://madeinhuman.cat](https://madeinhuman.cat)",
+  "cos": "legal/aviso-legal.md"
+}
