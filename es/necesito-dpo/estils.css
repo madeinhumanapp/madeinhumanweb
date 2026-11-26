@@ -1,0 +1,275 @@
+/* Estils de «Necessito DPO?». Només variables de marca.css: cap color escrit a mà. */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--nit);
+  color: var(--crema);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+#app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.progres {
+  margin: 0 0 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--gris-clar);
+}
+
+.pantalla h1,
+.pantalla h2 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0 0 1rem;
+}
+
+.pantalla h1 {
+  font-size: 2.25rem;
+}
+
+.pantalla h2 {
+  font-size: 1.75rem;
+}
+
+h1 em,
+h2 em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--daurat);
+}
+
+p,
+li,
+h1,
+h2 {
+  overflow-wrap: break-word;
+}
+
+.entrada {
+  font-size: 1.125rem;
+  margin: 0 0 0.75rem;
+}
+
+.durada {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--gris-clar);
+  margin: 0 0 2rem;
+}
+
+.ajuda {
+  color: var(--gris-clar);
+  font-size: 0.9375rem;
+  margin: -0.25rem 0 1.5rem;
+}
+
+.opcions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0 0 1.5rem;
+}
+
+.opcio {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  font: inherit;
+  text-align: left;
+  color: var(--crema);
+  background: var(--nit-elevat);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.opcio:hover {
+  background: var(--bg-card-hover);
+}
+
+.opcio[aria-checked="true"] {
+  background: var(--bg-card-hover);
+  border-color: var(--daurat);
+}
+
+.boto {
+  display: inline-block;
+  min-height: 44px;
+  padding: 0.75rem 1.5rem;
+  font: inherit;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.boto-principal {
+  display: block;
+  width: 100%;
+  background: var(--daurat);
+  color: var(--text-sobre-daurat);
+}
+
+.boto-principal:hover {
+  background: var(--daurat-clar);
+}
+
+.boto-secundari {
+  display: block;
+  width: 100%;
+  margin-top: 0.75rem;
+  background: transparent;
+  border-color: var(--border-strong);
+  color: var(--crema);
+}
+
+.boto-secundari:hover {
+  border-color: var(--daurat-clar);
+  color: var(--daurat-clar);
+}
+
+.boto-enrere {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  background: transparent;
+  border-color: var(--border);
+  color: var(--gris-clar);
+}
+
+.boto-enrere:hover {
+  border-color: var(--border-strong);
+  color: var(--crema);
+}
+
+:focus-visible {
+  outline: 2px solid var(--daurat);
+  outline-offset: 2px;
+}
+
+.text-resultat {
+  margin: 0 0 1.5rem;
+}
+
+.llista-motius,
+.llista-dubtes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+}
+
+.llista-motius li,
+.llista-dubtes li {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  background: var(--nit-elevat);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.motiu-text {
+  margin: 0;
+}
+
+.article {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--gris-clar);
+}
+
+.passos {
+  margin: 0 0 1.5rem;
+  padding-left: 1.25rem;
+}
+
+.passos li {
+  margin-bottom: 0.5rem;
+}
+
+.avis {
+  margin: 0 0 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.875rem;
+  color: var(--gris-clar);
+}
+
+.ctas {
+  margin: 0 0 1.5rem;
+}
+
+@media (min-width: 640px) {
+  #app {
+    padding-top: 4rem;
+  }
+
+  .pantalla h1 {
+    font-size: 3rem;
+  }
+
+  .pantalla h2 {
+    font-size: 2.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Capçalera: enllaç de tornada a la web */
+.capcalera {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.25rem 1.25rem 0;
+}
+
+.capcalera-web {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--crema);
+  text-decoration: none;
+}
+
+.capcalera-web span {
+  font-style: italic;
+  color: var(--daurat);
+}
+
+.capcalera-web:focus-visible {
+  outline: 2px solid var(--daurat);
+  outline-offset: 2px;
+}
+
+/* El títol rep el focus per programa en canviar de pantalla: no cal requadre */
+[tabindex="-1"]:focus {
+  outline: none;
+}
