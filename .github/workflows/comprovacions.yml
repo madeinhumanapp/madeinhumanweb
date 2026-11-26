@@ -33,6 +33,8 @@ jobs:
         run: npm run sense-html
       - name: Generar dist/
         run: npm run construir
+      - name: Mapa del lloc (sitemap)
+        run: npm run sitemap
       - name: Notícies (actualitat)
         run: npm run actualitat
       - name: Esquema de les pàgines de servei
