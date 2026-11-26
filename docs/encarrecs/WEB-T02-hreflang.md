@@ -2,7 +2,7 @@
 id: WEB-T02
 assignat: gemini
 zona: verda
-base: main (després que WEB-T01 estigui integrat)
+base: main (WEB-T01 ja hi és integrat)
 branca: gemini/WEB-T02
 estat: obert
 fase: 0 (prova de l'equip)

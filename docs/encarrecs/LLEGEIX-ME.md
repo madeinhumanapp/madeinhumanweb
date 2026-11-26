@@ -20,12 +20,13 @@ Estat: ▶ a punt · ◐ en curs · ☑ integrat · ☐ encara no (depèn d'una 
 | WEB-A02 | [Migrar les 3 notícies actuals](WEB-A02-migrar-noticies.md) | ☑ | `mistral/WEB-A02` | — (WEB-A01 fet) | tots |
 | WEB-M02 | [Imatges i vídeos al generador](WEB-M02-media-generador.md) | ☑ | `mistral/WEB-M02` | — | WEB-M03 (rgpdtool) |
 | WEB-M05 | Subtítols dels vídeos | ☐ | `mistral/WEB-M05` | WEB-M04 (panell) i vídeos reals | — |
-| WEB-T01 | [Mapa del lloc generat sencer](WEB-T01-sitemap.md) (Gemini) | ▶ | `gemini/WEB-T01` | — | T03, T04 |
-| WEB-T02 | [Hreflang coherent i prova global](WEB-T02-hreflang.md) (Gemini) | ☐ | `gemini/WEB-T02` | WEB-T01 integrat (mateix fitxer) | T03, T04 |
-| WEB-T03 | [H1 a la pàgina de preguntes freqüents](WEB-T03-h1-faq.md) (Mistral) | ▶ | `mistral/WEB-T03` | — | T01, T04 |
-| WEB-T04 | [Descripcions de 155 caràcters com a màxim](WEB-T04-meta-descripcions.md) (Mistral) | ▶ | `mistral/WEB-T04` | — | T01, T03 |
+| WEB-T01 | [Mapa del lloc generat sencer](WEB-T01-sitemap.md) (Gemini) | ☑ | `gemini/WEB-T01` | — | T03, T04 |
+| WEB-T02 | [Hreflang coherent i prova global](WEB-T02-hreflang.md) (Gemini) | ▶ | `gemini/WEB-T02` | WEB-T01 integrat (mateix fitxer) | T03, T04 |
+| WEB-T03 | [H1 a la pàgina de preguntes freqüents](WEB-T03-h1-faq.md) (Mistral) | ☑ | `mistral/WEB-T03` | — | T01, T04 |
+| WEB-T04 | [Descripcions de 155 caràcters com a màxim](WEB-T04-meta-descripcions.md) (Mistral) | ☑ | `mistral/WEB-T04` | — | T01, T03 |
+| WEB-T05 | [El domicili només a l'avís legal](WEB-T05-domicili.md) (Mistral) | ▶ | `mistral/WEB-T05` | — | T02 |
 
-Ordre recomanat ara: **Gemini** WEB-T01 → WEB-T02; **Mistral** WEB-T03 → WEB-T04. Un sol encàrrec obert per sessió
+Ordre recomanat ara: **Gemini** WEB-T02; **Mistral** WEB-T05. Un sol encàrrec obert per sessió
 (de Vibe o d'Antigravity). Branca base: `main`.
 
 Quan un encàrrec queda integrat, Claude n'actualitza l'estat aquí i, si cal, escriu el següent.
