@@ -96,7 +96,14 @@ if (BASE_ARG) {
     diferents.length === 0, diferents.join(', '));
 } else {
   // Carrega plantilles/markdown.mjs de main en memòria (sense fitxers temporals) i compara tot el Markdown de contingut/
-  const codiMain = execFileSync('git', ['show', 'main:plantilles/markdown.mjs'], { cwd: ARREL, encoding: 'utf8', stdio: 'pipe' });
+  // A GitHub Actions (clon d'una sola branca) pot no haver-hi «main» ni «origin/main»: llavors la paritat s'omet
+  let codiMain = null;
+  for (const ref of ['main', 'origin/main']) {
+    try { codiMain = execFileSync('git', ['show', `${ref}:plantilles/markdown.mjs`], { cwd: ARREL, encoding: 'utf8', stdio: 'pipe' }); break; } catch { /* següent */ }
+  }
+  if (!codiMain) {
+    console.log('! paritat amb main omesa: no hi ha la branca main en aquest clon (fes servir --base per comparar amb un dist/ de main)');
+  } else {
   const textUrl = pathToFileURL(path.join(ARREL, 'plantilles/text.mjs')).href;
   const modUrl = 'data:text/javascript;base64,' + Buffer.from(codiMain.replace('./text.mjs', textUrl)).toString('base64');
   const { markdown: markdownMain } = await import(modUrl);
@@ -122,6 +129,7 @@ if (BASE_ARG) {
   }
   ok(`paritat amb main: tots els textos en Markdown de contingut/ (${comprovats}) generen exactament el mateix HTML`,
     comprovats > 0 && diferents.length === 0, diferents.join(', '));
+  }
 }
 
 console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions del Markdown correctes');
