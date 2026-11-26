@@ -7,6 +7,7 @@
       "email": "prova@exemple.cat",
       "empresa": "Prova empresa",
       "missatge": "Text de prova del contracte.",
+      "turnstile": "TOKEN-PROVA",
       "comercial": true,
       "utm_source": "instagram",
       "utm_medium": "social",
@@ -42,6 +43,7 @@
       "grupEmpresarial": true,
       "diversesSeus": true,
       "observacions": "Text de prova del contracte.",
+      "turnstile": "TOKEN-PROVA",
       "comercial": true,
       "utm_source": "instagram",
       "utm_medium": "social",
@@ -86,6 +88,7 @@
       "utm_medium": "social",
       "utm_campaign": "prova-contracte",
       "utm_content": "enllac-bio",
+      "turnstile": "TOKEN-PROVA",
       "web_url": ""
     }
   },
