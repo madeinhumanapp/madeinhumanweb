@@ -87,8 +87,8 @@
           "@type": "GeoCircle",
           "geoMidpoint": {
             "@type": "GeoCoordinates",
-            "latitude": 41.9794,
-            "longitude": 2.8214
+            "latitude": 41.98,
+            "longitude": 2.82
           },
           "geoRadius": "200000"
         },
