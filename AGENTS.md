@@ -1,11 +1,14 @@
-# Instruccions per a Mistral (Vibe) — web de madeinhuman.cat
+# Instruccions per a Mistral (Vibe) i Gemini (Antigravity) — web de madeinhuman.cat
 
-Aquest fitxer és per a Mistral Vibe. Claude fa servir `CLAUDE.md`. Llegeix-lo sencer abans de fer res.
+Aquest fitxer és per a Mistral (Vibe) i Gemini (Antigravity). Claude fa servir `CLAUDE.md`. Llegeix-lo sencer abans de fer res.
+
+On diu `<agent>`, posa-hi `mistral` si ets Mistral o `gemini` si ets Gemini. Fes només els encàrrecs assignats a tu
+(camp `assignat` de l'encàrrec).
 
 ## Qui fa què
 
 - **Claude** és l'arquitecte: escriu els encàrrecs, revisa el que lliures i ho integra.
-- **Tu (Mistral)** fas encàrrecs concrets, un cada vegada, en una branca pròpia.
+- **Tu (Mistral o Gemini)** fas encàrrecs concrets, un cada vegada, en una branca pròpia.
 - **La persona responsable** (la propietària de madeinhuman) t'obre la sessió, aprova les ordres que demanen permís i
   valida el que és jurídic o editorial.
 
@@ -17,26 +20,26 @@ respon que necessites l'ID de l'encàrrec i atura't.
 1. **Llegeix l'encàrrec sencer.** Si alguna cosa no s'entén, tria l'opció més conservadora i anota-ho per al resum.
 2. **Comprova que el repositori està net:** `git status` ha de dir «nothing to commit, working tree clean».
    Si no ho diu, **para i avisa**: no barregis canvis d'altres.
-3. **Posa't a la branca base** que diu l'encàrrec (ara: `claude/website-control-panel-iz6s7h`):
+3. **Posa't a la branca base** que diu l'encàrrec (camp `base`; si no en diu cap, `main`):
    ```
    git fetch origin
-   git switch claude/website-control-panel-iz6s7h
+   git switch main
    git pull --ff-only
    ```
-4. **Crea la branca de treball** que diu l'encàrrec: `git switch -c mistral/WEB-xxx`
-   (si ja existeix perquè reprens la feina: `git switch mistral/WEB-xxx`).
+4. **Crea la branca de treball** que diu l'encàrrec: `git switch -c <agent>/WEB-xxx`
+   (si ja existeix perquè reprens la feina: `git switch <agent>/WEB-xxx`).
 5. **Eines:** el primer cop en aquest ordinador, `npm ci` i `npm run navegador`. Després, només si l'encàrrec ho diu.
 6. **Fes la feina** de l'apartat «Què has de fer», tocant **només** els fitxers de l'apartat «Lliurament».
 7. **Comprova:** executa les ordres d'acceptació de l'encàrrec. Han de donar exactament el resultat que diu.
 8. **Desa:** `git add` només dels fitxers del lliurament (mai `git add -A` ni `git add .`), i
    `git commit -m "WEB-xxx: descripció curta en català"`.
-9. **Puja:** `git push -u origin mistral/WEB-xxx`.
+9. **Puja:** `git push -u origin <agent>/WEB-xxx`. No obris cap PR: l'obre Claude quan revisa.
 10. **Escriu el resum final** (format al final d'aquest fitxer) i atura't. No comencis cap altre encàrrec.
 
 ## Normes que no es poden saltar
 
 **Git**
-- Només treballes a `mistral/WEB-xxx`. Mai a `main` ni a cap `claude/…`.
+- Només treballes a `<agent>/WEB-xxx`. Mai a `main`, a cap `claude/…` ni a la branca de l'altre agent.
 - Mai `git push --force`, `git merge`, `git rebase`, `git reset --hard` ni `git clean`.
 - Mai esborris branques ni etiquetes.
 
@@ -111,7 +114,7 @@ respon que necessites l'ID de l'encàrrec i atura't.
 ```
 WEB-xxx — <títol de l'encàrrec>
 Estat: fet | fet amb dubtes | aturat (motiu)
-Branca: mistral/WEB-xxx · commit <hash curt>
+Branca: <agent>/WEB-xxx · commit <hash curt>
 Fitxers canviats: <llista>
 Ordres d'acceptació:
   <enganxa la sortida de cada ordre>
