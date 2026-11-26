@@ -1,5 +1,5 @@
 // Generador (prototip B): contingut/ + plantilles/ → dist/
-// Ús: node eines/construir.mjs [--sortida dist]
+// Ús: node eines/construir.mjs [--sortida dist] [--esborranys]
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -8,11 +8,14 @@ import { paginaLegal } from '../plantilles/legal.mjs';
 import { paginaXarxes } from '../plantilles/xarxes.mjs';
 import { validarServeis, CAMPS_SERVEI, CAMPS_PORTADA_ES, CAMPS_COMU } from '../esquema/serveis.mjs';
 import { validarPagina, validarFaq, validarNoticia, validarLloc, ESQUEMA, CAMPS_NOTICIA, CAMPS_XARXES, validarMedia, usosDeMedia, PATRO_ID_MEDIA } from '../esquema/blocs.mjs';
+import { validarSector, CAMPS_SECTOR } from '../esquema/sectors.mjs';
 import { llegirNoticia, publicades, targeta, paginesActualitat, datesActualitatMapa } from '../plantilles/actualitat.mjs';
+import { paginesSectors } from '../plantilles/sectors.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
 const SORTIDA = path.resolve(ARREL, args.includes('--sortida') ? args[args.indexOf('--sortida') + 1] : 'dist');
+const AMB_ESBORRANYS = args.includes('--esborranys') || Boolean(process.env.CF_PAGES_BRANCH && process.env.CF_PAGES_BRANCH !== 'main');
 
 // El que no es publica: fonts del generador, proves, eines i fitxers del repositori
 const NO_PUBLICAR = new Set(['contingut', 'captures', 'plantilles', 'esquema', 'eines', 'proves', 'marca', 'docs', 'dist', 'AGENTS.md',
@@ -140,6 +143,30 @@ if (noticies.length) {
     if (rel.endsWith('.html')) generades++;
   }
 }
+// 2d. Pàgines de sector (WEB-G01): contingut/sectors/<slug>.json → /sectors/<slug>/ i índex /sectors/
+//     Els esborranys només es generen amb --esborranys o en vistes prèvies de Cloudflare (CF_PAGES_BRANCH != main).
+const DIR_SECTORS = process.env.DIR_SECTORS ? path.resolve(process.env.DIR_SECTORS) : path.join(ARREL, 'contingut/sectors');
+const sectors = [];
+const slugsSectors = new Set();
+if (fs.existsSync(DIR_SECTORS)) {
+  for (const f of fs.readdirSync(DIR_SECTORS).filter(x => x.endsWith('.json')).sort()) {
+    let s;
+    try { s = JSON.parse(fs.readFileSync(path.join(DIR_SECTORS, f), 'utf8')); }
+    catch (err) { errors.push(`sectors/${f}: JSON no vàlid (${err.message})`); continue; }
+    const eSector = validarSector(s, f);
+    if (eSector.length) { errors.push(...eSector.map(x => `sectors/${f}: ${x}`)); continue; }
+    if (slugsSectors.has(s.slug)) { errors.push(`sectors/${f}: slug repetit «${s.slug}»`); continue; }
+    slugsSectors.add(s.slug);
+    sectors.push(s);
+  }
+}
+if (!errors.length && sectors.length) {
+  for (const [rel, html] of paginesSectors(lloc, dadesServeis, sectors, { ambEsborranys: AMB_ESBORRANYS })) {
+    fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
+    fs.writeFileSync(path.join(SORTIDA, rel), html);
+    generades++;
+  }
+}
 if (errors.length) { console.error('El contingut no és vàlid:\n  ' + errors.join('\n  ')); process.exit(1); }
 
 // 2d. Mapa del lloc (WEB-T01): recorre els .html de SORTIDA (sense _previsualitzacio/) i hi inclou tota
@@ -200,7 +227,7 @@ fs.writeFileSync(path.join(PREV, 'serveis.json'), JSON.stringify(dadesServeis));
 // L'esquema són dades: el panell en genera els formularis sense dependre del codi de la web
 fs.writeFileSync(path.join(PREV, 'esquema.json'), JSON.stringify(ESQUEMA, null, 2));
 // Esquemes dels continguts que no són blocs de pàgina (els formularis del panell en surten igual)
-fs.writeFileSync(path.join(PREV, 'esquema-continguts.json'), JSON.stringify({ noticia: CAMPS_NOTICIA, xarxes: CAMPS_XARXES, servei: CAMPS_SERVEI, portada_es: CAMPS_PORTADA_ES, comu: CAMPS_COMU }, null, 2));
+fs.writeFileSync(path.join(PREV, 'esquema-continguts.json'), JSON.stringify({ noticia: CAMPS_NOTICIA, sector: CAMPS_SECTOR, xarxes: CAMPS_XARXES, servei: CAMPS_SERVEI, portada_es: CAMPS_PORTADA_ES, comu: CAMPS_COMU }, null, 2));
 const programades = totes.filter(n => n.cap.estat === 'publicat' && n.cap.data > AVUI).length;
 console.log(`dist/: ${generades} pàgines generades, ${copiats} fitxers copiats, ${Date.now() - t0} ms`
   + (totes.length ? ` · notícies: ${noticies.length} publicades${programades ? `, ${programades} programades` : ''}` : ''));
