@@ -1897,3 +1897,57 @@ section.block.crida-linia { padding: 40px 0; }
 .fil-capa { position: absolute; left: 0; top: 0; width: 100%; overflow: hidden; z-index: 30; pointer-events: none; }
 .fil-capa canvas { position: absolute; left: 0; width: 100%; }
 @media print { .fil-capa { display: none; } }
+
+/* ===== Articles d'actualitat: barra de revisió, bloc de fonts i crida (WEB-T06) ===== */
+.noticia-revisio {
+  margin: 0 0 24px;
+  padding: 12px 16px;
+  border-left: 3px solid var(--daurat);
+  border-radius: 0 10px 10px 0;
+  background: var(--bg-card);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--gris-clar);
+}
+.noticia-revisio time { color: var(--crema); }
+.noticia-fonts {
+  margin-top: 40px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-card);
+}
+.legal-content .noticia-fonts h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+.noticia-fonts ul { margin-bottom: 0; }
+.noticia-fonts li { word-break: break-word; }
+.noticia-cta {
+  margin-top: 48px;
+  padding: 28px 32px;
+  border: 1px solid var(--border-strong);
+  border-radius: 16px;
+  background: var(--bg-card);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.legal-content .noticia-cta h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 22px;
+}
+.legal-content .noticia-cta .btn-primary {
+  color: var(--text-sobre-daurat);
+  text-decoration: none;
+}
+@media (max-width: 767px) {
+  .noticia-fonts { padding: 20px; }
+  .noticia-cta { padding: 24px 20px; }
+}

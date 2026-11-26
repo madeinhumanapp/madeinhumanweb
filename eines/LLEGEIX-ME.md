@@ -54,13 +54,21 @@ Un fitxer per notícia: `AAAA-MM-DD-titol-curt.md` (minúscules, sense accents).
 ```
 ---
 titol: "…"                 # fins a 130 caràcters (millor fins a 70)
-resum: "…"                 # targeta i meta description (millor fins a 160)
+resum: "…"                 # targeta i entradeta (millor fins a 160)
+meta_descripcio: "…"       # opcional (màx. 155): substitueix resum a meta description i og:description
 data: 2026-11-20           # no surt a la web abans d'aquest dia (hora de Madrid)
+data_revisio: 2026-11-25   # opcional: barra de revisió jurídica sota el H1 i dateModified del JSON-LD
+revisat_per: "…"           # opcional (màx. 120): per defecte «Revisat per un consultor RGPD i DPO extern de madeinhuman»
 etiqueta: rgpd             # rgpd | ia | apdcat
+ninxol: general            # opcional: general | salut | educacio | comerc | serveis | hostaleria | social | saas
+tipus_article: guia        # opcional: noticia (per defecte, NewsArticle) | guia (Article)
 font_nom: "AEPD"
 font_url: "https://…"      # obligatori per publicar una notícia amb cos
+fonts_addicionals: "https://… | https://…"  # opcional (màx. 600): URL https:// separades per « | » (bloc «Fonts» i citation)
 data_font: 2026-11-03      # opcional
 servei_relacionat: auditoria   # opcional: adequacio | dpo | auditoria | ia | web
+cta_desti: servei          # opcional: diagnostic | contacte | servei (amb servei, servei_relacionat és obligatori)
+cta_text: "…"              # opcional (màx. 80): text del botó de la crida final
 estat: publicat            # esborrany | publicat
 idioma: ca
 ---

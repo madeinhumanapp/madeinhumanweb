@@ -91,6 +91,12 @@ const casos = {
   'nom de fitxer': ['Notícia Nova.md', cap({ titol: '"T"', ...base, data: '2026-01-01' }), /nom del fitxer/],
   'camp desconegut': ['2026-01-01-camp.md', cap({ titol: '"T"', ...base, data: '2026-01-01', autor: 'X' }), /camp no previst/],
   'enllaç no https': ['2026-01-01-http.md', cap({ titol: '"T"', ...base, data: '2026-01-01', font_url: 'http://exemple.org' }), /https/],
+  'fonts_addicionals sense https': ['2026-01-01-fonts-http.md', cap({ titol: '"T"', ...base, data: '2026-01-01',
+    font_url: 'https://exemple.org', fonts_addicionals: '"https://exemple.org/a | http://exemple.org/b"' }), /fonts_addicionals.*https/],
+  'cta_desti servei sense servei_relacionat': ['2026-01-01-cta-servei.md', cap({ titol: '"T"', ...base, data: '2026-01-01',
+    font_url: 'https://exemple.org', cta_desti: 'servei' }), /servei_relacionat/],
+  'meta_descripcio massa llarga': ['2026-01-01-meta-llarga.md', cap({ titol: '"T"', ...base, data: '2026-01-01',
+    meta_descripcio: `"${'a'.repeat(156)}"` }), /màxim 155/],
 };
 for (const [nom, [f, t, patro]] of Object.entries(casos)) {
   const d = path.join(TMP, 'cas-' + Object.keys(casos).indexOf(nom));
@@ -99,6 +105,80 @@ for (const [nom, [f, t, patro]] of Object.entries(casos)) {
   const rc = construir({ DIR_ACTUALITAT: d }, path.join(TMP, 'out'));
   ok(`rebutja: ${nom}`, !rc.ok && patro.test(rc.sortida), rc.sortida.slice(0, 300));
 }
+
+// 5. Plantilla d'article per a SEO (WEB-T06): sense camps nous, amb tots els camps nous i valors per defecte
+const jsonld = html => JSON.parse(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/.exec(html)[1])['@graph'];
+const ldSense = jsonld(art).find(x => x['@type'] === 'NewsArticle');
+ok('article sense camps nous: sense barra de revisió, bloc Fonts ni crida pròpia, i dateModified = data',
+  !art.includes('class="noticia-revisio"') && !art.includes('class="noticia-fonts"') && !art.includes('class="noticia-cta"')
+  && art.includes('class="pagina-cta"') && ldSense && ldSense.dateModified === '2026-03-10' && !('citation' in ldSense));
+
+const dirSeo = path.join(TMP, 'seo');
+fs.mkdirSync(dirSeo);
+fs.writeFileSync(path.join(dirSeo, '2026-04-01-guia-completa.md'), cap({
+  titol: '"Guia completa de prova"',
+  ...base,
+  meta_descripcio: '"Descripció curta específica per a Google i xarxes."',
+  data: '2026-04-01',
+  data_revisio: '2026-05-10',
+  revisat_per: '"Equip jurídic de prova"',
+  ninxol: 'salut',
+  tipus_article: 'guia',
+  font_url: '"https://exemple.org/font-principal"',
+  fonts_addicionals: '"https://exemple.org/reglament | https://exemple.org/guia-apdcat"',
+  data_font: '2026-03-20',
+  servei_relacionat: 'dpo',
+  cta_desti: 'servei',
+  cta_text: '"Descobreix el DPO extern"',
+}) + '\n## Context\n\nCos de la guia de prova.\n');
+fs.writeFileSync(path.join(dirSeo, '2026-04-02-guia-defectes.md'), cap({
+  titol: '"Guia amb valors per defecte"',
+  ...base,
+  data: '2026-04-02',
+  data_revisio: '2026-05-12',
+  font_url: '"https://exemple.org/font-2"',
+  cta_desti: 'diagnostic',
+}) + '\n## Resum\n\nCos curt.\n');
+fs.writeFileSync(path.join(dirSeo, '2026-04-03-guia-contacte.md'), cap({
+  titol: '"Guia amb crida a contacte"',
+  ...base,
+  data: '2026-04-03',
+  font_url: '"https://exemple.org/font-3"',
+  cta_desti: 'contacte',
+}) + '\n## Resum\n\nCos curt.\n');
+
+const outSeo = path.join(TMP, 'dist-seo');
+const rSeo = construir({ DIR_ACTUALITAT: dirSeo, DATA_CONSTRUCCIO: '2026-06-01' }, outSeo);
+ok('construeix articles amb els camps nous de WEB-T06', rSeo.ok, rSeo.sortida);
+const guia = fs.readFileSync(path.join(outSeo, 'actualitat/guia-completa/index.html'), 'utf8');
+const ldGuia = jsonld(guia).find(x => x['@type'] === 'Article');
+ok('article complet: meta description i og:description fan servir meta_descripcio',
+  guia.includes('<meta name="description" content="Descripció curta específica per a Google i xarxes." />')
+  && guia.includes('<meta property="og:description" content="Descripció curta específica per a Google i xarxes." />'));
+ok('article complet: barra de revisió sota el H1 amb data llarga i revisat_per',
+  guia.includes(`</h1>\n      <p class="noticia-revisio">Darrera revisió jurídica: <time datetime="2026-05-10">${dataLlarga('2026-05-10')}</time> · Equip jurídic de prova</p>`));
+ok('article complet: bloc Fonts amb totes les URL i rel="noopener" target="_blank"',
+  guia.includes('class="noticia-fonts"')
+  && guia.includes('href="https://exemple.org/font-principal" target="_blank" rel="noopener"')
+  && guia.includes('href="https://exemple.org/reglament" target="_blank" rel="noopener"')
+  && guia.includes('href="https://exemple.org/guia-apdcat" target="_blank" rel="noopener"'));
+ok('article complet: crida final amb destí del servei relacionat i text propi',
+  guia.includes('class="noticia-cta"') && guia.includes('href="/serveis/dpo-extern/">Descobreix el DPO extern</a>'));
+ok('article complet: JSON-LD Article amb dateModified, citation i autor/editor #empresa',
+  Boolean(ldGuia) && ldGuia.dateModified === '2026-05-10'
+  && Array.isArray(ldGuia.citation) && ldGuia.citation.length === 3
+  && ldGuia.citation.includes('https://exemple.org/font-principal')
+  && ldGuia.citation.includes('https://exemple.org/reglament')
+  && ldGuia.citation.includes('https://exemple.org/guia-apdcat')
+  && ldGuia.author?.['@id'] === 'https://madeinhuman.cat/#empresa'
+  && ldGuia.publisher?.['@id'] === 'https://madeinhuman.cat/#empresa');
+
+const guiaDef = fs.readFileSync(path.join(outSeo, 'actualitat/guia-defectes/index.html'), 'utf8');
+const guiaContacte = fs.readFileSync(path.join(outSeo, 'actualitat/guia-contacte/index.html'), 'utf8');
+ok('article amb valors per defecte: text de revisió i botons de diagnòstic i contacte per defecte',
+  guiaDef.includes('Revisat per un consultor RGPD i DPO extern de madeinhuman</p>')
+  && guiaDef.includes('href="/diagnostic">Fer el diagnòstic gratuït</a>')
+  && guiaContacte.includes('href="/#contacte">Parla amb nosaltres</a>'));
 
 fs.rmSync(TMP, { recursive: true, force: true });
 console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions de l\'actualitat correctes');
