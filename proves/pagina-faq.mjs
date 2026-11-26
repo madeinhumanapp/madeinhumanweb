@@ -8,6 +8,7 @@ import http from 'node:http';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import { enriquit } from '../plantilles/text.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ARREL, 'dist');
@@ -33,6 +34,9 @@ ok('la portada ja no porta el FAQPage', !jsonld(portada).some(j => j['@type'] ==
 ok('el menú i el peu porten a /preguntes-frequents/ (i no a /#faq)', (portada.match(/href="\/preguntes-frequents\/"/g) || []).length >= 2 && !/href="\/?#faq"/.test(portada.replace(/id="faq"/g, '')));
 ok('la pàgina té canònica i és al mapa del lloc', html.includes('<link rel="canonical" href="https://madeinhuman.cat/preguntes-frequents/"') && fs.readFileSync(path.join(DIST, 'sitemap.xml'), 'utf8').includes('https://madeinhuman.cat/preguntes-frequents/'));
 ok('els fulls d\'estil i els scripts tenen rutes absolutes (la pàgina és dins d\'una carpeta)', !/<link rel="stylesheet" href="(?!\/)/.test(html) && !/<script src="(?!\/)/.test(html));
+const blocFaq = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/pagines/preguntes-frequents.json'), 'utf8')).blocs.find(b => b.tipus === 'faq');
+const h1 = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
+ok('la pàgina té exactament un <h1> i és el titular del bloc faq', h1.length === 1 && h1[0][1] === enriquit(blocFaq.titol), `h1 trobats: ${h1.length}; contingut: ${h1[0]?.[1]}`);
 
 // 2) Navegador
 const csp = (() => {

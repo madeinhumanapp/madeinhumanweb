@@ -45,6 +45,7 @@
       "etiqueta": "Preguntes freqüents",
       "titol": "Dubtes *habituals.*",
       "entradeta": "Respostes clares per a pimes i autònoms, sense perfil jurídic. Si et toca de prop, t'enllacem el servei que t'hi pot ajudar.",
+      "titolPrincipal": true,
       "pestanyes": [
         {
           "cat": "tots",
