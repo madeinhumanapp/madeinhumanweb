@@ -28,11 +28,11 @@ export function menu(lloc, ctx) {
 
 export function peu(lloc, ctx) {
   const f = lloc.peu[ctx.idioma], k = lloc.contacte;
-  // Columna amb «contacte»: correu, WhatsApp i adreça (de lloc.contacte) abans dels enllaços
+  // Columna amb «contacte»: correu, WhatsApp i zona de treball (el domicili només surt a l'avís legal, WEB-T05)
   const contacte = [
     `<li><a href="mailto:${esc(k.correu)}">${esc(k.correu)}</a></li>`,
     `<li><a href="https://wa.me/${k.telefon.replace(/\D/g, '')}" target="_blank" rel="noopener">WhatsApp: ${esc(k.telefonVisible)}</a></li>`,
-    `<li><address>${esc(k.carrer)}<br>${esc(k.cp)} ${esc(k.ciutat)}</address></li>`,
+    `<li>${esc(ctx.zona ?? k.zona)}</li>`,
   ];
   // Les adreces d'altres webs s'obren en una pestanya nova
   const item = e => `<li><a href="${esc(enllac(e.href, ctx))}"${/^https?:\/\//.test(e.href) ? ' target="_blank" rel="noopener"' : ''}>${esc(e.text)}</a></li>`;

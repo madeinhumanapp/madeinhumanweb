@@ -7,7 +7,8 @@
     "telefonVisible": "614 42 57 59",
     "carrer": "Passatge de Ricard Giralt i Casadesús, 16",
     "cp": "17007",
-    "ciutat": "Girona"
+    "ciutat": "Girona",
+    "zona": "Girona · Presencial a la demarcació i remot a tot Espanya"
   },
   "cap": {
     "og": {
@@ -25,9 +26,7 @@
     },
     "geo": {
       "geo.region": "ES-CT",
-      "geo.placename": "Girona",
-      "geo.position": "41.9794;2.8214",
-      "ICBM": "41.9794, 2.8214"
+      "geo.placename": "Girona"
     },
     "autor": "Madeinhuman ESPJ",
     "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
