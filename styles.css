@@ -1951,3 +1951,26 @@ section.block.crida-linia { padding: 40px 0; }
   .noticia-fonts { padding: 20px; }
   .noticia-cta { padding: 24px 20px; }
 }
+
+/* ===== Paràgraf destacat al Markdown (WEB-T11) ===== */
+.text-destacat {
+  margin: 28px 0;
+  padding: 20px 24px;
+  border-left: 3px solid var(--daurat);
+  border-radius: 0 12px 12px 0;
+  background: var(--bg-card);
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--crema);
+}
+.text-destacat p {
+  margin: 0;
+  color: var(--crema);
+}
+@media (max-width: 767px) {
+  .text-destacat {
+    margin: 20px 0;
+    padding: 16px 18px;
+    font-size: 16.5px;
+  }
+}

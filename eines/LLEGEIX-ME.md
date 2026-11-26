@@ -38,6 +38,11 @@ Encàrrecs per a Mistral: `docs/encarrecs/` i `AGENTS.md`.
 
 Només `*cursiva*`, `**negreta**`, salt de línia i `[enllaç](/ruta)`. Cap etiqueta HTML: el validador la rebutja.
 
+Al text llarg en Markdown (`plantilles/markdown.mjs`: notícies i articles, textos legals i seccions de servei) també
+s'admeten: `##` i `###`, `- ` (llistes), `1. ` (llistes numerades, amb continuació sagnada de 2 espais i `start="N"` si
+no comencen per 1), `> ` (paràgraf destacat, `<blockquote class="text-destacat">`), taules amb `|`, `` `codi` `` i
+`<!-- nota interna -->`.
+
 ## Regles que protegeixen els connectors amb rgpd-tool
 
 - Els formularis són blocs `formulari`: l'HTML és a `plantilles/formularis/` i només se n'editen el titular i l'entradeta.
