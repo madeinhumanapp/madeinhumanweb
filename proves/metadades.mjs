@@ -14,7 +14,7 @@ const DIST = path.join(ARREL, 'dist');
 const TITOL_MAX = 60;
 const DESCRIPCIO_MAX = 155;
 // Fitxers fixos que no es toquen en aquest encàrrec: si fallen, és avís (els corregeix Claude)
-const PENDENTS_DE_CLAUDE = ['diagnostic.html'];
+const PENDENTS_DE_CLAUDE = []; // diagnostic.html ja corregit per Claude (seguiment de WEB-T10)
 
 let fallades = 0;
 const ok = (nom, cond, detall = '') => {

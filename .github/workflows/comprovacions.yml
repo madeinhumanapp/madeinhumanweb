@@ -39,6 +39,8 @@ jobs:
         run: npm run sitemap
       - name: Hreflang coherent
         run: npm run hreflang
+      - name: Títols i descripcions (límits de Google)
+        run: npm run metadades
       - name: Notícies (actualitat)
         run: npm run actualitat
       - name: Esquema de les pàgines de servei
