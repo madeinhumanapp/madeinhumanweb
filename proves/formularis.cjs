@@ -63,8 +63,14 @@ async function pagina(navegador, ruta, peticions, respostaApi) {
       if (!f) return route.fulfill({ status: 404, body: 'no trobat' });
       return route.fulfill({ status: 200, contentType: TIPUS[path.extname(f)] || 'application/octet-stream', body: fs.readFileSync(f) });
     }
+    // Turnstile: la versió simulada (proves/turnstile-simulat.js), mai el de Cloudflare
+    if (url.startsWith('https://challenges.cloudflare.com/turnstile/')) {
+      return route.fulfill({ status: 200, contentType: 'text/javascript', body: fs.readFileSync(path.join(__dirname, 'turnstile-simulat.js')) });
+    }
     return route.abort(); // cap petició a tercers
   });
+  // Força una clau de prova perquè el contracte inclogui el token antirobots (turnstile.js)
+  await p.addInitScript(() => { window.MIH_TURNSTILE_CLAU = 'clau-de-prova'; });
   await p.goto(ORIGEN + ruta);
   return { p, errors };
 }

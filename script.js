@@ -140,6 +140,7 @@ function showResult(formCard, type, msg) {
   const form = document.getElementById('formContacte');
   if (!form) return;
   const btn = form.querySelector('button[type="submit"]');
+  const antirobots = window.MIH_TURNSTILE ? window.MIH_TURNSTILE.preparar(form) : null;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -156,16 +157,19 @@ function showResult(formCard, type, msg) {
 
     if (window.MIH_UTM) window.MIH_UTM.omplir(form);  // origen de la visita (utm.js)
     const fd = new FormData(form);
+    setLoading(btn, true); // abans del token antirobots, que pot trigar uns segons
     const body = {
       nom: fd.get('nom'),
       email: fd.get('email'),
       empresa: fd.get('empresa') || undefined,
       missatge: fd.get('missatge'),
+      turnstile: antirobots ? await antirobots.token() : undefined,
+      // Casella opcional de comunicacions comercials: rgpd-tool envia un correu per confirmar-la (doble opt-in)
+      comercial: fd.get('comunicacions') === 'on',
       ...utmDelFormulari(fd),
     };
     Object.keys(body).forEach(k => body[k] === undefined && delete body[k]);
 
-    setLoading(btn, true);
     try {
       const res = await fetch(`${API_URL}/api/public/contacte`, {
         method: 'POST',
@@ -181,6 +185,7 @@ function showResult(formCard, type, msg) {
       showResult(form, 'err', "No s'ha pogut enviar el missatge. Torna-ho a intentar.");
     } finally {
       setLoading(btn, false);
+      if (antirobots) antirobots.reiniciar();
     }
   });
 })();
@@ -192,6 +197,7 @@ function showResult(formCard, type, msg) {
   const form = document.getElementById('formAdequacio');
   if (!form) return;
   const btn = form.querySelector('button[type="submit"]');
+  const antirobots = window.MIH_TURNSTILE ? window.MIH_TURNSTILE.preparar(form) : null;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -220,6 +226,7 @@ function showResult(formCard, type, msg) {
       return undefined;
     };
 
+    setLoading(btn, true); // abans del token antirobots, que pot trigar uns segons
     const body = {
       nom: fd.get('personaContacte'),
       email: fd.get('email'),
@@ -245,11 +252,13 @@ function showResult(formCard, type, msg) {
       grupEmpresarial: boolVal('grupEmpresarial'),
       diversesSeus: boolVal('diversesSeus'),
       observacions: fd.get('observacions') || undefined,
+      turnstile: antirobots ? await antirobots.token() : undefined,
+      // Casella opcional de comunicacions comercials: rgpd-tool envia un correu per confirmar-la (doble opt-in)
+      comercial: fd.get('comunicacions') === 'on',
       ...utmDelFormulari(fd),
     };
     Object.keys(body).forEach(k => body[k] === undefined && delete body[k]);
 
-    setLoading(btn, true);
     try {
       const res = await fetch(`${API_URL}/api/public/pressupost`, {
         method: 'POST',
@@ -267,6 +276,7 @@ function showResult(formCard, type, msg) {
       showResult(form, 'err', "No s'ha pogut enviar la sol·licitud. Torna-ho a intentar o contacta'ns per correu.");
     } finally {
       setLoading(btn, false);
+      if (antirobots) antirobots.reiniciar();
     }
   });
 })();
