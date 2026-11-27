@@ -1020,6 +1020,203 @@
       "bloquejat": true
     }
   },
+  "sectors": {
+    "sectors": [
+      "salut",
+      "educacio",
+      "comerc",
+      "serveis",
+      "hostaleria",
+      "social"
+    ],
+    "camps": {
+      "slug": {
+        "tipus": "text",
+        "etiqueta": "Slug (adreça)",
+        "max": 80,
+        "obligatori": true,
+        "ajuda": "Igual que el nom del fitxer, en minúscules, sense accents i amb guions: /sectors/<slug>/"
+      },
+      "idioma": {
+        "tipus": "seleccio",
+        "etiqueta": "Idioma",
+        "opcions": [
+          "ca"
+        ],
+        "obligatori": true,
+        "ajuda": "De moment, només català"
+      },
+      "estat": {
+        "tipus": "seleccio",
+        "etiqueta": "Estat",
+        "opcions": [
+          "esborrany",
+          "publicat"
+        ],
+        "obligatori": true,
+        "ajuda": "esborrany: només surt a les vistes prèvies · publicat: surt a la web i al mapa del lloc"
+      },
+      "sector": {
+        "tipus": "seleccio",
+        "etiqueta": "Sector",
+        "opcions": [
+          "salut",
+          "educacio",
+          "comerc",
+          "serveis",
+          "hostaleria",
+          "social"
+        ],
+        "obligatori": true
+      },
+      "titol_seo": {
+        "tipus": "text",
+        "etiqueta": "Títol per a Google",
+        "max": 60,
+        "obligatori": true,
+        "ajuda": "Màxim 60 caràcters"
+      },
+      "descripcio": {
+        "tipus": "text",
+        "etiqueta": "Descripció per a Google",
+        "max": 155,
+        "obligatori": true,
+        "ajuda": "Màxim 155 caràcters"
+      },
+      "h1": {
+        "tipus": "text",
+        "etiqueta": "Titular (H1)",
+        "max": 90,
+        "obligatori": true
+      },
+      "entradeta": {
+        "tipus": "text",
+        "etiqueta": "Entradeta",
+        "max": 300,
+        "obligatori": true,
+        "ajuda": "Text introductori sota el titular"
+      },
+      "capsula": {
+        "tipus": "text",
+        "etiqueta": "Paràgraf càpsula",
+        "max": 420,
+        "obligatori": true,
+        "ajuda": "Resposta directa de 40-60 paraules; es pinta com a paràgraf destacat"
+      },
+      "seccions": {
+        "tipus": "llista",
+        "etiqueta": "Seccions",
+        "min": 2,
+        "max": 8,
+        "element": {
+          "titol": {
+            "tipus": "text",
+            "etiqueta": "Títol de la secció (pregunta)",
+            "max": 90,
+            "obligatori": true,
+            "ajuda": "En forma de pregunta (acabat en ?)"
+          },
+          "cos": {
+            "tipus": "markdown",
+            "etiqueta": "Text",
+            "max": 2500,
+            "obligatori": true,
+            "ajuda": "Markdown: paràgrafs, llistes amb «- » o «1. », > destacat, taules, **negreta**, [enllaç](/ruta)"
+          }
+        }
+      },
+      "documents": {
+        "tipus": "llista",
+        "etiqueta": "Documents habituals",
+        "max": 10,
+        "element": {
+          "tipus": "text",
+          "etiqueta": "Document",
+          "max": 120,
+          "obligatori": true
+        },
+        "ajuda": "Documents que normalment necessita el sector (de 0 a 10)"
+      },
+      "faq": {
+        "tipus": "llista",
+        "etiqueta": "Preguntes freqüents",
+        "max": 6,
+        "element": {
+          "pregunta": {
+            "tipus": "text",
+            "etiqueta": "Pregunta",
+            "max": 150,
+            "obligatori": true
+          },
+          "resposta": {
+            "tipus": "enriquit",
+            "etiqueta": "Resposta",
+            "max": 600,
+            "obligatori": true,
+            "ajuda": "*cursiva*, **negreta**, salt de línia i [enllaç](/ruta)"
+          }
+        }
+      },
+      "servei_relacionat": {
+        "tipus": "seleccio",
+        "etiqueta": "Servei relacionat",
+        "opcions": [
+          "adequacio",
+          "dpo",
+          "auditoria",
+          "ia",
+          "web"
+        ],
+        "ajuda": "Enllaç «Et pot interessar» (obligatori si cta_desti és servei)"
+      },
+      "cta_desti": {
+        "tipus": "seleccio",
+        "etiqueta": "Crida a l'acció (destí)",
+        "opcions": [
+          "diagnostic",
+          "contacte",
+          "servei"
+        ],
+        "obligatori": true,
+        "ajuda": "diagnostic (/diagnostic), contacte (/#contacte) o servei (el servei relacionat)"
+      },
+      "cta_text": {
+        "tipus": "text",
+        "etiqueta": "Text del botó de crida",
+        "max": 80,
+        "ajuda": "Opcional: si és buit, es fa servir el text per defecte del destí"
+      },
+      "data_revisio": {
+        "tipus": "data",
+        "etiqueta": "Data de revisió jurídica",
+        "ajuda": "Opcional: mostra la barra de revisió sota el titular"
+      },
+      "revisat_per": {
+        "tipus": "text",
+        "etiqueta": "Revisat per",
+        "max": 120,
+        "ajuda": "Opcional: per defecte «Revisat per un consultor RGPD i DPO extern de madeinhuman»"
+      },
+      "fonts": {
+        "tipus": "llista",
+        "etiqueta": "Fonts oficials",
+        "max": 8,
+        "element": {
+          "nom": {
+            "tipus": "text",
+            "etiqueta": "Nom de la font",
+            "max": 120,
+            "obligatori": true
+          },
+          "url": {
+            "tipus": "enllac",
+            "etiqueta": "Adreça (https://)",
+            "obligatori": true
+          }
+        }
+      }
+    }
+  },
   "xarxes": {
     "titol": {
       "tipus": "enriquit",

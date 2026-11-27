@@ -1,0 +1,84 @@
+{
+  "slug": "comercos-botigues-online-girona",
+  "idioma": "ca",
+  "estat": "esborrany",
+  "sector": "comerc",
+  "titol_seo": "RGPD per a comerços i botigues online a Girona · Madeinhuman",
+  "descripcio": "Guia de protecció de dades i LSSI-CE per a comerços i botigues online de Girona: cookies, vendes, butlletins, videovigilància i proveïdors.",
+  "h1": "Protecció de dades per a comerços i botigues online a Girona",
+  "entradeta": "Botigues de carrer i comerç electrònic a Girona: què cal revisar en formularis, cookies, enviaments, butlletins comercials i càmeres de seguretat.",
+  "capsula": "Els comerços i botigues online combinen el RGPD i la LOPDGDD amb la LSSI-CE. Normalment cal tenir textos legals reals al web, un bàner de cookies que bloquegi scripts no necessaris abans del consentiment, base jurídica per als butlletins, contractes amb proveïdors d'enviament i plataforma, i senyalització correcta si teniu càmeres.",
+  "seccions": [
+    {
+      "titol": "Quines dades tracteu en un comerç físic o una botiga online?",
+      "cos": "Tant si veneu al taulell com per internet, un comerç tracta dades personals cada dia en diversos punts:\n\n- **Comandes i facturació:** nom, adreça d'entrega, telèfon, correu electrònic, devolucions i factures.\n- **Web i màrqueting:** formularis de contacte, subscripcions al butlletí, comptes de client, cookies analítiques o publicitàries i xarxes socials.\n- **Botiga física:** targetes de fidelització, encàrrecs per WhatsApp, càmeres de videovigilància i terminals de pagament.\n- **Proveïdors i equip:** plataforma de comerç electrònic, passarel·la de pagament, missatgeria, agència de màrqueting, gestoria i personal de botiga."
+    },
+    {
+      "titol": "Quins errors habituals trobem en botigues online i comerços?",
+      "cos": "Molts comerços de Girona tenen textos legals penjats al peu del web, però quan es revisa el funcionament real apareixen desajustos freqüents:\n\n- **Cookies carregades abans de decidir:** eines d'analítica o píxels publicitaris que s'activen només d'entrar al web, abans que l'usuari accepti o rebutgi.\n- **Bàner sense opció clara de rebutjar:** botons d'acceptar visibles i rebuig amagat en una segona pantalla, contra les pautes de l'Agència Espanyola de Protecció de Dades (AEPD) [REVISAR: enllaçar guia de cookies vigent de l'AEPD].\n- **Enviaments promocionals sense base:** afegir automàticament al butlletí qualsevol persona que ha fet una consulta o ha deixat el correu sense informar-la ni oferir baixa senzilla.\n- **Textos copiats que no corresponen al negoci:** polítiques que esmenten empreses d'un altre país o eines que la botiga no fa servir, mentre ometen la plataforma o el transportista reals.\n- **Càmeres sense cartell ni control:** videovigilància a la botiga sense cartell informatiu visible o gravant part de la via pública sense justificació."
+    },
+    {
+      "titol": "Què exigeix la LSSI-CE a una botiga online a més del RGPD?",
+      "cos": "Quan veneu productes o serveis per internet o teniu web comercial, a més del RGPD i la LOPDGDD també s'aplica la Llei 34/2002 (LSSI-CE). A grans trets, implica cuidar quatre punts:\n\n- **Identificació del titular:** avís legal amb les dades identificatives i de contacte reals del negoci.\n- **Informació de compra:** condicions generals clares sobre preus, impostos, enviaments, devolucions i desistiment [REVISAR: revisar encaix amb normativa de consum per a condicions de venda online].\n- **Cookies:** informació clara i consentiment previ per a totes les cookies que no siguin estrictament tècniques.\n- **Comunicacions comercials electròniques:** consentiment previ o, en el cas de clients existents, enviament només sobre productes o serveis similars amb opció de baixa fàcil en cada missatge [REVISAR: confirmar redacció exacta de l'article 21.2 de la LSSI-CE]."
+    },
+    {
+      "titol": "Com heu de regular les càmeres, el màrqueting i els proveïdors?",
+      "cos": "En un comerç modern, gran part de les dades passen per eines externes:\n\n- **Plataforma, enviaments i màrqueting:** reviseu les condicions de tractament de dades de la botiga (p. ex. Shopify, WooCommerce o PrestaShop), l'eina d'email màrqueting, el suport web i les empreses de transport, i valoreu si hi ha transferències internacionals de dades.\n- **Videovigilància:** poseu el cartell informatiu abans d'entrar a la zona gravada, tingueu disponible la informació completa, limiteu qui pot veure les gravacions i comproveu el termini màxim de conservació [REVISAR: confirmar termini màxim d'un mes de l'article 22 de la LOPDGDD i excepcions].\n- **Xatbots o recomanadors amb IA:** si incorporeu assistents d'intel·ligència artificial (IA) al web, tingueu present la transparència cap a l'usuari i el compliment del Reglament d'IA."
+    },
+    {
+      "titol": "Què podeu comprovar avui mateix a la vostra botiga?",
+      "cos": "Podeu fer una revisió ràpida en cinc passos:\n\n1. Obriu el web en una finestra privada i comproveu si el bàner de cookies permet rebutjar amb la mateixa facilitat que acceptar.\n2. Reviseu tots els formularis (contacte, compra, butlletí) per verificar que inclouen la primera capa informativa i l'enllaç a la política de privacitat.\n3. Comproveu que tots els correus promocionals porten un enllaç de baixa que funcioni.\n4. Llisteu els proveïdors que accedeixen a dades de clients (plataforma, agència, missatgeria, gestoria) i comproveu els contractes.\n5. Si teniu càmeres a la botiga física, verifiqueu el cartell informatiu i la configuració d'esborrat automàtic."
+    }
+  ],
+  "documents": [
+    "Registre d'activitats de tractament (RAT) per a vendes, màrqueting, equip i videovigilància",
+    "Avís legal, política de privacitat i política de cookies adaptats a les eines reals",
+    "Clàusules de primera capa en formularis de compra, contacte i subscripció",
+    "Condicions generals de venda i devolucions (per a comerç electrònic)",
+    "Contractes d'encàrrec de tractament amb plataforma web, agència, suport informàtic i gestoria",
+    "Cartell i fitxa informativa de videovigilància, si hi ha càmeres a la botiga",
+    "Protocol per gestionar baixes comercials i exercici de drets de clients"
+  ],
+  "faq": [
+    {
+      "pregunta": "Si la nostra botiga online només fa servir cookies tècniques, hem de posar bàner?",
+      "resposta": "Si realment només carregueu cookies estrictament necessàries per al funcionament de la botiga (p. ex. el carretó o la sessió), normalment no cal demanar consentiment, però sí informar-ne a la política de cookies. Convé verificar tècnicament que no s'està carregant cap script de tercers amagat."
+    },
+    {
+      "pregunta": "Podem enviar ofertes per correu a persones que ja ens han comprat?",
+      "resposta": "La LSSI-CE permet, en determinades condicions, enviar comunicacions sobre productes o serveis similars als que el client ja ha contractat, sempre que se l'hagi informat i tingui un mitjà gratuït i senzill per oposar-s'hi des del primer moment i en cada enviament [REVISAR: confirmar requisits exactes de l'article 21.2 de la LSSI-CE]."
+    },
+    {
+      "pregunta": "Els nostres textos legals de la botiga estan vinculats al servei de textos web o a una adequació sencera?",
+      "resposta": "Si només necessiteu revisar el web i els formularis, podeu mirar [Textos legals i formularis web](/serveis/textos-legals-web/). Si també teniu botiga física, equip, càmeres o màrqueting actiu, normalment convé fer una [adequació al RGPD](/serveis/adequacio-rgpd-girona/) completa."
+    },
+    {
+      "pregunta": "Les empreses de missatgeria necessiten un contracte d'encàrrec de tractament?",
+      "resposta": "Depèn del paper que tingui cada operador de transport i de com estigui configurat el servei (responsable independent del servei postal o encarregat del tractament). Convé revisar les condicions de cada transportista i informar clarament els compradors sobre aquesta comunicació de dades."
+    }
+  ],
+  "servei_relacionat": "adequacio",
+  "cta_desti": "diagnostic",
+  "fonts": [
+    {
+      "nom": "Reglament (UE) 2016/679 (RGPD) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "nom": "Llei Orgànica 3/2018 (LOPDGDD) — BOE",
+      "url": "https://www.boe.es/eli/es/lo/2018/12/05/3/con"
+    },
+    {
+      "nom": "Llei 34/2002 (LSSI-CE) — BOE",
+      "url": "https://www.boe.es/eli/es/l/2002/07/11/34/con"
+    },
+    {
+      "nom": "Agència Espanyola de Protecció de Dades (AEPD)",
+      "url": "https://www.aepd.es/"
+    },
+    {
+      "nom": "Autoritat Catalana de Protecció de Dades (APDCat)",
+      "url": "https://apdcat.gencat.cat/"
+    }
+  ]
+}

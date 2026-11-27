@@ -1974,3 +1974,42 @@ section.block.crida-linia { padding: 40px 0; }
     font-size: 16.5px;
   }
 }
+
+/* ===== Pàgines de sector: franja d'esborrany i preguntes freqüents (WEB-G01) ===== */
+.sector-esborrany {
+  margin: 0 0 24px;
+  padding: 12px 16px;
+  border: 1px solid var(--ambre);
+  border-left-width: 4px;
+  border-radius: 10px;
+  background: var(--bg-card);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ambre-clar);
+}
+.sector-faq-llista {
+  margin: 20px 0 0;
+  display: grid;
+  gap: 16px;
+}
+.sector-faq-item {
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-card);
+}
+.sector-faq-item dt {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--crema);
+  margin-bottom: 10px;
+}
+.sector-faq-item dd {
+  margin: 0;
+  color: var(--gris-clar);
+  line-height: 1.65;
+}
+@media (max-width: 767px) {
+  .sector-faq-item { padding: 16px 18px; }
+}
