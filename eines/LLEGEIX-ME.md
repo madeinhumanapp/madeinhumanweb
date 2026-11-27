@@ -148,20 +148,71 @@ coincidir amb el nom del fitxer). Esquema i validació a `esquema/sectors.mjs`; 
   (`<mark class="revisar" id="revisar-N">` + caixa «Marques pendents (N)»), a les vistes prèvies de Cloudflare
   (`CF_PAGES_BRANCH` present i diferent de `main`) o localment amb `node eines/construir.mjs --esborranys`.
   No apareixen als índexs ni al mapa del lloc. Si no hi ha cap pàgina publicada en un idioma, el seu índex no es genera.
-- **Taula de validació (`/esborranys/`):** en mode esborranys es genera una taula central amb tots els esborranys
-  (sectors, guies i notícies, `ca` i `es`), ordenats de menys a més marques `[REVISAR]`, amb enllaços a la pàgina, a
-  la traducció (si comparteixen `grup_hreflang`) i al fitxer d'origen. No existeix mai a producció.
+- **Taula de validació 2.0 (`/esborranys/`):** en mode esborranys es genera una taula central amb tots els esborranys
+  (sectors, guies i notícies, `ca` i `es`), ordenats de menys a més marques `[REVISAR]`, amb:
+  - filtres per tipus i idioma reflectits a l'URL (`/esborranys/?tipus=sector&idioma=es`, compatibles amb «Enrere» i
+    sense requerir JavaScript per veure la taula completa; script propi `esborranys/esborranys.js`);
+  - nom curt del fitxer visible amb el camí complet a `title`, i enllaç a la traducció si comparteixen `grup_hreflang`;
+  - un desplegable `<details>` per esborrany amb el text complet de cada marca `[REVISAR]`;
+  - botons superiors «Copiar totes les marques» i «Descarregar en Markdown» (`marques-revisar.md` agrupat per fitxer);
+  - requadre «Com es publica un esborrany» amb els passos des del panell. No existeix mai a producció.
 - A les proves es pot redirigir la carpeta amb `DIR_SECTORS`.
 
-## Controls de qualitat estàtics (sense navegador, WEB-G04)
+## Selector de reserves propi (`reserva.js` i `/reserva/`, WEB-G05)
 
-Tots accepten `--arrel <carpeta>` (per defecte `dist`) i funcionen tant sobre producció (`npm run construir`) com sobre
-la construcció d'esborranys (`node eines/construir.mjs --esborranys`):
+Component propi sense dependències per reservar una trucada de 20 minuts contra l'API de `rgpd-tool`, preparat per
+substituir `CALENDARI_URL` quan l'API estigui desplegada:
+
+- **Estat actual (desactivat):** `reserva.js` té `var ACTIVA = false;` al començament. Mentre sigui `false`,
+  `window.MadeinhumanReserva.muntar()` no fa res ni envia cap petició; `/diagnostic` manté `#reserva` ocult i el botó
+  de `CALENDARI_URL`, i `/reserva/` mostra el missatge alternatiu amb enllaços a `/diagnostic` i `/#contacte`.
+- **API esperada a `rgpd.madeinhuman.cat`:**
+  - `GET /api/public/reserva/franges?t=<token>` → `200 { ok: true, zona, durada, franges: [{ id, inici, fi }] }`
+    (`404 { ok: false, error: "token" }` si el token ha caducat o no existeix; `franges: []` si no hi ha hores lliures).
+  - `POST /api/public/reserva` amb `{ t, franja }` → `200 { ok: true, inici, fi }` (genera un `.ics` en UTC al navegador
+    sense dades personals), `409` (`ocupada` → avís i recàrrega automàtica de franges), `404` (`token`), `400` (`dades`).
+- **Com s'activarà:** quan `rgpd-tool` exposi els dos punts finals i afegeixi `tokenReserva` a la resposta de
+  `/api/public/diagnostic`, només caldrà canviar `var ACTIVA = true;` a `reserva.js` (la CSP de `_headers` ja inclou
+  `connect-src https://rgpd.madeinhuman.cat`). A `/reserva/?t=<token>`, el token s'esborra de la barra d'adreces amb
+  `history.replaceState`.
+
+## Textos d'interfície centralitzats (`plantilles/textos.mjs`, WEB-G05)
+
+Tots els textos fixos visibles de `plantilles/actualitat.mjs`, `plantilles/sectors.mjs` i `/esborranys/` es centralitzen
+a `plantilles/textos.mjs` (`TEXTOS = { ca, es }` i funció `t(idioma, clau, valors)` amb substitució `{clau}`), preparat
+per incorporar nous idiomes (p. ex. `/en/`) sense escampar cadenes per les plantilles.
+
+## Cerca interna sense tercers (`/cerca/`, `/es/buscar/` i `404.html`, WEB-G05)
+
+- A la construcció es generen `/cerca/index.json` (català) i `/es/buscar/index.json` (castellà) amb `{ url, titol,
+  descripcio, h2 }` **només** de les pàgines publicades i indexables (mai esborranys ni `noindex`, tampoc amb
+  `--esborranys`).
+- Les pàgines `/cerca/` i `/es/buscar/` (`plantilles/cerca.mjs`, `noindex, follow`, fora del mapa del lloc, `hreflang`
+  recíproc) carreguen `cerca.js`: cerca sense accents ni majúscules, exigeix totes les paraules, prioritza coincidències
+  al títol, limita a 20 resultats, sincronitza `?q=` amb l'historial («Enrere») i ofereix alternativa `<noscript>`.
+- `404.html` inclou un formulari `GET` amb camp `q` cap a `/cerca/` (bloc català) i `/es/buscar/` (bloc castellà).
+
+## `/llms.txt` (`plantilles/llms.mjs`, WEB-G05)
+
+Generat automàticament a `dist/llms.txt` seguint `llmstxt.org`: `# Madeinhuman`, línia `> ` amb la descripció de
+`contingut/lloc.json`, i seccions (`## Serveis`, `## Preguntes freqüents`, `## Actualitat`, `## Sectors`, `## Legal`,
+`## Español`) ometent les buides. Només inclou pàgines publicades i indexables (idèntic amb `--esborranys`). `robots.txt`
+no canvia.
+
+## Controls de qualitat i proves noves (WEB-G04 i WEB-G05)
+
+Tots els controls estàtics accepten `--arrel <carpeta>` (per defecte `dist`) i funcionen tant sobre producció
+(`npm run construir`) com sobre la construcció d'esborranys (`node eines/construir.mjs --esborranys`):
 
 ```bash
-node proves/esborranys.mjs             # taula /esborranys/, marques ressaltades i absència a producció
+node proves/esborranys.mjs             # taula /esborranys/ 2.0 (filtres, <details>, Markdown, guia) i absència a producció
+node proves/textos.mjs                 # paritat ca/es a plantilles/textos.mjs, cap valor buit, cap clau sense ús ni text dur
+node proves/llms.mjs                   # estructura de /llms.txt, URLs absolutes a dist/, cap esborrany ni noindex
+node proves/pagina-404.mjs             # 404 bilingüe, formularis de cerca /cerca/ i /es/buscar/ i enllaços vàlids
 node proves/enllacos.mjs               # enllaços i recursos interns, fragments #id, href buits, target=_blank rel=noopener
 node proves/dades-estructurades.mjs    # JSON-LD vàlid, @context, Article/BreadcrumbList/FAQPage/Service, sense adreça/geo
 node proves/accessibilitat.mjs         # lang coherent, <main>, un sol <h1>, nivells de títol, ids únics, alt, labels, enllaços/botons
 node proves/pes.mjs                    # pressupost ≤ 500 kB per pàgina (avís a recollida.html) i imatges ≤ 300 kB
+node proves/cerca.mjs                  # índexs de cerca (sense navegador) i interfície /cerca/ i /es/buscar/ amb Playwright + CSP
+node proves/reserva.mjs                # selector de reserves amb Playwright + CSP (còpia amb ACTIVA=true i dist/ real ACTIVA=false)
 ```
