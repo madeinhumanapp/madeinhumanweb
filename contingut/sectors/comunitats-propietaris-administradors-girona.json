@@ -1,0 +1,81 @@
+{
+  "slug": "comunitats-propietaris-administradors-girona",
+  "idioma": "ca",
+  "grup_hreflang": "comunitats-propietaris-administradors-girona",
+  "estat": "esborrany",
+  "sector": "serveis",
+  "titol_seo": "RGPD per a comunitats i finques a Girona · Madeinhuman",
+  "descripcio": "Guia pràctica de protecció de dades per a comunitats de propietaris i administradors de finques a Girona: morosos, càmeres, actes i contractes.",
+  "h1": "Protecció de dades per a comunitats i administradors de finques a Girona",
+  "entradeta": "Administradors de finques i comunitats de propietaris a Girona: com gestionar actes, convocatòries, morosos al tauler, càmeres de porteria i encàrrecs de tractament sense conflictes.",
+  "capsula": "Cada comunitat de propietaris és responsable de les dades dels seus veïns, mentre que l'administrador de finques sol actuar com a encarregat del tractament. Normalment cal signar un contracte d'encàrrec entre comunitat i administrador, controlar la publicació de morosos al tauler, aprovar i senyalitzar bé les càmeres i vigilar els correus grupals.",
+  "seccions": [
+    {
+      "titol": "Qui és el responsable de les dades: la comunitat o l'administrador de finques?",
+      "cos": "Aquesta distinció és la base de tot el compliment en propietat horitzontal:\n\n- **La comunitat de propietaris** és la responsable del tractament de les dades dels propietaris, llogaters de contacte, empleats de la finca i gravacions de càmeres comunitàries.\n- **L'administrador de finques** actua habitualment com a encarregat del tractament respecte de cada comunitat que administra, i com a responsable propi respecte dels seus treballadors, proveïdors i facturació del despatx.\n\nAixò implica que cada comunitat ha de tenir el seu registre d'activitats i signar un contracte d'encàrrec de tractament amb el despatx d'administració [REVISAR: confirmar guia de l'Agència Espanyola de Protecció de Dades (AEPD) sobre protecció de dades i administració de finques]."
+    },
+    {
+      "titol": "Quins errors habituals generen conflictes i reclamacions a les comunitats?",
+      "cos": "Les comunitats de veïns són un dels àmbits on més sovint arriben reclamacions per descuits evitables:\n\n- **Penjar llistats de morosos al tauler d'anuncis sense requisits:** exposar noms i deutes a la vista de qualsevol visitant del portal quan no s'ha intentat abans la notificació individual.\n- **Enviar convocatòries o actes amb correus visibles en còpia oberta:** posar les adreces personals de tots els propietaris al camp «Per a» o «CC» en lloc de còpia oculta (CCO).\n- **Càmeres al portal o al pàrquing sense acord de junta ni cartell:** instal·lar videovigilància sense aprovació comunitària, gravant el carrer o amb accés lliure a les imatges.\n- **Grups de WhatsApp veïnals gestionats com a canal oficial:** compartir factures, dades bancàries o conflictes personals en xats sense control d'accés.\n- **Contractes d'encàrrec inexistents:** administrar comunitats durant anys sense documentar el contracte RGPD entre comunitat i despatx, ni regular els proveïdors de la finca."
+    },
+    {
+      "titol": "Es pot publicar una llista de propietaris morosos al tauler d'anuncis?",
+      "cos": "Com a regla general, no es pot penjar lliurement una llista de morosos en un espai visible per a tercers. La comunicació de la convocatòria de junta (que pot incloure la relació de propietaris amb deutes pendents a efectes de dret de vot) s'ha de fer en primer lloc al domicili o mitjà designat per cada propietari.\n\nNomés quan no hagi estat possible practicar la notificació individual es pot recórrer a la publicació al tauler d'anuncis de la comunitat durant el termini establert, procurant que el tauler estigui en una zona d'accés restringit als veïns i retirant l'avís tot seguit [REVISAR: confirmar encaix entre la normativa catalana de propietat horitzontal del Codi civil de Catalunya i la guia de l'AEPD sobre publicació de morosos en comunitats de propietaris]."
+    },
+    {
+      "titol": "Què cal complir si la comunitat instal·la càmeres de videovigilància?",
+      "cos": "Abans de col·locar càmeres al vestíbul, ascensor, replans o garatge, convé revisar quatre punts essencials:\n\n- **Acord previ de la junta de propietaris:** la instal·lació ha de quedar aprovada amb les majories exigides per la normativa de propietat horitzontal aplicable a Catalunya [REVISAR: confirmar majories exigides pel llibre cinquè del Codi civil de Catalunya per instal·lar videovigilància].\n- **Espais gravats:** només zones comunes de la finca, evitant captar la via pública (més enllà del mínim imprescindible a l'accés) o l'interior d'habitatges privats.\n- **Informació visible:** cartell informatiu abans d'entrar a la zona gravada amb identificació de la comunitat i adreça per exercir drets, i fitxa informativa completa a disposició dels interessats.\n- **Accés restringit i conservació:** limitar qui pot consultar les gravacions (normalment president o administrador designat, o empresa de seguretat) i aplicar el termini màxim de conservació legal [REVISAR: confirmar termini màxim d'un mes de l'article 22 de la LOPDGDD]."
+    },
+    {
+      "titol": "Per on podeu començar al despatx o a la junta?",
+      "cos": "Tant si sou administradors de finques com membres d'una junta, aquest ordre resol els riscos principals:\n\n1. Regularitzeu el contracte d'encàrrec de tractament entre cada comunitat de propietaris i el despatx d'administració.\n2. Actualitzeu el registre d'activitats de cada comunitat (gestió comunitària, videovigilància, empleats de la finca si n'hi ha).\n3. Apliqueu l'ús sistemàtic de còpia oculta (CCO) o d'un portal de veïns autenticat per enviar convocatòries, actes i comunicats.\n4. Reviseu totes les comunitats amb càmeres: acord de junta, cartells, informació de segona capa, accés i esborrat automàtic.\n5. Establiu una pauta escrita sobre notificacions a morosos i gestió de sol·licituds de consulta de documentació per part dels propietaris."
+    }
+  ],
+  "documents": [
+    "Registre d'activitats de tractament (RAT) de cada comunitat i del despatx d'administració",
+    "Contracte d'encàrrec de tractament entre la comunitat de propietaris i l'administrador de finques",
+    "Contractes amb subencarregats i proveïdors (programari de finques, consergeria, seguretat, manteniment)",
+    "Clàusules informatives per a altes de propietaris, convocatòries, actes i comunicacions",
+    "Cartell i fitxa informativa de videovigilància i acord de junta, si la finca té càmeres",
+    "Pauta interna d'enviament de correus (CCO o portal) i de publicació al tauler d'anuncis",
+    "Protocol de gestió de bretxes de seguretat i atenció de drets de propietaris"
+  ],
+  "faq": [
+    {
+      "pregunta": "Un propietari pot demanar còpia de les factures o del llistat de saldos de la comunitat?",
+      "resposta": "Els propietaris tenen dret d'informació sobre la gestió comunitària segons la normativa de propietat horitzontal, però convé limitar les dades personals que no siguin necessàries (p. ex. comptes bancaris complets o telèfons d'altres veïns) i informar que la informació només es pot utilitzar per a finalitats comunitàries."
+    },
+    {
+      "pregunta": "Si l'administrador de finques canvia, què passa amb les dades de la comunitat?",
+      "resposta": "Com que la comunitat és la responsable del tractament, el contracte d'encàrrec ha de preveure la devolució ordenada de tota la documentació i dades a la comunitat o al nou administrador designat, i la supressió o bloqueig de les còpies restants segons els terminis legals."
+    },
+    {
+      "pregunta": "Un veí pot demanar veure les gravacions de les càmeres perquè li han ratllat el cotxe al pàrquing?",
+      "resposta": "No s'han de lliurar gravacions directament a un particular. Normalment cal que la persona afectada presenti denúncia davant les forces i cossos de seguretat perquè siguin aquests qui sol·licitin les imatges, i mentrestant la comunitat pot bloquejar el fragment corresponent [REVISAR: confirmar procediment recomanat per l'AEPD i l'Autoritat Catalana de Protecció de Dades (APDCat) per al bloqueig i lliurament d'imatges a policia]."
+    },
+    {
+      "pregunta": "Les comunitats de propietaris han de designar un delegat de protecció de dades (DPO)?",
+      "resposta": "Habitualment una comunitat de propietaris no està obligada a designar DPO. En el cas d'un despatx d'administració de finques amb un volum molt elevat de comunitats i tractaments, convé valorar-ho cas per cas a [Necessito un DPO?](/necessito-dpo/)."
+    }
+  ],
+  "servei_relacionat": "adequacio",
+  "cta_desti": "diagnostic",
+  "fonts": [
+    {
+      "nom": "Reglament (UE) 2016/679 (RGPD) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "nom": "Llei Orgànica 3/2018 (LOPDGDD) — BOE",
+      "url": "https://www.boe.es/eli/es/lo/2018/12/05/3/con"
+    },
+    {
+      "nom": "Agència Espanyola de Protecció de Dades (AEPD)",
+      "url": "https://www.aepd.es/"
+    },
+    {
+      "nom": "Autoritat Catalana de Protecció de Dades (APDCat)",
+      "url": "https://apdcat.gencat.cat/"
+    }
+  ]
+}
