@@ -125,6 +125,26 @@
     .sent b{color:var(--text)}
     .cta{display:flex;flex-direction:column;align-items:center;gap:8px}
     .cta small{color:var(--faint);font-size:12.5px}
+    #reserva{margin:24px auto 0;max-width:520px;text-align:left}
+    .reserva-widget{background:var(--card);border:1px solid var(--border-s);border-radius:16px;padding:22px 20px}
+    .reserva-titol{font-family:var(--serif);font-weight:500;font-size:22px;line-height:1.25;margin-bottom:8px;color:var(--text)}
+    .reserva-titol:focus{outline:none}
+    .reserva-zona{font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:18px}
+    .reserva-estat{font-size:14px;color:var(--dim);margin-bottom:12px}
+    .reserva-estat:empty{display:none}
+    .reserva-estat-err{padding:10px 14px;border-radius:10px;background:color-mix(in srgb,var(--risc-alt) 14%,transparent);border:1px solid color-mix(in srgb,var(--risc-alt) 45%,transparent);color:var(--risc-alt-clar)}
+    .reserva-dia{margin-bottom:18px}
+    .reserva-dia-titol{font-family:var(--sans);font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px;text-transform:capitalize}
+    .reserva-franges{display:flex;flex-wrap:wrap;gap:10px}
+    .reserva-franja{min-height:44px;min-width:84px;padding:10px 16px;border-radius:10px;border:1px solid var(--border-s);background:var(--nit-elevat);color:var(--text);font:inherit;font-family:var(--mono);font-size:14px;cursor:pointer}
+    .reserva-franja:hover,.reserva-franja[aria-pressed="true"]{border-color:var(--copper);background:color-mix(in srgb,var(--daurat) 16%,transparent);color:var(--copper-b)}
+    .reserva-franja:focus-visible{outline:2px solid var(--copper-b);outline-offset:2px}
+    .reserva-accions{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+    .reserva-accio{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+    .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border-s)}
+    .btn-ghost:hover{background:var(--card-h);color:var(--text)}
+    .reserva-exit-detall{font-size:16px;font-weight:600;color:var(--copper-b);margin-bottom:6px}
+    .reserva-exit-correu{font-size:15px;color:var(--dim)}
     footer{padding:18px 16px;text-align:center;font-size:12px;color:var(--faint);border-top:1px solid var(--border)}
     footer a{color:var(--dim)}
     noscript p{color:var(--dim)}
@@ -162,6 +182,7 @@
 
   <script src="utm.js"></script>
   <script src="turnstile.js"></script>
+  <script src="reserva.js"></script>
   <script src="diagnostic.js"></script>
 </body>
 </html>

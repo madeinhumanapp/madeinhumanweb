@@ -2159,4 +2159,76 @@ mark.revisar {
   .guia-index { padding: 16px 18px; }
 }
 
+/* ===== Selector de reserves propi (/reserva/ i diagnòstic, WEB-G05a) ===== */
+.reserva-contenidor { margin-top: 24px; }
+.reserva-widget {
+  padding: 24px;
+  border: 1px solid var(--border-strong);
+  border-radius: 16px;
+  background: var(--bg-card);
+}
+.legal-content .reserva-titol {
+  margin: 0 0 8px;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.25;
+  color: var(--crema);
+}
+.reserva-titol:focus { outline: none; }
+.reserva-zona {
+  margin: 0 0 20px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--gris-clar);
+}
+.reserva-estat { margin-bottom: 14px; font-size: 14.5px; color: var(--gris-clar); }
+.reserva-estat:empty { display: none; }
+.reserva-estat-err {
+  padding: 12px 16px;
+  border: 1px solid var(--risc-alt);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--risc-alt) 14%, transparent);
+  color: var(--risc-alt-clar);
+}
+.reserva-dia { margin-bottom: 20px; }
+.legal-content .reserva-dia-titol {
+  margin: 0 0 10px;
+  font-family: var(--font-sans);
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--crema);
+  text-transform: capitalize;
+}
+.reserva-franges { display: flex; flex-wrap: wrap; gap: 10px; }
+.reserva-franja {
+  min-height: 44px;
+  min-width: 88px;
+  padding: 10px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--bg-elev);
+  color: var(--crema);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  cursor: pointer;
+}
+.reserva-franja:hover,
+.reserva-franja[aria-pressed="true"] {
+  border-color: var(--daurat);
+  background: color-mix(in srgb, var(--daurat) 16%, transparent);
+  color: var(--daurat-clar);
+}
+.reserva-franja:focus-visible { outline: 2px solid var(--daurat-clar); outline-offset: 2px; }
+.reserva-accions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.reserva-accio { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+.legal-content .reserva-accions .btn-primary { color: var(--text-sobre-daurat); text-decoration: none; }
+.legal-content .reserva-accions .btn-ghost { text-decoration: none; }
+.reserva-exit-detall { font-size: 16.5px; font-weight: 600; color: var(--daurat-clar); margin: 0 0 6px; }
+.reserva-exit-correu { font-size: 15px; color: var(--gris-clar); margin: 0; }
+@media (max-width: 767px) {
+  .reserva-widget { padding: 18px; }
+}
+
+
 

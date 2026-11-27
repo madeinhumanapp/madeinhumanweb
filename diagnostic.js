@@ -265,5 +265,12 @@
         (comercial ? '<br><br>També us hem enviat un enllaç per <b>confirmar la subscripció</b>.' : '') + '</div>' +
       '<div class="cta"><a class="btn" href="' + esc(CALENDARI_URL) + '">Reservar una trucada de 20 minuts →</a><small>Sense compromís. Repassem l\'informe junts.</small></div>' +
       '<div id="reserva" hidden></div>';
+    var contReserva = document.getElementById('reserva');
+    if (d && d.tokenReserva && window.MadeinhumanReserva && window.MadeinhumanReserva.activa() && contReserva) {
+      contReserva.hidden = false;
+      var ctaEl = el.querySelector('.cta');
+      if (ctaEl) ctaEl.hidden = true;
+      window.MadeinhumanReserva.muntar(contReserva, d.tokenReserva, 'ca');
+    }
   }
 })();

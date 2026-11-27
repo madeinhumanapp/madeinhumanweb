@@ -11,6 +11,7 @@ import { validarPagina, validarFaq, validarNoticia, validarConjuntNoticies, vali
 import { validarSector, validarConjuntSectors, CAMPS_SECTOR } from '../esquema/sectors.mjs';
 import { llegirNoticia, publicades, esborranysActualitat, targeta, paginesActualitat, paginesEsborranysActualitat, datesActualitatMapa } from '../plantilles/actualitat.mjs';
 import { paginesSectors, datesSectorsMapa, paginaTaulaEsborranys } from '../plantilles/sectors.mjs';
+import { paginaReserva } from '../plantilles/reserva.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -187,6 +188,13 @@ if (!errors.length && sectors.length) {
     fs.writeFileSync(path.join(SORTIDA, rel), html);
     generades++;
   }
+}
+// 2d-ter. Pàgina de reserva de trucada (WEB-G05a): /reserva/ (noindex, nofollow, fora del mapa del lloc)
+if (!errors.length) {
+  const [rel, html] = paginaReserva(lloc, dadesServeis);
+  fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
+  fs.writeFileSync(path.join(SORTIDA, rel), html);
+  generades++;
 }
 // 2d-bis. Taula de validació d'esborranys (WEB-G04a): /esborranys/, només en mode esborranys / vista prèvia.
 if (AMB_ESBORRANYS && !errors.length) {
