@@ -3,6 +3,7 @@
 // Les aplicacions (diagnòstic, «Necessito un DPO?», recollida, xarxes) tenen la seva capçalera mínima i no en fan servir.
 import { esc } from './text.mjs';
 import { enllac } from './blocs.mjs';
+import { t } from './textos.mjs';
 
 const INICI = { ca: '/', es: '/es/' };
 
@@ -13,14 +14,15 @@ export function menu(lloc, ctx) {
   const altre = { ...m.altreIdioma, href: ctx.urlAltre || m.altreIdioma.href };
   const idioma = cls => `<a href="${esc(altre.href)}" hreflang="${altre.idioma}" lang="${altre.idioma}"${cls}>${esc(altre.text)}</a>`;
   const a = e => `<a href="${esc(enllac(e.href, ctx))}">${esc(e.text)}</a>`;
-  return `${portada ? `
+  const salta = esc(t(ctx.idioma, 'comu.salta_contingut'));
+  return `<a class="salta-contingut" href="#contingut">${salta}</a>${portada ? `
 <div class="scroll-progress" id="scrollProgress"></div>` : ''}
 <nav class="nav${portada ? '' : ' scrolled'}" id="navbar">
   <div class="container nav-inner">
     <a href="${portada ? '#top' : INICI[ctx.idioma]}" class="nav-logo">Madein<span>human</span></a>
     <div class="nav-links">${m.enllacos.map(a).join('\n')}${idioma(' class="nav-idioma"')}</div>
     <a href="${esc(enllac(m.crida.href, ctx))}" class="nav-cta">${esc(m.crida.text)}</a>
-    <button class="nav-burger" type="button" aria-label="${ctx.idioma === 'es' ? 'Menú' : 'Menú'}" aria-controls="navMobile" aria-expanded="false"><span></span><span></span><span></span></button>
+    <button class="nav-burger" type="button" aria-label="${esc(t(ctx.idioma, 'comu.menu_aria'))}" aria-controls="navMobile" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
   <div class="nav-mobile" id="navMobile">${[...m.enllacos, m.crida].map(a).join('\n')}${idioma('')}</div>
 </nav>`;
@@ -31,7 +33,7 @@ export function peu(lloc, ctx) {
   // Columna amb «contacte»: correu, WhatsApp i zona de treball (el domicili només surt a l'avís legal, WEB-T05)
   const contacte = [
     `<li><a href="mailto:${esc(k.correu)}">${esc(k.correu)}</a></li>`,
-    `<li><a href="https://wa.me/${k.telefon.replace(/\D/g, '')}" target="_blank" rel="noopener">WhatsApp: ${esc(k.telefonVisible)}</a></li>`,
+    `<li><a href="https://wa.me/${k.telefon.replace(/\D/g, '')}" target="_blank" rel="noopener">${esc(t(ctx.idioma, 'comu.whatsapp'))}: ${esc(k.telefonVisible)}</a></li>`,
     `<li class="peu-zona">${esc(ctx.zona ?? k.zona)}</li>`,
   ];
   // Les adreces d'altres webs s'obren en una pestanya nova

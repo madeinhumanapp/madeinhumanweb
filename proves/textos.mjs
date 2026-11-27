@@ -1,13 +1,14 @@
-// Proves dels textos d'interfície centralitzats (WEB-G05c), sense navegador:
-// - cada clau existeix en ca i en es, sense valors buits
+// Proves dels textos d'interfície 100 % centralitzats (WEB-G05c / WEB-G06c), sense navegador:
+// - cada clau existeix en tots els idiomes actius (ca i es), sense valors buits
+// - estructura preparada per a un tercer idioma (en) sense afegir-ne encara textos
 // - substitució de marcadors {clau} a t()
 // - cap clau sense ús dins de plantilles/
-// - cap dels textos migrats coneguts no queda escrit directament a plantilles/actualitat.mjs ni plantilles/sectors.mjs
+// - cap dels textos migrats coneguts no queda escrit directament a les plantilles migrades
 // Ús: node proves/textos.mjs
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { TEXTOS, t } from '../plantilles/textos.mjs';
+import { TEXTOS, IDIOMES_ACTIUS, IDIOMES_PREVISTOS, teIdioma, t } from '../plantilles/textos.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 let fallades = 0;
@@ -26,12 +27,19 @@ ok(`totes les claus (${clausCa.length}) existeixen tant en ca com en es`,
   [faltenEs.length ? `falten a es: ${faltenEs.join(', ')}` : '', sobrenEs.length ? `falten a ca: ${sobrenEs.join(', ')}` : ''].filter(Boolean).join(' · '));
 
 const buits = [];
-for (const lang of ['ca', 'es']) {
+for (const lang of IDIOMES_ACTIUS) {
   for (const [k, v] of Object.entries(TEXTOS[lang])) {
     if (typeof v !== 'string' || !v.trim()) buits.push(`${lang}.${k}`);
   }
 }
-ok('cap valor buit en cap idioma', buits.length === 0, buits.join(', '));
+ok('cap valor buit en cap idioma actiu', buits.length === 0, buits.join(', '));
+
+// Estructura preparada per a un tercer idioma (en) sense afegir-ne textos encara
+ok('estructura preparada per al tercer idioma (en) sense textos encara',
+  IDIOMES_ACTIUS.join(',') === 'ca,es'
+  && IDIOMES_PREVISTOS.includes('en')
+  && teIdioma('ca') && teIdioma('es') && !teIdioma('en')
+  && t('en', 'comu.salta_contingut') === TEXTOS.ca['comu.salta_contingut']);
 
 // Comprova substitució de marcadors i error en clau desconeguda
 let llancaDesconeguda = false;
@@ -59,9 +67,37 @@ const senseUs = clausCa.filter(clau => {
 });
 ok('cap clau sense ús dins de plantilles/', senseUs.length === 0, senseUs.join(', '));
 
-// Comprova que els textos coneguts no queden escrits directament a les plantilles migrades
-const migrades = ['plantilles/actualitat.mjs', 'plantilles/sectors.mjs'];
+// Comprova que cap dels textos d'interfície coneguts no queda escrit directament a les plantilles migrades
+const migrades = [
+  'plantilles/actualitat.mjs',
+  'plantilles/sectors.mjs',
+  'plantilles/marc.mjs',
+  'plantilles/base.mjs',
+  'plantilles/blocs.mjs',
+  'plantilles/serveis.mjs',
+  'plantilles/legal.mjs',
+  'plantilles/cerca.mjs',
+  'plantilles/reserva.mjs',
+  'plantilles/llms.mjs',
+  'plantilles/xarxes.mjs',
+];
 const textosProhibits = [
+  'Salta al contingut',
+  'Saltar al contenido',
+  'Tornar a dalt',
+  'Totes les notícies',
+  'Vols més detalls?',
+  'Els trobaràs aquí',
+  'Per sectors',
+  'Por sectores',
+  'Aquesta pàgina <em>no existeix.</em>',
+  'Esta página no existe.',
+  'Cerca al web',
+  'Buscar en la web',
+  'No hem trobat cap pàgina amb aquests termes.',
+  'Reservar una trucada',
+  'Per reservar una trucada, feu el diagnòstic gratuït o escriviu-nos.',
+  'Logo de madeinhuman',
   'Darrera revisió jurídica:',
   'Última revisión jurídica:',
   'En aquesta guia',
@@ -100,7 +136,7 @@ for (const rel of migrades) {
     if (codi.includes(text)) trobats.push(`${rel}: «${text}»`);
   }
 }
-ok('cap dels textos d\'interfície migrats no queda escrit directament a actualitat.mjs ni sectors.mjs',
+ok(`cap dels textos d'interfície migrats no queda escrit directament a les ${migrades.length} plantilles migrades`,
   trobats.length === 0, trobats.join(' · '));
 
 console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions dels textos d\'interfície correctes');

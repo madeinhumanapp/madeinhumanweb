@@ -38,7 +38,7 @@ export function paginaLegal(lloc, p, cosFont) {
 <body>
 ${menu(lloc, ctx)}
 
-  <main>
+  <main id="contingut" tabindex="-1">
   <section class="block legal-page">
     <div class="container legal-container">
       <span class="eyebrow">${esc(p.etiqueta)}</span>

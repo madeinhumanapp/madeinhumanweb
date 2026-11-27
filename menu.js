@@ -9,5 +9,10 @@
   }
   boto.addEventListener('click', function () { posa(!menu.classList.contains('open')); });
   menu.addEventListener('click', function (e) { if (e.target.closest('a')) posa(false); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') posa(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && menu.classList.contains('open')) {
+      posa(false);
+      boto.focus();
+    }
+  });
 })();

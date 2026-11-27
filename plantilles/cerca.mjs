@@ -1,64 +1,37 @@
 // Plantilla de les pàgines de cerca interna (/cerca/ i /es/buscar/, WEB-G05d):
 // noindex, follow, marc interior, fora del mapa del lloc, sense tercers i amb alternativa <noscript>.
 import { marcInterior } from './serveis.mjs';
+import { t } from './textos.mjs';
 
 export const RUTA_CERCA = '/cerca/';
 export const RUTA_CERCA_ES = '/es/buscar/';
 
-const CONF = {
+const RUTES = {
   ca: {
     ruta: RUTA_CERCA,
     rutaAltre: RUTA_CERCA_ES,
     indexUrl: '/cerca/index.json',
-    titolSeo: 'Cerca · Madeinhuman',
-    desc: 'Cerqueu pàgines de serveis, preguntes freqüents i actualitat de Madeinhuman.',
-    molla: 'Cerca',
-    eyebrow: 'Cerca interna',
-    h1: 'Cerca al web',
-    lede: 'Troba pàgines de serveis, preguntes freqüents i articles sobre RGPD, DPO i intel·ligència artificial.',
-    label: 'Què busques?',
-    placeholder: 'p. ex. DPO, cookies, IA, diagnòstic…',
-    boto: 'Cercar',
-    buitTitol: 'No hem trobat cap pàgina amb aquests termes.',
-    buitText: 'Prova-ho amb altres paraules o explica’ns directament què necessites.',
-    buitEnllacText: 'Anar al formulari de contacte',
     buitHref: '/#contacte',
-    noscriptTitol: 'La cerca interactiva necessita JavaScript',
-    noscriptText: 'Podeu navegar directament per les seccions principals del web:',
     seccions: [
-      ['Inici', '/'],
-      ['Serveis RGPD, DPO i AI Act', '/#serveis'],
-      ['Diagnòstic gratuït', '/diagnostic'],
-      ['Preguntes freqüents', '/preguntes-frequents/'],
-      ['Actualitat', '/actualitat/'],
-      ['Contacte', '/#contacte'],
+      ['cerca.sec_inici', '/'],
+      ['cerca.sec_serveis', '/#serveis'],
+      ['cerca.sec_diagnostic', '/diagnostic'],
+      ['cerca.sec_faq', '/preguntes-frequents/'],
+      ['cerca.sec_actualitat', '/actualitat/'],
+      ['cerca.sec_contacte', '/#contacte'],
     ],
   },
   es: {
     ruta: RUTA_CERCA_ES,
     rutaAltre: RUTA_CERCA,
     indexUrl: '/es/buscar/index.json',
-    titolSeo: 'Buscar · Madeinhuman',
-    desc: 'Buscad páginas de servicios, preguntas frecuentes y actualidad de Madeinhuman.',
-    molla: 'Buscar',
-    eyebrow: 'Búsqueda interna',
-    h1: 'Buscar en la web',
-    lede: 'Encuentra páginas de servicios, preguntas frecuentes y artículos sobre RGPD, DPO e inteligencia artificial.',
-    label: '¿Qué buscas?',
-    placeholder: 'p. ej. DPO, cookies, IA, diagnóstico…',
-    boto: 'Buscar',
-    buitTitol: 'No hemos encontrado ninguna página con esos términos.',
-    buitText: 'Prueba con otras palabras o cuéntanos directamente qué necesitas.',
-    buitEnllacText: 'Ir al formulario de contacto',
     buitHref: '/es/#contacto',
-    noscriptTitol: 'La búsqueda interactiva necesita JavaScript',
-    noscriptText: 'Podéis navegar directamente por las secciones principales de la web:',
     seccions: [
-      ['Inicio', '/es/'],
-      ['Servicios RGPD, DPO y AI Act', '/es/#servicios'],
-      ['Diagnóstico gratuito', '/diagnostic'],
-      ['Preguntas frecuentes', '/es/preguntas-frecuentes/'],
-      ['Contacto', '/es/#contacto'],
+      ['cerca.sec_inici', '/es/'],
+      ['cerca.sec_serveis', '/es/#servicios'],
+      ['cerca.sec_diagnostic', '/diagnostic'],
+      ['cerca.sec_faq', '/es/preguntas-frecuentes/'],
+      ['cerca.sec_contacte', '/es/#contacto'],
     ],
   },
 };
@@ -70,51 +43,53 @@ export function paginesCerca(lloc, dades) {
   const alternates = [['ca', RUTA_CERCA], ['es', RUTA_CERCA_ES], ['x-default', RUTA_CERCA]];
 
   return ['ca', 'es'].map(lang => {
-    const k = CONF[lang];
+    const k = RUTES[lang];
     const c = dades.COMU[lang];
+    const h1 = t(lang, 'cerca.h1');
+    const molla = t(lang, 'cerca.molla');
     const ld = {
       '@context': 'https://schema.org',
       '@graph': [
-        { '@type': 'SearchResultsPage', name: k.h1, url: WEB + k.ruta, inLanguage: lang, publisher: { '@id': `${WEB}/#empresa` } },
+        { '@type': 'SearchResultsPage', name: h1, url: WEB + k.ruta, inLanguage: lang, publisher: { '@id': `${WEB}/#empresa` } },
         {
           '@type': 'BreadcrumbList',
           itemListElement: [
             { '@type': 'ListItem', position: 1, name: c.inici, item: WEB + c.home },
-            { '@type': 'ListItem', position: 2, name: k.molla, item: WEB + k.ruta },
+            { '@type': 'ListItem', position: 2, name: molla, item: WEB + k.ruta },
           ],
         },
       ],
     };
 
-    const html = m.cap(lang, k.titolSeo, k.desc, k.ruta, alternates, ld, {
+    const html = m.cap(lang, t(lang, 'cerca.titol_seo'), t(lang, 'cerca.desc'), k.ruta, alternates, ld, {
       comentari: false,
       robots: 'noindex, follow',
     })
-      + m.nav(lang, k.rutaAltre) + `  <main class="pagina">
+      + m.nav(lang, k.rutaAltre) + `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut legal-content">
-      <nav class="molles" aria-label="Ruta"><a href="${c.home}">${e(c.inici)}</a> › <span aria-current="page">${e(k.molla)}</span></nav>
-      <span class="eyebrow">${e(k.eyebrow)}</span>
-      <h1 class="section-title pagina-h1">${e(k.h1)}</h1>
-      <p class="pagina-lede">${e(k.lede)}</p>
+      <nav class="molles" aria-label="${e(t(lang, 'comu.ruta'))}"><a href="${c.home}">${e(c.inici)}</a> › <span aria-current="page">${e(molla)}</span></nav>
+      <span class="eyebrow">${e(t(lang, 'cerca.eyebrow'))}</span>
+      <h1 class="section-title pagina-h1">${e(h1)}</h1>
+      <p class="pagina-lede">${e(t(lang, 'cerca.lede'))}</p>
       <form class="cerca-form" role="search" method="get" action="${k.ruta}" data-cerca-form data-cerca-index="${k.indexUrl}" data-cerca-idioma="${lang}">
-        <label class="cerca-label" for="cerca-q">${e(k.label)}</label>
+        <label class="cerca-label" for="cerca-q">${e(t(lang, 'cerca.label'))}</label>
         <div class="cerca-fila">
-          <input id="cerca-q" class="cerca-input" type="search" name="q" autocomplete="off" placeholder="${e(k.placeholder)}" />
-          <button type="submit" class="btn btn-primary cerca-boto">${e(k.boto)}</button>
+          <input id="cerca-q" class="cerca-input" type="search" name="q" autocomplete="off" placeholder="${e(t(lang, 'cerca.placeholder'))}" />
+          <button type="submit" class="btn btn-primary cerca-boto">${e(t(lang, 'cerca.boto'))}</button>
         </div>
       </form>
       <p class="cerca-estat" data-cerca-estat role="status" aria-live="polite"></p>
       <ol class="cerca-resultats" data-cerca-resultats></ol>
       <div class="cerca-buit" data-cerca-buit hidden>
-        <p class="cerca-buit-titol">${e(k.buitTitol)}</p>
-        <p>${e(k.buitText)} <a href="${k.buitHref}">${e(k.buitEnllacText)}</a>.</p>
+        <p class="cerca-buit-titol">${e(t(lang, 'cerca.buit_titol'))}</p>
+        <p>${e(t(lang, 'cerca.buit_text'))} <a href="${k.buitHref}">${e(t(lang, 'cerca.buit_enllac'))}</a>.</p>
       </div>
       <noscript>
         <section class="pagina-seccio cerca-noscript">
-          <h2>${e(k.noscriptTitol)}</h2>
-          <p>${e(k.noscriptText)}</p>
+          <h2>${e(t(lang, 'cerca.noscript_titol'))}</h2>
+          <p>${e(t(lang, 'cerca.noscript_text'))}</p>
           <ul class="pagina-altres">
-${k.seccions.map(([nom, href]) => `            <li><a href="${href}">${e(nom)}</a></li>`).join('\n')}
+${k.seccions.map(([clau, href]) => `            <li><a href="${href}">${e(t(lang, clau))}</a></li>`).join('\n')}
           </ul>
         </section>
       </noscript>

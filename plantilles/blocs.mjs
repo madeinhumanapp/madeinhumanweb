@@ -2,6 +2,7 @@
 // (dades del bloc, context de la pàgina) → HTML. El disseny viu aquí; el text, a contingut/.
 // No fan servir res de Node: les mateixes plantilles funcionen al navegador (vista prèvia del panell).
 import { esc, enriquit, attr } from './text.mjs';
+import { t } from './textos.mjs';
 
 // A la portada, els enllaços del menú han de ser només àncores (#serveis), no /#serveis:
 // si no, en clicar es perdrien els utm_* de l'URL i l'origen de la visita dels formularis.
@@ -10,6 +11,22 @@ export function enllac(href, ctx) {
   if (ctx.ruta === '/' && href.startsWith('/#')) return href.slice(1);
   if (ctx.ruta === '/es/' && href.startsWith('/es/#')) return href.slice(4);
   return href;
+}
+
+/** Genera un id estable (minúscules, sense accents, guions) a partir del text d'una pregunta freqüent (WEB-G06d). */
+export function idPreguntaFaq(pregunta, vistos = null) {
+  const base = String(pregunta || '')
+    .replace(/l·l/gi, 'll')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'pregunta';
+  if (!vistos) return base;
+  let id = base;
+  let k = 2;
+  while (vistos.has(id)) id = `${base}-${k++}`;
+  vistos.add(id);
+  return id;
 }
 
 const boto = (b, ctx) =>
@@ -110,7 +127,7 @@ export const BLOCS = {
     <p class="hero-sub reveal" style="transition-delay:.35s">${enriquit(d.text)}</p>
     <div class="cta-row reveal" style="transition-delay:.5s">${d.botons.map(b => boto(b, ctx)).join('\n')}</div>
   </div>
-  <div class="scroll-ind"><div class="line"></div><span>Scroll</span></div>
+  <div class="scroll-ind"><div class="line"></div><span>${esc(t(ctx?.idioma || 'ca', 'blocs.scroll'))}</span></div>
   <div class="hero-meta">${d.etiquetes.map(e => `<span>${enriquit(e, { negreta: 'b' })}</span>`).join('\n')}</div>
 </header>`,
 
@@ -200,6 +217,7 @@ ${d.items.map(i => `      <li class="premissa" data-fil="premissa">${enriquit(i)
   actualitat: (d, ctx = {}) => {
     const deFitxers = d.origen === 'actualitat' && ctx.actualitat?.length;
     const noticies = deFitxers ? ctx.actualitat.slice(0, 3) : d.noticies || [];
+    const lang = ctx.idioma || 'ca';
     return `
 <section class="block actualitat"${attr('id', d.ancora)}>
   <div class="container">
@@ -215,7 +233,7 @@ ${d.items.map(i => `      <li class="premissa" data-fil="premissa">${enriquit(i)
         <div class="news-source">${esc(n.font)}</div>` : ''}
       </article>`).join('\n')}
     </div>${deFitxers ? `
-    <p class="news-mes"><a href="/actualitat/">Totes les notícies</a></p>` : ''}
+    <p class="news-mes"><a href="/actualitat/">${esc(t(lang, 'blocs.totes_noticies'))}</a></p>` : ''}
   </div>
 </section>`;
   },
@@ -224,6 +242,7 @@ ${d.items.map(i => `      <li class="premissa" data-fil="premissa">${enriquit(i)
   // es veuen fusionats). Cada servei és un enllaç a la seva pàgina que, amb JavaScript, obre una finestra amb
   // l'entradeta de la pàgina (ctx.serveis: contingut/serveis.json) i un enllaç per veure'n més.
   serveis: (d, ctx) => {
+    const lang = ctx?.idioma || 'ca';
     // id estable de la finestra: el nom de la pàgina del servei (/serveis/dpo-extern/ → detall-dpo-extern)
     const fitxa = (e, i) => {
       const slug = /^\/serveis\/([a-z0-9-]+)\/$/.exec(e.href)?.[1] || `servei-${i + 1}`;
@@ -260,11 +279,11 @@ ${d.junts.items.map(i => `          <li>${esc(i)}</li>`).join('\n')}
     </div>${ambits.flatMap(({ p, costat, serveis }) => serveis.map(e => `
     <dialog class="detall-dialeg detall-dialeg-${costat}" id="detall-${esc(e.clau)}" aria-labelledby="detall-${esc(e.clau)}-titol">
       <div class="detall-dialeg-cos">
-        <button type="button" class="detall-tanca" aria-label="Tanca"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button>
+        <button type="button" class="detall-tanca" aria-label="${esc(t(lang, 'blocs.tanca'))}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button>
         <span class="detall-dialeg-ambit">${esc(p.subtitol)}</span>
         <h3 class="detall-dialeg-titol" id="detall-${esc(e.clau)}-titol">${esc(e.text)}</h3>${e.lede ? `
         <p class="detall-dialeg-text">${enriquit(e.lede)}</p>` : ''}
-        <a class="detall-dialeg-mes" href="${esc(enllac(e.href, ctx))}">Vols més detalls? <span>Els trobaràs aquí</span> <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a class="detall-dialeg-mes" href="${esc(enllac(e.href, ctx))}">${esc(t(lang, 'blocs.mes_detalls_pregunta'))} <span>${esc(t(lang, 'blocs.mes_detalls_enllac'))}</span> <span class="arrow" aria-hidden="true">&rarr;</span></a>
       </div>
     </dialog>`)).join('')}
   </div>
@@ -277,12 +296,13 @@ ${d.junts.items.map(i => `          <li>${esc(i)}</li>`).join('\n')}
   // Si una pregunta té «servei», sota la resposta hi ha l'enllaç a la pàgina del servei en l'idioma de la pàgina (ctx.serveis).
   faq: (d, ctx) => {
     const es = ctx.idioma === 'es';
+    const lang = es ? 'es' : 'ca';
     const servei = clau => {
-      const lang = es ? 'es' : 'ca';
       const slug = ctx.serveis?.SLUG?.[lang]?.[clau], nom = ctx.serveis?.PAGINES?.[clau]?.[lang]?.curt;
       return slug && nom ? `
-          <p class="faq-servei">${es ? 'Te puede interesar' : 'Et pot interessar'}: <a href="/${es ? 'es/servicios' : 'serveis'}/${esc(slug)}/">${esc(nom)} <span class="arrow" aria-hidden="true">&rarr;</span></a></p>` : '';
+          <p class="faq-servei">${esc(t(lang, 'comu.interessa'))} <a href="/${es ? 'es/servicios' : 'serveis'}/${esc(slug)}/">${esc(nom)} <span class="arrow" aria-hidden="true">&rarr;</span></a></p>` : '';
     };
+    const vistosId = new Set();
     return `
 <section class="block faq"${attr('id', d.ancora)}>
   <div class="container">
@@ -294,8 +314,10 @@ ${d.junts.items.map(i => `          <li>${esc(i)}</li>`).join('\n')}
 ${d.pestanyes.map((t, i) => `        <button class="tab${i === 0 ? ' active' : ''}" data-cat="${esc(t.cat)}">${esc(t.text)}</button>`).join('\n')}
       </div>
     </div>
-    <div class="faq-list" id="faqList">${(ctx.faq || []).map((f, i) => `
-      <div class="faq-item open" data-cat="${esc(f.cat)}">
+    <div class="faq-list" id="faqList">${(ctx.faq || []).map((f, i) => {
+      const idFaq = idPreguntaFaq(f.pregunta, vistosId);
+      return `
+      <div class="faq-item open" id="${idFaq}" data-cat="${esc(f.cat)}">
         <button class="faq-q" type="button" aria-expanded="true" aria-controls="faq-r${i + 1}">
           <span class="num">${String(i + 1).padStart(2, '0')}</span>
           <span>${esc(f.pregunta)}</span>
@@ -304,7 +326,8 @@ ${d.pestanyes.map((t, i) => `        <button class="tab${i === 0 ? ' active' : '
         <div class="faq-a" id="faq-r${i + 1}">
           <div class="faq-a-inner">${enriquit(f.resposta)}${f.servei ? servei(f.servei) : ''}</div>
         </div>
-      </div>`).join('')}
+      </div>`;
+    }).join('')}
     </div>
   </div>
 </section>`;

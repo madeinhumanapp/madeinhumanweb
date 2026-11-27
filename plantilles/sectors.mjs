@@ -78,7 +78,7 @@ export function paginesSectors(lloc, dades, sectors, { ambEsborranys = false, no
     const targetes = pubPerIdioma[lang].map(s => `<li><a href="${urlSector(s)}"><strong>${e(s.h1)}</strong><span>${e(s.entradeta)}</span></a></li>`).join('');
     out.push([`${rutaIdx.slice(1)}index.html`,
       m.cap(lang, t(lang, 'sectors.titol_idx'), t(lang, 'sectors.desc_idx'), rutaIdx, alternates, ldIndex, { comentari: false })
-      + m.nav(lang, urlAltre) + `  <main class="pagina">
+      + m.nav(lang, urlAltre) + `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut legal-content">
       <nav class="molles" aria-label="${e(t(lang, 'comu.ruta'))}"><a href="${c.home}">${e(c.inici)}</a> › <span aria-current="page">${e(nomSectors)}</span></nav>
       <span class="eyebrow">${e(t(lang, 'sectors.eyebrow_idx'))}</span>
@@ -110,7 +110,7 @@ export function paginesSectors(lloc, dades, sectors, { ambEsborranys = false, no
     const nomServei = s.servei_relacionat ? dades.PAGINES[s.servei_relacionat][lang].curt : s.h1;
     const cites = (s.fonts || []).map(f => f.url);
     const graf = [
-      m.empresa_ld(),
+      m.empresa_ld(lang),
       {
         '@type': 'Service',
         name: s.h1,
@@ -220,7 +220,7 @@ ${s.fonts.map(f => `          <li><a href="${e(f.url)}" target="_blank" rel="noo
         comentari: false,
         robots: esborrany ? 'noindex, nofollow' : 'index, follow, max-image-preview:large',
       })
-      + m.nav(lang, urlAltre) + `  <main class="pagina">
+      + m.nav(lang, urlAltre) + `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut legal-content">
       <nav class="molles" aria-label="${e(t(lang, 'comu.ruta'))}"><a href="${c.home}">${e(c.inici)}</a> › ${mollaSectors} › <span aria-current="page">${e(s.h1)}</span></nav>
 ${franjaEsborrany}      <span class="eyebrow">${e(etiquetaSector)} · Girona</span>
@@ -548,7 +548,7 @@ ${f.llistaMarques.map(marca => `                    <li>${e(marca)}</li>`).join(
   return ['esborranys/index.html',
     m.cap('ca', t('ca', 'taula.titol_seo'), t('ca', 'taula.desc'), ruta,
       [['ca', ruta], ['x-default', ruta]], ld, { comentari: false, robots: 'noindex, nofollow' })
-    + m.nav('ca', '/es/') + `  <main class="pagina">
+    + m.nav('ca', '/es/') + `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut legal-content">
       <nav class="molles" aria-label="${e(t('ca', 'comu.ruta'))}"><a href="${c.home}">${e(c.inici)}</a> › <span aria-current="page">${e(t('ca', 'comu.esborranys'))}</span></nav>
       <p class="sector-esborrany" role="note">${e(t('ca', 'comu.esborrany'))}</p>

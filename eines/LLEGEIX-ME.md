@@ -148,6 +148,8 @@ coincidir amb el nom del fitxer). Esquema i validació a `esquema/sectors.mjs`; 
   (`<mark class="revisar" id="revisar-N">` + caixa «Marques pendents (N)»), a les vistes prèvies de Cloudflare
   (`CF_PAGES_BRANCH` present i diferent de `main`) o localment amb `node eines/construir.mjs --esborranys`.
   No apareixen als índexs ni al mapa del lloc. Si no hi ha cap pàgina publicada en un idioma, el seu índex no es genera.
+- **Eines estàtiques en esborrany (`NOMES_ESBORRANYS` a `construir.mjs`):** carpetes que només es copien en mode esborranys
+  (ara, `es/autotest-saas/`). A producció no existeixen fins que es validen i es treuen de la llista.
 - **Taula de validació 2.0 (`/esborranys/`):** en mode esborranys es genera una taula central amb tots els esborranys
   (sectors, guies i notícies, `ca` i `es`), ordenats de menys a més marques `[REVISAR]`, amb:
   - filtres per tipus i idioma reflectits a l'URL (`/esborranys/?tipus=sector&idioma=es`, compatibles amb «Enrere» i
@@ -176,11 +178,62 @@ substituir `CALENDARI_URL` quan l'API estigui desplegada:
   `connect-src https://rgpd.madeinhuman.cat`). A `/reserva/?t=<token>`, el token s'esborra de la barra d'adreces amb
   `history.replaceState`.
 
-## Textos d'interfície centralitzats (`plantilles/textos.mjs`, WEB-G05)
+## Textos d'interfície centralitzats (`plantilles/textos.mjs`, WEB-G05 i WEB-G06)
 
-Tots els textos fixos visibles de `plantilles/actualitat.mjs`, `plantilles/sectors.mjs` i `/esborranys/` es centralitzen
-a `plantilles/textos.mjs` (`TEXTOS = { ca, es }` i funció `t(idioma, clau, valors)` amb substitució `{clau}`), preparat
-per incorporar nous idiomes (p. ex. `/en/`) sense escampar cadenes per les plantilles.
+Tots els textos fixos visibles i atributs d'interfície (`aria-label`, `alt` fixos, `title`) de les 11 plantilles generades
+(`marc.mjs`, `base.mjs`, `blocs.mjs`, `serveis.mjs` inclosa la 404, `legal.mjs`, `actualitat.mjs`, `sectors.mjs`, `cerca.mjs`,
+`reserva.mjs`, `llms.mjs` i `xarxes.mjs`) es centralitzen a `plantilles/textos.mjs` (`TEXTOS = { ca, es }`, `IDIOMES_ACTIUS`,
+`IDIOMES_PREVISTOS = ['ca', 'es', 'en']`, `teIdioma(idioma)` i `t(idioma, clau, valors)`), preparat per incorporar un tercer
+idioma (`en`) sense escampar cadenes per les plantilles.
+
+## Preguntes freqüents per servei i dades de l'empresa al JSON-LD (WEB-G06)
+
+- **Preguntes per servei:** a cada pàgina de servei (`ca` i `es`), si hi ha entrades a `contingut/faq.json` / `contingut/faq.es.json`
+  amb `servei` igual a la clau del servei, es pinta la secció «Preguntes freqüents sobre aquest servei» / «Preguntas frecuentes sobre
+  este servicio» amb cada resposta dins d'un `<details>` i un enllaç cap a l'`id` estable de la pregunta a `/preguntes-frequents/` o
+  `/es/preguntas-frecuentes/` (`idPreguntaFaq()` a `plantilles/blocs.mjs`). Sense `FAQPage` duplicat a les pàgines de servei; els serveis
+  sense preguntes associades (com `web`) mantenen l'HTML intacte.
+- **JSON-LD de l'empresa (`ProfessionalService`):** tant a `empresa_ld()` (`plantilles/serveis.mjs`) com a la portada (`plantilles/base.mjs`),
+  l'objecte de l'empresa inclou `contactPoint` (telèfon, correu i idiomes de `contingut/lloc.json`), `knowsAbout` (noms dels serveis de
+  `contingut/serveis.json` en l'idioma de la pàgina), `areaServed` i `sameAs` (només URL `https://` de perfils socials declarats a
+  `lloc.json`; si no n'hi ha, s'omet sense inventar res). Sense `streetAddress`, `postalCode` ni `geo` fora de l'avís legal.
+
+## Teclat, focus visible i contrast WCAG AA (WEB-G06)
+
+- Totes les pàgines generades comencen amb l'enllaç «Salta al contingut» / «Saltar al contenido» cap a `<main id="contingut" tabindex="-1">`,
+  visible en rebre el focus, i disposen de contorn `:focus-visible` amb tokens de `marca.css` sobre enllaços, botons i camps.
+- El menú mòbil (`menu.js`) s'obre i es tanca amb `Enter`/`Espai`, manté `aria-expanded` al dia i es tanca amb `Escape` retornant el focus
+  al botó `.nav-burger`.
+- `node proves/teclat.mjs` comprova amb Playwright el «Salta al contingut» a totes les pàgines generades, el focus visible a portada i
+  servei, el menú mòbil a 375 px i el contrast WCAG AA (4,5:1 text normal, 3:1 text gran) a 1280 px.
+
+## Regressió visual automàtica (`proves/visual.mjs`, WEB-G06)
+
+Compara píxel a píxel totes les pàgines HTML (llevat de `_previsualitzacio/` i `recollida.html`) entre una carpeta base (p. ex. `main`)
+i `dist/` a 375, 768 i 1280 px, sense dependències externes (canvas dins de Playwright), i genera l'informe a `captures/visual/informe.html`:
+
+```bash
+# 1. A main (abans dels canvis), genera la referència:
+node eines/construir.mjs --sortida /tmp/main-dist
+# 2. A la branca de treball, reconstrueix dist/ i compara:
+npm run construir
+node proves/visual.mjs --base /tmp/main-dist                          # informativa (codi 0)
+node proves/visual.mjs --base /tmp/main-dist --amplades 1280 --estricte  # falla si hi ha diferències
+```
+
+## Autotest SaaS en castellà (`/es/autotest-saas/`, esborrany, WEB-G06)
+
+Eina estàtica en esborrany (`noindex, nofollow`, fora de `sitemap.xml`, sense enllaços des de la resta de la web i amb la franja visible
+«Borrador: pendiente de validación») a `es/autotest-saas/` (`index.html`, `estils.css`, `dades/preguntes.js`, `src/avaluar.js`, `src/app.js`).
+
+- **Funcionament actual:** 12 preguntes en castellà (registre «vosotros») que avaluen de manera 100 % local un semàfor accessible
+  (verd/ambre/vermell), els paquets orientatius («Base SaaS», «Trust Pack B2B», «Add-on IA»), el perfil opcional «Fundador en solitario»,
+  els avisos «probables, a valorar» (EIPD i representant de l'art. 27 RGPD) i una llista de punts a revisar, amb crida «Hablemos» cap a
+  `/es/#contacto`. Sense `fetch`, sense `localStorage`, sense `sessionStorage` ni galetes.
+- **Què faltarà abans de publicar-lo:**
+  1. Validació jurídica i editorial de totes les marques `[REVISAR: …]` de `es/autotest-saas/dades/preguntes.js` per la persona responsable.
+  2. Decidir si s'hi afegeix enviament a l'API de `rgpd-tool` (amb contracte a `proves/contractes/` i protecció CSP).
+  3. Treure la franja d'esborrany i el `noindex, nofollow`, afegir canònica i enllaçar-lo des de la web en castellà.
 
 ## Cerca interna sense tercers (`/cerca/`, `/es/buscar/` i `404.html`, WEB-G05)
 
@@ -199,20 +252,23 @@ Generat automàticament a `dist/llms.txt` seguint `llmstxt.org`: `# Madeinhuman`
 `## Español`) ometent les buides. Només inclou pàgines publicades i indexables (idèntic amb `--esborranys`). `robots.txt`
 no canvia.
 
-## Controls de qualitat i proves noves (WEB-G04 i WEB-G05)
+## Controls de qualitat i proves noves (WEB-G04, WEB-G05 i WEB-G06)
 
 Tots els controls estàtics accepten `--arrel <carpeta>` (per defecte `dist`) i funcionen tant sobre producció
 (`npm run construir`) com sobre la construcció d'esborranys (`node eines/construir.mjs --esborranys`):
 
 ```bash
 node proves/esborranys.mjs             # taula /esborranys/ 2.0 (filtres, <details>, Markdown, guia) i absència a producció
-node proves/textos.mjs                 # paritat ca/es a plantilles/textos.mjs, cap valor buit, cap clau sense ús ni text dur
+node proves/textos.mjs                 # paritat ca/es a plantilles/textos.mjs (11 plantilles + estructura en), sense claus sense ús
 node proves/llms.mjs                   # estructura de /llms.txt, URLs absolutes a dist/, cap esborrany ni noindex
 node proves/pagina-404.mjs             # 404 bilingüe, formularis de cerca /cerca/ i /es/buscar/ i enllaços vàlids
 node proves/enllacos.mjs               # enllaços i recursos interns, fragments #id, href buits, target=_blank rel=noopener
-node proves/dades-estructurades.mjs    # JSON-LD vàlid, @context, Article/BreadcrumbList/FAQPage/Service, sense adreça/geo
+node proves/dades-estructurades.mjs    # JSON-LD vàlid, ProfessionalService (contactPoint, knowsAbout, sameAs), Article/Service/FAQ
 node proves/accessibilitat.mjs         # lang coherent, <main>, un sol <h1>, nivells de títol, ids únics, alt, labels, enllaços/botons
 node proves/pes.mjs                    # pressupost ≤ 500 kB per pàgina (avís a recollida.html) i imatges ≤ 300 kB
 node proves/cerca.mjs                  # índexs de cerca (sense navegador) i interfície /cerca/ i /es/buscar/ amb Playwright + CSP
 node proves/reserva.mjs                # selector de reserves amb Playwright + CSP (còpia amb ACTIVA=true i dist/ real ACTIVA=false)
+node proves/visual.mjs --base <dir>    # regressió visual píxel a píxel amb Playwright i informe a captures/visual/informe.html
+node proves/teclat.mjs                 # «Salta al contingut», focus visible, menú mòbil amb teclat i contrast WCAG AA
+node proves/autotest-saas.mjs          # avaluació pura i recorregut Playwright + CSP de /es/autotest-saas/ (esborrany)
 ```

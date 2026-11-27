@@ -118,5 +118,37 @@ ok('el menú i el peu pinten els enllaços nous (escapats; els externs, en una p
   hL.includes('<a href="/actualitat/">Blog &amp; notícies</a>') && hL.includes('<a href="https://example.org/" target="_blank" rel="noopener">Web externa</a>')
   && (hL.match(/href="mailto:/g) || []).length === (pagina(lloc, portada, formularis).match(/href="mailto:/g) || []).length + 1);
 
+// Preguntes freqüents per servei (WEB-G06d)
+const { paginesServei } = await import('../plantilles/serveis.mjs');
+const { idPreguntaFaq } = await import('../plantilles/blocs.mjs');
+const faqEs = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/faq.es.json'), 'utf8'));
+const ambFaq = Object.fromEntries(paginesServei(lloc, original, [], { ca: faqActual, es: faqEs }));
+const senseFaq = Object.fromEntries(paginesServei(lloc, original, []));
+const jsonld = h => [...h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m => JSON.parse(m[1]));
+
+for (const lang of ['ca', 'es']) {
+  const carpeta = lang === 'es' ? 'es/servicios' : 'serveis';
+  const rutaFaq = lang === 'es' ? '/es/preguntas-frecuentes/' : '/preguntes-frequents/';
+  const titolEsperat = lang === 'es' ? 'Preguntas frecuentes sobre este servicio' : 'Preguntes freqüents sobre aquest servei';
+  const llistaFaq = lang === 'es' ? faqEs : faqActual;
+  const vistos = new Set();
+  const ambIds = llistaFaq.map(f => ({ ...f, _id: idPreguntaFaq(f.pregunta, vistos) }));
+  for (const clau of original.SERVEIS) {
+    const ruta = `${carpeta}/${original.SLUG[lang][clau]}/index.html`;
+    const html = ambFaq[ruta];
+    const preguntes = ambIds.filter(f => f.servei === clau);
+    if (preguntes.length) {
+      ok(`${ruta}: mostra la secció de preguntes freqüents (${preguntes.length}) amb <details> i enllaços a ${rutaFaq}#id`,
+        html.includes(titolEsperat)
+        && (html.match(/class="servei-faq-item"/g) || []).length === preguntes.length
+        && preguntes.every(f => html.includes(`href="${rutaFaq}#${f._id}"`))
+        && !jsonld(html).some(j => j['@type'] === 'FAQPage'));
+    } else {
+      ok(`${ruta}: sense preguntes associades queda idèntica a la versió sense FAQ`,
+        !html.includes('servei-faq') && html === senseFaq[ruta]);
+    }
+  }
+}
+
 console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions dels serveis i dels blocs correctes');
 process.exit(fallades ? 1 : 0);

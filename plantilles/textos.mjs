@@ -1,9 +1,18 @@
-// Textos d'interfície centralitzats per idioma (WEB-G05c), preparats per afegir idiomes futurs (p. ex. /en/).
-// Tota clau existeix en català (ca) i en castellà (es), sense valors buits.
+// Textos d'interfície 100 % centralitzats per idioma (WEB-G05c / WEB-G06c).
+// Totes les plantilles generades llegeixen els textos fixos visibles i els atributs de text d'aquí.
+// Estructura preparada per afegir un tercer idioma (`en`) només afegint l'entrada `TEXTOS.en` i incloent `'en'` a IDIOMES_ACTIUS.
+
+export const IDIOMES_ACTIUS = ['ca', 'es'];
+export const IDIOMES_PREVISTOS = ['ca', 'es', 'en'];
 
 export const TEXTOS = {
   ca: {
-    // Comuns (molles, revisió jurídica, fonts, crides per defecte, marques)
+    // Comuns (navegació, accessibilitat, molles, revisió jurídica, fonts, crides per defecte, marques)
+    'comu.salta_contingut': 'Salta al contingut',
+    'comu.menu_aria': 'Menú',
+    'comu.tornar_dalt': 'Tornar a dalt',
+    'comu.whatsapp': 'WhatsApp',
+    'comu.conjuncio_i': ' i ',
     'comu.ruta': 'Ruta',
     'comu.esborrany': 'Esborrany: pendent de validació',
     'comu.esborranys': 'Esborranys',
@@ -17,6 +26,78 @@ export const TEXTOS = {
     'comu.cta_servei': 'Veure el servei',
     'comu.marques_pendents': 'Marques pendents ({n})',
     'comu.lectura_min': '{n} min de lectura',
+
+    // Blocs de portada i pàgines de blocs (plantilles/blocs.mjs)
+    'blocs.scroll': 'Scroll',
+    'blocs.totes_noticies': 'Totes les notícies',
+    'blocs.tanca': 'Tanca',
+    'blocs.mes_detalls_pregunta': 'Vols més detalls?',
+    'blocs.mes_detalls_enllac': 'Els trobaràs aquí',
+
+    // Serveis, portada en castellà i pàgina 404 (plantilles/serveis.mjs)
+    'serveis.zona_peu': 'Girona · Presencial a la demarcació i remot a tot Espanya',
+    'serveis.per_sectors': 'Per sectors',
+    'serveis.escriu_nos': 'Escriu-nos',
+    'serveis.faq_titol': 'Preguntes freqüents sobre aquest servei',
+    'serveis.faq_veure': 'Veure a les preguntes freqüents',
+    '404.eyebrow': 'Error 404',
+    '404.titol_seo': 'Pàgina no trobada · Madeinhuman',
+    '404.desc': 'Aquesta pàgina no existeix.',
+    '404.h1': 'Aquesta pàgina <em>no existeix.</em>',
+    '404.lede': "Potser l'adreça ha canviat o té algun error. Podeu tornar a l'inici o anar directament on volíeu.",
+    '404.cerca_label': 'Cerca al web',
+    '404.cerca_placeholder': 'p. ex. DPO, RGPD, diagnòstic…',
+    '404.cerca_boto': 'Cercar',
+    '404.enllac_inici': 'Inici',
+    '404.enllac_serveis': 'Serveis',
+    '404.enllac_actualitat': 'Actualitat',
+    '404.enllac_contacte': 'Contacte',
+    '404.enllac_faq': 'Preguntes freqüents',
+    '404.altre_idioma': 'Versión en castellano',
+
+    // Cerca interna (/cerca/ i /es/buscar/, plantilles/cerca.mjs)
+    'cerca.titol_seo': 'Cerca · Madeinhuman',
+    'cerca.desc': 'Cerqueu pàgines de serveis, preguntes freqüents i actualitat de Madeinhuman.',
+    'cerca.molla': 'Cerca',
+    'cerca.eyebrow': 'Cerca interna',
+    'cerca.h1': 'Cerca al web',
+    'cerca.lede': 'Troba pàgines de serveis, preguntes freqüents i articles sobre RGPD, DPO i intel·ligència artificial.',
+    'cerca.label': 'Què busques?',
+    'cerca.placeholder': 'p. ex. DPO, cookies, IA, diagnòstic…',
+    'cerca.boto': 'Cercar',
+    'cerca.buit_titol': 'No hem trobat cap pàgina amb aquests termes.',
+    'cerca.buit_text': 'Prova-ho amb altres paraules o explica’ns directament què necessites.',
+    'cerca.buit_enllac': 'Anar al formulari de contacte',
+    'cerca.noscript_titol': 'La cerca interactiva necessita JavaScript',
+    'cerca.noscript_text': 'Podeu navegar directament per les seccions principals del web:',
+    'cerca.sec_inici': 'Inici',
+    'cerca.sec_serveis': 'Serveis RGPD, DPO i AI Act',
+    'cerca.sec_diagnostic': 'Diagnòstic gratuït',
+    'cerca.sec_faq': 'Preguntes freqüents',
+    'cerca.sec_actualitat': 'Actualitat',
+    'cerca.sec_contacte': 'Contacte',
+
+    // Reserva (/reserva/, plantilles/reserva.mjs)
+    'reserva.nom': 'Reservar una trucada',
+    'reserva.titol_seo': 'Reservar una trucada · Madeinhuman',
+    'reserva.desc': 'Reserveu una trucada de 20 minuts amb el nostre equip per revisar el vostre diagnòstic RGPD.',
+    'reserva.molla': 'Reserva',
+    'reserva.eyebrow': 'Trucada · 20 minuts',
+    'reserva.lede': 'Per reservar una trucada, feu el diagnòstic gratuït o escriviu-nos.',
+    'reserva.cta_contacte': 'Escriviu-nos',
+
+    // Pàgina d'enllaços de xarxes (/xarxes/, plantilles/xarxes.mjs)
+    'xarxes.og_alt': 'Logo de madeinhuman i el lema «Protegir és avançar.»',
+    'xarxes.logo_aria': 'Logo de madeinhuman',
+    'xarxes.privacitat': 'PRIVACITAT',
+
+    // Seccions de /llms.txt (plantilles/llms.mjs)
+    'llms.sec_serveis': 'Serveis',
+    'llms.sec_faq': 'Preguntes freqüents',
+    'llms.sec_actualitat': 'Actualitat',
+    'llms.sec_sectors': 'Sectors',
+    'llms.sec_legal': 'Legal',
+    'llms.sec_es': 'Español',
 
     // Actualitat i guies
     'actualitat.etiqueta': 'Actualitat',
@@ -103,6 +184,11 @@ export const TEXTOS = {
   },
   es: {
     // Comunes
+    'comu.salta_contingut': 'Saltar al contenido',
+    'comu.menu_aria': 'Menú',
+    'comu.tornar_dalt': 'Volver arriba',
+    'comu.whatsapp': 'WhatsApp',
+    'comu.conjuncio_i': ' y ',
     'comu.ruta': 'Ruta',
     'comu.esborrany': 'Borrador: pendiente de validación',
     'comu.esborranys': 'Borradores',
@@ -116,6 +202,78 @@ export const TEXTOS = {
     'comu.cta_servei': 'Ver el servicio',
     'comu.marques_pendents': 'Marcas pendientes ({n})',
     'comu.lectura_min': '{n} min de lectura',
+
+    // Bloques
+    'blocs.scroll': 'Scroll',
+    'blocs.totes_noticies': 'Todas las noticias',
+    'blocs.tanca': 'Cerrar',
+    'blocs.mes_detalls_pregunta': '¿Quieres más detalles?',
+    'blocs.mes_detalls_enllac': 'Los encontrarás aquí',
+
+    // Servicios, portada en castellano y 404
+    'serveis.zona_peu': 'Girona · Presencial en la demarcación y en remoto en toda España',
+    'serveis.per_sectors': 'Por sectores',
+    'serveis.escriu_nos': 'Escríbenos',
+    'serveis.faq_titol': 'Preguntas frecuentes sobre este servicio',
+    'serveis.faq_veure': 'Ver en las preguntas frecuentes',
+    '404.eyebrow': 'Error 404',
+    '404.titol_seo': 'Página no encontrada · Madeinhuman',
+    '404.desc': 'Esta página no existe.',
+    '404.h1': 'Esta página no existe.',
+    '404.lede': 'Quizás la dirección ha cambiado o tiene algún error. Podéis volver al inicio o ir directamente a donde queríais.',
+    '404.cerca_label': 'Buscar en la web',
+    '404.cerca_placeholder': 'p. ej. DPO, RGPD, diagnóstico…',
+    '404.cerca_boto': 'Buscar',
+    '404.enllac_inici': 'Inicio',
+    '404.enllac_serveis': 'Servicios',
+    '404.enllac_actualitat': 'Actualidad',
+    '404.enllac_contacte': 'Contacto',
+    '404.enllac_faq': 'Preguntas frecuentes',
+    '404.altre_idioma': 'Versió en català',
+
+    // Búsqueda interna
+    'cerca.titol_seo': 'Buscar · Madeinhuman',
+    'cerca.desc': 'Buscad páginas de servicios, preguntas frecuentes y actualidad de Madeinhuman.',
+    'cerca.molla': 'Buscar',
+    'cerca.eyebrow': 'Búsqueda interna',
+    'cerca.h1': 'Buscar en la web',
+    'cerca.lede': 'Encuentra páginas de servicios, preguntas frecuentes y artículos sobre RGPD, DPO e inteligencia artificial.',
+    'cerca.label': '¿Qué buscas?',
+    'cerca.placeholder': 'p. ej. DPO, cookies, IA, diagnóstico…',
+    'cerca.boto': 'Buscar',
+    'cerca.buit_titol': 'No hemos encontrado ninguna página con esos términos.',
+    'cerca.buit_text': 'Prueba con otras palabras o cuéntanos directamente qué necesitas.',
+    'cerca.buit_enllac': 'Ir al formulario de contacto',
+    'cerca.noscript_titol': 'La búsqueda interactiva necesita JavaScript',
+    'cerca.noscript_text': 'Podéis navegar directamente por las secciones principales de la web:',
+    'cerca.sec_inici': 'Inicio',
+    'cerca.sec_serveis': 'Servicios RGPD, DPO y AI Act',
+    'cerca.sec_diagnostic': 'Diagnóstico gratuito',
+    'cerca.sec_faq': 'Preguntas frecuentes',
+    'cerca.sec_actualitat': 'Actualidad',
+    'cerca.sec_contacte': 'Contacto',
+
+    // Reserva
+    'reserva.nom': 'Reservar una llamada',
+    'reserva.titol_seo': 'Reservar una llamada · Madeinhuman',
+    'reserva.desc': 'Reservad una llamada de 20 minutos con nuestro equipo para revisar vuestro diagnóstico RGPD.',
+    'reserva.molla': 'Reserva',
+    'reserva.eyebrow': 'Llamada · 20 minutos',
+    'reserva.lede': 'Para reservar una llamada, haced el diagnóstico gratuito o escribidnos.',
+    'reserva.cta_contacte': 'Escribidnos',
+
+    // Página de enlaces de redes
+    'xarxes.og_alt': 'Logo de madeinhuman y el lema «Protegir és avançar.»',
+    'xarxes.logo_aria': 'Logo de madeinhuman',
+    'xarxes.privacitat': 'PRIVACIDAD',
+
+    // Secciones de /llms.txt
+    'llms.sec_serveis': 'Servicios',
+    'llms.sec_faq': 'Preguntas frecuentes',
+    'llms.sec_actualitat': 'Actualidad',
+    'llms.sec_sectors': 'Sectores',
+    'llms.sec_legal': 'Legal',
+    'llms.sec_es': 'Español',
 
     // Actualidad y guías
     'actualitat.etiqueta': 'Actualidad',
@@ -201,6 +359,11 @@ export const TEXTOS = {
     'taula.md_esb_pl': 'borradores',
   },
 };
+
+/** Indica si un idioma ja té diccionari carregat a TEXTOS (p. ex. per comprovar futurs idiomes com `en`). */
+export function teIdioma(idioma) {
+  return Object.prototype.hasOwnProperty.call(TEXTOS, idioma);
+}
 
 /** Retorna el text traduït per a `idioma` i `clau`, substituint `{nom}` pels `valors` indicats. */
 export function t(idioma, clau, valors = {}) {
