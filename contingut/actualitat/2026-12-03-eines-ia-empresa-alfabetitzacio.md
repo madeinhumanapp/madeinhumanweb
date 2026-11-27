@@ -37,7 +37,7 @@ Abans fins i tot de pensar en sistemes complexos, l'ús diari de xats d'IA gratu
 
 Prohibir totalment la IA acostuma a ser poc realista; en canvi, marcar regles clares permet aprofitar-la amb seguretat. A Catalunya i a l'Estat, tant l'Agència Espanyola de Protecció de Dades (AEPD) com l'Autoritat Catalana de Protecció de Dades (APDCat) insisteixen a avaluar l'impacte sobre els drets de les persones abans de connectar dades personals a sistemes d'IA [REVISAR: confirmar referències a guies vigents de l'AEPD i l'APDCat sobre IA generativa i tractaments amb IA].
 
-En la majoria de pimes, la diferència pràctica rau a distingir dos escenaris:
+En la majoria de pimes, la diferència pràctica consisteix a distingir dos escenaris:
 
 - **Ús sense dades personals ni secrets de negoci:** redactar esborranys genèrics, traduir textos públics o estructurar idees amb dades anonimitzades.
 - **Ús amb dades de clients o plantilla:** només en versions empresarials autoritzades, amb configuració que impedeixi l'entrenament amb les vostres dades, contracte d'encàrrec revisat i anàlisi prèvia de riscos.
