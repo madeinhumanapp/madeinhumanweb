@@ -7,7 +7,7 @@ import { pagina } from '../plantilles/base.mjs';
 import { paginaLegal } from '../plantilles/legal.mjs';
 import { paginaXarxes } from '../plantilles/xarxes.mjs';
 import { validarServeis, CAMPS_SERVEI, CAMPS_PORTADA_ES, CAMPS_COMU } from '../esquema/serveis.mjs';
-import { validarPagina, validarFaq, validarNoticia, validarLloc, ESQUEMA, CAMPS_NOTICIA, CAMPS_XARXES, validarMedia, usosDeMedia, PATRO_ID_MEDIA } from '../esquema/blocs.mjs';
+import { validarPagina, validarFaq, validarNoticia, validarConjuntNoticies, validarLloc, ESQUEMA, CAMPS_NOTICIA, CAMPS_XARXES, validarMedia, usosDeMedia, PATRO_ID_MEDIA } from '../esquema/blocs.mjs';
 import { validarSector, validarConjuntSectors, CAMPS_SECTOR } from '../esquema/sectors.mjs';
 import { llegirNoticia, publicades, esborranysActualitat, targeta, paginesActualitat, paginesEsborranysActualitat, datesActualitatMapa } from '../plantilles/actualitat.mjs';
 import { paginesSectors, datesSectorsMapa, paginaTaulaEsborranys } from '../plantilles/sectors.mjs';
@@ -93,11 +93,13 @@ const totes = fs.existsSync(DIR_ACT) ? fs.readdirSync(DIR_ACT).filter(f => f.end
 const slugs = new Set();
 for (const n of totes) {
   errors.push(...validarNoticia(n).map(e => `actualitat/${n.fitxer}: ${e}`));
-  if (slugs.has(n.slug)) errors.push(`actualitat/${n.fitxer}: ja hi ha una altra notícia amb el títol curt «${n.slug}»`);
-  slugs.add(n.slug);
+  const clauSlug = `${n.cap.idioma || 'ca'}::${n.slug}`;
+  if (slugs.has(clauSlug)) errors.push(`actualitat/${n.fitxer}: ja hi ha una altra notícia amb el títol curt «${n.slug}»`);
+  slugs.add(clauSlug);
 }
+errors.push(...validarConjuntNoticies(totes));
 const noticies = errors.length ? [] : publicades(totes, AVUI);
-const targetes = noticies.map(targeta);
+const targetes = noticies.filter(n => (n.cap.idioma || 'ca') === 'ca').map(targeta);
 // Pàgines de servei (contingut/serveis.json): a la portada, les finestres dels serveis en mostren l'entradeta
 const dadesServeis = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/serveis.json'), 'utf8'));
 
@@ -151,20 +153,25 @@ const sectorsPublicats = sectors.filter(s => s.estat === 'publicat');
     generades++;
   }
 }
-// 2c. Actualitat: llistat, pàgines de les notícies amb cos i RSS (només si n'hi ha de publicades)
+// 2c. Actualitat: llistat, pàgines de les notícies amb cos i RSS (per idioma, només si n'hi ha de publicades)
 if (noticies.length || (AMB_ESBORRANYS && !errors.length)) {
   const portada = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/pagines/portada.ca.json'), 'utf8'));
   const bloc = portada.blocs.find(b => b.tipus === 'actualitat');
+  const esb = AMB_ESBORRANYS && !errors.length ? esborranysActualitat(totes) : [];
+  const totesVisibles = [...noticies, ...esb];
+  const ambLlistat = {
+    ca: noticies.some(n => (n.cap.idioma || 'ca') === 'ca'),
+    es: noticies.some(n => n.cap.idioma === 'es'),
+  };
   if (noticies.length) {
-    for (const [rel, contingut] of paginesActualitat(lloc, dadesServeis, noticies, bloc)) {
+    for (const [rel, contingut] of paginesActualitat(lloc, dadesServeis, noticies, bloc, { totesVisibles })) {
       fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
       fs.writeFileSync(path.join(SORTIDA, rel), contingut);
       if (rel.endsWith('.html')) generades++;
     }
   }
-  if (AMB_ESBORRANYS && !errors.length) {
-    const esb = esborranysActualitat(totes);
-    for (const [rel, contingut] of paginesEsborranysActualitat(lloc, dadesServeis, esb, bloc)) {
+  if (esb.length) {
+    for (const [rel, contingut] of paginesEsborranysActualitat(lloc, dadesServeis, esb, bloc, { totesVisibles, ambLlistat })) {
       fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
       fs.writeFileSync(path.join(SORTIDA, rel), contingut);
       if (rel.endsWith('.html')) generades++;

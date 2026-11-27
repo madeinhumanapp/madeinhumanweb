@@ -1002,10 +1002,17 @@
       "tipus": "seleccio",
       "etiqueta": "Idioma",
       "opcions": [
-        "ca"
+        "ca",
+        "es"
       ],
       "obligatori": true,
-      "ajuda": "De moment, només català"
+      "ajuda": "ca (/actualitat/…) o es (/es/actualidad/…)"
+    },
+    "grup_hreflang": {
+      "tipus": "text",
+      "etiqueta": "Grup hreflang",
+      "max": 60,
+      "ajuda": "Opcional: mateix identificador curt (minúscules i guions) a les versions ca i es d'una mateixa notícia o guia"
     },
     "data_text": {
       "tipus": "text",

@@ -492,16 +492,21 @@ export const CAMPS_NOTICIA = {
     ajuda: 'Opcional: si és buit, es fa servir el text per defecte del destí' },
   estat: { tipus: 'seleccio', etiqueta: 'Estat', opcions: ['esborrany', 'publicat'], obligatori: true,
     ajuda: 'esborrany: no surt a la web · publicat: surt a partir de la seva data, un cop publiquis els canvis' },
-  idioma: { tipus: 'seleccio', etiqueta: 'Idioma', opcions: ['ca'], obligatori: true, ajuda: 'De moment, només català' },
+  idioma: { tipus: 'seleccio', etiqueta: 'Idioma', opcions: ['ca', 'es'], obligatori: true, ajuda: 'ca (/actualitat/…) o es (/es/actualidad/…)' },
+  grup_hreflang: { tipus: 'text', etiqueta: 'Grup hreflang', max: 60,
+    ajuda: 'Opcional: mateix identificador curt (minúscules i guions) a les versions ca i es d\'una mateixa notícia o guia' },
   data_text: { tipus: 'text', etiqueta: 'Data visible (només notícies antigues)', max: 20, bloquejat: true },
   font_text: { tipus: 'text', etiqueta: 'Línia de font (només notícies antigues)', max: 60, bloquejat: true },
 };
+const PATRO_GRUP_HREFLANG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 export function validarNoticia(n) {
   const errors = [];
   if (!/^\d{4}-\d{2}-\d{2}-[a-z0-9]+(-[a-z0-9]+)*\.md$/.test(n.fitxer || ''))
     errors.push('el nom del fitxer ha de ser AAAA-MM-DD-titol-curt.md (minúscules, sense accents)');
   Object.entries(CAMPS_NOTICIA).forEach(([k, d]) => validarCamp(d, n.cap?.[k], k, errors));
   for (const k of Object.keys(n.cap || {})) if (!CAMPS_NOTICIA[k]) errors.push(`camp no previst «${k}»`);
+  if (typeof n.cap?.grup_hreflang === 'string' && n.cap.grup_hreflang && !PATRO_GRUP_HREFLANG.test(n.cap.grup_hreflang))
+    errors.push('grup_hreflang: només minúscules, números i guions');
   const u = n.cap?.font_url;
   if (u && !/^https:\/\//.test(u)) errors.push('font_url: ha de començar per https://');
   const fa = n.cap?.fonts_addicionals;
@@ -516,6 +521,24 @@ export function validarNoticia(n) {
   if (/<[a-z/!]/i.test(n.cos.replace(/<!--[\s\S]*?-->/g, ''))) errors.push("cos: no s'hi pot posar HTML (fes servir Markdown)");
   if (n.cap?.estat === 'publicat' && /\[REVISAR/.test(JSON.stringify(n.cap) + n.cos))
     errors.push('té marques [REVISAR]: no es pot publicar fins que es resolguin');
+  return errors;
+}
+
+/** Comprova regles entre notícies: cap grup_hreflang pot tenir dues notícies del mateix idioma. */
+export function validarConjuntNoticies(noticies) {
+  const errors = [];
+  const grups = new Map();
+  for (const n of noticies || []) {
+    const gr = n?.cap?.grup_hreflang;
+    if (!gr) continue;
+    const lang = n.cap.idioma || 'ca';
+    const clau = `${gr}::${lang}`;
+    if (grups.has(clau)) {
+      errors.push(`actualitat/${n.fitxer}: grup_hreflang «${gr}» ja té una altra notícia en idioma «${lang}» (${grups.get(clau)})`);
+    } else {
+      grups.set(clau, n.fitxer);
+    }
+  }
   return errors;
 }
 
