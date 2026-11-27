@@ -9,7 +9,7 @@ import { paginaXarxes } from '../plantilles/xarxes.mjs';
 import { validarServeis, CAMPS_SERVEI, CAMPS_PORTADA_ES, CAMPS_COMU } from '../esquema/serveis.mjs';
 import { validarPagina, validarFaq, validarNoticia, validarLloc, ESQUEMA, CAMPS_NOTICIA, CAMPS_XARXES, validarMedia, usosDeMedia, PATRO_ID_MEDIA } from '../esquema/blocs.mjs';
 import { validarSector, CAMPS_SECTOR } from '../esquema/sectors.mjs';
-import { llegirNoticia, publicades, targeta, paginesActualitat, datesActualitatMapa } from '../plantilles/actualitat.mjs';
+import { llegirNoticia, publicades, esborranysActualitat, targeta, paginesActualitat, paginesEsborranysActualitat, datesActualitatMapa } from '../plantilles/actualitat.mjs';
 import { paginesSectors, datesSectorsMapa } from '../plantilles/sectors.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -151,14 +151,23 @@ const sectorsPublicats = sectors.filter(s => s.estat === 'publicat');
   }
 }
 // 2c. Actualitat: llistat, pàgines de les notícies amb cos i RSS (només si n'hi ha de publicades)
-if (noticies.length) {
-  const dades = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/serveis.json'), 'utf8'));
+if (noticies.length || (AMB_ESBORRANYS && !errors.length)) {
   const portada = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/pagines/portada.ca.json'), 'utf8'));
   const bloc = portada.blocs.find(b => b.tipus === 'actualitat');
-  for (const [rel, contingut] of paginesActualitat(lloc, dades, noticies, bloc)) {
-    fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
-    fs.writeFileSync(path.join(SORTIDA, rel), contingut);
-    if (rel.endsWith('.html')) generades++;
+  if (noticies.length) {
+    for (const [rel, contingut] of paginesActualitat(lloc, dadesServeis, noticies, bloc)) {
+      fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
+      fs.writeFileSync(path.join(SORTIDA, rel), contingut);
+      if (rel.endsWith('.html')) generades++;
+    }
+  }
+  if (AMB_ESBORRANYS && !errors.length) {
+    const esb = esborranysActualitat(totes);
+    for (const [rel, contingut] of paginesEsborranysActualitat(lloc, dadesServeis, esb, bloc)) {
+      fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
+      fs.writeFileSync(path.join(SORTIDA, rel), contingut);
+      if (rel.endsWith('.html')) generades++;
+    }
   }
 }
 // 2d. Pàgines de sector (WEB-G01): contingut/sectors/<slug>.json → /sectors/<slug>/ i índex /sectors/

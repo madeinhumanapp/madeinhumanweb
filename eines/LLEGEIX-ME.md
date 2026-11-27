@@ -89,6 +89,9 @@ Notes de revisió: tot el que hi ha després d'aquesta línia no es publica mai.
 - Surten al llistat `/actualitat/`, al canal `/actualitat/rss.xml` i al mapa del lloc. A la portada, el bloc
   `actualitat` amb `"origen": "actualitat"` mostra les 3 últimes; si no n'hi ha cap de publicada, la llista manual.
 - Una notícia amb `estat: publicat` i qualsevol `[REVISAR` no deixa construir la web.
+- **Esborranys (`estat: esborrany`) amb cos:** no surten mai a producció (`npm run construir`), ni al llistat `/actualitat/`,
+  ni al RSS, ni al mapa del lloc, ni a la portada. En vistes prèvies (`CF_PAGES_BRANCH` ≠ `main`) o amb `--esborranys` es
+  genera la seva pàgina amb `noindex, nofollow` i la franja «Esborrany: pendent de validació», i un índex a `/actualitat/esborranys/`.
 - Programació: una notícia publicada amb data futura surt a la primera construcció d'aquell dia
   (`DATA_CONSTRUCCIO=AAAA-MM-DD npm run construir` simula un altre dia). Quan hi hagi panell, un cron reconstruirà
   la web cada matí (WEB-A03).

@@ -54,6 +54,12 @@ export function publicades(noticies, avui) {
     .sort((a, b) => b.cap.data.localeCompare(a.cap.data) || a.slug.localeCompare(b.slug));
 }
 
+/** Esborranys amb cos, de la data més nova a la més antiga (només per a vistes prèvies / --esborranys). */
+export function esborranysActualitat(noticies) {
+  return noticies.filter(n => n.cap.estat === 'esborrany' && teCos(n))
+    .sort((a, b) => b.cap.data.localeCompare(a.cap.data) || a.slug.localeCompare(b.slug));
+}
+
 export const teCos = n => Boolean(n.cos.trim());
 export const urlNoticia = n => `${RUTA}${n.slug}/`;
 
@@ -73,6 +79,92 @@ export function targeta(n) {
 
 // Text pla d'un camp enriquit (per a <title> i descripcions)
 const pla = s => String(s).replace(/\*\*?(.+?)\*\*?/g, '$1').replace(/\n/g, ' ');
+
+function renderArticle(n, { m, dades, bloc, altres = [], esborrany = false }) {
+  const { WEB, e } = m;
+  const c = dades.COMU.ca;
+  const k = n.cap, url = urlNoticia(n), [, tag] = ETIQUETA[k.etiqueta];
+  const rss = `  <link rel="alternate" type="application/rss+xml" title="Madeinhuman · ${e(bloc.etiqueta)}" href="${WEB}${RUTA}rss.xml" />\n`;
+  const cta = `      <aside class="pagina-cta">
+        <h2>${e(c.cta_titol)}</h2>
+        <p>${e(c.cta_text)}</p>
+        <div class="pagina-cta-botons">
+          <a class="btn btn-primary" href="${c.cta_1[1]}">${e(c.cta_1[0])}</a>
+          <a class="btn btn-ghost" href="${c.cta_2[1]}">${e(c.cta_2[0])}</a>
+        </div>
+      </aside>
+`;
+  const fontsExtres = k.fonts_addicionals ? k.fonts_addicionals.split('|').map(s => s.trim()).filter(Boolean) : [];
+  const cites = fontsExtres.length ? [...new Set([...(k.font_url ? [k.font_url] : []), ...fontsExtres])] : [];
+  const descSeo = k.meta_descripcio || k.resum;
+  const ld = { '@context': 'https://schema.org', '@graph': [
+    m.empresa_ld(),
+    { '@type': k.tipus_article === 'guia' ? 'Article' : 'NewsArticle', headline: k.titol, description: k.resum,
+      datePublished: k.data, dateModified: k.data_revisio || k.data, inLanguage: 'ca',
+      url: WEB + url, mainEntityOfPage: WEB + url, image: `${WEB}/og-image.png`,
+      author: { '@id': `${WEB}/#empresa` }, publisher: { '@id': `${WEB}/#empresa` },
+      ...(k.font_url ? { isBasedOn: k.font_url } : {}),
+      ...(cites.length ? { citation: cites } : {}) },
+    { '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: c.inici, item: WEB + c.home },
+      { '@type': 'ListItem', position: 2, name: bloc.etiqueta, item: WEB + RUTA },
+      { '@type': 'ListItem', position: 3, name: k.titol, item: WEB + url }] },
+  ] };
+  const revisio = k.data_revisio
+    ? `      <p class="noticia-revisio">Darrera revisió jurídica: <time datetime="${e(k.data_revisio)}">${dataLlarga(k.data_revisio)}</time> · ${e(k.revisat_per || REVISAT_PER_DEFECTE)}</p>
+` : '';
+  // Bloc «Fonts» si hi ha fonts_addicionals; si només hi ha font_url, es manté la línia «Font: …» d'ara
+  const font = fontsExtres.length
+    ? `      <section class="noticia-fonts" aria-label="Fonts">
+        <h2>Fonts</h2>
+        <ul>
+${cites.map((u, idx) => (idx === 0 && k.font_url && u === k.font_url
+    ? `          <li><a href="${e(u)}" target="_blank" rel="noopener">${e(k.font_nom)}</a>${k.data_font ? `, ${dataLlarga(k.data_font)}` : ''}</li>`
+    : `          <li><a href="${e(u)}" target="_blank" rel="noopener">${e(u)}</a></li>`)).join('\n')}
+        </ul>
+      </section>
+`
+    : (!k.font_url || n.cos.includes(`](${k.font_url})`) ? '' : `      <p class="noticia-font">Font: <a href="${e(k.font_url)}" target="_blank" rel="noopener">${e(k.font_nom)}</a>${k.data_font ? `, ${dataLlarga(k.data_font)}` : ''}</p>
+`);
+  const servei = k.servei_relacionat ? `      <p class="noticia-servei">Et pot interessar: <a href="${m.url_servei('ca', k.servei_relacionat)}">${e(dades.PAGINES[k.servei_relacionat].ca.curt)}</a></p>
+` : '';
+  const ctaArticle = k.cta_desti ? (() => {
+    const desti = k.cta_desti === 'diagnostic' ? '/diagnostic'
+      : k.cta_desti === 'contacte' ? '/#contacte'
+      : m.url_servei('ca', k.servei_relacionat);
+    const textBoto = k.cta_text || CTA_TEXT_DEFECTE[k.cta_desti];
+    return `      <aside class="noticia-cta">
+        <h2>${e(c.cta_titol)}</h2>
+        <a class="btn btn-primary" href="${desti}">${e(textBoto)}</a>
+      </aside>
+`;
+  })() : cta;
+  const molles = esborrany
+    ? `      <nav class="molles" aria-label="Ruta"><a href="${c.home}">${e(c.inici)}</a> › <a href="${RUTA}">${e(bloc.etiqueta)}</a> › <a href="${RUTA}esborranys/">Esborranys</a> › <span aria-current="page">${e(k.titol)}</span></nav>`
+    : `      <nav class="molles" aria-label="Ruta"><a href="${c.home}">${e(c.inici)}</a> › <a href="${RUTA}">${e(bloc.etiqueta)}</a> › <span aria-current="page">${e(k.titol)}</span></nav>`;
+  const franja = esborrany ? '      <p class="sector-esborrany" role="note">Esborrany: pendent de validació</p>\n' : '';
+  return m.cap('ca', `${k.titol} · Madeinhuman`, descSeo, url, [['ca', url], ['x-default', url]], ld, {
+    ogType: 'article', comentari: false,
+    ...(esborrany ? { robots: 'noindex, nofollow' } : {}),
+    capExtra: rss + `  <meta property="article:published_time" content="${k.data}" />\n`,
+  })
+    + m.nav('ca', '/es/') + `  <main class="pagina">
+    <div class="container pagina-contingut legal-content">
+${molles}
+${franja}      <span class="eyebrow">${e(tag)} · <time datetime="${k.data}">${dataLlarga(k.data)}</time></span>
+      <h1 class="section-title pagina-h1">${e(k.titol)}</h1>
+${revisio}      <p class="pagina-lede">${e(k.resum)}</p>
+      <article class="noticia-cos">
+${markdown(n.cos)}
+      </article>
+${font}${servei}${ctaArticle}${altres.length ? `      <nav class="pagina-seccio" aria-label="Més notícies">
+        <h2>Més notícies</h2>
+        <ul class="pagina-altres">${altres.map(x => `<li><a href="${teCos(x) ? urlNoticia(x) : RUTA}">${e(x.cap.titol)}</a></li>`).join('')}</ul>
+      </nav>
+` : ''}    </div>
+  </main>
+` + m.peu('ca');
+}
 
 /** → [[ruta relativa, contingut], …]: llistat, una pàgina per notícia amb cos i rss.xml */
 export function paginesActualitat(lloc, dades, noticies, bloc) {
@@ -131,72 +223,8 @@ ${cta}    </div>
 
   // Una pàgina per notícia amb cos
   for (const n of noticies.filter(teCos)) {
-    const k = n.cap, url = urlNoticia(n), [, tag] = ETIQUETA[k.etiqueta];
-    const fontsExtres = k.fonts_addicionals ? k.fonts_addicionals.split('|').map(s => s.trim()).filter(Boolean) : [];
-    const cites = fontsExtres.length ? [...new Set([...(k.font_url ? [k.font_url] : []), ...fontsExtres])] : [];
-    const descSeo = k.meta_descripcio || k.resum;
-    const ld = { '@context': 'https://schema.org', '@graph': [
-      m.empresa_ld(),
-      { '@type': k.tipus_article === 'guia' ? 'Article' : 'NewsArticle', headline: k.titol, description: k.resum,
-        datePublished: k.data, dateModified: k.data_revisio || k.data, inLanguage: 'ca',
-        url: WEB + url, mainEntityOfPage: WEB + url, image: `${WEB}/og-image.png`,
-        author: { '@id': `${WEB}/#empresa` }, publisher: { '@id': `${WEB}/#empresa` },
-        ...(k.font_url ? { isBasedOn: k.font_url } : {}),
-        ...(cites.length ? { citation: cites } : {}) },
-      { '@type': 'BreadcrumbList', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: c.inici, item: WEB + c.home },
-        { '@type': 'ListItem', position: 2, name: bloc.etiqueta, item: WEB + RUTA },
-        { '@type': 'ListItem', position: 3, name: k.titol, item: WEB + url }] },
-    ] };
-    const revisio = k.data_revisio
-      ? `      <p class="noticia-revisio">Darrera revisió jurídica: <time datetime="${e(k.data_revisio)}">${dataLlarga(k.data_revisio)}</time> · ${e(k.revisat_per || REVISAT_PER_DEFECTE)}</p>
-` : '';
-    // Bloc «Fonts» si hi ha fonts_addicionals; si només hi ha font_url, es manté la línia «Font: …» d'ara
-    const font = fontsExtres.length
-      ? `      <section class="noticia-fonts" aria-label="Fonts">
-        <h2>Fonts</h2>
-        <ul>
-${cites.map((u, idx) => (idx === 0 && k.font_url && u === k.font_url
-    ? `          <li><a href="${e(u)}" target="_blank" rel="noopener">${e(k.font_nom)}</a>${k.data_font ? `, ${dataLlarga(k.data_font)}` : ''}</li>`
-    : `          <li><a href="${e(u)}" target="_blank" rel="noopener">${e(u)}</a></li>`)).join('\n')}
-        </ul>
-      </section>
-`
-      : (n.cos.includes(`](${k.font_url})`) ? '' : `      <p class="noticia-font">Font: <a href="${e(k.font_url)}" target="_blank" rel="noopener">${e(k.font_nom)}</a>${k.data_font ? `, ${dataLlarga(k.data_font)}` : ''}</p>
-`);
-    const servei = k.servei_relacionat ? `      <p class="noticia-servei">Et pot interessar: <a href="${m.url_servei('ca', k.servei_relacionat)}">${e(dades.PAGINES[k.servei_relacionat].ca.curt)}</a></p>
-` : '';
-    const ctaArticle = k.cta_desti ? (() => {
-      const desti = k.cta_desti === 'diagnostic' ? '/diagnostic'
-        : k.cta_desti === 'contacte' ? '/#contacte'
-        : m.url_servei('ca', k.servei_relacionat);
-      const textBoto = k.cta_text || CTA_TEXT_DEFECTE[k.cta_desti];
-      return `      <aside class="noticia-cta">
-        <h2>${e(c.cta_titol)}</h2>
-        <a class="btn btn-primary" href="${desti}">${e(textBoto)}</a>
-      </aside>
-`;
-    })() : cta;
     const altres = noticies.filter(x => x !== n).slice(0, 3);
-    out.push([`${url.slice(1)}index.html`,
-      m.cap('ca', `${k.titol} · Madeinhuman`, descSeo, url, [['ca', url], ['x-default', url]], ld, { ogType: 'article', comentari: false,
-        capExtra: rss + `  <meta property="article:published_time" content="${k.data}" />\n` })
-      + m.nav('ca', '/es/') + `  <main class="pagina">
-    <div class="container pagina-contingut legal-content">
-${molles(k.titol, true)}
-      <span class="eyebrow">${e(tag)} · <time datetime="${k.data}">${dataLlarga(k.data)}</time></span>
-      <h1 class="section-title pagina-h1">${e(k.titol)}</h1>
-${revisio}      <p class="pagina-lede">${e(k.resum)}</p>
-      <article class="noticia-cos">
-${markdown(n.cos)}
-      </article>
-${font}${servei}${ctaArticle}${altres.length ? `      <nav class="pagina-seccio" aria-label="Més notícies">
-        <h2>Més notícies</h2>
-        <ul class="pagina-altres">${altres.map(x => `<li><a href="${teCos(x) ? urlNoticia(x) : RUTA}">${e(x.cap.titol)}</a></li>`).join('')}</ul>
-      </nav>
-` : ''}    </div>
-  </main>
-` + m.peu('ca')]);
+    out.push([`${urlNoticia(n).slice(1)}index.html`, renderArticle(n, { m, dades, bloc, altres, esborrany: false })]);
   }
 
   // Canal RSS
@@ -223,6 +251,45 @@ ${noticies.map(n => {
   </channel>
 </rss>
 `]);
+  return out;
+}
+
+/** Pàgines d'esborrany d'actualitat (només vistes prèvies / --esborranys): /actualitat/esborranys/ i cada esborrany amb cos. */
+export function paginesEsborranysActualitat(lloc, dades, llistaEsborranys, bloc) {
+  if (!llistaEsborranys.length) return [];
+  const m = marcInterior(lloc, dades);
+  const { WEB, e } = m;
+  const c = dades.COMU.ca;
+  const rutaIndex = `${RUTA}esborranys/`;
+  const ldIndex = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'CollectionPage', name: 'Esborranys d\'actualitat', url: WEB + rutaIndex, inLanguage: 'ca', publisher: { '@id': `${WEB}/#empresa` } },
+      { '@type': 'BreadcrumbList', itemListElement: [
+        { '@type': 'ListItem', position: 1, name: c.inici, item: WEB + c.home },
+        { '@type': 'ListItem', position: 2, name: bloc.etiqueta, item: WEB + RUTA },
+        { '@type': 'ListItem', position: 3, name: 'Esborranys', item: WEB + rutaIndex },
+      ] },
+    ],
+  };
+  const items = llistaEsborranys.map(n => `<li><a href="${urlNoticia(n)}"><strong>${e(n.cap.titol)}</strong><span>${e(n.cap.resum)}</span></a></li>`).join('');
+  const out = [[`${rutaIndex.slice(1)}index.html`,
+    m.cap('ca', 'Esborranys d\'actualitat · Madeinhuman', 'Esborranys d\'articles i notícies pendents de validació.', rutaIndex,
+      [['ca', rutaIndex], ['x-default', rutaIndex]], ldIndex, { comentari: false, robots: 'noindex, nofollow' })
+    + m.nav('ca', '/es/') + `  <main class="pagina">
+    <div class="container pagina-contingut legal-content">
+      <nav class="molles" aria-label="Ruta"><a href="${c.home}">${e(c.inici)}</a> › <a href="${RUTA}">${e(bloc.etiqueta)}</a> › <span aria-current="page">Esborranys</span></nav>
+      <p class="sector-esborrany" role="note">Esborrany: pendent de validació</p>
+      <span class="eyebrow">Vista prèvia · Esborranys</span>
+      <h1 class="section-title pagina-h1">Esborranys pendents de validació</h1>
+      <p class="pagina-lede">Aquesta llista només es genera a les vistes prèvies i no es publica mai a producció.</p>
+      <ul class="pagina-serveis">${items}</ul>
+    </div>
+  </main>
+` + m.peu('ca')]];
+  for (const n of llistaEsborranys) {
+    out.push([`${urlNoticia(n).slice(1)}index.html`, renderArticle(n, { m, dades, bloc, altres: [], esborrany: true })]);
+  }
   return out;
 }
 
