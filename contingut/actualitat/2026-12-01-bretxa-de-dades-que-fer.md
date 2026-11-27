@@ -13,6 +13,7 @@ servei_relacionat: adequacio
 cta_desti: diagnostic
 estat: esborrany
 idioma: ca
+grup_hreflang: bretxa-de-dades-que-fer
 ---
 
 > Una bretxa de dades personals és qualsevol incident de seguretat que provoca la destrucció, pèrdua, alteració o comunicació no autoritzada de dades. Si passa a la vostra empresa, normalment cal contenir l'incident, documentar-lo, valorar el risc per a les persones afectades i comprovar si s'ha de notificar a l'autoritat de control i als afectats.

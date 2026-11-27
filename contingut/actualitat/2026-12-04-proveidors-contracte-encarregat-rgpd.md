@@ -13,6 +13,7 @@ servei_relacionat: adequacio
 cta_desti: diagnostic
 estat: esborrany
 idioma: ca
+grup_hreflang: proveidors-contracte-encarregat-rgpd
 ---
 
 > Quan contracteu un proveïdor que accedeix a dades personals per prestar-vos un servei —com una gestoria, un programari al núvol o un suport informàtic—, l'article 28 del RGPD exigeix regular la relació amb un contracte d'encarregat del tractament. Sense aquest contracte i sense verificar garanties mínimes, la responsabilitat recau sobre la vostra empresa.

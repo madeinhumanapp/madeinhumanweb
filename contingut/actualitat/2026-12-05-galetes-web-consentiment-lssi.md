@@ -13,6 +13,7 @@ servei_relacionat: web
 cta_desti: diagnostic
 estat: esborrany
 idioma: ca
+grup_hreflang: galetes-web-consentiment-lssi
 ---
 
 > Abans de carregar galetes no necessàries —com analítica de tercers, píxels publicitaris o mapes integrats—, l'article 22.2 de la LSSI-CE exigeix informar clarament la persona usuària i obtenir-ne el consentiment previ. Si la vostra web només fa servir galetes estrictament tècniques, normalment no cal bàner de consentiment, però sí una política clara.
