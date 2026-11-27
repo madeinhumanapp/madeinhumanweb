@@ -2014,3 +2014,149 @@ section.block.crida-linia { padding: 40px 0; }
 @media (max-width: 767px) {
   .sector-faq-item { padding: 16px 18px; }
 }
+
+/* ===== Vistes prèvies: marques [REVISAR] ressaltades i taula de validació (WEB-G04a) ===== */
+mark.revisar {
+  display: inline;
+  padding: 1px 6px;
+  border: 1px solid var(--ambre);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--ambre) 16%, transparent);
+  color: var(--ambre-clar);
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  line-height: 1.5;
+  scroll-margin-top: 96px;
+}
+.revisar-caixa {
+  margin-top: 40px;
+  padding: 24px;
+  border: 1px solid var(--ambre);
+  border-left-width: 4px;
+  border-radius: 14px;
+  background: var(--bg-card);
+}
+.legal-content .revisar-caixa h2 {
+  margin-top: 0;
+  margin-bottom: 14px;
+  font-size: 20px;
+  color: var(--ambre-clar);
+}
+.revisar-caixa ol {
+  margin: 0;
+  padding-left: 22px;
+  display: grid;
+  gap: 10px;
+}
+.revisar-caixa li {
+  color: var(--gris-clar);
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+.revisar-caixa a {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ambre-clar);
+  margin-right: 6px;
+}
+.esborranys-resum {
+  margin: 0 0 24px;
+  padding: 14px 18px;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  background: var(--bg-card);
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  color: var(--gris-clar);
+}
+.esborranys-resum strong { color: var(--crema); }
+.esborranys-taula-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-card);
+}
+.esborranys-taula {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+.esborranys-taula th,
+.esborranys-taula td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.esborranys-taula th {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gris-clar);
+  background: var(--bg-elev);
+  white-space: nowrap;
+}
+.esborranys-taula tr:last-child td { border-bottom: 0; }
+.esborranys-taula td a { color: var(--daurat-clar); }
+.esborranys-taula .esborranys-marques {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--ambre-clar);
+  white-space: nowrap;
+}
+.esborranys-taula .esborranys-marques-zero { color: var(--verd-clar); }
+.esborranys-taula code {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--gris-clar);
+  word-break: break-word;
+}
+@media (max-width: 767px) {
+  .revisar-caixa { padding: 18px; }
+  .esborranys-taula th,
+  .esborranys-taula td { padding: 10px; font-size: 13.5px; }
+}
+
+/* ===== Guies d'actualitat: temps de lectura i índex de continguts (WEB-G04b) ===== */
+.guia-lectura {
+  margin: -6px 0 20px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  color: var(--gris-clar);
+}
+.guia-index {
+  margin: 0 0 32px;
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--daurat);
+  border-radius: 0 12px 12px 0;
+  background: var(--bg-card);
+}
+.legal-content .guia-index h2 {
+  margin: 0 0 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--daurat);
+}
+.guia-index ol {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 8px;
+}
+.guia-index li { font-size: 15px; line-height: 1.5; }
+.guia-index a { color: var(--crema); }
+.guia-index a:hover { color: var(--daurat-clar); }
+.noticia-cos h2[id] { scroll-margin-top: 96px; }
+@media (max-width: 767px) {
+  .guia-index { padding: 16px 18px; }
+}
+
+

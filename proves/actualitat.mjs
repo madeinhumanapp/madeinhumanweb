@@ -31,11 +31,13 @@ const NOTICIES = {
 };
 const dir = path.join(TMP, 'actualitat');
 fs.mkdirSync(dir);
+const dirSectorsBuit = path.join(TMP, 'sectors-buit');
+fs.mkdirSync(dirSectorsBuit);
 for (const [f, t] of Object.entries(NOTICIES)) fs.writeFileSync(path.join(dir, f), t);
 
 const construir = (env, sortida) => {
   try {
-    return { ok: true, sortida: execFileSync('node', ['eines/construir.mjs', '--sortida', sortida], { cwd: ARREL, env: { ...process.env, ...env }, encoding: 'utf8', stdio: 'pipe' }) };
+    return { ok: true, sortida: execFileSync('node', ['eines/construir.mjs', '--sortida', sortida], { cwd: ARREL, env: { ...process.env, DIR_SECTORS: dirSectorsBuit, ...env }, encoding: 'utf8', stdio: 'pipe' }) };
   } catch (e) { return { ok: false, sortida: String(e.stderr) + String(e.stdout) }; }
 };
 
@@ -184,7 +186,7 @@ ok('article amb valors per defecte: text de revisió i botons de diagnòstic i c
 const construirAmb = (env, sortida, extraArgs = []) => {
   try {
     return { ok: true, sortida: execFileSync('node', ['eines/construir.mjs', '--sortida', sortida, ...extraArgs],
-      { cwd: ARREL, env: { ...process.env, CF_PAGES_BRANCH: '', ...env }, encoding: 'utf8', stdio: 'pipe' }) };
+      { cwd: ARREL, env: { ...process.env, CF_PAGES_BRANCH: '', DIR_SECTORS: dirSectorsBuit, ...env }, encoding: 'utf8', stdio: 'pipe' }) };
   } catch (e) { return { ok: false, sortida: String(e.stderr) + String(e.stdout) }; }
 };
 ok('producció: no genera ni /actualitat/esborranys/ ni la pàgina de l\'esborrany',
@@ -207,7 +209,8 @@ ok('--esborranys genera /actualitat/esborranys/ amb noindex, franja i enllaç no
 ok('--esborranys genera la pàgina de l\'esborrany amb noindex, nofollow i franja visible',
   pagEsb.includes('<meta name="robots" content="noindex, nofollow" />')
   && pagEsb.includes('Esborrany: pendent de validació')
-  && pagEsb.includes('Text amb [REVISAR].'));
+  && pagEsb.includes('<mark class="revisar" id="revisar-1">[REVISAR: data]</mark>')
+  && pagEsb.includes('Text amb <mark class="revisar" id="revisar-2">[REVISAR]</mark>.'));
 ok('--esborranys manté els esborranys fora de /actualitat/, RSS, mapa del lloc i portada',
   !fs.readFileSync(path.join(outDraft, 'actualitat/index.html'), 'utf8').includes('Esborrany')
   && !fs.readFileSync(path.join(outDraft, 'actualitat/rss.xml'), 'utf8').includes('Esborrany')
@@ -225,6 +228,203 @@ const rCfMain = construirAmb({ DIR_ACTUALITAT: dir, DATA_CONSTRUCCIO: '2026-06-0
 ok('CF_PAGES_BRANCH=main NO genera esborranys d\'actualitat',
   rCfMain.ok && !fs.existsSync(path.join(outCfMain, 'actualitat/esborranys/index.html'))
   && !fs.existsSync(path.join(outCfMain, 'actualitat/esborrany/index.html')));
+
+// 7. Actualitat en castellà, grup_hreflang, índex de continguts i temps de lectura a les guies (WEB-G04b)
+const dirBil = path.join(TMP, 'actualitat-bilingue');
+fs.mkdirSync(dirBil);
+const cosLlarg = (prefix, paraulesExtra = 240) => [
+  `## ${prefix} què és`,
+  'Text introductori ' + Array.from({ length: paraulesExtra }, () => 'paraula').join(' ') + '.',
+  `## ${prefix} què és`,
+  'Segona secció amb el mateix títol per comprovar ids únics.',
+  `## ${prefix} passos amb accent i l·l`,
+  '1. Primer pas.\n2. Segon pas.',
+].join('\n\n');
+
+fs.writeFileSync(path.join(dirBil, '2026-05-01-guia-ca.md'), cap({
+  titol: '"Guia catalana de prova"',
+  resum: '"Resum català."',
+  data: '2026-05-01',
+  data_revisio: '2026-05-10',
+  etiqueta: 'rgpd',
+  tipus_article: 'guia',
+  font_nom: '"RGPD"',
+  font_url: '"https://eur-lex.europa.eu/eli/reg/2016/679/oj"',
+  fonts_addicionals: '"https://www.aepd.es/"',
+  servei_relacionat: 'dpo',
+  cta_desti: 'servei',
+  estat: 'publicat',
+  idioma: 'ca',
+  grup_hreflang: 'guia-prova',
+}) + '\n' + cosLlarg('Català', 240) + '\n');
+
+fs.writeFileSync(path.join(dirBil, '2026-05-02-guia-es.md'), cap({
+  titol: '"Guía española de prueba"',
+  resum: '"Resumen en español."',
+  data: '2026-05-02',
+  data_revisio: '2026-05-12',
+  etiqueta: 'rgpd',
+  tipus_article: 'guia',
+  font_nom: '"RGPD"',
+  font_url: '"https://eur-lex.europa.eu/eli/reg/2016/679/oj"',
+  fonts_addicionals: '"https://www.aepd.es/"',
+  servei_relacionat: 'dpo',
+  cta_desti: 'contacte',
+  estat: 'publicat',
+  idioma: 'es',
+  grup_hreflang: 'guia-prova',
+}) + '\n' + cosLlarg('Español', 450) + '\n');
+
+fs.writeFileSync(path.join(dirBil, '2026-05-03-noticia-es.md'), cap({
+  titol: '"Noticia en castellano"',
+  resum: '"Resumen noticia ES."',
+  data: '2026-05-03',
+  etiqueta: 'ia',
+  tipus_article: 'noticia',
+  font_nom: '"AEPD"',
+  font_url: '"https://www.aepd.es/"',
+  estat: 'publicat',
+  idioma: 'es',
+}) + '\n## Primera\n\nText.\n\n## Segona\n\nText.\n\n## Tercera\n\nText.\n');
+
+fs.writeFileSync(path.join(dirBil, '2026-05-04-borrador-es.md'), cap({
+  titol: '"Borrador en español"',
+  resum: '"Resumen borrador ES."',
+  data: '2026-05-04',
+  etiqueta: 'rgpd',
+  tipus_article: 'guia',
+  font_nom: '"AEPD"',
+  font_url: '"https://www.aepd.es/"',
+  estat: 'esborrany',
+  idioma: 'es',
+  grup_hreflang: 'solo-es-borrador',
+}) + '\n## Paso uno\n\nTexto con [REVISAR: confirmar].\n');
+
+const outBil = path.join(TMP, 'dist-bilingue');
+const rBil = construirAmb({ DIR_ACTUALITAT: dirBil, DATA_CONSTRUCCIO: '2026-06-01' }, outBil, ['--esborranys']);
+ok('actualitat bilingüe (ca + es) construeix sense errors', rBil.ok, rBil.sortida);
+
+const llistatCa = fs.readFileSync(path.join(outBil, 'actualitat/index.html'), 'utf8');
+const llistatEs = fs.readFileSync(path.join(outBil, 'es/actualidad/index.html'), 'utf8');
+const rssCa = fs.readFileSync(path.join(outBil, 'actualitat/rss.xml'), 'utf8');
+const rssEs = fs.readFileSync(path.join(outBil, 'es/actualidad/rss.xml'), 'utf8');
+const portadaBil = fs.readFileSync(path.join(outBil, 'index.html'), 'utf8');
+
+ok('llistat i RSS separats per idioma (es no surt a ca ni a portada ca, i viceversa)',
+  llistatCa.includes('Guia catalana de prova') && !llistatCa.includes('Guía española de prueba') && !llistatCa.includes('Borrador en español')
+  && llistatEs.includes('<html lang="es">') && llistatEs.includes('Guía española de prueba') && llistatEs.includes('Noticia en castellano')
+  && !llistatEs.includes('Guia catalana de prova') && !llistatEs.includes('Borrador en español')
+  && rssCa.includes('Guia catalana de prova') && !rssCa.includes('Guía española de prueba')
+  && rssEs.includes('<language>es</language>') && rssEs.includes('Guía española de prueba') && !rssEs.includes('Guia catalana de prova')
+  && portadaBil.includes('Guia catalana de prova') && !portadaBil.includes('Guía española de prueba'));
+
+ok('llistats /actualitat/ i /es/actualidad/ tenen hreflang recíproc',
+  llistatCa.includes('<link rel="alternate" hreflang="es" href="https://madeinhuman.cat/es/actualidad/" />')
+  && llistatEs.includes('<link rel="alternate" hreflang="ca" href="https://madeinhuman.cat/actualitat/" />')
+  && llistatEs.includes('<link rel="alternate" hreflang="x-default" href="https://madeinhuman.cat/actualitat/" />'));
+
+const htmlGuiaCa = fs.readFileSync(path.join(outBil, 'actualitat/guia-ca/index.html'), 'utf8');
+const htmlGuiaEs = fs.readFileSync(path.join(outBil, 'es/actualidad/guia-es/index.html'), 'utf8');
+const htmlNotEs = fs.readFileSync(path.join(outBil, 'es/actualidad/noticia-es/index.html'), 'utf8');
+const htmlBorrEs = fs.readFileSync(path.join(outBil, 'es/actualidad/borrador-es/index.html'), 'utf8');
+
+ok('guia en castellà: lang="es", molles Inicio › Actualidad, textos fixos, /es/servicios/ i /es/#contacto',
+  htmlGuiaEs.includes('<html lang="es">')
+  && htmlGuiaEs.includes('<a href="/es/">Inicio</a> › <a href="/es/actualidad/">Actualidad</a>')
+  && htmlGuiaEs.includes('Última revisión jurídica: <time datetime="2026-05-12">12 de mayo de 2026</time>')
+  && htmlGuiaEs.includes('<h2>Fuentes</h2>')
+  && htmlGuiaEs.includes('Te puede interesar: <a href="/es/servicios/dpo-externo/">DPO externo</a>')
+  && htmlGuiaEs.includes('href="/es/#contacto">Habla con nosotros</a>')
+  && htmlGuiaEs.includes('<h2>Más noticias</h2>'));
+
+ok('hreflang recíproc ca ↔ es i x-default → catalana entre guies del mateix grup_hreflang',
+  htmlGuiaCa.includes('<link rel="alternate" hreflang="es" href="https://madeinhuman.cat/es/actualidad/guia-es/" />')
+  && htmlGuiaCa.includes('<link rel="alternate" hreflang="x-default" href="https://madeinhuman.cat/actualitat/guia-ca/" />')
+  && htmlGuiaEs.includes('<link rel="alternate" hreflang="ca" href="https://madeinhuman.cat/actualitat/guia-ca/" />')
+  && htmlGuiaEs.includes('<link rel="alternate" hreflang="es" href="https://madeinhuman.cat/es/actualidad/guia-es/" />')
+  && htmlGuiaEs.includes('<link rel="alternate" hreflang="x-default" href="https://madeinhuman.cat/actualitat/guia-ca/" />'));
+
+ok('guies mostren temps de lectura, índex («En aquesta guia» / «En esta guía») i ids únics als h2',
+  htmlGuiaCa.includes('<p class="guia-lectura">2 min de lectura</p>')
+  && htmlGuiaCa.includes('<h2>En aquesta guia</h2>')
+  && htmlGuiaCa.includes('<h2 id="catala-que-es">')
+  && htmlGuiaCa.includes('<h2 id="catala-que-es-2">')
+  && htmlGuiaCa.includes('<h2 id="catala-passos-amb-accent-i-ll">')
+  && htmlGuiaEs.includes('<p class="guia-lectura">3 min de lectura</p>')
+  && htmlGuiaEs.includes('<h2>En esta guía</h2>')
+  && htmlGuiaEs.includes('<h2 id="espanol-que-es">')
+  && htmlGuiaEs.includes('<h2 id="espanol-que-es-2">'));
+
+ok('notícia (no guia) NO porta temps de lectura, ni índex de continguts ni ids als h2',
+  !htmlNotEs.includes('guia-lectura') && !htmlNotEs.includes('guia-index') && !htmlNotEs.includes('<h2 id='));
+
+ok('esborrany en castellà: franja «Borrador: pendiente de validación», noindex i sense índex (< 3 h2)',
+  htmlBorrEs.includes('<meta name="robots" content="noindex, nofollow" />')
+  && htmlBorrEs.includes('Borrador: pendiente de validación')
+  && !htmlBorrEs.includes('guia-index')
+  && htmlBorrEs.includes('<p class="guia-lectura">1 min de lectura</p>')
+  && htmlBorrEs.includes('<mark class="revisar" id="revisar-1">[REVISAR: confirmar]</mark>'));
+
+// Validació de grup_hreflang duplicat en el mateix idioma
+const dirDupAct = path.join(TMP, 'actualitat-dup');
+fs.mkdirSync(dirDupAct);
+fs.writeFileSync(path.join(dirDupAct, '2026-05-01-una.md'), cap({ titol: '"Una"', ...base, data: '2026-05-01', grup_hreflang: 'mateix-grup' }) + '\nCos.\n');
+fs.writeFileSync(path.join(dirDupAct, '2026-05-02-dues.md'), cap({ titol: '"Dues"', ...base, data: '2026-05-02', grup_hreflang: 'mateix-grup' }) + '\nCos.\n');
+const rDupAct = construirAmb({ DIR_ACTUALITAT: dirDupAct, DATA_CONSTRUCCIO: '2026-06-01' }, path.join(TMP, 'dist-dup-act'));
+ok('rebutja dues notícies amb el mateix grup_hreflang i idioma', !rDupAct.ok && /grup_hreflang/.test(rDupAct.sortida), rDupAct.sortida.slice(0, 200));
+
+// 8. Reciprocitat guia ↔ sector: «Sectors on s'aplica» / «Sectores donde se aplica» (WEB-G04d)
+const dirSecRec = path.join(TMP, 'sectors-reciproc');
+fs.mkdirSync(dirSecRec);
+const secBaseRec = {
+  slug: 'cliniques-rec',
+  idioma: 'ca',
+  estat: 'publicat',
+  sector: 'salut',
+  titol_seo: 'RGPD clíniques · Madeinhuman',
+  descripcio: 'Descripció.',
+  h1: 'Clíniques de prova',
+  entradeta: 'Entradeta.',
+  capsula: 'Càpsula de prova.',
+  seccions: [
+    { titol: 'Primera pregunta?', cos: 'Text.' },
+    { titol: 'Segona pregunta?', cos: 'Text.' },
+  ],
+  documents: ['Doc'],
+  faq: [{ pregunta: 'P?', resposta: 'R.' }],
+  servei_relacionat: 'dpo',
+  articles_relacionats: ['guia-ca'],
+  cta_desti: 'diagnostic',
+  fonts: [{ nom: 'RGPD', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj' }],
+};
+fs.writeFileSync(path.join(dirSecRec, 'cliniques-rec.json'), JSON.stringify(secBaseRec, null, 2));
+fs.writeFileSync(path.join(dirSecRec, 'esborrany-rec.json'), JSON.stringify({
+  ...structuredClone(secBaseRec), slug: 'esborrany-rec', estat: 'esborrany', h1: 'Sector esborrany',
+}, null, 2));
+fs.writeFileSync(path.join(dirSecRec, 'clinicas-rec-es.json'), JSON.stringify({
+  ...structuredClone(secBaseRec), slug: 'clinicas-rec-es', idioma: 'es', h1: 'Clínicas de prueba', articles_relacionats: ['guia-es'],
+}, null, 2));
+
+const outRecProd = path.join(TMP, 'dist-rec-prod');
+const rRecProd = construirAmb({ DIR_ACTUALITAT: dirBil, DIR_SECTORS: dirSecRec, DATA_CONSTRUCCIO: '2026-06-01' }, outRecProd);
+const gCaRec = fs.readFileSync(path.join(outRecProd, 'actualitat/guia-ca/index.html'), 'utf8');
+const gEsRec = fs.readFileSync(path.join(outRecProd, 'es/actualidad/guia-es/index.html'), 'utf8');
+const nEsRec = fs.readFileSync(path.join(outRecProd, 'es/actualidad/noticia-es/index.html'), 'utf8');
+ok('guies mostren «Sectors on s\'aplica» / «Sectores donde se aplica» només amb sectors visibles del mateix idioma',
+  rRecProd.ok
+  && gCaRec.includes('<h2>Sectors on s&#x27;aplica</h2>')
+  && gCaRec.includes('href="/sectors/cliniques-rec/">Clíniques de prova</a>')
+  && !gCaRec.includes('esborrany-rec')
+  && !gCaRec.includes('clinicas-rec-es')
+  && gEsRec.includes('<h2>Sectores donde se aplica</h2>')
+  && gEsRec.includes('href="/es/sectores/clinicas-rec-es/">Clínicas de prueba</a>')
+  && !nEsRec.includes('Sectores donde se aplica'));
+
+const outRecDraft = path.join(TMP, 'dist-rec-draft');
+const rRecDraft = construirAmb({ DIR_ACTUALITAT: dirBil, DIR_SECTORS: dirSecRec, DATA_CONSTRUCCIO: '2026-06-01' }, outRecDraft, ['--esborranys']);
+const gCaRecDraft = fs.readFileSync(path.join(outRecDraft, 'actualitat/guia-ca/index.html'), 'utf8');
+ok('--esborranys: «Sectors on s\'aplica» inclou també sectors en esborrany visibles',
+  rRecDraft.ok && gCaRecDraft.includes('href="/sectors/esborrany-rec/">Sector esborrany</a>'));
 
 fs.rmSync(TMP, { recursive: true, force: true });
 console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions de l\'actualitat correctes');

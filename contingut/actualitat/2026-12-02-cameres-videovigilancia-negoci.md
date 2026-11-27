@@ -13,6 +13,7 @@ servei_relacionat: adequacio
 cta_desti: diagnostic
 estat: esborrany
 idioma: ca
+grup_hreflang: cameres-videovigilancia-negoci
 ---
 
 > Instal·lar càmeres de videovigilància al vostre negoci comporta tractar dades personals regulades pel RGPD i la LOPDGDD. Normalment cal verificar que la finalitat de seguretat sigui proporcionada, evitar gravar espais privats o via pública innecessàriament, posar cartells visibles, tenir informació completa disponible i respectar el termini màxim de conservació de les imatges.

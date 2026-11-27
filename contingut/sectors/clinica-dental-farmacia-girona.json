@@ -60,6 +60,11 @@
     }
   ],
   "servei_relacionat": "dpo",
+  "articles_relacionats": [
+    "proveidors-contracte-encarregat-rgpd",
+    "cameres-videovigilancia-negoci",
+    "bretxa-de-dades-que-fer"
+  ],
   "cta_desti": "diagnostic",
   "fonts": [
     {

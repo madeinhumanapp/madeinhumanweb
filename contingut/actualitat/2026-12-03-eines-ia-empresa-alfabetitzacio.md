@@ -13,6 +13,7 @@ servei_relacionat: ia
 cta_desti: diagnostic
 estat: esborrany
 idioma: ca
+grup_hreflang: eines-ia-empresa-alfabetitzacio
 ---
 
 > Molts equips ja fan servir xats d'intel·ligència artificial (IA) per redactar correus, resumir documents o preparar propostes, sovint sense normes internes. L'article 4 del Reglament europeu d'IA demana a les empreses mesures d'alfabetització en IA per al seu personal, i el RGPD obliga a controlar quines dades personals s'introdueixen en aquestes eines.

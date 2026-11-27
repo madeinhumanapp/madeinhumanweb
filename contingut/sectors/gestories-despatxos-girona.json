@@ -59,6 +59,11 @@
     }
   ],
   "servei_relacionat": "adequacio",
+  "articles_relacionats": [
+    "proveidors-contracte-encarregat-rgpd",
+    "bretxa-de-dades-que-fer",
+    "eines-ia-empresa-alfabetitzacio"
+  ],
   "cta_desti": "diagnostic",
   "fonts": [
     {

@@ -146,12 +146,13 @@ ok('cap pàgina noindex o sense canònica no és al mapa', colades.length === 0,
 
 // 4. Regla de lastmod: només /actualitat/, les notícies amb pàgina i les pàgines de sector
 const actualitat = entrades.find(e => e.loc === `${WEB}/actualitat/`);
+const esLlistat = u => u === `${WEB}/actualitat/` || u === `${WEB}/es/actualidad/`;
 ok('el llistat /actualitat/ hi és amb lastmod', Boolean(actualitat && actualitat.lastmod));
 
-const esNoticia = u => /^https:\/\/madeinhuman\.cat\/actualitat\/[^/]+\/$/.test(u);
+const esNoticia = u => /^https:\/\/madeinhuman\.cat\/(actualitat|es\/actualidad)\/[^/]+\/$/.test(u);
 // Les pàgines de sector (i els seus índexs) poden portar lastmod = data_revisio (WEB-G02)
 const esSector = loc => /^\/(es\/sectores|sectors)\//.test(loc.slice(WEB.length));
-const lastmodIndegut = entrades.filter(e => e.lastmod && e.loc !== `${WEB}/actualitat/` && !esNoticia(e.loc) && !esSector(e.loc)).map(e => e.loc);
+const lastmodIndegut = entrades.filter(e => e.lastmod && !esLlistat(e.loc) && !esNoticia(e.loc) && !esSector(e.loc)).map(e => e.loc);
 const noticiaSenseLastmod = entrades.filter(e => esNoticia(e.loc) && !e.lastmod).map(e => e.loc);
 ok('només el llistat d\'actualitat, les notícies amb pàgina i els sectors tenen lastmod',
   lastmodIndegut.length === 0 && noticiaSenseLastmod.length === 0,

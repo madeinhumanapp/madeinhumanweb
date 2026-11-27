@@ -59,6 +59,11 @@
     }
   ],
   "servei_relacionat": "dpo",
+  "articles_relacionats": [
+    "proveedores-contrato-encargado-rgpd",
+    "brecha-de-datos-que-hacer",
+    "herramientas-ia-empresa-alfabetizacion"
+  ],
   "cta_desti": "diagnostic",
   "fonts": [
     {

@@ -408,6 +408,125 @@ ok('mapa del lloc inclou /es/sectores/ i el sector publicat en castellà amb las
   && mapaBil.includes('<loc>https://madeinhuman.cat/es/sectores/</loc>\n    <lastmod>2026-07-15</lastmod>')
   && !mapaBil.includes(esborranyEs.slug));
 
+// 9. Enllaçat intern entre sectors i guies: articles_relacionats, «Guies relacionades» i «Altres sectors» (WEB-G04d)
+ok('esquema rebutja més de 4 articles_relacionats o slugs repetits',
+  amb(c => { c.articles_relacionats = ['a', 'b', 'c', 'd', 'e']; }).some(x => /com a màxim 4/.test(x))
+  && amb(c => { c.articles_relacionats = ['a', 'a']; }).some(x => /repetit/.test(x)));
+
+const dirRelAct = path.join(TMP, 'act-rel');
+fs.mkdirSync(dirRelAct);
+fs.writeFileSync(path.join(dirRelAct, '2026-05-01-guia-pub-ca.md'), `---
+titol: "Guia publicada CA"
+resum: "Resum."
+data: 2026-05-01
+etiqueta: rgpd
+tipus_article: guia
+font_nom: "RGPD"
+font_url: "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+estat: publicat
+idioma: ca
+---
+
+## Secció
+
+Cos.
+`);
+fs.writeFileSync(path.join(dirRelAct, '2026-05-02-guia-draft-ca.md'), `---
+titol: "Guia esborrany CA"
+resum: "Resum."
+data: 2026-05-02
+etiqueta: rgpd
+tipus_article: guia
+font_nom: "RGPD"
+font_url: "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+estat: esborrany
+idioma: ca
+---
+
+## Secció
+
+Cos.
+`);
+fs.writeFileSync(path.join(dirRelAct, '2026-05-03-guia-pub-es.md'), `---
+titol: "Guía publicada ES"
+resum: "Resumen."
+data: 2026-05-03
+etiqueta: rgpd
+tipus_article: guia
+font_nom: "RGPD"
+font_url: "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+estat: publicat
+idioma: es
+---
+
+## Sección
+
+Cuerpo.
+`);
+
+// Error si slug inexistent o idioma diferent
+const dirRelErr1 = path.join(TMP, 'sec-rel-err1');
+fs.mkdirSync(dirRelErr1);
+fs.writeFileSync(path.join(dirRelErr1, 'sec-inexistent.json'), JSON.stringify({
+  ...structuredClone(basePublicat), slug: 'sec-inexistent', articles_relacionats: ['no-existeix'],
+}, null, 2));
+const rRelErr1 = construir({ DIR_SECTORS: dirRelErr1, DIR_ACTUALITAT: dirRelAct, DATA_CONSTRUCCIO: '2026-06-01' }, path.join(TMP, 'dist-rel-err1'));
+ok('construir.mjs falla si articles_relacionats cita un slug inexistent', !rRelErr1.ok && /no existeix/.test(rRelErr1.sortida));
+
+const dirRelErr2 = path.join(TMP, 'sec-rel-err2');
+fs.mkdirSync(dirRelErr2);
+fs.writeFileSync(path.join(dirRelErr2, 'sec-altre-idioma.json'), JSON.stringify({
+  ...structuredClone(basePublicat), slug: 'sec-altre-idioma', articles_relacionats: ['guia-pub-es'],
+}, null, 2));
+const rRelErr2 = construir({ DIR_SECTORS: dirRelErr2, DIR_ACTUALITAT: dirRelAct, DATA_CONSTRUCCIO: '2026-06-01' }, path.join(TMP, 'dist-rel-err2'));
+ok('construir.mjs falla si articles_relacionats cita una guia d\'un altre idioma', !rRelErr2.ok && /altre idioma/.test(rRelErr2.sortida));
+
+// Construcció vàlida amb 4 sectors CA (2 salut + 2 comerc) i 1 sector ES
+const dirRelOk = path.join(TMP, 'sec-rel-ok');
+fs.mkdirSync(dirRelOk);
+const sSalut1 = { ...structuredClone(basePublicat), slug: 'a-salut-1', sector: 'salut', h1: 'Salut u', articles_relacionats: ['guia-pub-ca', 'guia-draft-ca'] };
+const sSalut2 = { ...structuredClone(basePublicat), slug: 'z-salut-2', sector: 'salut', h1: 'Salut dos', articles_relacionats: ['guia-draft-ca'] };
+const sComerc1 = { ...structuredClone(basePublicat), slug: 'b-comerc-1', sector: 'comerc', h1: 'Comerç u' };
+const sComerc2 = { ...structuredClone(basePublicat), slug: 'c-comerc-2', sector: 'comerc', h1: 'Comerç dos' };
+const sComerc3 = { ...structuredClone(basePublicat), slug: 'd-comerc-3', sector: 'comerc', h1: 'Comerç tres' };
+const sEs1 = { ...structuredClone(basePublicatEs), slug: 'es-salut-1', sector: 'salut', h1: 'Salud uno', articles_relacionats: ['guia-pub-es'] };
+delete sEs1.grup_hreflang;
+for (const s of [sSalut1, sSalut2, sComerc1, sComerc2, sComerc3, sEs1]) {
+  fs.writeFileSync(path.join(dirRelOk, `${s.slug}.json`), JSON.stringify(s, null, 2));
+}
+
+const outRelProd = path.join(TMP, 'dist-rel-prod');
+const rRelProd = construir({ DIR_SECTORS: dirRelOk, DIR_ACTUALITAT: dirRelAct, DATA_CONSTRUCCIO: '2026-06-01' }, outRelProd);
+ok('construeix enllaçat sector ↔ guia en producció sense errors', rRelProd.ok, rRelProd.sortida);
+
+const htmlS1Prod = fs.readFileSync(path.join(outRelProd, 'sectors/a-salut-1/index.html'), 'utf8');
+const htmlS2Prod = fs.readFileSync(path.join(outRelProd, 'sectors/z-salut-2/index.html'), 'utf8');
+const htmlSEsProd = fs.readFileSync(path.join(outRelProd, 'es/sectores/es-salut-1/index.html'), 'utf8');
+
+ok('producció: «Guies relacionades» mostra només guies publicades; si només hi ha esborrany, no pinta el bloc',
+  htmlS1Prod.includes('<h2>Guies relacionades</h2>')
+  && htmlS1Prod.includes('href="/actualitat/guia-pub-ca/">Guia publicada CA</a>')
+  && !htmlS1Prod.includes('guia-draft-ca')
+  && !htmlS2Prod.includes('Guies relacionades')
+  && htmlSEsProd.includes('<h2>Guías relacionadas</h2>')
+  && htmlSEsProd.includes('href="/es/actualidad/guia-pub-es/">Guía publicada ES</a>'));
+
+// «Altres sectors»: primer mateix sector (z-salut-2), després altres del mateix idioma per ordre de slug (b-comerc-1, c-comerc-2), màx 3, mai d-comerc-3 ni es-salut-1
+const blocAltres = /<h2>Altres sectors<\/h2>\s*<ul class="pagina-altres">([\s\S]*?)<\/ul>/.exec(htmlS1Prod)?.[1] || '';
+ok('«Altres sectors» prioritza el mateix sector, completa fins a 3 del mateix idioma per ordre de slug i s\'omet si és únic (ES)',
+  blocAltres.indexOf('z-salut-2') >= 0
+  && blocAltres.indexOf('z-salut-2') < blocAltres.indexOf('b-comerc-1')
+  && blocAltres.indexOf('b-comerc-1') < blocAltres.indexOf('c-comerc-2')
+  && !blocAltres.includes('d-comerc-3')
+  && !blocAltres.includes('es-salut-1')
+  && !htmlSEsProd.includes('Otros sectores'));
+
+const outRelDraft = path.join(TMP, 'dist-rel-draft');
+const rRelDraft = construir({ DIR_SECTORS: dirRelOk, DIR_ACTUALITAT: dirRelAct, DATA_CONSTRUCCIO: '2026-06-01' }, outRelDraft, ['--esborranys']);
+const htmlS2Draft = fs.readFileSync(path.join(outRelDraft, 'sectors/z-salut-2/index.html'), 'utf8');
+ok('--esborranys: «Guies relacionades» inclou també guies en esborrany visibles',
+  rRelDraft.ok && htmlS2Draft.includes('<h2>Guies relacionades</h2>') && htmlS2Draft.includes('href="/actualitat/guia-draft-ca/"'));
+
 fs.rmSync(TMP, { recursive: true, force: true });
 console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions de les pàgines de sector correctes');
 process.exit(fallades ? 1 : 0);

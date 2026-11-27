@@ -42,6 +42,11 @@ export const CAMPS_SECTOR = {
   },
   servei_relacionat: { tipus: 'seleccio', etiqueta: 'Servei relacionat', opcions: SERVEIS_NOTICIA,
     ajuda: 'Enllaç «Et pot interessar» (obligatori si cta_desti és servei)' },
+  articles_relacionats: {
+    tipus: 'llista', etiqueta: 'Guies relacionades', max: 4,
+    element: text('Slug de la guia', 80),
+    ajuda: 'Opcional: de 0 a 4 slugs de notícies o guies del mateix idioma',
+  },
   cta_desti: { tipus: 'seleccio', etiqueta: 'Crida a l\'acció (destí)', opcions: CTA_DESTI_NOTICIA, obligatori: true,
     ajuda: 'diagnostic (/diagnostic), contacte (/#contacte o /es/#contacto) o servei (el servei relacionat)' },
   cta_text: { tipus: 'text', etiqueta: 'Text del botó de crida', max: 80,
@@ -77,6 +82,18 @@ export function validarSector(s, fitxer = '') {
   if (typeof s.grup_hreflang === 'string' && s.grup_hreflang && !PATRO_SLUG_SECTOR.test(s.grup_hreflang)) {
     errors.push('grup_hreflang: només minúscules, números i guions');
   }
+  if (Array.isArray(s.articles_relacionats)) {
+    const vistos = new Set();
+    s.articles_relacionats.forEach((sl, i) => {
+      if (typeof sl !== 'string' || !PATRO_SLUG_SECTOR.test(sl)) {
+        errors.push(`articles_relacionats[${i}]: ha de ser un slug vàlid (minúscules, números i guions)`);
+      } else if (vistos.has(sl)) {
+        errors.push(`articles_relacionats[${i}]: slug repetit «${sl}»`);
+      } else {
+        vistos.add(sl);
+      }
+    });
+  }
   if (Array.isArray(s.seccions)) {
     s.seccions.forEach((sec, i) => {
       if (typeof sec?.titol === 'string' && sec.titol.trim() && !sec.titol.trim().endsWith('?')) {
@@ -100,8 +117,8 @@ export function validarSector(s, fitxer = '') {
   return errors;
 }
 
-/** Comprova regles entre pàgines de sector: cap grup_hreflang pot tenir dues pàgines del mateix idioma. */
-export function validarConjuntSectors(sectors) {
+/** Comprova regles entre pàgines de sector: cap grup_hreflang repetit per idioma i slugs d'articles_relacionats vàlids del mateix idioma. */
+export function validarConjuntSectors(sectors, noticies = null) {
   const errors = [];
   const grups = new Map();
   for (const s of sectors || []) {
@@ -111,6 +128,26 @@ export function validarConjuntSectors(sectors) {
       errors.push(`sectors/${s.slug}.json: grup_hreflang «${s.grup_hreflang}» ja té una altra pàgina en idioma «${s.idioma}» (${grups.get(clau)})`);
     } else {
       grups.set(clau, s.slug);
+    }
+  }
+  if (Array.isArray(noticies)) {
+    const perSlug = new Map();
+    for (const n of noticies) {
+      const lang = n?.cap?.idioma || 'ca';
+      const set = perSlug.get(n.slug) || new Set();
+      set.add(lang);
+      perSlug.set(n.slug, set);
+    }
+    for (const s of sectors || []) {
+      const lang = s?.idioma || 'ca';
+      for (const sl of s?.articles_relacionats || []) {
+        const idiomes = perSlug.get(sl);
+        if (!idiomes) {
+          errors.push(`sectors/${s.slug}.json: articles_relacionats: no existeix cap notícia amb slug «${sl}»`);
+        } else if (!idiomes.has(lang)) {
+          errors.push(`sectors/${s.slug}.json: articles_relacionats: «${sl}» és d'un altre idioma (cal «${lang}»)`);
+        }
+      }
     }
   }
   return errors;

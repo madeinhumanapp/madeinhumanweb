@@ -59,6 +59,10 @@
     }
   ],
   "servei_relacionat": "dpo",
+  "articles_relacionats": [
+    "proveidors-contracte-encarregat-rgpd",
+    "bretxa-de-dades-que-fer"
+  ],
   "cta_desti": "diagnostic",
   "fonts": [
     {

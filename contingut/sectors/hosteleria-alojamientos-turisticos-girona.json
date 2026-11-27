@@ -59,6 +59,11 @@
     }
   ],
   "servei_relacionat": "adequacio",
+  "articles_relacionats": [
+    "camaras-videovigilancia-negocio",
+    "proveedores-contrato-encargado-rgpd",
+    "cookies-web-consentimiento-lssi"
+  ],
   "cta_desti": "diagnostic",
   "fonts": [
     {
