@@ -7,6 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ESQUEMA, BLOCS_PROTEGITS, BLOCS_AFEGIBLES, CAMPS_FAQ, CAMPS_NOTICIA, CAMPS_XARXES, CAMPS_CONTACTE, CAMPS_MENU, CAMPS_PEU, CAMPS_MEDIA } from '../esquema/blocs.mjs';
 import { CAMPS_SERVEI, CAMPS_PORTADA_ES, CAMPS_COMU, SERVEIS, SLUGS_ESTABLES } from '../esquema/serveis.mjs';
+import { CAMPS_SECTOR, SECTORS } from '../esquema/sectors.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const FITXER = path.join(ARREL, 'esquema/esquema.json');
@@ -17,6 +18,7 @@ const dades = {
   portada: { protegits: BLOCS_PROTEGITS, afegibles: BLOCS_AFEGIBLES },
   faq: CAMPS_FAQ,
   noticia: CAMPS_NOTICIA,
+  sectors: { sectors: SECTORS, camps: CAMPS_SECTOR },
   xarxes: CAMPS_XARXES,
   media: CAMPS_MEDIA,
   lloc: { contacte: CAMPS_CONTACTE, menu: CAMPS_MENU, peu: CAMPS_PEU },

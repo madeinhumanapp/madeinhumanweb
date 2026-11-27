@@ -1,0 +1,80 @@
+{
+  "slug": "hostaleria-allotjaments-turistics-girona",
+  "idioma": "ca",
+  "estat": "esborrany",
+  "sector": "hostaleria",
+  "titol_seo": "RGPD per a hotels i allotjaments a Girona · Madeinhuman",
+  "descripcio": "Guia pràctica de protecció de dades per a hotels, cases rurals, càmpings i restaurants de Girona: registre de viatgers, DNI, reserves i wifi.",
+  "h1": "Protecció de dades per a hostaleria i allotjaments a Girona",
+  "entradeta": "Hotels, cases rurals, apartaments turístics, càmpings i restaurants a Girona i la Costa Brava: com tractar reserves, registre de viatgers, DNI, càmeres i personal de temporada.",
+  "capsula": "Hotels, allotjaments turístics i restaurants tracten dades d'hostes, reserves, facturació i equips temporals. Normalment cal evitar fotocopiar el DNI o passaport sense base, complir el registre de viatgers amb informació clara, regular els motors de reserva i protegir càmeres i xarxes wifi per a clients.",
+  "seccions": [
+    {
+      "titol": "Quines dades tracteu habitualment en un allotjament o restaurant?",
+      "cos": "A l'hostaleria i el turisme de Girona les dades passen per molts punts alhora, sovint amb pics forts de temporada:\n\n- **Hostes i comensals:** reserves directes i per portals, registre de viatgers, facturació, peticions especials i al·lèrgies o intoleràncies alimentàries.\n- **Canals digitals:** web propi, motor de reserves, xarxes wifi per a clients, enquestes de satisfacció i butlletins promocionals.\n- **Instal·lacions:** càmeres de videovigilància a recepció, accessos, pàrquings o zones comunes.\n- **Equip de temporada:** contractació estacional, torns, control horari, nòmines i accessos temporals a recepció o TPV.\n- **Proveïdors:** portals de reserva, programari hoteler (PMS), agències, gestoria i serveis informàtics."
+    },
+    {
+      "titol": "Podeu fotocopiar o escanejar el DNI o passaport dels hostes?",
+      "cos": "És un dels errors més freqüents al sector turístic. L'obligació de recollir les dades del registre de viatgers no autoritza per si sola a quedar-se una còpia sencera del document d'identitat.\n\nL'Agència Espanyola de Protecció de Dades (AEPD) ha assenyalat en diverses ocasions que retenir una fotocòpia o escaneig complet del DNI o passaport recull més dades de les necessàries (com la fotografia o dades no exigides) i augmenta el risc de suplantació d'identitat [REVISAR: enllaçar nota informativa oficial de l'AEPD sobre còpia del DNI en allotjaments turístics i referència exacta al Reial decret 933/2021].\n\n- **Què convé fer:** recollir només les dades exigides per la normativa aplicable mitjançant formulari o comprovació visual, sense arxivar còpies del document."
+    },
+    {
+      "titol": "Quins errors habituals trobem en reserves, wifi i personal temporal?",
+      "cos": "Quan revisem establiments turístics i restaurants, acostumen a repetir-se aquests punts:\n\n- **Fotocòpies de DNI o targetes guardades a recepció:** carpetes en paper o fotos fetes amb el mòbil sense control ni esborrat.\n- **Dades de viatgers sense informar el client:** fer el registre d'entrada sense facilitar la clàusula informativa de protecció de dades.\n- **Al·lèrgies en reserves de restaurant:** anotar dades de salut en llibretes obertes o pantalles visibles per tothom sense limitar-ne l'accés.\n- **Comptes de personal que no es donen de baixa:** treballadors de temporada que mantenen accés al correu o al PMS en acabar l'estiu.\n- **Xarxa wifi de clients barrejada amb la interna:** oferir wifi gratuït sense separar la xarxa d'hostes de la xarxa de gestió i facturació."
+    },
+    {
+      "titol": "Com heu de gestionar portals de reserva, càmeres i comunicacions?",
+      "cos": "El sector turístic treballa amb una cadena de plataformes i proveïdors que cal tenir clara:\n\n- **PMS, motor de reserves i proveïdors:** reviseu els contractes d'encàrrec de tractament amb el programari hoteler, la gestoria i el manteniment informàtic, i distingiu els portals externs que actuen com a responsables independents.\n- **Videovigilància:** col·loqueu cartells informatius visibles abans d'entrar a la zona gravada, eviteu gravar zones privades o la via pública sense justificació i reviseu el termini de conservació de les imatges [REVISAR: confirmar criteri vigent de l'AEPD sobre videovigilància en establiments turístics i termini de conservació de la LOPDGDD].\n- **Enviaments comercials postestada:** si voleu enviar ofertes de la temporada següent, assegureu la base jurídica i incloeu sempre una opció de baixa senzilla segons la LSSI-CE."
+    },
+    {
+      "titol": "Què podeu revisar abans de començar la temporada?",
+      "cos": "Amb cinc comprovacions pràctiques podeu reduir la major part del risc abans dels mesos de més ocupació:\n\n1. Deixeu de fotocopiar o fotografiar DNI i passaports; recolliu només les dades necessàries per al registre.\n2. Col·loqueu una clàusula informativa clara al full de benvinguda, al registre d'entrada i al motor de reserves web.\n3. Reviseu els usuaris del PMS i del correu per donar de baixa els accessos del personal d'altres temporades.\n4. Separeu la xarxa wifi dels clients de la xarxa interna de l'establiment.\n5. Verifiqueu els cartells de videovigilància i els contractes d'encàrrec amb els proveïdors principals."
+    }
+  ],
+  "documents": [
+    "Registre d'activitats de tractament (RAT) per a hostes, reserves, personal i videovigilància",
+    "Clàusula informativa per al registre d'entrada i full de benvinguda",
+    "Textos legals del web i primera capa informativa al motor de reserves",
+    "Procediment de registre de viatgers sense còpia innecessària de DNI o passaport",
+    "Contractes d'encàrrec de tractament amb PMS, motor de reserves, informàtica i gestoria",
+    "Compromís de confidencialitat i alta/baixa d'accessos per a personal fix i de temporada",
+    "Cartell i informació completa de videovigilància, si teniu càmeres"
+  ],
+  "faq": [
+    {
+      "pregunta": "Si un portal extern ens passa la reserva, també hem d'informar l'hoste de les nostres dades?",
+      "resposta": "Sí. Quan l'hoste arriba o quan confirmeu la reserva directament, sou responsables del tractament de l'estada i heu de facilitar la vostra informació de protecció de dades, per exemple al correu de confirmació o al registre d'entrada."
+    },
+    {
+      "pregunta": "Quant temps hem de conservar les dades del registre de viatgers?",
+      "resposta": "Les dades exigides per normativa de seguretat ciutadana s'han de conservar durant el termini legal establert per aquesta normativa específica i bloquejar-les un cop complerta la finalitat operativa [REVISAR: confirmar termini vigent de conservació del registre de viatgers segons Reial decret 933/2021 i normativa aplicable a Catalunya]."
+    },
+    {
+      "pregunta": "Podem demanar el correu electrònic per connectar-se al wifi i després enviar promocions?",
+      "resposta": "Només si informeu clarament d'aquesta finalitat comercial i recolliu un consentiment separat i lliure, sense condicionar l'accés al wifi a acceptar publicitat si no és necessari per al servei."
+    },
+    {
+      "pregunta": "Els restaurants que només agafen reserves per telèfon també han de complir el RGPD?",
+      "resposta": "Sí. Sempre que anoteu nom, telèfon, al·lèrgies o dades de facturació, tracteu dades personals. L'adequació és senzilla i proporcional al volum del local: registre d'activitats, informació bàsica, control de proveïdors i mesures d'accés."
+    }
+  ],
+  "servei_relacionat": "adequacio",
+  "cta_desti": "diagnostic",
+  "fonts": [
+    {
+      "nom": "Reglament (UE) 2016/679 (RGPD) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "nom": "Llei Orgànica 3/2018 (LOPDGDD) — BOE",
+      "url": "https://www.boe.es/eli/es/lo/2018/12/05/3/con"
+    },
+    {
+      "nom": "Llei 34/2002 (LSSI-CE) — BOE",
+      "url": "https://www.boe.es/eli/es/l/2002/07/11/34/con"
+    },
+    {
+      "nom": "Agència Espanyola de Protecció de Dades (AEPD)",
+      "url": "https://www.aepd.es/"
+    }
+  ]
+}

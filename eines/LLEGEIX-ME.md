@@ -114,3 +114,17 @@ eines s'han retirat (es poden consultar a l'historial de git). Un canvi visual a
 Estructura fixa (C-10), validada per `esquema/serveis.mjs`: per a cada servei i idioma, `curt`, `titol_seo`,
 `descripcio`, `eyebrow`, `h1` (text enriquit), `lede` i `seccions` (`{ titol, cos }`, cos en Markdown). Les URL
 (`SLUG`) i la llista de serveis són fixes: canviar-les trencaria enllaços, i el validador ho impedeix.
+
+## Pàgines de sector (`contingut/sectors/*.json`)
+
+Un fitxer JSON per pàgina: `contingut/sectors/<slug>.json` (minúscules, sense accents, amb guions; el camp `slug` ha de
+coincidir amb el nom del fitxer). Esquema i validació a `esquema/sectors.mjs`; plantilla a `plantilles/sectors.mjs`
+(URL `/sectors/<slug>/` i índex `/sectors/`).
+
+- **Publicades (`estat: "publicat"`):** es generen sempre, surten a `/sectors/` i entren soles al mapa del lloc. Qualsevol
+  marca `[REVISAR` atura la construcció.
+- **Esborranys (`estat: "esborrany"`):** **no** es generen a producció (`npm run construir` o `CF_PAGES_BRANCH=main`).
+  Només es generen, amb `noindex, nofollow` i la franja «Esborrany: pendent de validació», a les vistes prèvies de
+  Cloudflare (`CF_PAGES_BRANCH` present i diferent de `main`) o localment amb `node eines/construir.mjs --esborranys`.
+  No apareixen a l'índex `/sectors/` ni al mapa del lloc. Si no hi ha cap pàgina publicada, `/sectors/` no es genera.
+- A les proves es pot redirigir la carpeta amb `DIR_SECTORS`.
