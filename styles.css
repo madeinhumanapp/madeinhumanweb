@@ -2334,5 +2334,106 @@ mark.revisar {
   .esborranys-guia { padding: 16px 18px; }
 }
 
+/* ===== Cerca interna (/cerca/, /es/buscar/ i 404, WEB-G05d) ===== */
+.cerca-form {
+  margin: 24px 0 20px;
+}
+.cerca-form-404 {
+  margin: 20px 0 28px;
+}
+.cerca-label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gris-clar);
+}
+.cerca-fila {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+.cerca-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 46px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--bg-card);
+  color: var(--crema);
+  font-family: var(--font-sans);
+  font-size: 16px;
+}
+.cerca-input:focus {
+  outline: 2px solid var(--daurat-clar);
+  outline-offset: 2px;
+  border-color: var(--daurat);
+}
+.cerca-boto {
+  min-height: 46px;
+  flex-shrink: 0;
+}
+.cerca-estat {
+  margin: 12px 0 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gris-clar);
+}
+.cerca-estat:empty { display: none; }
+.cerca-resultats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+.cerca-resultat {
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-card);
+}
+.cerca-resultat-titol {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 21px;
+  line-height: 1.3;
+  color: var(--daurat-clar);
+  text-decoration: none;
+  margin-bottom: 4px;
+}
+.cerca-resultat-titol:hover { text-decoration: underline; }
+.cerca-resultat-url {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gris-clar);
+  margin-bottom: 8px;
+}
+.cerca-resultat-desc {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--crema);
+}
+.cerca-buit {
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-card);
+}
+.cerca-buit-titol {
+  margin: 0 0 8px;
+  font-weight: 600;
+  color: var(--crema);
+}
+@media (max-width: 600px) {
+  .cerca-fila { flex-direction: column; }
+  .cerca-boto { width: 100%; justify-content: center; }
+}
+
 
 

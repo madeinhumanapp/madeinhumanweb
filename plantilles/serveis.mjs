@@ -189,6 +189,13 @@ ${seccions}${perSectors}${bloc_final(lang, clau)}    </div>
       <span class="eyebrow">Error 404</span>
       <h1 class="section-title pagina-h1">Aquesta pàgina <em>no existeix.</em></h1>
       <p class="pagina-lede">Potser l'adreça ha canviat o té algun error. Pots tornar a l'inici o anar directament on volies.</p>
+      <form class="cerca-form cerca-form-404" role="search" method="get" action="/cerca/">
+        <label class="cerca-label" for="cerca-404-ca">Cerca al web</label>
+        <div class="cerca-fila">
+          <input id="cerca-404-ca" class="cerca-input" type="search" name="q" autocomplete="off" placeholder="p. ex. DPO, RGPD, diagnòstic…" />
+          <button type="submit" class="btn btn-primary cerca-boto">Cercar</button>
+        </div>
+      </form>
       <ul class="pagina-altres">
         <li><a href="/">Inici</a></li>
         <li><a href="/#serveis">Serveis</a></li>
@@ -200,6 +207,13 @@ ${seccions}${perSectors}${bloc_final(lang, clau)}    </div>
       <section class="pagina-seccio" lang="es">
         <h2>Esta página no existe.</h2>
         <p class="pagina-lede">Quizás la dirección ha cambiado o tiene algún error. Puedes volver al inicio o ir directamente a donde querías.</p>
+        <form class="cerca-form cerca-form-404" role="search" method="get" action="/es/buscar/">
+          <label class="cerca-label" for="cerca-404-es">Buscar en la web</label>
+          <div class="cerca-fila">
+            <input id="cerca-404-es" class="cerca-input" type="search" name="q" autocomplete="off" placeholder="p. ej. DPO, RGPD, diagnóstico…" />
+            <button type="submit" class="btn btn-primary cerca-boto">Buscar</button>
+          </div>
+        </form>
         <ul class="pagina-altres">
           <li><a href="/es/">Inicio</a></li>
           <li><a href="/es/#servicios">Servicios</a></li>

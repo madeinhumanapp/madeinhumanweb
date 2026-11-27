@@ -12,6 +12,7 @@ import { validarSector, validarConjuntSectors, CAMPS_SECTOR } from '../esquema/s
 import { llegirNoticia, publicades, esborranysActualitat, targeta, paginesActualitat, paginesEsborranysActualitat, datesActualitatMapa } from '../plantilles/actualitat.mjs';
 import { paginesSectors, datesSectorsMapa, paginaTaulaEsborranys, scriptTaulaEsborranys } from '../plantilles/sectors.mjs';
 import { paginaReserva } from '../plantilles/reserva.mjs';
+import { paginesCerca } from '../plantilles/cerca.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -189,12 +190,17 @@ if (!errors.length && sectors.length) {
     generades++;
   }
 }
-// 2d-ter. Pàgina de reserva de trucada (WEB-G05a): /reserva/ (noindex, nofollow, fora del mapa del lloc)
+// 2d-ter. Pàgina de reserva de trucada (WEB-G05a) i cerca interna (WEB-G05d): fora del mapa del lloc
 if (!errors.length) {
   const [rel, html] = paginaReserva(lloc, dadesServeis);
   fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
   fs.writeFileSync(path.join(SORTIDA, rel), html);
   generades++;
+  for (const [relCerca, htmlCerca] of paginesCerca(lloc, dadesServeis)) {
+    fs.mkdirSync(path.dirname(path.join(SORTIDA, relCerca)), { recursive: true });
+    fs.writeFileSync(path.join(SORTIDA, relCerca), htmlCerca);
+    generades++;
+  }
 }
 // 2d-bis. Taula de validació d'esborranys (WEB-G04a / WEB-G05b): /esborranys/, només en mode esborranys / vista prèvia.
 if (AMB_ESBORRANYS && !errors.length) {
@@ -230,31 +236,68 @@ function urlIndexable(html) {
   }
   return null;
 }
-function generarMapa(dir, dates) {
-  const urls = new Set();
+const desescaparHtml = s => String(s || '')
+  .replace(/<[^>]+>/g, ' ')
+  .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'").replace(/&nbsp;/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim();
+function recullPaginesIndexables(dir) {
+  const pagines = new Map();
   (function recorre(rel = '') {
     for (const e of fs.readdirSync(path.join(dir, rel), { withFileTypes: true })) {
       if (!rel && e.name === '_previsualitzacio') continue;
       const r = path.join(rel, e.name);
       if (e.isDirectory()) recorre(r);
       else if (e.name.endsWith('.html')) {
-        const loc = urlIndexable(fs.readFileSync(path.join(dir, r), 'utf8'));
-        if (loc) urls.add(loc);
+        const html = fs.readFileSync(path.join(dir, r), 'utf8');
+        const loc = urlIndexable(html);
+        if (!loc || pagines.has(loc)) continue;
+        const lang = (/<html\b[^>]*\blang\s*=\s*"([^"]+)"/i.exec(html)?.[1] || 'ca').toLowerCase().startsWith('es') ? 'es' : 'ca';
+        const titolRaw = desescaparHtml(/<title\b[^>]*>([\s\S]*?)<\/title>/i.exec(html)?.[1] || '');
+        const titol = titolRaw.replace(/\s*·\s*Madeinhuman$/i, '').trim() || titolRaw;
+        const cap = (/<head\b[^>]*>([\s\S]*?)<\/head>/i.exec(html)?.[1] ?? '').replace(/<!--[\s\S]*?-->/g, '');
+        let descripcio = '';
+        for (const m of cap.matchAll(/<meta\b[^>]*>/gi)) {
+          if ((atributHtml(m[0], 'name') || '').trim().toLowerCase() === 'description') {
+            descripcio = desescaparHtml(atributHtml(m[0], 'content') || '');
+            break;
+          }
+        }
+        const zona = /<main\b[^>]*>([\s\S]*?)<\/main>/i.exec(html)?.[1] ?? html;
+        const h2 = [...zona.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)]
+          .map(m => desescaparHtml(m[1]))
+          .filter(Boolean);
+        let ruta = '/';
+        try { ruta = new URL(loc).pathname; } catch { ruta = loc; }
+        pagines.set(loc, { loc, url: ruta, lang, titol, descripcio, h2 });
       }
     }
   })();
+  return [...pagines.values()].sort((a, b) => a.loc.localeCompare(b.loc));
+}
+function generarMapa(paginesIndexables, dates) {
   const escXml = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[ch]));
-  const entrades = [...urls].sort().map(loc => {
+  const entrades = paginesIndexables.map(({ loc }) => {
     const lastmod = dates.get(loc);
     return `  <url>\n    <loc>${escXml(loc)}</loc>${lastmod ? `\n    <lastmod>${escXml(lastmod)}</lastmod>` : ''}\n  </url>\n`;
   }).join('');
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entrades}</urlset>\n`;
 }
+const paginesIndexables = recullPaginesIndexables(SORTIDA);
 const datesMapa = new Map([
   ...datesActualitatMapa(lloc.web, noticies),
   ...datesSectorsMapa(lloc.web, sectors),
 ]);
-fs.writeFileSync(path.join(SORTIDA, 'sitemap.xml'), generarMapa(SORTIDA, datesMapa));
+fs.writeFileSync(path.join(SORTIDA, 'sitemap.xml'), generarMapa(paginesIndexables, datesMapa));
+
+// 2f. Índexs de cerca interna (WEB-G05d): només pàgines publicades i indexables, per idioma (ca i es).
+for (const [lang, relIdx] of [['ca', 'cerca/index.json'], ['es', 'es/buscar/index.json']]) {
+  const entrades = paginesIndexables
+    .filter(p => p.lang === lang)
+    .map(({ url, titol, descripcio, h2 }) => ({ url, titol, descripcio, h2 }));
+  fs.mkdirSync(path.dirname(path.join(SORTIDA, relIdx)), { recursive: true });
+  fs.writeFileSync(path.join(SORTIDA, relIdx), JSON.stringify(entrades, null, 2) + '\n');
+}
 
 // 3. Vista prèvia del panell: les mateixes plantilles, servides al navegador
 const PREV = path.join(SORTIDA, '_previsualitzacio');
