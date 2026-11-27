@@ -24,38 +24,38 @@
 export const PREGUNTES = [
   {
     id: 'usaIa',
-    text: 'El teu equip fa servir eines d’intel·ligència artificial a la feina?',
-    ajuda: 'Per exemple, un xat d’IA o intel·ligència artificial integrada dins dels programes que fas servir (correu, ofimàtica, disseny, programari de gestió…).',
+    text: 'El vostre equip fa servir eines d’intel·ligència artificial a la feina?',
+    ajuda: 'Per exemple, un xat d’IA o intel·ligència artificial integrada dins dels programes que feu servir (correu, ofimàtica, disseny, programari de gestió…).',
     opcions: ['si', 'no', 'nsnc'],
   },
   {
     id: 'xatClients',
-    text: 'Tens un xat o un assistent automàtic que parla amb els clients?',
+    text: 'Teniu un xat o un assistent automàtic que parla amb els clients?',
     ajuda: 'Per exemple, un xat del web, un assistent automàtic de missatgeria o un bot que respon correus.',
     opcions: ['si', 'no', 'nsnc'],
   },
   {
     id: 'contingutIa',
-    text: 'La teva empresa publica contingut generat o modificat amb IA?',
+    text: 'La vostra empresa publica contingut generat o modificat amb IA?',
     ajuda: 'Imatges, àudio, vídeo o textos creats o modificats amb intel·ligència artificial, publicats al web, a les xarxes o en campanyes.',
     opcions: ['media', 'textos', 'ambdos', 'no', 'nsnc'],
   },
   {
     id: 'sistemesMercat',
-    text: 'El sistema d’IA que fas servir per generar aquest contingut ja era al mercat abans del 2/12/2026?',
+    text: 'El sistema d’IA que feu servir per generar aquest contingut ja era al mercat abans del 2/12/2026?',
     ajuda: '«Ja era al mercat» vol dir que ja s’oferia o es comercialitzava abans d’aquesta data.',
     nomesSi: { pregunta: 'contingutIa', valors: ['media', 'ambdos'] },
     opcions: ['si', 'no', 'nsnc'],
   },
   {
     id: 'biometria',
-    text: 'Fas servir reconeixement d’emocions o classificació biomètrica?',
+    text: 'Feu servir reconeixement d’emocions o classificació biomètrica?',
     ajuda: 'Per exemple, sistemes que analitzen expressions facials, veu o altres dades biomètriques per classificar persones.',
     opcions: ['si', 'no', 'nsnc'],
   },
   {
     id: 'desenvolupaIa',
-    text: 'La teva empresa desenvolupa o ven sistemes d’IA a tercers?',
+    text: 'La vostra empresa desenvolupa o ven sistemes d’IA a tercers?',
     opcions: ['si', 'no', 'nsnc'],
   },
 ]
@@ -72,7 +72,7 @@ export const ETIQUETES_OPCIO = {
 /** Obligacions que poden aparèixer al resultat (els `id` els fa servir avaluar()). */
 export const OBLIGACIONS = {
   'art4': {
-    text: 'Has d’adoptar mesures de suport a l’*alfabetització en IA* del personal que fa servir sistemes d’IA.',
+    text: 'Heu d’adoptar mesures de suport a l’*alfabetització en IA* del personal que fa servir sistemes d’IA.',
     article: 'Reglament d’IA, art. 4 · en vigor des del 27/07/2026',
   },
   'art50-xat': {
@@ -84,7 +84,7 @@ export const OBLIGACIONS = {
     article: 'Reglament d’IA, art. 50.2',
   },
   'revisar-textos': {
-    text: 'Si publiques *textos* generats o modificats amb IA, [REVISAR: què cal confirmar — si també s’han de marcar o informar].',
+    text: 'Si publiqueu *textos* generats o modificats amb IA, [REVISAR: què cal confirmar — si també s’han de marcar o informar].',
     article: 'Reglament d’IA, art. 50 · [REVISAR: apartat concret]',
   },
   'revisar-biometria': {
@@ -92,7 +92,7 @@ export const OBLIGACIONS = {
     article: 'Reglament d’IA · [REVISAR: articles concrets]',
   },
   'revisar-proveidor': {
-    text: 'Si desenvolupes o venes *sistemes d’IA* a tercers, hi pot haver obligacions específiques per a qui els posa al mercat. [REVISAR: què cal confirmar — articles i terminis].',
+    text: 'Si desenvolupeu o veneu *sistemes d’IA* a tercers, hi pot haver obligacions específiques per a qui els posa al mercat. [REVISAR: què cal confirmar — articles i terminis].',
     article: 'Reglament d’IA · [REVISAR: articles concrets]',
   },
 }
@@ -101,35 +101,35 @@ export const OBLIGACIONS = {
 export const NOTES_TRANSITORI = {
   si: 'Com que el sistema ja era al mercat, el marcatge de l’art. 50.2 té un *període transitori fins al 2/12/2026*.',
   no: 'Les obligacions de l’art. 50 s’apliquen *des del 2/08/2026*.',
-  nsnc: 'Per saber si et toca el període transitori fins al 2/12/2026, cal confirmar si el sistema ja era al mercat.',
+  nsnc: 'Per saber si us toca el període transitori fins al 2/12/2026, cal confirmar si el sistema ja era al mercat.',
 }
 
 /** Pantalles de resultat possibles. */
 export const RESULTATS = {
   amb: {
     titol: 'Obligacions *probables*, a valorar',
-    text: 'Amb les teves respostes, aquestes obligacions del Reglament d’IA probablement t’afecten. «Probable» no vol dir «obligatòria»: és una valoració orientativa.',
+    text: 'Amb les vostres respostes, aquestes obligacions del Reglament d’IA probablement us afecten. «Probable» no vol dir «obligatòria»: és una valoració orientativa.',
   },
   dubtes: {
     titol: 'Hi ha respostes *a precisar*',
-    text: 'Amb el que has respost no es pot saber del cert. Mira amb calma aquests punts:',
+    text: 'Amb el que heu respost no es pot saber del cert. Mireu amb calma aquests punts:',
   },
   cap: {
     titol: 'En principi, *cap obligació específica*',
-    text: 'Amb les teves respostes no detectem obligacions del Reglament d’IA, però això no vol dir que no n’hi hagi en el teu cas concret. El resultat és orientatiu.',
+    text: 'Amb les vostres respostes no detectem obligacions del Reglament d’IA, però això no vol dir que no n’hi hagi en el vostre cas concret. El resultat és orientatiu.',
   },
 }
 
 /** Textos fixos de la pàgina. */
 export const TEXTOS = {
   titol: 'Test d’*obligacions* d’IA',
-  entrada: 'Respon unes quantes preguntes i et direm quines obligacions del Reglament d’IA probablement t’afecten i què volen dir a la pràctica.',
+  entrada: 'Responeu unes quantes preguntes i us direm quines obligacions del Reglament d’IA probablement us afecten i què volen dir a la pràctica.',
   durada: '2 minuts · sense registre · no s’envia ni es desa res',
   etiquetaDubtes: 'Punts a precisar:',
-  avis: 'Eina en esborrany: el contingut encara està en revisió. El resultat és orientatiu, basat en l’art. 4 i l’art. 50 del Reglament d’IA, i no substitueix l’anàlisi del teu cas concret ni és assessorament jurídic.',
+  avis: 'Eina en esborrany: el contingut encara està en revisió. El resultat és orientatiu, basat en l’art. 4 i l’art. 50 del Reglament d’IA, i no substitueix l’anàlisi del vostre cas concret ni és assessorament jurídic.',
   ctaPrincipal: { text: 'Fer el diagnòstic gratuït', url: '/diagnostic' },
-  ctaSecundari: { text: 'Parla amb nosaltres', url: '/#contacte' },
-  tornar: 'Torna a començar',
+  ctaSecundari: { text: 'Parleu amb nosaltres', url: '/#contacte' },
+  tornar: 'Torneu a començar',
   enrere: 'Enrere',
-  comencar: 'Comença',
+  comencar: 'Comenceu',
 }
