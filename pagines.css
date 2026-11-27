@@ -58,3 +58,20 @@
   .pagina-cta { padding: 24px 20px; }
   .pagina-lede { font-size: 17px; }
 }
+
+/* Preguntes freqüents per servei (WEB-G06d) */
+.servei-faq-llista { display: grid; gap: 12px; margin-top: 20px; }
+.servei-faq-item { border: 1px solid var(--border); border-radius: 12px; background: var(--bg-card); padding: 0; }
+.servei-faq-item summary {
+  cursor: pointer;
+  padding: 16px 20px;
+  font-weight: 600;
+  color: var(--crema);
+  line-height: 1.45;
+}
+.servei-faq-item summary:hover { color: var(--daurat-clar); }
+.servei-faq-resposta { padding: 0 20px 18px; color: var(--text-dim); }
+.servei-faq-resposta p:first-child { margin-top: 0; }
+.servei-faq-enllac { margin: 12px 0 0; font-size: 14.5px; }
+.servei-faq-enllac a { color: var(--daurat-clar); text-decoration: none; }
+.servei-faq-enllac a:hover { text-decoration: underline; }

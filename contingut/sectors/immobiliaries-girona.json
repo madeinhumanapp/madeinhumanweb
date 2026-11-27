@@ -1,0 +1,90 @@
+{
+  "slug": "immobiliaries-girona",
+  "idioma": "ca",
+  "grup_hreflang": "immobiliaries-girona",
+  "estat": "esborrany",
+  "sector": "serveis",
+  "titol_seo": "RGPD per a immobiliàries a Girona · Madeinhuman",
+  "descripcio": "Guia pràctica de protecció de dades per a agències immobiliàries a Girona: nòmines de llogaters, DNI, visites, portals i blanqueig de capitals.",
+  "h1": "Protecció de dades per a immobiliàries a Girona",
+  "entradeta": "Agències immobiliàries i API a Girona i la Costa Brava: com tractar documentació de llogaters, compradors, propietaris, portals immobiliaris i visites sense acumular riscos.",
+  "capsula": "Les agències immobiliàries gestionen diàriament DNI, nòmines, declaracions de renda, escriptures i contactes de portals de compravenda i lloguer. Normalment cal demanar només la documentació proporcional en cada fase, informar bé totes les parts, regular el CRM i les col·laboracions externes, i definir quan s'eliminen els expedients descartats.",
+  "seccions": [
+    {
+      "titol": "Quines dades tracteu habitualment en una agència immobiliària?",
+      "cos": "En una operació de lloguer o compravenda intervenen diverses parts i es recull informació personal i econòmica molt delicada:\n\n- **Propietaris i venedors:** dades identificatives, escriptures, referències cadastrals, certificats, comptes bancaris i fotografies de l'immoble.\n- **Candidats a llogater i compradors:** fulls de visita, DNI o NIE, nòmines, contractes laborals, declaracions fiscals, avals i dades familiars.\n- **Captació i portals:** consultes rebudes per web propi, portals immobiliaris, xarxes socials i llistes d'alertes d'immobles.\n- **Proveïdors i col·laboradors:** CRM immobiliari, asseguradores d'impagament, bancs o intermediaris hipotecaris, fotògrafs, notaries, gestoria i comercials autònoms."
+    },
+    {
+      "titol": "Quins errors habituals trobem en agències immobiliàries?",
+      "cos": "El ritme ràpid de les visites i els lloguers acostuma a deixar punts molt exposats:\n\n- **Demanar nòmines i DNI massa aviat a tots els interessats:** sol·licitar documentació financera completa abans fins i tot de fer la visita o a desenes de candidats, sense criteri de minimització.\n- **Reenviar expedients de candidats per WhatsApp o correu obert:** compartir PDF amb DNI i nòmines amb propietaris o asseguradores sense control ni informació prèvia al candidat.\n- **Conservar indefinidament les dades de candidats descartats:** guardar carpetes senceres de nòmines i documents d'identitat de persones que no van llogar el pis.\n- **Publicar fotografies amb dades personals visibles:** pujar fotos d'un habitatge on apareixen matrícules, fotos familiars dels inquilins actuals o documents personals.\n- **Comercials autònoms o CRM sense contracte:** col·laboradors externs o eines al núvol que tracten la base de dades sense encàrrec ni permisos separats."
+    },
+    {
+      "titol": "Quines dades podeu demanar a un candidat a lloguer i quan les heu d'esborrar?",
+      "cos": "El principi de minimització del RGPD obliga a demanar només les dades adequades i necessàries per a cada etapa de l'operació.\n\n- **Fase de visita:** normalment n'hi ha prou amb les dades de contacte i d'identificació bàsica per concertar i acreditar la visita, amb la clàusula informativa corresponent.\n- **Fase de selecció o solvència:** per estudiar la capacitat de pagament o tramitar una assegurança d'impagament es pot demanar documentació econòmica proporcional, informant clarament a qui es comunicarà (propietari, asseguradora) i quina n'és la base jurídica [REVISAR: confirmar criteris vigents de l'Agència Espanyola de Protecció de Dades (AEPD) sobre documentació de solvència en lloguers i ús de còpies de DNI].\n- **Candidats no seleccionats:** un cop descartada la candidatura, la documentació financera s'ha d'eliminar com més aviat millor, llevat que la persona demani expressament conservar-la per a altres immobles."
+    },
+    {
+      "titol": "Com encaixen els portals, els propietaris i la prevenció de blanqueig?",
+      "cos": "Les immobiliàries sovint combinen obligacions de protecció de dades amb normativa sectorial específica:\n\n- **Prevenció de blanqueig de capitals:** en operacions de compravenda i determinats arrendaments, la normativa de prevenció del blanqueig imposa obligacions d'identificació i conservació de documents que actuen com a obligació legal pròpia [REVISAR: confirmar supòsits i llindars vigents de la Llei 10/2010 de prevenció del blanqueig de capitals aplicables a agències immobiliàries i termini legal de conservació].\n- **Portals immobiliaris i alertes:** quan rebeu una consulta des d'un portal extern, informeu la persona sobre el vostre tractament en el primer contacte i no l'afegiu a butlletins promocionals sense base segons la LSSI-CE.\n- **Propietaris i asseguradores:** deixeu clar a la clàusula informativa quan comuniqueu dades al propietari de l'immoble, a l'asseguradora d'impagament o a notaria, i signeu contractes d'encàrrec amb el CRM, el fotògraf extern i el suport informàtic."
+    },
+    {
+      "titol": "Per on podeu començar aquesta setmana?",
+      "cos": "Podeu ordenar el dia a dia de l'agència sense frenar les operacions amb aquests cinc passos:\n\n1. Reviseu el full de visita, el full d'encàrrec de venda/lloguer i el formulari de recollida de documentació perquè incloguin una clàusula informativa clara.\n2. Definiu en quin moment demaneu nòmines o documentació de solvència i creeu un procediment d'esborrat mensual per a expedients de candidats descartats.\n3. Substituïu l'enviament de DNI i nòmines per WhatsApp per un canal corporatiu segur (portal del CRM o enviament xifrat).\n4. Comproveu els contractes d'encàrrec de tractament amb el CRM immobiliari, l'allotjament web, la gestoria i els col·laboradors externs.\n5. Establiu una comprovació ràpida abans de publicar fotos d'immobles ocupats per evitar mostrar dades identificatives de tercers."
+    }
+  ],
+  "documents": [
+    "Registre d'activitats de tractament (RAT) per a propietaris, compradors, llogaters, visites i equip",
+    "Clàusules informatives per a fulls de visita, encàrrecs de gestió i estudi de solvència",
+    "Textos legals del web i primera capa als formularis de contacte i alertes",
+    "Contractes d'encàrrec de tractament amb CRM, suport informàtic, agència de màrqueting i gestoria",
+    "Acord de confidencialitat i normativa d'ús de dades per a comercials interns i externs",
+    "Protocol de conservació i supressió d'expedients de candidats descartats i documentació PBC",
+    "Procediment d'atenció de drets i de gestió de bretxes de seguretat"
+  ],
+  "faq": [
+    {
+      "pregunta": "Podem passar les nòmines d'un candidat a lloguer directament al propietari del pis?",
+      "resposta": "Només si heu informat prèviament el candidat d'aquesta comunicació, la documentació és proporcional per valorar la solvència i s'envia per un canal segur. Eviteu compartir dades innecessàries o enviar expedients sencers sense avís."
+    },
+    {
+      "pregunta": "Si un interessat ens contacta per un portal immobiliari, li podem enviar altres pisos cada setmana?",
+      "resposta": "Podeu respondre a la seva consulta sobre l'immoble concret, però per enviar-li alertes o butlletins periòdics d'altres propietats cal informar-lo clarament i comptar amb base jurídica adequada i opció de baixa senzilla en cada missatge segons la LSSI-CE."
+    },
+    {
+      "pregunta": "Necessitem permís de l'inquilí actual per fer i publicar fotos del pis que es posa a la venda?",
+      "resposta": "Si l'habitatge està ocupat, convé coordinar les fotografies i evitar que hi apareguin persones, fotografies familiars, documents o objectes que identifiquin els ocupants, a més de respectar els drets d'intimitat i domicili."
+    },
+    {
+      "pregunta": "Una agència immobiliària petita ha de tenir delegat de protecció de dades (DPO)?",
+      "resposta": "En general no és obligatori pel sol fet de ser una immobiliària, però cal valorar el volum d'operacions, els perfilats o les obligacions específiques si gestioneu grans carteres. Podeu fer una comprovació ràpida a [Necessito un DPO?](/necessito-dpo/)."
+    }
+  ],
+  "servei_relacionat": "adequacio",
+  "articles_relacionats": [
+    "proveidors-contracte-encarregat-rgpd",
+    "galetes-web-consentiment-lssi",
+    "bretxa-de-dades-que-fer"
+  ],
+  "cta_desti": "diagnostic",
+  "fonts": [
+    {
+      "nom": "Reglament (UE) 2016/679 (RGPD) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "nom": "Llei Orgànica 3/2018 (LOPDGDD) — BOE",
+      "url": "https://www.boe.es/eli/es/lo/2018/12/05/3/con"
+    },
+    {
+      "nom": "Llei 34/2002 (LSSI-CE) — BOE",
+      "url": "https://www.boe.es/eli/es/l/2002/07/11/34/con"
+    },
+    {
+      "nom": "Agència Espanyola de Protecció de Dades (AEPD)",
+      "url": "https://www.aepd.es/"
+    },
+    {
+      "nom": "Autoritat Catalana de Protecció de Dades (APDCat)",
+      "url": "https://apdcat.gencat.cat/"
+    }
+  ]
+}

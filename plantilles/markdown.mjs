@@ -1,7 +1,9 @@
-// Markdown mínim per al text llarg (pàgines legals, notícies). Sense dependències i sense HTML:
+// Markdown mínim per al text llarg (pàgines legals, serveis, notícies). Sense dependències i sense HTML:
 // tot s'escapa. Admet:
 //   ## Títol 2 · ### Títol 3 · paràgrafs (una línia que acaba en «\» fa un salt de línia)
-//   - llistes (un element pot continuar en línies sagnades amb 2 espais) · taules amb «|» (si la 2a fila és |---|, la 1a és capçalera; si no, totes van al cos)
+//   - llistes i 1. llistes numerades (amb start="N" si no comencen per 1; un element pot continuar en línies sagnades amb 2 espais)
+//   > paràgraf destacat (<blockquote class="text-destacat">)
+//   taules amb «|» (si la 2a fila és |---|, la 1a és capçalera; si no, totes van al cos)
 //   **negreta** · *cursiva* · `codi` · [text](url)
 //   <!-- nota interna --> (no es publica; serveix per deixar avisos al text font)
 // Els enllaços a altres webs s'obren en una pestanya nova (target="_blank" rel="noopener").
@@ -43,6 +45,24 @@ export function markdown(text, { classeTaula = '' } = {}) {
       out.push(`<ul>\n${items.join('\n')}\n</ul>`);
       continue;
     }
+    if ((m = l.match(/^(\d+)\. /))) {
+      const inici = Number(m[1]);
+      const items = [];
+      while (i < linies.length && /^\d+\. /.test(linies[i])) {
+        let item = linies[i++].replace(/^\d+\. /, '');
+        while (i < linies.length && /^ {2,}\S/.test(linies[i])) item += ' ' + linies[i++].trim();
+        items.push(`<li>${enLinia(item)}</li>`);
+      }
+      out.push(`<ol${inici !== 1 ? ` start="${inici}"` : ''}>\n${items.join('\n')}\n</ol>`);
+      continue;
+    }
+    if (/^> /.test(l)) {
+      const cites = [];
+      while (i < linies.length && /^> /.test(linies[i])) cites.push(linies[i++].slice(2));
+      const cos = cites.map(p => enLinia(p.replace(/\\$/, '').trim()) + (p.endsWith('\\') ? '<br />' : '')).join('\n');
+      out.push(`<blockquote class="text-destacat">\n<p>${cos}</p>\n</blockquote>`);
+      continue;
+    }
     if (l.trim().startsWith('|')) {
       const files = [];
       while (i < linies.length && linies[i].trim().startsWith('|')) files.push(linies[i++]);
@@ -54,7 +74,7 @@ export function markdown(text, { classeTaula = '' } = {}) {
       continue;
     }
     const para = [];
-    while (i < linies.length && linies[i].trim() && !/^(#{2,3} |- |\||<!--)/.test(linies[i].trim())) para.push(linies[i++]);
+    while (i < linies.length && linies[i].trim() && !/^(#{2,3} |- |\d+\. |> )/.test(linies[i]) && !/^(\||<!--)/.test(linies[i].trim())) para.push(linies[i++]);
     out.push(`<p>${para.map(p => enLinia(p.replace(/\\$/, '').trim()) + (p.endsWith('\\') ? '<br />' : '')).join('\n')}</p>`);
   }
   return out.join('\n');

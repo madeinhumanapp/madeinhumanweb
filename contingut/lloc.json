@@ -7,7 +7,8 @@
     "telefonVisible": "614 42 57 59",
     "carrer": "Passatge de Ricard Giralt i Casadesús, 16",
     "cp": "17007",
-    "ciutat": "Girona"
+    "ciutat": "Girona",
+    "zona": "Girona · Presencial a la demarcació i remot a tot Espanya"
   },
   "cap": {
     "og": {
@@ -25,9 +26,7 @@
     },
     "geo": {
       "geo.region": "ES-CT",
-      "geo.placename": "Girona",
-      "geo.position": "41.9794;2.8214",
-      "ICBM": "41.9794, 2.8214"
+      "geo.placename": "Girona"
     },
     "autor": "Madeinhuman ESPJ",
     "robots": "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
@@ -45,30 +44,30 @@
   "menu": {
     "ca": {
       "enllacos": [
-        [
-          "Serveis",
-          "/#serveis"
-        ],
-        [
-          "Mètode",
-          "/#metode"
-        ],
-        [
-          "FAQ",
-          "/#faq"
-        ],
-        [
-          "Actualitat",
-          "/#actualitat"
-        ],
-        [
-          "Diagnòstic gratuït",
-          "/diagnostic.html"
-        ],
-        [
-          "Contacte",
-          "/#contacte"
-        ]
+        {
+          "text": "Serveis",
+          "href": "/#serveis"
+        },
+        {
+          "text": "Mètode",
+          "href": "/#metode"
+        },
+        {
+          "text": "FAQ",
+          "href": "/preguntes-frequents/"
+        },
+        {
+          "text": "Actualitat",
+          "href": "/#actualitat"
+        },
+        {
+          "text": "Diagnòstic gratuït",
+          "href": "/diagnostic.html"
+        },
+        {
+          "text": "Contacte",
+          "href": "/#contacte"
+        }
       ],
       "altreIdioma": {
         "text": "Castellano",
@@ -83,18 +82,22 @@
     },
     "es": {
       "enllacos": [
-        [
-          "Servicios",
-          "/es/#servicios"
-        ],
-        [
-          "Método",
-          "/es/#metodo"
-        ],
-        [
-          "Contacto",
-          "/es/#contacto"
-        ]
+        {
+          "text": "Servicios",
+          "href": "/es/#servicios"
+        },
+        {
+          "text": "Método",
+          "href": "/es/#metodo"
+        },
+        {
+          "text": "Preguntas frecuentes",
+          "href": "/es/preguntas-frecuentes/"
+        },
+        {
+          "text": "Contacto",
+          "href": "/es/#contacto"
+        }
       ],
       "altreIdioma": {
         "text": "Català",
@@ -129,7 +132,7 @@
             },
             {
               "text": "Preguntes freqüents",
-              "href": "/#faq"
+              "href": "/preguntes-frequents/"
             },
             {
               "text": "Actualitat",
@@ -180,16 +183,8 @@
         },
         {
           "titol": "Legal i contacte",
+          "contacte": true,
           "elements": [
-            {
-              "tipus": "correu"
-            },
-            {
-              "tipus": "whatsapp"
-            },
-            {
-              "tipus": "adreca"
-            },
             {
               "text": "Avís legal",
               "href": "/avis-legal.html"
@@ -204,13 +199,11 @@
             },
             {
               "text": "APDCat ↗",
-              "href": "https://apdcat.gencat.cat",
-              "extern": true
+              "href": "https://apdcat.gencat.cat"
             },
             {
               "text": "AEPD ↗",
-              "href": "https://www.aepd.es",
-              "extern": true
+              "href": "https://www.aepd.es"
             }
           ]
         }
@@ -260,42 +253,31 @@
         },
         {
           "titol": "Contacto",
-          "elements": [
-            {
-              "tipus": "correu"
-            },
-            {
-              "tipus": "whatsapp"
-            },
-            {
-              "tipus": "adreca"
-            }
-          ]
+          "contacte": true,
+          "elements": []
         },
         {
           "titol": "Legal",
           "elements": [
             {
-              "text": "Aviso legal (catalán)",
-              "href": "/avis-legal.html"
+              "text": "Aviso legal",
+              "href": "/es/aviso-legal/"
             },
             {
-              "text": "Política de privacidad (catalán)",
-              "href": "/politica-privacitat.html"
+              "text": "Política de privacidad",
+              "href": "/es/politica-privacidad/"
             },
             {
-              "text": "Política de cookies (catalán)",
-              "href": "/politica-cookies.html"
+              "text": "Política de cookies",
+              "href": "/es/politica-cookies/"
             },
             {
               "text": "APDCat ↗",
-              "href": "https://apdcat.gencat.cat",
-              "extern": true
+              "href": "https://apdcat.gencat.cat"
             },
             {
               "text": "AEPD ↗",
-              "href": "https://www.aepd.es",
-              "extern": true
+              "href": "https://www.aepd.es"
             }
           ]
         }

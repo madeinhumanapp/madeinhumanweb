@@ -12,7 +12,8 @@
     ? 'http://localhost:3000'
     : 'https://rgpd.madeinhuman.cat';
   var CALENDARI_URL = 'index.html#contacte';   // ✏️ enllaç de reserva (Cal.com, etc.) quan estigui decidit
-  var TURNSTILE_SITE_KEY = '';                  // ✏️ clau pública de Cloudflare Turnstile (buida = desactivat)
+  // Clau pública de Cloudflare Turnstile: una sola font per als tres formularis (turnstile.js). Buida = desactivat
+  var TURNSTILE_SITE_KEY = window.MIH_TURNSTILE ? window.MIH_TURNSTILE.clau() : '';
 
   // ── Preguntes ─────────────────────────────────────────────────────
   var Q = [
@@ -216,30 +217,60 @@
       .then(function () { send.innerHTML = orig; validar(); });
   });
 
+  var NIVELLS = {
+    baix: {
+      etiqueta: 'Risc baix',
+      frase: 'Teniu una bona base, però convé mantenir la documentació al dia i revisar els detalls pendents.'
+    },
+    mitja: {
+      etiqueta: 'Risc mitjà',
+      frase: 'Teniu una base, però hi ha punts que convé tancar per reduir riscos en el dia a dia.'
+    },
+    alt: {
+      etiqueta: 'Risc alt',
+      frase: 'Hi ha punts crítics descoberts que convé prioritzar aviat per protegir la vostra activitat.'
+    }
+  };
+
+  function semaforHtml(nivell, index, etiqueta) {
+    var ordre = ['baix', 'mitja', 'alt'];
+    var llums = ordre.map(function (n) {
+      var activa = n === nivell;
+      return '<span class="llum ' + n + (activa ? ' on' : '') + '" data-llum="' + n + '" aria-hidden="true"></span>';
+    }).join('');
+    return '<div class="semafor" role="img" aria-label="' + esc(etiqueta + ': índex ' + index + ' sobre 100') + '">' + llums + '</div>';
+  }
+
   function resultat(d, email, comercial) {
-    var L = { alt: 'Risc alt', mitja: 'Risc mitjà', baix: 'Risc baix' };
+    var nivell = NIVELLS[d.nivell] ? d.nivell : 'mitja';
+    var info = NIVELLS[nivell];
     var docs = d.documentsDubte && d.documentsOk === 0 ? 'pendent de confirmar' : d.documentsOk + ' de ' + d.documentsTotal + ' documents';
     var el = steps[steps.length - 1];
     el.innerHTML =
       '<div class="kicker">EL VOSTRE RESULTAT</div>' +
       '<h2 tabindex="-1">' + esc(f.empresa.value.trim()) + '</h2>' +
-      '<div class="gauge"><svg viewBox="0 0 200 112" role="img" aria-label="Índex de risc ' + d.index + ' sobre 100">' +
-        '<path d="M18 100 A82 82 0 0 1 182 100" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="14" stroke-linecap="round"/>' +
-        '<path d="M18 100 A82 82 0 0 1 182 100" fill="none" stroke="url(#gg)" stroke-width="14" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100" id="arc"/>' +
-        '<defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" style="stop-color:var(--risc-baix)"/><stop offset=".5" style="stop-color:var(--daurat-clar)"/><stop offset="1" style="stop-color:var(--risc-alt)"/></linearGradient></defs></svg>' +
-        '<div class="n">' + d.index + '<small> / 100</small></div></div>' +
-      '<span class="pill ' + esc(d.nivell) + '">' + L[d.nivell] + '</span>' +
-      '<ul class="tops">' + d.top.map(function (t, i) { return '<li><span>0' + (i + 1) + '</span>' + esc(t) + '</li>'; }).join('') + '</ul>' +
-      '<div class="sent">📄 Us hem enviat l\'<b>informe complet</b> a <b>' + esc(email) + '</b>: el mapa de riscos, l\'estat de la vostra documentació (' + docs + ') i una mesura que podeu aplicar avui. Si no el veieu en uns minuts, mireu la carpeta de correu brossa.' +
+      '<div class="semafor-card">' +
+        semaforHtml(nivell, d.index, info.etiqueta) +
+        '<div class="semafor-info">' +
+          '<div class="semafor-cap">' +
+            '<span class="pill ' + esc(nivell) + '">' + esc(info.etiqueta) + '</span>' +
+            '<div class="semafor-index">' + esc(d.index) + '<small> / 100</small></div>' +
+          '</div>' +
+          '<p class="semafor-frase">' + esc(info.frase) + '</p>' +
+        '</div>' +
+      '</div>' +
+      '<div class="tops-titol">Els 3 riscos principals</div>' +
+      '<ol class="tops">' + (d.top || []).map(function (t, i) { return '<li><span aria-hidden="true">0' + (i + 1) + '</span>' + esc(t) + '</li>'; }).join('') + '</ol>' +
+      '<div class="sent">Us hem enviat l\'<b>informe complet</b> a <b>' + esc(email) + '</b>: el mapa de riscos, l\'estat de la vostra documentació (' + esc(docs) + ') i una mesura que podeu aplicar avui. Si no el veieu en uns minuts, mireu la carpeta de correu brossa.' +
         (comercial ? '<br><br>També us hem enviat un enllaç per <b>confirmar la subscripció</b>.' : '') + '</div>' +
-      '<div class="cta"><a class="btn" href="' + esc(CALENDARI_URL) + '">Reservar una trucada de 20 minuts →</a><small>Sense compromís. Repassem l\'informe junts.</small></div>';
-    requestAnimationFrame(function () {
-      setTimeout(function () {
-        var a = document.getElementById('arc');
-        if (!a) return;
-        a.style.transition = 'stroke-dasharray 1.1s ease';
-        a.setAttribute('stroke-dasharray', d.index + ' 100');
-      }, 80);
-    });
+      '<div class="cta"><a class="btn" href="' + esc(CALENDARI_URL) + '">Reservar una trucada de 20 minuts →</a><small>Sense compromís. Repassem l\'informe junts.</small></div>' +
+      '<div id="reserva" hidden></div>';
+    var contReserva = document.getElementById('reserva');
+    if (d && d.tokenReserva && window.MadeinhumanReserva && window.MadeinhumanReserva.activa() && contReserva) {
+      contReserva.hidden = false;
+      var ctaEl = el.querySelector('.cta');
+      if (ctaEl) ctaEl.hidden = true;
+      window.MadeinhumanReserva.muntar(contReserva, d.tokenReserva, 'ca');
+    }
   }
 })();

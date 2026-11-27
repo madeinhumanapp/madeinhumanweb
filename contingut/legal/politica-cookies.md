@@ -81,7 +81,7 @@ Les cookies que requereixen consentiment impliquen el tractament de dades person
 | **Finalitat** | Gestionar les preferències de cookies i, si s'escau, analitzar l'ús del lloc web. |
 | **Legitimació** | Consentiment de l'interessat (art. 6.1.a RGPD) per a cookies no tècniques. Interès legítim (art. 6.1.f RGPD) per a cookies estrictament necessàries. |
 | **Destinataris** | No es cediran dades a tercers, llevat d'obligació legal o de necessitat de complir la finalitat (veure taula de cookies). |
-| **Drets** | Accés, rectificació, supressió, oposició, limitació i portabilitat (arts. 15–22 RGPD). Contacte: [info@madeinhuman.cat](mailto:info@madeinhuman.cat) |
+| **Drets** | Accés, rectificació, supressió, oposició, limitació i portabilitat (arts. 15–22 RGPD). Contacte: [{{correu}}](mailto:{{correu}}) |
 
 ## Podem canviar aquesta política?
 

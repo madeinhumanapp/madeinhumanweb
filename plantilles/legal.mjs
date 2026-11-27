@@ -5,7 +5,18 @@ import { esc } from './text.mjs';
 import { markdown, enLinia } from './markdown.mjs';
 import { menu, peu } from './marc.mjs';
 
-export function paginaLegal(lloc, p, cos) {
+// Dades del lloc dins dels textos legals: {{adreca}} i {{correu}} es prenen de contingut/lloc.json, de manera que un
+// canvi a «Dades del lloc» del panell arriba també a l'avís legal i a les polítiques
+export function ambDadesDelLloc(text, lloc) {
+  const k = lloc.contacte;
+  const fet = text.replace(/\{\{adreca\}\}/g, `${k.carrer}, ${k.cp} ${k.ciutat}`).replace(/\{\{correu\}\}/g, k.correu);
+  const resta = fet.match(/\{\{[^}]*\}\}/);
+  if (resta) throw new Error(`Marca desconeguda als textos legals: ${resta[0]} (només {{adreca}} i {{correu}})`);
+  return fet;
+}
+
+export function paginaLegal(lloc, p, cosFont) {
+  const cos = ambDadesDelLloc(cosFont, lloc);
   const c = p.cap, ctx = { idioma: p.idioma, ruta: p.ruta };
   return `<!DOCTYPE html>
 <html lang="${p.idioma}">
@@ -15,7 +26,7 @@ export function paginaLegal(lloc, p, cos) {
   <title>${esc(c.titol)}</title>
   <meta name="description" content="${esc(c.descripcio)}" />
   <meta name="robots" content="${esc(c.robots)}" />
-  <link rel="canonical" href="${esc(c.canonica)}" />
+  <link rel="canonical" href="${esc(c.canonica)}" />${(c.alternatives || []).map(a => `\n  <link rel="alternate" hreflang="${a.idioma}" href="${esc(a.href)}" />`).join('\n')}
   <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/playfair-display-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="icon" href="/favicon.ico" sizes="32x32" />
@@ -27,6 +38,7 @@ export function paginaLegal(lloc, p, cos) {
 <body>
 ${menu(lloc, ctx)}
 
+  <main id="contingut" tabindex="-1">
   <section class="block legal-page">
     <div class="container legal-container">
       <span class="eyebrow">${esc(p.etiqueta)}</span>
@@ -39,6 +51,7 @@ ${markdown(cos, { classeTaula: 'legal-table' })}
       </div>
     </div>
   </section>
+  </main>
 
 ${peu(lloc, ctx)}
 

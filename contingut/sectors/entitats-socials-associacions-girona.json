@@ -1,0 +1,85 @@
+{
+  "slug": "entitats-socials-associacions-girona",
+  "idioma": "ca",
+  "grup_hreflang": "entitats-socials-associacions-girona",
+  "estat": "esborrany",
+  "sector": "social",
+  "titol_seo": "RGPD per a entitats i associacions a Girona · Madeinhuman",
+  "descripcio": "Guia pràctica de protecció de dades per a entitats socials, fundacions i associacions a Girona: usuaris vulnerables, voluntariat, socis i fotos.",
+  "h1": "Protecció de dades per a entitats socials i associacions a Girona",
+  "entradeta": "Associacions, fundacions i entitats del tercer sector a Girona: com protegir dades de persones usuàries, voluntariat, donants, socis i subvencions sense burocratitzar l'entitat.",
+  "capsula": "Les associacions, fundacions i entitats socials també estan subjectes al RGPD i la LOPDGDD, encara que no tinguin ànim de lucre. Quan ateneu persones vulnerables o tracteu dades de salut, situació social o voluntariat, normalment calen clàusules clares, control estricte d'accessos, acords amb voluntaris i valorar si cal un delegat de protecció de dades (DPO).",
+  "seccions": [
+    {
+      "titol": "Quines dades tracteu habitualment en una entitat social o associació?",
+      "cos": "Les entitats del tercer sector sovint combinen gestió associativa amb dades de molt alta sensibilitat:\n\n- **Persones usuàries o beneficiàries:** dades identificatives, situació socioeconòmica, informes socials, dades de salut, discapacitat o situació familiar.\n- **Socis i donants:** altes, quotes, certificats fiscals de donacions, assistència a assemblees i comunicacions de l'entitat.\n- **Voluntariat i junta directiva:** fitxes de voluntaris, assegurances, certificats requerits si hi ha contacte amb menors, actes de junta i registres interns.\n- **Activitats i difusió:** inscripcions a tallers o esdeveniments, fotografies i vídeos per a memòries anuals, web o xarxes socials.\n- **Finançament i proveïdors:** justificació de subvencions públiques, convenis amb administracions, eines al núvol i gestoria."
+    },
+    {
+      "titol": "Quins errors habituals trobem en associacions i entitats del tercer sector?",
+      "cos": "Moltes entitats treballen amb recursos ajustats i equips mixtos de personal tècnic i voluntariat, fet que sol generar aquests punts febles:\n\n- **Pensar que sense ànim de lucre no aplica el RGPD:** la normativa protegeix les persones independentment de si l'entitat és empresa, fundació o associació.\n- **Voluntariat sense compromís de confidencialitat ni accés limitat:** persones voluntàries que accedeixen a carpetes compartides senceres o desen dades d'usuaris al mòbil personal.\n- **Enviaments massius a socis o voluntaris en còpia oberta:** exposar l'adreça de correu electrònic de tots els membres, especialment sensible quan la pertinença a l'entitat pot revelar dades de salut, ideologia o situació personal.\n- **Fotos d'activitats publicades sense autorització específica:** fer servir imatges de persones beneficiàries o menors a memòries o xarxes sense consentiment separat i comprensible.\n- **Justificacions de subvencions sense criteri de minimització:** enviar a administracions o entitats col·laboradores més dades identificatives de les exigides per les bases de la convocatòria."
+    },
+    {
+      "titol": "Quan cal una protecció reforçada o un delegat de protecció de dades (DPO)?",
+      "cos": "No totes les associacions tenen el mateix nivell de risc. Una associació cultural o veïnal té necessitats molt més senzilles que una fundació que gestiona residències, centres de dia o programes d'atenció a col·lectius vulnerables.\n\n- **Categories especials i col·lectius vulnerables:** si tracteu dades de salut, discapacitat, origen o situació de vulnerabilitat social, convé extremar el control d'accessos, valorar una avaluació d'impacte en protecció de dades (EIPD) i revisar bé la base jurídica.\n- **Designació de DPO:** depèn de si feu tractaments a gran escala de categories especials de dades o si presteu serveis en supòsits previstos per la LOPDGDD (p. ex. centres sanitaris o determinades entitats que gestionen serveis públics) [REVISAR: confirmar supòsits de l'article 34 de la LOPDGDD i l'àmbit de competència entre l'Agència Espanyola de Protecció de Dades (AEPD) i l'Autoritat Catalana de Protecció de Dades (APDCat) per a entitats que gestionen serveis públics a Catalunya].\n\nPodeu fer una primera orientació a [Necessito un DPO?](/necessito-dpo/) i revisar-ho amb nosaltres."
+    },
+    {
+      "titol": "Com podeu gestionar el voluntariat, els donants i les eines gratuïtes?",
+      "cos": "Mantenir l'entitat ordenada no ha de frenar l'acció social, sinó protegir les persones a qui acompanyeu:\n\n- **Voluntariat i junta:** feu signar un compromís de confidencialitat clar, doneu accés només a la informació estrictament necessària per a cada tasca i reviseu les baixes quan una persona deixa de col·laborar.\n- **Socis i donants:** informeu a l'alta de les finalitats (gestió de quotes, obligacions fiscals de donacions, comunicacions de l'entitat) i separeu l'enviament de campanyes de captació quan calgui consentiment.\n- **Eines digitals:** reviseu formularis en línia, carpetes al núvol i plataformes d'enviament de butlletins, assegurant els contractes d'encàrrec de tractament i el doble factor d'autenticació en comptes que continguin dades sensibles."
+    },
+    {
+      "titol": "Per on podeu començar aquesta setmana?",
+      "cos": "Un pla realista per a la junta i l'equip tècnic pot començar amb cinc passos concrets:\n\n1. Feu un llistat dels tractaments principals (persones usuàries, socis, donants, voluntariat, personal i imatges) i identifiqueu quins contenen dades especialment sensibles.\n2. Reviseu els permisos de les carpetes al núvol perquè els expedients d'usuaris només siguin accessibles per a l'equip que els necessita.\n3. Prepareu un full informatiu i un compromís de confidencialitat breu per a totes les persones voluntàries i membres de junta.\n4. Comproveu que tots els enviaments grupals a socis o usuaris es fan en còpia oculta (CCO) o amb una eina d'enviament adequada.\n5. Separeu els formularis d'inscripció a activitats de les autoritzacions d'ús d'imatge per a memòries, web i xarxes socials."
+    }
+  ],
+  "documents": [
+    "Registre d'activitats de tractament (RAT) per a persones usuàries, socis, donants i voluntariat",
+    "Clàusules informatives clares i comprensibles per a usuaris, socis, donants i inscripcions",
+    "Autoritzacions d'imatge separades per a memòries anuals, web i xarxes socials",
+    "Compromís de confidencialitat i normes d'ús de dades per a personal, voluntariat i junta",
+    "Contractes d'encàrrec de tractament amb eines al núvol, plataformes de donacions i gestoria",
+    "Anàlisi de riscos i, si escau, avaluació d'impacte (EIPD) per a dades de col·lectius vulnerables",
+    "Protocol d'atenció de drets i de notificació d'incidents de seguretat"
+  ],
+  "faq": [
+    {
+      "pregunta": "Una associació petita de Girona sense treballadors també ha de complir el RGPD?",
+      "resposta": "Sí, però de manera proporcional a la seva mida i risc. Una associació petita sense dades sensibles normalment en té prou amb un registre d'activitats senzill, clàusules clares a les altes de socis, cura amb els correus grupals i contractes amb els proveïdors que tractin dades."
+    },
+    {
+      "pregunta": "Com hem d'actuar si una administració pública ens demana llistats nominals d'usuaris per justificar una subvenció?",
+      "resposta": "Reviseu les bases reguladores de la subvenció per verificar quines dades exigeix la norma, informeu prèviament les persones usuàries d'aquesta comunicació a la clàusula d'alta i limiteu l'enviament a les dades estrictament requerides."
+    },
+    {
+      "pregunta": "Els membres de la junta directiva sortint poden conservar còpies dels llistats de socis o expedients?",
+      "resposta": "No. Quan una persona deixa la junta o el voluntariat, ha de retornar la documentació de l'entitat i s'han de revocar els seus accessos al correu corporatiu, al núvol i a les eines de gestió."
+    },
+    {
+      "pregunta": "Si la nostra entitat tracta dades de salut de persones usuàries, quina autoritat de control ens correspon?",
+      "resposta": "En general les entitats privades sense ànim de lucre queden sota la competència de l'Agència Espanyola de Protecció de Dades (AEPD), llevat dels supòsits en què prestin serveis públics o exerceixin funcions públiques a Catalunya sota competència de l'Autoritat Catalana de Protecció de Dades (APDCat) [REVISAR: confirmar delimitació competencial de l'article 3 de la Llei 32/2010 de l'APDCat]."
+    }
+  ],
+  "servei_relacionat": "dpo",
+  "articles_relacionats": [
+    "proveidors-contracte-encarregat-rgpd",
+    "bretxa-de-dades-que-fer"
+  ],
+  "cta_desti": "diagnostic",
+  "fonts": [
+    {
+      "nom": "Reglament (UE) 2016/679 (RGPD) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "nom": "Llei Orgànica 3/2018 (LOPDGDD) — BOE",
+      "url": "https://www.boe.es/eli/es/lo/2018/12/05/3/con"
+    },
+    {
+      "nom": "Agència Espanyola de Protecció de Dades (AEPD)",
+      "url": "https://www.aepd.es/"
+    },
+    {
+      "nom": "Autoritat Catalana de Protecció de Dades (APDCat)",
+      "url": "https://apdcat.gencat.cat/"
+    }
+  ]
+}

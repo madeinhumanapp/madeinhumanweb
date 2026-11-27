@@ -4,6 +4,8 @@
 import { esc, attr } from './text.mjs';
 import { renderBloc } from './blocs.mjs';
 import { menu, peu } from './marc.mjs';
+import { perfilsSocials, contactPointEmpresa, nomsServeis } from './serveis.mjs';
+import { t } from './textos.mjs';
 
 const meta = (nom, valor) => (valor == null ? '' : `\n  <meta name="${nom}" content="${esc(valor)}" />`);
 const prop = (nom, valor) => (valor == null ? '' : `\n  <meta property="${nom}" content="${esc(valor)}" />`);
@@ -20,16 +22,29 @@ function jsonldAmbFaq(j, faq) {
 }
 
 // Les dades de contacte del JSON-LD surten de contingut/lloc.json (font única): si es canvien al panell,
-// també canvien aquí. Només se substitueixen els camps que ja hi són (mateix ordre, mateix resultat).
-function ambContacte(j, lloc) {
+// també canvien aquí. Per a ProfessionalService també completa contactPoint, knowsAbout i sameAs (WEB-G06e).
+function ambContacte(j, lloc, serveis = null, idioma = 'ca') {
   const k = lloc.contacte;
+  const sameAs = perfilsSocials(lloc);
+  const noms = nomsServeis(serveis, idioma);
   const posa = (o, camp, v) => (camp in o ? { ...o, [camp]: v } : o);
   const recorre = o => {
     if (Array.isArray(o)) return o.map(recorre);
     if (!o || typeof o !== 'object') return o;
     let r = Object.fromEntries(Object.entries(o).map(([c, v]) => [c, recorre(v)]));
+    const tipus = Array.isArray(r['@type']) ? r['@type'] : [r['@type']];
     if (r['@type'] === 'PostalAddress') {
-      r = posa(r, 'streetAddress', k.carrer); r = posa(r, 'postalCode', k.cp); r = posa(r, 'addressLocality', k.ciutat);
+      r = posa(r, 'addressLocality', k.ciutat);
+    } else if (tipus.includes('ProfessionalService')) {
+      r = posa(r, 'telephone', k.telefon);
+      r = posa(r, 'email', k.correu);
+      r.contactPoint = contactPointEmpresa(lloc);
+      if (noms.length) {
+        const existents = Array.isArray(r.knowsAbout) ? r.knowsAbout : (r.knowsAbout ? [r.knowsAbout] : []);
+        r.knowsAbout = [...new Set([...noms, ...existents])];
+      }
+      if (sameAs.length) r.sameAs = sameAs;
+      else delete r.sameAs;
     } else if (r.address || r.telephone) {
       r = posa(r, 'telephone', k.telefon); r = posa(r, 'email', k.correu);
     }
@@ -38,7 +53,10 @@ function ambContacte(j, lloc) {
   return recorre(j);
 }
 
-function cap(lloc, p, faq) {
+// Rutes de fulls d'estil i scripts sempre absolutes: la pàgina pot ser dins d'una carpeta (/preguntes-frequents/)
+const absoluta = u => (/^(\/|https:\/\/)/.test(u) ? u : `/${u}`);
+
+function cap(lloc, p, faq, serveis) {
   const c = p.cap, d = lloc.cap;
   const og = { ...d.og, ...c.og };
   const tw = { ...d.twitter, ...c.twitter };
@@ -51,19 +69,19 @@ function cap(lloc, p, faq) {
   <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />${meta('author', d.autor)}${meta('robots', c.robots ?? d.robots)}${meta('theme-color', d.colorTema)}${(c.jsonld || []).map(j => ambContacte(jsonldAmbFaq(j, faq), lloc)).map(j => `
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />${meta('author', d.autor)}${meta('robots', c.robots ?? d.robots)}${meta('theme-color', d.colorTema)}${(c.jsonld || []).map(j => ambContacte(jsonldAmbFaq(j, faq), lloc, serveis, p.idioma)).map(j => `
   <script type="application/ld+json">
 ${JSON.stringify(j, null, 2)}
   </script>`).join('\n')}${d.precarregar.map(f => `
   <link rel="preload" href="${f}" as="font" type="font/woff2" crossorigin />`).join('\n')}${(c.estils || d.estils).map(e => `
-  <link rel="stylesheet" href="${e}" />`).join('\n')}
+  <link rel="stylesheet" href="${absoluta(e)}" />`).join('\n')}
 </head>`;
 }
 
 function flotants(lloc, ctx) {
   const tel = lloc.contacte.telefon.replace(/\D/g, '');
   return `
-<a href="#top" class="back-to-top" id="backToTop" aria-label="Tornar a dalt">
+<a href="#top" class="back-to-top" id="backToTop" aria-label="${esc(t('ca', 'comu.tornar_dalt'))}">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
 </a>
 <a href="https://wa.me/${tel}" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="${esc(lloc.menu[ctx.idioma].whatsappEtiqueta)}">
@@ -77,17 +95,26 @@ function flotants(lloc, ctx) {
 
 // formularis: { id: plantilla HTML } de plantilles/formularis/ (protegits, no editables)
 // actualitat: targetes de les notícies publicades (plantilles/actualitat.mjs → targeta), de la més nova a la més antiga
-export function pagina(lloc, p, formularis = {}, faq = [], actualitat = []) {
-  const ctx = { ruta: p.ruta, idioma: p.idioma, formularis, faq, actualitat };
+// media: entrades de contingut/media.json (WEB-M02); imatges: { id: 'data:…' } només a la vista prèvia del panell
+// serveis: contingut/serveis.json (opcional): les finestres dels serveis de la portada en mostren l'entradeta
+export function pagina(lloc, p, formularis = {}, faq = [], actualitat = [], media = [], imatges = {}, serveis = null) {
+  const ctx = { ruta: p.ruta, idioma: p.idioma, formularis, faq, actualitat,
+    media: new Map((media || []).map(e => [e.id, e])), imatges: imatges || {}, serveis };
+  const blocsHtml = p.blocs.filter(b => !b.amagat).map(b => renderBloc(b, ctx)).join('\n');
+  const teTop = /\bid="top"/.test(blocsHtml);
   return `<!DOCTYPE html>
 <html lang="${p.idioma}">
-${cap(lloc, p, faq)}
+${cap(lloc, p, faq, serveis)}
 <body>
 ${menu(lloc, ctx)}
-${p.blocs.filter(b => !b.amagat).map(b => renderBloc(b, ctx)).join('\n')}
+${teTop ? '' : '<div id="top"></div>\n'}<main id="contingut" tabindex="-1">
+${blocsHtml}
+</main>
 ${peu(lloc, ctx)}
 ${flotants(lloc, ctx)}
-${(p.scripts || []).map(s => `<script src="${s}"></script>`).join('\n')}
+${(p.scripts || []).map(s => `<script src="${absoluta(s)}"></script>`).join('\n')}${p.pagina === 'portada' ? `
+<script src="/portada.js" defer></script>
+<script src="/fil.js" defer></script>` : ''}
 <script src="/menu.js" defer></script>
 </body>
 </html>

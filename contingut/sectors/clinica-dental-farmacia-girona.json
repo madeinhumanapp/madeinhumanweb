@@ -1,0 +1,87 @@
+{
+  "slug": "clinica-dental-farmacia-girona",
+  "idioma": "ca",
+  "grup_hreflang": "clinica-dental-farmacia-girona",
+  "estat": "esborrany",
+  "sector": "salut",
+  "titol_seo": "RGPD per a dentistes i farmàcies a Girona · Madeinhuman",
+  "descripcio": "Guia pràctica de protecció de dades per a clíniques dentals i farmàcies a Girona: receptes, radiografies, laboratoris, DPO i seguretat.",
+  "h1": "Protecció de dades per a clíniques dentals i farmàcies a Girona",
+  "entradeta": "Clíniques dentals i oficines de farmàcia a Girona: com gestionar històries odontològiques, radiografies, recepta electrònica, laboratoris i finançament amb rigor.",
+  "capsula": "Les clíniques dentals i les farmàcies tracten diàriament dades de salut de categoria especial segons el RGPD i la LOPDGDD. Normalment cal mantenir un registre d'activitats, informar amb claredat els pacients i clients, regular laboratoris i programes de gestió, protegir les imatges clíniques i valorar la designació d'un delegat de protecció de dades (DPO).",
+  "seccions": [
+    {
+      "titol": "Quines dades tracteu habitualment en una clínica dental o farmàcia?",
+      "cos": "Tot i que les clíniques odontològiques i les farmàcies treballen de manera diferent, totes dues concentren dades sensibles en diversos punts de l'activitat:\n\n- **Clíniques dentals:** històries clíniques, radiografies i escàners intraorals, fotografies d'evolució, pressupostos, plans de finançament i consentiments informats.\n- **Oficines de farmàcia:** dispensació amb recepta electrònica o en paper, seguiment farmacoterapèutic, encàrrecs de medicació, targetes de fidelització de parafarmàcia i comandes per telèfon o missatgeria.\n- **Proveïdors i col·laboradors:** laboratoris protèsics, distribuïdors, programari de gestió, mútues, entitats financeres, gestoria i manteniment informàtic.\n- **Instal·lacions i equip:** càmeres de videovigilància a l'accés o al taulell, registres d'accés al programari i dades laborals de l'equip."
+    },
+    {
+      "titol": "Quins errors habituals trobem en clíniques dentals i farmàcies?",
+      "cos": "En revisions del sector sanitari de proximitat a Girona acostumen a repetir-se riscos molt concrets:\n\n- **Enviar radiografies o encàrrecs per WhatsApp personal:** intercanviar imatges amb laboratoris protèsics o respondre consultes de medicació sense un canal controlat.\n- **Pantalles i documents a la vista al taulell:** receptes, sobres amb nom i medicació o agendes de clínica visibles per a altres pacients a recepció.\n- **Comptes d'usuari compartits:** tot l'equip accedint al programa de gestió de la farmàcia o de la clínica amb la mateixa contrasenya.\n- **Fidelització i promocions sense base clara:** recollir telèfons o correus per avisar d'una comanda i fer-los servir després per enviar ofertes de dermocosmètica o revisions dentals sense consentiment separat.\n- **Laboratoris i finançadores sense encaix documentat:** compartir dades de pacients amb protèsics o entitats de finançament sense contracte d'encàrrec o sense informar-ne el pacient."
+    },
+    {
+      "titol": "Quan cal un delegat de protecció de dades (DPO) en una dental o farmàcia?",
+      "cos": "La LOPDGDD contempla supòsits d'obligatorietat de delegat de protecció de dades (DPO) per a centres sanitaris legalment obligats al manteniment d'històries clíniques, amb una excepció prevista per a professionals que exerceixen a títol individual [REVISAR: confirmar aplicació exacta de l'article 34.1.l de la LOPDGDD a clíniques dentals societàries, odontòlegs individuals i oficines de farmàcia segons criteri vigent de l'Agència Espanyola de Protecció de Dades (AEPD)].\n\nEn el cas de farmàcies amb serveis de seguiment farmacoterapèutic o grups de clíniques amb volum elevat de pacients, també cal valorar el criteri de tractament a gran escala de dades de salut. Podeu fer una primera comprovació a [Necessito un DPO?](/necessito-dpo/) i contrastar el vostre cas concret amb el nostre equip."
+    },
+    {
+      "titol": "Com heu de gestionar laboratoris, fotos clíniques i càmeres?",
+      "cos": "Hi ha tres fronts operatius que convé deixar ben ordenats des del primer dia:\n\n- **Laboratoris protèsics i proveïdors tecnològics:** quan un laboratori rep dades identificatives del pacient per fabricar una pròtesi, o un proveïdor manté el programari de gestió, normalment cal signar un contracte d'encàrrec de tractament i limitar les dades enviades al mínim necessari (p. ex. codis interns).\n- **Fotografies d'abans i després:** fer fotos per a la història clínica no autoritza a publicar-les al web ni a xarxes socials; qualsevol ús divulgatiu o promocional requereix un consentiment explícit, separat i revocable.\n- **Videovigilància i conservació:** si teniu càmeres per seguretat a la farmàcia o a recepció, col·loqueu el cartell informatiu abans d'entrar a la zona gravada, tingueu disponible la informació completa i comproveu el termini màxim de conservació de les gravacions [REVISAR: confirmar termini de conservació d'imatges de l'article 22 de la LOPDGDD i terminis de conservació de documentació clínica i farmacèutica a Catalunya]."
+    },
+    {
+      "titol": "Per on podeu començar aquesta setmana?",
+      "cos": "Podeu reduir els riscos principals sense alterar l'atenció diària amb cinc passes pràctiques:\n\n1. Reviseu la disposició del taulell i de recepció perquè ni les pantalles ni les receptes quedin a la vista de tercers.\n2. Creeu usuaris individuals al programari de gestió clínica o farmacèutica i reviseu qui té accés a cada mòdul.\n3. Comproveu els contractes d'encàrrec de tractament amb el programari, el suport informàtic, els laboratoris i la gestoria.\n4. Separeu clarament les clàusules d'alta de pacient o targeta de fidelització de les autoritzacions per a comunicacions comercials o ús promocional d'imatges.\n5. Valoreu si la vostra estructura obliga a designar un DPO i reviseu el cartell i el registre de càmeres si en teniu."
+    }
+  ],
+  "documents": [
+    "Registre d'activitats de tractament (RAT) adaptat a clínica dental o oficina de farmàcia",
+    "Clàusules informatives de primera i segona capa per a alta de pacients i fidelització",
+    "Consentiment separat per a ús divulgatiu o promocional de fotografies clíniques",
+    "Contractes d'encàrrec de tractament amb programari, laboratoris protèsics, informàtica i gestoria",
+    "Compromís de confidencialitat i pautes de privacitat al taulell per a tot l'equip",
+    "Anàlisi de riscos i, si escau, avaluació d'impacte en protecció de dades (EIPD)",
+    "Cartell i fitxa informativa de videovigilància, si disposeu de càmeres",
+    "Document de designació de DPO i comunicació a l'autoritat competent, si aplica"
+  ],
+  "faq": [
+    {
+      "pregunta": "Una oficina de farmàcia ha de designar obligatòriament un DPO?",
+      "resposta": "No sempre és automàtic: depèn de la titularitat, del volum de dades de salut tractades i dels serveis assistencials addicionals que presteu (com seguiment farmacoterapèutic o cribratges) [REVISAR: confirmar criteri vigent de l'Agència Espanyola de Protecció de Dades (AEPD) sobre DPO en oficines de farmàcia]. Podeu revisar les pautes bàsiques a [Necessito un DPO?](/necessito-dpo/)."
+    },
+    {
+      "pregunta": "Podem enviar la radiografia d'un pacient al laboratori protèsic per correu electrònic?",
+      "resposta": "Convé evitar enviar imatges identificades per correu sense protecció. És més segur utilitzar un portal xifrat o fitxers protegits amb contrasenya i identificar el treball amb un codi intern sempre que sigui possible, dins del marc del contracte d'encàrrec."
+    },
+    {
+      "pregunta": "Podem atendre encàrrecs de medicació o cites dentals per WhatsApp?",
+      "resposta": "Cal actuar amb molta prudència. Eviteu recollir o enviar dades de salut sensibles per canals de missatgeria no controlats, informeu clarament del canal utilitzat i valoreu alternatives pensades per a l'àmbit sanitari [REVISAR: confirmar orientacions actuals de l'AEPD i l'Autoritat Catalana de Protecció de Dades (APDCat) sobre missatgeria en salut]."
+    },
+    {
+      "pregunta": "Si un familiar ve a recollir una comanda o un informe a la farmàcia o clínica, li podem lliurar?",
+      "resposta": "Cal verificar que la persona està autoritzada pel pacient o que hi ha cobertura legal per al lliurament (p. ex. progenitors de menors o autorització expressa), especialment quan el document o la medicació revela informació clínica sensible."
+    }
+  ],
+  "servei_relacionat": "dpo",
+  "articles_relacionats": [
+    "proveidors-contracte-encarregat-rgpd",
+    "cameres-videovigilancia-negoci",
+    "bretxa-de-dades-que-fer"
+  ],
+  "cta_desti": "diagnostic",
+  "fonts": [
+    {
+      "nom": "Reglament (UE) 2016/679 (RGPD) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "nom": "Llei Orgànica 3/2018 (LOPDGDD) — BOE",
+      "url": "https://www.boe.es/eli/es/lo/2018/12/05/3/con"
+    },
+    {
+      "nom": "Agència Espanyola de Protecció de Dades (AEPD)",
+      "url": "https://www.aepd.es/"
+    },
+    {
+      "nom": "Autoritat Catalana de Protecció de Dades (APDCat)",
+      "url": "https://apdcat.gencat.cat/"
+    }
+  ]
+}

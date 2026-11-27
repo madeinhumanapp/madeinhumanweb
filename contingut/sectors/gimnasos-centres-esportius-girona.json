@@ -1,0 +1,89 @@
+{
+  "slug": "gimnasos-centres-esportius-girona",
+  "idioma": "ca",
+  "grup_hreflang": "gimnasos-centres-esportius-girona",
+  "estat": "esborrany",
+  "sector": "serveis",
+  "titol_seo": "RGPD per a gimnasos i fitness a Girona · Madeinhuman",
+  "descripcio": "Guia pràctica de protecció de dades per a gimnasos, boxs, estudis de pilates i centres esportius a Girona: accessos, biometria, salut i càmeres.",
+  "h1": "Protecció de dades per a gimnasos i centres esportius a Girona",
+  "entradeta": "Gimnasos, estudis de pilates o ioga, entrenadors personals i centres esportius de Girona: com ordenar altes, control d'accés, dades de salut, càmeres i aplicacions de reserves.",
+  "capsula": "Els gimnasos i centres esportius tracten dades de socis, cobraments, controls d'accés i sovint informació de salut com lesions o qüestionaris físics. Normalment cal evitar sistemes biomètrics innecessaris, informar clarament a l'alta, regular l'aplicació de reserves i els entrenadors externs, i col·locar bé les càmeres de seguretat.",
+  "seccions": [
+    {
+      "titol": "Quines dades tracteu habitualment en un gimnàs o centre esportiu?",
+      "cos": "Encara que l'activitat sembli senzilla, un centre esportiu combina dades administratives, financeres i sovint dades de salut:\n\n- **Socis i usuaris:** dades identificatives, domiciliació bancària o targeta, fotografia de perfil, assistència i reserves de classes.\n- **Salut i entrenament:** qüestionaris d'aptitud física, lesions, patologies declarades, mesures corporals o plans d'entrenament personalitzat.\n- **Menors (si hi ha activitats infantils o juvenils):** dades de tutors legals i autoritzacions específiques.\n- **Instal·lacions i seguretat:** torns d'entrada (targeta, codi QR, polsera o biometria) i càmeres de videovigilància.\n- **Màrqueting i proveïdors:** fotografies de classes per a xarxes, aplicació de gestió de socis, entrenadors autònoms i gestoria."
+    },
+    {
+      "titol": "Podeu fer servir empremta digital o reconeixement facial per entrar al gimnàs?",
+      "cos": "És un dels punts que més incidències genera al sector. L'empremta dactilar o el reconeixement facial utilitzats per identificar persones són dades biomètriques que tenen una protecció molt estricta sota el RGPD.\n\nL'Agència Espanyola de Protecció de Dades (AEPD) ha establert criteris molt restrictius sobre l'ús de biometria per al control d'accés quan existeixen alternatives menys intrusives i igualment eficaces, com targetes, polseres o codis QR a l'aplicació [REVISAR: confirmar guia vigent de l'AEPD sobre tractaments de control de presència i accés mitjançant sistemes biomètrics].\n\n- **Què convé fer:** si encara feu servir lectors d'empremta o reconeixement facial a l'accés, valoreu substituir-los per sistemes no biomètrics o revisar a fons si realment existeix una base jurídica i una avaluació d'impacte que ho sostingui."
+    },
+    {
+      "titol": "Quins errors habituals trobem en gimnasos i estudis de fitness?",
+      "cos": "Quan revisem centres esportius i estudis d'entrenament de Girona, solen repetir-se aquests punts:\n\n- **Dades de salut recollides sense protecció específica:** qüestionaris de lesions o fitxes d'entrenament accessibles a tot el personal de recepció o enviats per missatgeria personal.\n- **Fotos i vídeos de classes a Instagram sense permís:** gravar entrenaments o esdeveniments on els socis són identificables sense haver recollit una autorització clara i opcional.\n- **Càmeres mal ubicades:** càmeres que enfoquen zones de vestidors, dutxes o lavabos (prohibides per protecció de la intimitat) o sense cartell informatiu visible.\n- **Antics socis que continuen rebent promocions:** mantenir contactes donats de baixa en llistes de difusió sense base jurídica ni opció fàcil de baixa.\n- **Aplicació de reserves i entrenadors externs sense contracte:** eines al núvol o professionals autònoms que accedeixen a la base de socis sense regular els rols."
+    },
+    {
+      "titol": "Com heu de gestionar càmeres, qüestionaris de salut i l'app de reserves?",
+      "cos": "Posar ordre en aquests tres àmbits cobreix gran part del compliment del centre:\n\n- **Qüestionaris de salut i entrenament:** demaneu només les dades realment necessàries per adaptar l'activitat, informeu de la finalitat i la base jurídica (sovint consentiment explícit si es tracten dades de salut) i limiteu l'accés als tècnics que les necessiten.\n- **Videovigilància:** instal·leu càmeres només en accessos, recepció o sales comunes on sigui proporcionat, mai a vestidors ni lavabos; poseu el cartell informatiu abans de la zona gravada i comproveu el termini màxim de conservació [REVISAR: confirmar termini màxim d'un mes de l'article 22 de la LOPDGDD i obligació d'informar el personal si també hi ha finalitat de control laboral].\n- **Aplicacions i proveïdors:** reviseu els contractes d'encàrrec de tractament amb el programari de gestió del gimnàs, la passarel·la de pagament, el màrqueting i la gestoria."
+    },
+    {
+      "titol": "Per on podeu començar aquesta setmana?",
+      "cos": "Amb cinc comprovacions ràpides podeu detectar i corregir les exposicions més grans del centre:\n\n1. Reviseu el sistema d'accés al gimnàs: si utilitza empremta o rostre, planifiqueu la revisió jurídica o el pas a targeta, polsera o QR.\n2. Actualitzeu el formulari d'alta de socis separant la informació del contracte, les dades de salut (si en recolliu) i les autoritzacions d'imatge i promocions.\n3. Comproveu totes les càmeres: orientació, cartells visibles, accés restringit a les gravacions i esborrat automàtic.\n4. Verifiqueu els contractes d'encàrrec amb l'app de reserves, el programari de facturació i els proveïdors informàtics.\n5. Establiu unes normes breus per a monitors i recepció sobre fotos a sala, grups de missatgeria i accés a fitxes de socis."
+    }
+  ],
+  "documents": [
+    "Registre d'activitats de tractament (RAT) per a socis, salut, accessos, videovigilància i equip",
+    "Clàusula informativa per al contracte d'alta de socis i formularis web",
+    "Consentiment separat per a dades de salut (si escau), imatges en xarxes i promocions",
+    "Contractes d'encàrrec de tractament amb l'app de reserves, programari de gestió i gestoria",
+    "Cartell i informació completa de videovigilància, si hi ha càmeres a les instal·lacions",
+    "Compromís de confidencialitat i normes d'ús per a monitors, recepció i entrenadors",
+    "Protocol d'atenció de drets, baixes comercials i gestió d'incidents de seguretat"
+  ],
+  "faq": [
+    {
+      "pregunta": "Si un soci dona el seu consentiment, podem continuar fent servir l'empremta digital per obrir el torn?",
+      "resposta": "Cal valorar-ho amb molta cautela. Segons els criteris recents de l'Agència Espanyola de Protecció de Dades (AEPD), el consentiment no sempre legitima la biometria si no hi ha una alternativa equivalent realment lliure o si el sistema no supera el judici de necessitat i proporcionalitat [REVISAR: confirmar criteri actualitzat de l'AEPD sobre biometria en gimnasos amb alternativa no biomètrica]."
+    },
+    {
+      "pregunta": "Podem posar càmeres a la sala de màquines o al vestidor per evitar robatoris?",
+      "resposta": "Als vestidors, dutxes i lavabos no s'hi poden instal·lar càmeres perquè vulneren greument la intimitat. A la sala de màquines o als accessos es pot valorar la videovigilància si és proporcionada, està degudament senyalitzada i compleix les garanties de la LOPDGDD."
+    },
+    {
+      "pregunta": "Si gravem un vídeo promocional d'una classe dirigida, n'hi ha prou amb posar un avís a la porta?",
+      "resposta": "Un cartell genèric no substitueix el consentiment quan els socis apareixen en primer pla o són clarament identificables amb finalitat promocional. Convé demanar autorització expressa o enquadrar de manera que no s'identifiquin les persones que no hi consenten."
+    },
+    {
+      "pregunta": "Quant temps podem guardar les dades d'un soci quan es dona de baixa?",
+      "resposta": "Les dades operatives s'han de deixar d'utilitzar quan acaba la relació, però cal conservar bloquejades les dades de facturació i contractació durant els terminis legals fiscals i mercantils aplicables [REVISAR: confirmar terminis de bloqueig i conservació comptable/fiscal aplicables]."
+    }
+  ],
+  "servei_relacionat": "adequacio",
+  "articles_relacionats": [
+    "cameres-videovigilancia-negoci",
+    "proveidors-contracte-encarregat-rgpd"
+  ],
+  "cta_desti": "diagnostic",
+  "fonts": [
+    {
+      "nom": "Reglament (UE) 2016/679 (RGPD) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "nom": "Llei Orgànica 3/2018 (LOPDGDD) — BOE",
+      "url": "https://www.boe.es/eli/es/lo/2018/12/05/3/con"
+    },
+    {
+      "nom": "Llei 34/2002 (LSSI-CE) — BOE",
+      "url": "https://www.boe.es/eli/es/l/2002/07/11/34/con"
+    },
+    {
+      "nom": "Agència Espanyola de Protecció de Dades (AEPD)",
+      "url": "https://www.aepd.es/"
+    },
+    {
+      "nom": "Autoritat Catalana de Protecció de Dades (APDCat)",
+      "url": "https://apdcat.gencat.cat/"
+    }
+  ]
+}

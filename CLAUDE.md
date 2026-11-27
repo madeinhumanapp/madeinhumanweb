@@ -13,7 +13,9 @@ Static website for madeinhuman.cat — privacy consultancy (RGPD/AI Act).
 - Content is edited from the «Web» panel of rgpd-tool (GitHub App → branch `esborrany` → publish to `main`)
 - Forms POST to `https://rgpd.madeinhuman.cat` (app hosted on Render)
 - React, Babel and SheetJS only for `recollida.html` wizard, self-hosted in `vendor/` (pinned versions)
-- No third-party requests from any page: no external analytics, pixels, font CDNs or link shorteners
+- No third-party requests from any page: no external analytics, pixels, font CDNs or link shorteners. Only exception
+  (decided 26/11/2026): Cloudflare Turnstile (`turnstile.js`) on the pages with forms, loaded only when the visitor
+  starts filling a form; the key lives in `turnstile.js` and the secret in rgpd-tool
 
 ## Key Files
 

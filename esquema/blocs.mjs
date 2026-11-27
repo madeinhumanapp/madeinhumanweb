@@ -6,10 +6,13 @@ import { urlSegura } from '../plantilles/text.mjs';
 const text = (etiqueta, max, extra = {}) => ({ tipus: 'text', etiqueta, max, obligatori: true, ...extra });
 const enriquit = (etiqueta, max, extra = {}) => ({ tipus: 'enriquit', etiqueta, max, obligatori: true, ajuda: '*cursiva*, **negreta**, salt de línia', ...extra });
 
+// Id d'una entrada de contingut/media.json (WEB-M02): AAAA-MM-titol-curt-8hex, màxim 80 caràcters
+export const PATRO_ID_MEDIA = /^\d{4}-\d{2}-[a-z0-9]+(-[a-z0-9]+)*-[0-9a-f]{8}$/;
+
 // Blocs de la portada que el panell no deixa amagar ni treure: la capçalera, els formularis (connectors amb
 // rgpd-tool) i els que són destinació d'enllaços del menú. Els afegibles són els que el panell pot crear.
 export const BLOCS_PROTEGITS = ['hero', 'formulari', 'serveis', 'metode', 'faq', 'actualitat'];
-export const BLOCS_AFEGIBLES = ['spot', 'context', 'separador'];
+export const BLOCS_AFEGIBLES = ['spot', 'nota', 'premisses', 'crida', 'context', 'separador', 'imatge', 'galeria', 'video'];
 
 export const ESQUEMA = {
   hero: {
@@ -33,10 +36,53 @@ export const ESQUEMA = {
   spot: {
     nom: 'Frase destacada',
     camps: {
-      num: text('Número', 3, { ajuda: '01, 02…' }),
+      num: text('Número', 3, { obligatori: false, ajuda: 'Opcional: 01, 02… (buit: sense número)' }),
       titol: enriquit('Titular', 80),
       text: enriquit('Text', 300),
       alternat: { tipus: 'bool', etiqueta: 'Fons alternat' },
+    },
+  },
+  // Nota breu al llarg del fil conductor: una xifra o una data i una frase que reforça per què cal actuar
+  nota: {
+    nom: 'Nota (xifra i frase)',
+    camps: {
+      clau: text('Xifra o data', 12, { obligatori: false, ajuda: 'Opcional. Si és un nombre (p. ex. 30.931), es mostra comptant quan apareix' }),
+      text: enriquit('Frase', 160),
+      font: { tipus: 'text', etiqueta: 'Font', max: 80, ajuda: "Opcional: d'on surt la dada" },
+      costat: { tipus: 'seleccio', etiqueta: 'Costat', opcions: ['esquerra', 'dreta'], obligatori: true,
+        ajuda: 'A quin costat de la pàgina va la nota (el fil hi passa pel costat)' },
+      to: { tipus: 'seleccio', etiqueta: 'Àmbit', opcions: ['rgpd', 'ia'], ajuda: 'Color de la xifra: rgpd, coure (per defecte) · ia, blau' },
+    },
+  },
+  // Les nostres premisses: un títol (la *cursiva* és la paraula que subratlla el fil) i frases curtes, sense definició.
+  // El fil les cus: fa un nus al costat de cadascuna i s'encenen quan hi arriba.
+  premisses: {
+    nom: 'Premisses (títol i frases curtes)',
+    camps: {
+      etiqueta: text('Etiqueta', 60, { obligatori: false, ajuda: 'Opcional: una línia curta a sobre de la presentació' }),
+      presentacio: enriquit('Presentació', 200, { obligatori: false,
+        ajuda: 'Opcional: qui sou, abans del títol. «Madeinhuman» surt amb la lletra del logo; la primera *cursiva*, en coure (dades), i la segona, en blau (IA). Un salt de línia separa el passat del futur: el punt del passat s\'encén en la transició' }),
+      titol: enriquit('Títol', 50, { ajuda: '*cursiva*: la paraula que subratlla el fil (p. ex. Les nostres *premisses.*)' }),
+      items: { tipus: 'llista', etiqueta: 'Premisses', min: 2, max: 4, element: enriquit('Premissa', 60, { ajuda: '*cursiva* i salt de línia' }) },
+    },
+  },
+  // Crida: una línia discreta (p. ex. cap a una altra pàgina) o una targeta amb botons
+  crida: {
+    nom: 'Crida (línia o targeta amb botons)',
+    camps: {
+      ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, ajuda: 'Opcional: id per enllaçar-hi (#faq). Si n\'hi ha, no el canviïs: hi poden apuntar enllaços' },
+      variant: { tipus: 'seleccio', etiqueta: 'Format', opcions: ['linia', 'targeta'], obligatori: true, ajuda: 'linia: una sola línia discreta · targeta: títol, text i botons destacats' },
+      titol: enriquit('Títol', 60),
+      text: enriquit('Text', 200, { obligatori: false }),
+      botons: {
+        tipus: 'llista', etiqueta: 'Botons', min: 1, max: 3,
+        element: {
+          text: text('Text del botó', 40),
+          href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true },
+          estil: { tipus: 'seleccio', etiqueta: 'Estil', opcions: ['primari', 'secundari'], obligatori: true },
+          fletxa: { tipus: 'bool', etiqueta: 'Amb fletxa' },
+        },
+      },
     },
   },
   context: {
@@ -80,39 +126,43 @@ export const ESQUEMA = {
     },
     comprova: b => (b.origen !== 'actualitat' && !b.noticies?.length ? ['noticies: com a mínim 1 (o origen «actualitat»)'] : []),
   },
+  // Serveis: els dos àmbits (RGPD i IA) es fonen com un Venn en fer scroll; al mig, el que guanyes amb tots dos.
+  // Els serveis de cada àmbit obren una finestra amb l'entradeta de la seva pàgina (contingut/serveis.json).
   serveis: {
-    nom: 'Serveis (pilars, transversal i enllaços)',
+    nom: 'Serveis (els dos àmbits i el que tenen en comú)',
     camps: {
       ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'No el canviïs: hi apunten enllaços interns de la web' },
       etiqueta: text('Etiqueta', 10),
       titol: enriquit('Titular', 40),
-      entradeta: enriquit('Entradeta', 160),
+      entradeta: enriquit('Entradeta', 120),
       pilars: {
-        tipus: 'llista', etiqueta: 'Pilars', min: 1, max: 3,
+        tipus: 'llista', etiqueta: 'Àmbits', min: 2, max: 2, ajuda: 'El primer va a l\'esquerra (coure) i el segon a la dreta (blau)',
         element: {
-          variant: { tipus: 'seleccio', etiqueta: 'Color del pilar', opcions: ['estàndard', 'blau'], obligatori: true,
-            ajuda: 'blau: pilar destacat' },
-          retard: text('Retard (no editable)', 10, { bloquejat: true, ajuda: 'No es pot editar des del panell' }),
-          num: text('Número', 20, { ajuda: 'Pilar 01, Pilar 02…' }),
           insigniaVariant: { tipus: 'seleccio', etiqueta: 'Color de la insignia', opcions: ['vigent', 'prep'], obligatori: true,
             ajuda: 'vigent: coure · prep: blau' },
           insignia: text('Text de la insignia', 30),
           subtitol: text('Subtítol', 50),
-          titol: enriquit('Títol', 70),
-          descripcio: enriquit('Descripció', 250),
-          llista: { tipus: 'llista', etiqueta: 'Llista de serveis', min: 1, max: 10, element: enriquit('Servei', 60) },
-          peu: enriquit('Nota del peu', 350, { ajuda: '**Per a qui:** … o **Nota:** …' }),
+          titol: enriquit('Títol', 50),
+          promesa: enriquit('Promesa', 120, { ajuda: "Una frase: què aconsegueixes" }),
+          resultats: { tipus: 'llista', etiqueta: 'Resultats', min: 1, max: 3, element: text('Resultat', 60) },
+          enllacos: {
+            tipus: 'llista', etiqueta: 'Serveis', min: 1, max: 6,
+            ajuda: 'Cada servei obre una finestra amb l\'entradeta de la seva pàgina i un enllaç per veure\'n més',
+            element: { text: text('Nom del servei', 50), href: { tipus: 'enllac', etiqueta: 'Pàgina del servei', obligatori: true } },
+          },
         },
       },
-      transversalEtiqueta: text('Etiqueta del servei transversal', 30),
-      transversalTitol: text('Títol del servei transversal', 30),
-      transversalText: enriquit('Descripció del servei transversal', 210),
-      enllacosTitol: text('Títol dels enllaços', 20),
-      enllacos: {
-        tipus: 'llista', etiqueta: 'Enllaços en detall', min: 1, max: 8,
-        element: { text: text('Text de l’enllaç', 50), href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true } },
+      junts: {
+        tipus: 'grup', etiqueta: 'Al mig: el que guanyes amb tots dos', obligatori: true,
+        camps: {
+          titol: enriquit('Títol', 40),
+          items: { tipus: 'llista', etiqueta: 'Punts', min: 1, max: 3, element: text('Punt', 50) },
+        },
       },
     },
+    comprova: b => (b.pilars || []).flatMap((p, i) => (p?.enllacos || [])
+      .filter(e => e?.href && !/^\/serveis\/[a-z0-9-]+\/$/.test(e.href))
+      .map(e => `pilars[${i}].enllacos: «${e.href}» ha de ser una pàgina de servei (/serveis/…/)`)),
   },
   metode: {
     nom: 'Mètode (passos)',
@@ -120,7 +170,7 @@ export const ESQUEMA = {
       ancora: { tipus: 'text', etiqueta: 'Àncora', max: 30, bloquejat: true, ajuda: 'No el canviïs: hi apunten enllaços interns de la web' },
       etiqueta: text('Etiqueta', 30),
       titol: enriquit('Titular', 80),
-      entradeta: enriquit('Entradeta', 300),
+      entradeta: enriquit('Entradeta', 300, { obligatori: false }),
       passos: { tipus: 'llista', etiqueta: 'Passos', min: 2, max: 6, element: { titol: text('Títol del pas', 40), text: enriquit('Descripció', 300) } },
     },
   },
@@ -131,6 +181,8 @@ export const ESQUEMA = {
         ajuda: "Els camps del formulari no es poden editar des d'aquí." },
       titol: enriquit('Titular', 80),
       entradeta: enriquit('Entradeta', 400),
+      avantatges: { tipus: 'llista', etiqueta: 'Avantatges', max: 3, element: text('Avantatge', 40),
+        ajuda: 'Opcional: punts curts que surten sota el titular (només al formulari d\'adequació)' },
     },
   },
   faq: {
@@ -140,6 +192,7 @@ export const ESQUEMA = {
       etiqueta: text('Etiqueta', 20),
       titol: enriquit('Titular', 60),
       entradeta: enriquit('Entradeta', 200),
+      titolPrincipal: { tipus: 'bool', etiqueta: 'Títol principal de la pàgina (H1)', ajuda: 'Marca-ho només si aquest bloc és el títol de la pàgina' },
       pestanyes: {
         tipus: 'llista', etiqueta: 'Pestanyes', min: 2, max: 6, ajuda: 'La primera ha de ser «tots» (totes les preguntes)',
         element: { cat: text('Categoria', 20, { ajuda: 'Valors possibles: tots, rgpd, ia, practic, glossari…' }), text: text('Text de la pestanya', 20) },
@@ -147,6 +200,37 @@ export const ESQUEMA = {
     },
   },
   separador: { nom: 'Línia separadora', camps: {} },
+  // Mitjans (WEB-M02): el valor de «media» és l'id d'una entrada de contingut/media.json
+  imatge: {
+    nom: 'Imatge',
+    camps: {
+      media: { tipus: 'media', etiqueta: 'Imatge', filtre: 'imatge', obligatori: true, ajuda: 'De la biblioteca de mitjans' },
+      alt: text('Text alternatiu', 200, { obligatori: false, ajuda: 'Opcional: substitueix el de la biblioteca' }),
+      peu: enriquit('Peu de foto', 200, { obligatori: false }),
+      mida: { tipus: 'seleccio', etiqueta: 'Mida', opcions: ['normal', 'ampla'], obligatori: true, ajuda: 'ampla: ocupa més amplada' },
+    },
+  },
+  galeria: {
+    nom: 'Galeria d’imatges',
+    camps: {
+      titol: enriquit('Títol', 80, { obligatori: false }),
+      elements: {
+        tipus: 'llista', etiqueta: 'Imatges', min: 2, max: 12,
+        element: {
+          media: { tipus: 'media', etiqueta: 'Imatge', filtre: 'imatge', obligatori: true },
+          alt: text('Text alternatiu', 200, { obligatori: false, ajuda: 'Opcional: substitueix el de la biblioteca' }),
+        },
+      },
+    },
+  },
+  video: {
+    nom: 'Vídeo',
+    camps: {
+      media: { tipus: 'media', etiqueta: 'Vídeo', filtre: 'video', obligatori: true, ajuda: 'De la biblioteca de mitjans' },
+      titol: text('Títol', 120, { ajuda: 'Nom accessible del vídeo' }),
+      peu: enriquit('Peu', 200, { obligatori: false }),
+    },
+  },
   html: { nom: 'HTML (encara no editable)', bloquejat: true, camps: { html: { tipus: 'html', etiqueta: 'HTML', obligatori: true } } },
 };
 
@@ -197,6 +281,10 @@ export function validarCamp(def, valor, ruta, errors) {
       break;
     case 'data':
       if (typeof valor !== 'string' || !dataValida(valor)) errors.push(`${ruta}: ha de ser una data AAAA-MM-DD (${valor})`);
+      break;
+    case 'media':
+      if (typeof valor !== 'string' || valor.length > 80 || !PATRO_ID_MEDIA.test(valor))
+        errors.push(`${ruta}: ha de ser un id de media, AAAA-MM-titol-curt-8hex (${valor})`);
       break;
     case 'html':
       if (typeof valor !== 'string') errors.push(`${ruta}: ha de ser HTML`);
@@ -259,6 +347,8 @@ export const CAMPS_FAQ = {
   pregunta: text('Pregunta', 150),
   resposta: enriquit('Resposta', 900),
   destacada: { tipus: 'bool', etiqueta: 'Destacada (també a Google)' },
+  servei: { tipus: 'seleccio', etiqueta: 'Servei relacionat', opcions: ['adequacio', 'dpo', 'auditoria', 'ia', 'web'],
+    ajuda: 'Opcional: sota la resposta surt «Et pot interessar» amb l\'enllaç a la pàgina del servei' },
 };
 export function validarFaq(faq) {
   if (!Array.isArray(faq) || !faq.length) return ['ha de ser una llista amb preguntes'];
@@ -270,35 +360,163 @@ export function validarFaq(faq) {
   return errors;
 }
 
+// contingut/media.json: la biblioteca d'imatges i vídeos (WEB-M02; contracte a
+// rgpdtool/docs/panell-web/MEDIA.md). Els fitxers viuen a media/: imatge → media/<id>-<amplada>.<format>
+// per a cada valor de «mides»; vídeo → media/<id>.mp4. La llista és la més nova primer.
+export const CAMPS_MEDIA = {
+  id: text('Id', 80, { ajuda: 'AAAA-MM-titol-curt-8hex; el posa el servidor i és únic' }),
+  tipus: { tipus: 'seleccio', etiqueta: 'Tipus', opcions: ['imatge', 'video'], obligatori: true },
+  format: { tipus: 'seleccio', etiqueta: 'Format', opcions: ['webp', 'jpg', 'mp4'], obligatori: true,
+    ajuda: 'imatge: webp o jpg · vídeo: mp4' },
+  mides: { tipus: 'llista', etiqueta: 'Mides (amplades en px)', max: 3,
+    element: text('Amplada en px', 4, { ajuda: '480, 960 o 1600; si l’original és més estret que 480, una sola' }),
+    ajuda: 'Només imatges: de petita a gran, subconjunt de 480, 960, 1600' },
+  amplada: text('Amplada en px (de la mida més gran)', 5),
+  alcada: text('Alçada en px', 5),
+  alt: text('Text alternatiu (imatge) o descripció (vídeo)', 200),
+  credit: text('Crèdit', 120, { obligatori: false }),
+  poster: { tipus: 'media', etiqueta: 'Pòster (id d’una imatge)', filtre: 'imatge', obligatori: false, ajuda: 'Només vídeos' },
+  data: { tipus: 'data', etiqueta: 'Data de pujada', obligatori: true },
+};
+const MIDEIX = [480, 960, 1600];
+export function validarMedia(entrades) {
+  if (!Array.isArray(entrades)) return ['ha de ser una llista d’entrades'];
+  const errors = [];
+  const perId = new Map();
+  entrades.forEach((e, i) => {
+    const r = `[${i}]`;
+    if (!e || typeof e !== 'object' || Array.isArray(e)) return errors.push(`${r}: ha de ser un objecte`);
+    Object.entries(CAMPS_MEDIA).forEach(([k, d]) => {
+      if (['mides', 'amplada', 'alcada', 'poster'].includes(k)) return; // es comproven aquí sota, amb regles entre camps
+      validarCamp(d, e[k], `${r}.${k}`, errors);
+    });
+    for (const k of Object.keys(e)) if (!CAMPS_MEDIA[k]) errors.push(`${r}: camp no previst «${k}»`);
+    if (typeof e.id === 'string') {
+      if (e.id.length > 80) errors.push(`${r}.id: ${e.id.length} caràcters (màxim 80)`);
+      if (!PATRO_ID_MEDIA.test(e.id)) errors.push(`${r}.id: ha de ser AAAA-MM-titol-curt-8hex (${e.id})`);
+      if (perId.has(e.id)) errors.push(`${r}.id: «${e.id}» repetit`);
+      perId.set(e.id, e);
+    }
+    if (e.tipus === 'imatge' && e.format && !['webp', 'jpg'].includes(e.format))
+      errors.push(`${r}.format: una imatge només pot ser webp o jpg (${e.format})`);
+    if (e.tipus === 'video' && e.format && e.format !== 'mp4')
+      errors.push(`${r}.format: un vídeo només pot ser mp4 (${e.format})`);
+    for (const k of ['amplada', 'alcada'])
+      if (e[k] !== undefined && (!Number.isInteger(e[k]) || e[k] <= 0)) errors.push(`${r}.${k}: ha de ser un enter positiu (${e[k]})`);
+    if (e.tipus === 'imatge') {
+      if (!Array.isArray(e.mides) || !e.mides.length) errors.push(`${r}.mides: obligatori en una imatge`);
+      else {
+        if (!e.mides.every(m => Number.isInteger(m) && m > 0)) errors.push(`${r}.mides: amplades senceres i positives`);
+        if (JSON.stringify([...e.mides].sort((a, b) => a - b)) !== JSON.stringify(e.mides)) errors.push(`${r}.mides: de petita a gran`);
+        if (e.mides.some(m => m >= 480) && !e.mides.every(m => MIDEIX.includes(m))) errors.push(`${r}.mides: subconjunt de 480, 960, 1600`);
+        if (e.mides.length === 1 && e.mides[0] < 480 && e.mides[0] !== e.amplada) errors.push(`${r}.mides: una sola mida menor que 480 ha de ser l’amplada original`);
+        if (Number.isInteger(e.amplada) && e.amplada > 0 && Math.max(...e.mides) !== e.amplada)
+          errors.push(`${r}.amplada: ha de ser la de la mida més gran (${Math.max(...e.mides)})`);
+      }
+    } else if (e.mides !== undefined) errors.push(`${r}.mides: només les imatges tenen mides`);
+    if (e.poster && e.tipus !== 'video') errors.push(`${r}.poster: només els vídeos tenen pòster`);
+  });
+  // El pòster pot apuntar a una entrada que va més avall a la llista
+  entrades.forEach((e, i) => {
+    if (!e?.poster) return;
+    const p = perId.get(e.poster);
+    if (!p) errors.push(`[${i}].poster: no hi ha cap entrada amb l’id «${e.poster}»`);
+    else if (p.tipus !== 'imatge') errors.push(`[${i}].poster: «${e.poster}» no és una imatge`);
+  });
+  return errors;
+}
+
+// Comprova que cada camp «media» dels blocs apunti a una entrada existent i del tipus del filtre
+export function usosDeMedia(pagines, entrades) {
+  const perId = new Map((entrades || []).map(e => [e?.id, e]));
+  const errors = [];
+  const revisa = (def, valor, ruta) => {
+    if (!def || valor == null || valor === '') return;
+    if (def.tipus === 'media') {
+      const e = perId.get(valor);
+      if (!e) errors.push(`${ruta}: no hi ha cap entrada de media amb l’id «${valor}»`);
+      else if (e.tipus !== def.filtre) errors.push(`${ruta}: «${valor}» és de tipus «${e.tipus}», no «${def.filtre}»`);
+      return;
+    }
+    if (def.tipus === 'llista' && Array.isArray(valor)) {
+      valor.forEach((v, i) => {
+        const el = def.element;
+        if (el && typeof el.tipus === 'string') revisa(el, v, `${ruta}[${i}]`);
+        else if (el) Object.entries(el).forEach(([k, d]) => revisa(d, v?.[k], `${ruta}[${i}].${k}`));
+      });
+      return;
+    }
+    if (def.camps && valor && typeof valor === 'object' && !Array.isArray(valor))
+      Object.entries(def.camps).forEach(([k, d]) => revisa(d, valor[k], `${ruta}.${k}`));
+  };
+  (pagines || []).forEach((p, i) => (p?.blocs || []).forEach((b, j) => {
+    const def = ESQUEMA[b?.tipus];
+    if (def) Object.entries(def.camps).forEach(([k, d]) => revisa(d, b[k], `pagines[${i}].blocs[${j}] (${b.tipus}).${k}`));
+  }));
+  return errors;
+}
+
 // contingut/actualitat/AAAA-MM-DD-titol-curt.md: capçalera «clau: valor» + cos en Markdown.
 // Sense cos és una «breu» (només targeta); amb cos té pàgina pròpia a /actualitat/<titol-curt>/.
 // El format és el dels esborranys de Mistral (rgpdtool, encàrrec WEB-A05).
 export const ETIQUETES_NOTICIA = ['rgpd', 'ia', 'apdcat'];
 export const SERVEIS_NOTICIA = ['adequacio', 'dpo', 'auditoria', 'ia', 'web'];
+export const NINXOLS_NOTICIA = ['general', 'salut', 'educacio', 'comerc', 'serveis', 'hostaleria', 'social', 'saas'];
+export const TIPUS_ARTICLE_NOTICIA = ['noticia', 'guia'];
+export const CTA_DESTI_NOTICIA = ['diagnostic', 'contacte', 'servei'];
 export const CAMPS_NOTICIA = {
   titol: text('Títol', 130, { ajuda: 'Millor fins a 70 caràcters (Google en talla la resta)' }),
   resum: text('Resum', 440, { ajuda: 'Surt a la targeta i a Google: 1 o 2 frases (millor fins a 160 caràcters)' }),
+  meta_descripcio: { tipus: 'text', etiqueta: 'Descripció per a Google (meta)', max: 155,
+    ajuda: 'Opcional: si s\'omple, substitueix el resum a Google i a les xarxes' },
   data: { tipus: 'data', etiqueta: 'Data de publicació', obligatori: true, ajuda: 'No surt a la web abans d\'aquest dia' },
+  data_revisio: { tipus: 'data', etiqueta: 'Data de revisió jurídica',
+    ajuda: 'Opcional: mostra la barra de revisió sota el titular i actualitza el dateModified de Google' },
+  revisat_per: { tipus: 'text', etiqueta: 'Revisat per', max: 120,
+    ajuda: 'Opcional: text de la barra de revisió (buit: «Revisat per un consultor RGPD i DPO extern de madeinhuman»)' },
   etiqueta: { tipus: 'seleccio', etiqueta: 'Tema', opcions: ETIQUETES_NOTICIA, obligatori: true, ajuda: 'rgpd: coure · ia: blau · apdcat: verd' },
+  ninxol: { tipus: 'seleccio', etiqueta: 'Sector', opcions: NINXOLS_NOTICIA,
+    ajuda: 'Opcional: sector al qual s\'adreça l\'article' },
+  tipus_article: { tipus: 'seleccio', etiqueta: 'Tipus d\'article', opcions: TIPUS_ARTICLE_NOTICIA,
+    ajuda: 'Opcional: noticia (NewsArticle, per defecte) o guia (Article)' },
   font_nom: text('Font (organisme)', 80, { ajuda: 'AEPD, APDCat, Comissió Europea, DOUE…' }),
   font_url: { tipus: 'enllac', etiqueta: 'Enllaç a la font', ajuda: 'Obligatori si la notícia té pàgina pròpia' },
+  fonts_addicionals: { tipus: 'text', etiqueta: 'Fonts addicionals', max: 600,
+    ajuda: 'Opcional: adreces https:// separades per « | »; amb l\'enllaç a la font formen el bloc «Fonts»' },
   data_font: { tipus: 'data', etiqueta: 'Data de la publicació original' },
   servei_relacionat: { tipus: 'seleccio', etiqueta: 'Servei relacionat', opcions: SERVEIS_NOTICIA,
     ajuda: 'Opcional: al final de la notícia s\'hi enllaçarà aquest servei' },
+  cta_desti: { tipus: 'seleccio', etiqueta: 'Crida a l\'acció (destí)', opcions: CTA_DESTI_NOTICIA,
+    ajuda: 'Opcional: caixa final amb botó cap a /diagnostic, /#contacte o el servei relacionat' },
+  cta_text: { tipus: 'text', etiqueta: 'Text del botó de crida', max: 80,
+    ajuda: 'Opcional: si és buit, es fa servir el text per defecte del destí' },
   estat: { tipus: 'seleccio', etiqueta: 'Estat', opcions: ['esborrany', 'publicat'], obligatori: true,
     ajuda: 'esborrany: no surt a la web · publicat: surt a partir de la seva data, un cop publiquis els canvis' },
-  idioma: { tipus: 'seleccio', etiqueta: 'Idioma', opcions: ['ca'], obligatori: true, ajuda: 'De moment, només català' },
+  idioma: { tipus: 'seleccio', etiqueta: 'Idioma', opcions: ['ca', 'es'], obligatori: true, ajuda: 'ca (/actualitat/…) o es (/es/actualidad/…)' },
+  grup_hreflang: { tipus: 'text', etiqueta: 'Grup hreflang', max: 60,
+    ajuda: 'Opcional: mateix identificador curt (minúscules i guions) a les versions ca i es d\'una mateixa notícia o guia' },
   data_text: { tipus: 'text', etiqueta: 'Data visible (només notícies antigues)', max: 20, bloquejat: true },
   font_text: { tipus: 'text', etiqueta: 'Línia de font (només notícies antigues)', max: 60, bloquejat: true },
 };
+const PATRO_GRUP_HREFLANG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 export function validarNoticia(n) {
   const errors = [];
   if (!/^\d{4}-\d{2}-\d{2}-[a-z0-9]+(-[a-z0-9]+)*\.md$/.test(n.fitxer || ''))
     errors.push('el nom del fitxer ha de ser AAAA-MM-DD-titol-curt.md (minúscules, sense accents)');
   Object.entries(CAMPS_NOTICIA).forEach(([k, d]) => validarCamp(d, n.cap?.[k], k, errors));
   for (const k of Object.keys(n.cap || {})) if (!CAMPS_NOTICIA[k]) errors.push(`camp no previst «${k}»`);
+  if (typeof n.cap?.grup_hreflang === 'string' && n.cap.grup_hreflang && !PATRO_GRUP_HREFLANG.test(n.cap.grup_hreflang))
+    errors.push('grup_hreflang: només minúscules, números i guions');
   const u = n.cap?.font_url;
   if (u && !/^https:\/\//.test(u)) errors.push('font_url: ha de començar per https://');
+  const fa = n.cap?.fonts_addicionals;
+  if (typeof fa === 'string' && fa.trim()) {
+    for (const x of fa.split('|').map(s => s.trim())) {
+      if (!x || !/^https:\/\/[^\s]+$/.test(x)) errors.push(`fonts_addicionals: cada adreça ha de començar per https:// (${x || 'buit'})`);
+    }
+  }
+  if (n.cap?.cta_desti === 'servei' && !n.cap?.servei_relacionat)
+    errors.push('cta_desti: amb «servei» cal indicar servei_relacionat');
   if (n.cap?.estat === 'publicat' && n.cos.trim() && !u) errors.push('font_url: obligatori per publicar una notícia amb cos');
   if (/<[a-z/!]/i.test(n.cos.replace(/<!--[\s\S]*?-->/g, ''))) errors.push("cos: no s'hi pot posar HTML (fes servir Markdown)");
   if (n.cap?.estat === 'publicat' && /\[REVISAR/.test(JSON.stringify(n.cap) + n.cos))
@@ -306,8 +524,26 @@ export function validarNoticia(n) {
   return errors;
 }
 
-// contingut/lloc.json: dades que surten a totes les pàgines (WEB-P06). Des del panell només s'editen el contacte i
-// els textos del menú i del peu; els enllaços del menú i del peu, l'SEO comú i les icones són estructura.
+/** Comprova regles entre notícies: cap grup_hreflang pot tenir dues notícies del mateix idioma. */
+export function validarConjuntNoticies(noticies) {
+  const errors = [];
+  const grups = new Map();
+  for (const n of noticies || []) {
+    const gr = n?.cap?.grup_hreflang;
+    if (!gr) continue;
+    const lang = n.cap.idioma || 'ca';
+    const clau = `${gr}::${lang}`;
+    if (grups.has(clau)) {
+      errors.push(`actualitat/${n.fitxer}: grup_hreflang «${gr}» ja té una altra notícia en idioma «${lang}» (${grups.get(clau)})`);
+    } else {
+      grups.set(clau, n.fitxer);
+    }
+  }
+  return errors;
+}
+
+// contingut/lloc.json: dades que surten a totes les pàgines (WEB-P06). Des del panell s'editen el contacte i el menú
+// i el peu (textos i enllaços); l'SEO comú, el canvi d'idioma i les icones són estructura.
 const enllacText = (etiqueta, max) => ({ tipus: 'grup', etiqueta, obligatori: true, camps: { text: text('Text', max), href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true } } });
 export const CAMPS_CONTACTE = {
   correu: text('Correu electrònic', 80),
@@ -316,14 +552,29 @@ export const CAMPS_CONTACTE = {
   carrer: text('Adreça', 80),
   cp: text('Codi postal', 5),
   ciutat: text('Població', 40),
+  zona: text('Zona de treball (peu)', 80, { ajuda: 'Surt al peu en lloc de l’adreça' }),
 };
+// L'ajuda dels enllaços va a la llista (una sola vegada), no a cada element
+const elementEnllac = max => ({ text: text('Text', max), href: { tipus: 'enllac', etiqueta: 'Enllaç', obligatori: true } });
 export const CAMPS_MENU = {
+  enllacos: {
+    tipus: 'llista', etiqueta: 'Enllaços del menú', min: 1, max: 7, element: elementEnllac(30),
+    ajuda: 'Enllaç: una pàgina de la web (/serveis/dpo-extern/) o una secció de la portada amb / davant (/#serveis), que així funciona des de qualsevol pàgina. A l’ordinador hi caben uns 6 enllaços curts',
+  },
   crida: enllacText('Botó del menú', 30),
   whatsappEtiqueta: text('Text del botó de WhatsApp per a lectors de pantalla', 60, { ajuda: 'El llegeixen els lectors de pantalla' }),
 };
 export const CAMPS_PEU = {
   descripcio: text('Descripció', 200),
   boto: enllacText('Botó del peu', 40),
+  columnes: {
+    tipus: 'llista', etiqueta: 'Columnes d’enllaços', min: 1, max: 3,
+    element: {
+      titol: text('Títol de la columna', 40),
+      contacte: { tipus: 'bool', etiqueta: 'Mostra el correu, el WhatsApp i l’adreça al principi d’aquesta columna' },
+      elements: { tipus: 'llista', etiqueta: 'Enllaços', max: 10, element: elementEnllac(50), ajuda: 'Enllaç: una pàgina de la web (/avis-legal.html), una secció de la portada (/#contacte) o una adreça https://, que s’obre en una pestanya nova' },
+    },
+  },
   copyright: text('Drets', 80),
   estat: text('Text de la línia inferior', 60),
 };
@@ -337,6 +588,9 @@ export function validarLloc(l) {
   for (const idioma of ['ca', 'es']) {
     Object.entries(CAMPS_MENU).forEach(([c, d]) => validarCamp(d, l?.menu?.[idioma]?.[c], `menu.${idioma}.${c}`, errors));
     Object.entries(CAMPS_PEU).forEach(([c, d]) => validarCamp(d, l?.peu?.[idioma]?.[c], `peu.${idioma}.${c}`, errors));
+    (l?.peu?.[idioma]?.columnes || []).forEach((c, i) => {
+      if (!c?.contacte && !c?.elements?.length) errors.push(`peu.${idioma}.columnes[${i}]: buida (afegeix-hi enllaços o el contacte)`);
+    });
   }
   return errors;
 }

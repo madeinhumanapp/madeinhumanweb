@@ -45,6 +45,7 @@ const pagines = [];
   await context.route('**/*', r => {
     const u = new URL(r.request().url());
     if (u.origin === 'https://rgpd.madeinhuman.cat') { enviaments++; return r.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}', headers: { 'access-control-allow-origin': 'https://madeinhuman.cat' } }); }
+    if (u.href.startsWith('https://challenges.cloudflare.com/turnstile/')) return r.fulfill({ status: 200, contentType: 'text/javascript', body: fs.readFileSync(path.join(__dirname, 'turnstile-simulat.js')) });
     if (u.origin !== 'https://madeinhuman.cat') return r.fulfill({ status: 404, body: '' });
     // Com Cloudflare Pages: /pagina serveix pagina.html. Les capçaleres es calculen amb aquesta ruta, que és la
     // que veu Pages (les adreces amb .html hi redirigeixen amb un 308). Cap petició surt del simulador.

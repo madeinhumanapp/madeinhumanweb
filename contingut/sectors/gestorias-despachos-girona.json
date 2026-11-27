@@ -1,0 +1,90 @@
+{
+  "slug": "gestorias-despachos-girona",
+  "idioma": "es",
+  "grup_hreflang": "gestories-despatxos-girona",
+  "estat": "esborrany",
+  "sector": "serveis",
+  "titol_seo": "RGPD para gestorías y despachos en Girona · Madeinhuman",
+  "descripcio": "Guía práctica de protección de datos para gestorías, asesorías y despachos profesionales en Girona: roles RGPD, encargos, seguridad e IA.",
+  "h1": "Protección de datos para gestorías y despachos en Girona",
+  "entradeta": "Gestorías administrativas, asesorías fiscales y laborales, y despachos de abogados o consultoría en Girona: cómo ordenar encargos de clientes, nóminas, expedientes y seguridad documental.",
+  "capsula": "Las gestorías y despachos profesionales tratan a diario nóminas, declaraciones fiscales, contratos y expedientes sensibles de terceros. Normalmente hace falta distinguir cuándo actuáis como responsables y cuándo como encargados del tratamiento, firmar contratos de encargo con cada cliente, blindar el intercambio de documentos y controlar a los proveedores tecnológicos.",
+  "seccions": [
+    {
+      "titol": "¿Qué datos tratáis habitualmente en una gestoría o despacho?",
+      "cos": "Un despacho profesional concentra un volumen muy elevado de información personal y financiera, a menudo de cientos de personas vinculadas a vuestros clientes:\n\n- **Área laboral:** nóminas, altas y bajas, bajas médicas (datos de salud), cuentas bancarias, situación familiar y contratos de trabajadores de los clientes.\n- **Área fiscal y contable:** declaraciones de impuestos, NIF, facturas, datos bancarios y patrimoniales de empresas y particulares.\n- **Área jurídica o mercantil:** escrituras, expedientes judiciales, datos de contrapartes y documentación confidencial.\n- **Gestión propia del despacho:** clientes, potenciales clientes, equipo interno, correo electrónico, servidor o nube y copias de seguridad."
+    },
+    {
+      "titol": "¿Sois responsables o encargados del tratamiento frente a vuestros clientes?",
+      "cos": "Es una de las cuestiones clave del sector y no siempre tiene una única respuesta: depende del servicio concreto que prestéis.\n\n- **Como encargados del tratamiento:** cuando hacéis tareas por cuenta del cliente siguiendo sus instrucciones (p. ej. confección de nóminas o gestión administrativa recurrente), normalmente hace falta un contrato de encargo de tratamiento que defina el alcance, la seguridad y los subencargados.\n- **Como responsables del tratamiento:** cuando actuáis con criterio profesional propio y obligaciones legales propias (p. ej. defensa jurídica en un procedimiento o la gestión de vuestros propios clientes y facturación) [REVISAR: confirmar criterio vigente de la Agencia Española de Protección de Datos (AEPD) y del CEPD sobre cuándo un despacho de abogados o asesor fiscal actúa como responsable o como encargado].\n\nClarificar este reparto en la hoja de encargo evita malentendidos cuando un cliente os pide el contrato de protección de datos."
+    },
+    {
+      "titol": "¿Qué errores habituales se repiten en gestorías y asesorías?",
+      "cos": "En la práctica diaria, la presión de los plazos fiscales y laborales suele generar estos riesgos:\n\n- **Enviar nóminas o rentas por correo sin protección o a un destinatario equivocado:** un error de autocompletado en el correo electrónico puede convertirse en una brecha de seguridad notificable.\n- **Trabajar sin contratos de encargo actualizados:** prestar servicio laboral o contable durante años sin haber regularizado el contrato RGPD ni la lista de subencargados (software en la nube, soporte informático).\n- **Carpetas compartidas sin permisos por área:** todo el equipo accediendo a todos los expedientes, incluidas bajas médicas o asuntos jurídicos delicados.\n- **Subir documentos de clientes a herramientas de IA gratuitas:** pegar contratos, sentencias o nóminas en chats de inteligencia artificial (IA) públicos sin acuerdo de confidencialidad ni base jurídica.\n- **Copias de seguridad no probadas:** confiar en que las copias funcionan sin verificar nunca una restauración ante un ataque de ransomware."
+    },
+    {
+      "titol": "¿Qué debéis vigilar con el correo, la nube y las herramientas de IA?",
+      "cos": "Como la confianza del cliente es el activo principal de un despacho, las medidas técnicas y organizativas deben estar a la altura del riesgo:\n\n- **Intercambio seguro de documentos:** siempre que sea posible, sustituid el envío masivo de PDF por correo por un portal de cliente con acceso autenticado o ficheros cifrados.\n- **Control de accesos y doble factor:** activad la verificación en dos pasos en el correo, en el programa de gestión y en la nube, y separad permisos por departamento.\n- **Subencargados documentados:** informad a los clientes de los proveedores tecnológicos que dan soporte al servicio y firmad los contratos de encargo correspondientes.\n- **Normativa de uso de la IA en el despacho:** definid qué herramientas de IA están autorizadas, prohibid introducir datos identificativos en versiones gratuitas y formad al equipo teniendo presente el Reglamento europeo de IA [REVISAR: confirmar obligaciones de alfabetización en IA aplicables a despachos según el artículo 4 del Reglamento (UE) 2024/1689]."
+    },
+    {
+      "titol": "¿Por dónde podéis empezar a poner orden en el despacho?",
+      "cos": "Una revisión ordenada os permitirá también responder rápidamente cuando un cliente os pida acreditar el cumplimiento:\n\n1. Separad en el registro de actividades los tratamientos en los que sois responsables de aquellos en los que actuáis como encargados.\n2. Preparad un modelo estándar de contrato de encargo de tratamiento para firmar con los clientes de asesoría.\n3. Revisad permisos de carpetas, doble factor de autenticación y copias de seguridad del servidor o la nube.\n4. Estableced un protocolo rápido de actuación ante errores de envío o incidentes de seguridad (notificación al cliente y, si procede, a la Agencia Española de Protección de Datos (AEPD)) [REVISAR: confirmar plazo de notificación de 72 horas del artículo 33 del RGPD y coordinación encargado-responsable].\n5. Aprobad una política interna breve sobre correo, teletrabajo y uso de herramientas de IA."
+    }
+  ],
+  "documents": [
+    "Registro de actividades de tratamiento (RAT) como responsable y registro de categorías de encargo",
+    "Modelo de contrato de encargo de tratamiento para los clientes del despacho",
+    "Contratos con subencargados (software fiscal/laboral, nube, soporte informático)",
+    "Cláusulas informativas para hojas de encargo, presupuestos, web y correo",
+    "Compromiso de confidencialidad y normas de seguridad y uso de IA para todo el equipo",
+    "Análisis de riesgos y medidas de seguridad (accesos, cifrado, copias de seguridad)",
+    "Protocolo de gestión de brechas de seguridad y de atención de derechos"
+  ],
+  "faq": [
+    {
+      "pregunta": "Si un cliente nos envía un contrato de encargo propio, ¿debemos firmarlo tal cual?",
+      "resposta": "Conviene revisarlo antes de firmar. Comprobad que refleja el servicio real que prestáis, que autoriza a vuestros proveedores tecnológicos habituales como subencargados y que no asume medidas de seguridad imposibles para la estructura del despacho."
+    },
+    {
+      "pregunta": "¿Qué debemos hacer si enviamos por error una nómina o una declaración a otro cliente?",
+      "resposta": "Actuad enseguida: documentad el incidente, pedid la eliminación al destinatario erróneo, avisad sin dilación al cliente responsable si actuáis como encargados y valorad el riesgo para los derechos de la persona afectada para decidir si hace falta notificarlo a la autoridad de control."
+    },
+    {
+      "pregunta": "¿Una gestoría pequeña de Girona debe tener delegado de protección de datos (DPO)?",
+      "resposta": "No siempre es obligatorio; depende del volumen de tratamientos, del tipo de datos sensibles y de la actividad concreta del despacho. Podéis hacer una primera comprobación en [¿Necesito un DPO?](/necessito-dpo/) y revisar si os conviene una [auditoría de protección de datos](/es/servicios/auditoria-proteccion-datos/)."
+    },
+    {
+      "pregunta": "¿Podemos utilizar herramientas de IA para resumir normativa o redactar borradores de correos?",
+      "resposta": "Sí, si se hace con criterio: usad textos anónimos o normas públicas en lugar de datos identificativos de clientes, revisad las condiciones de privacidad del proveedor y validad siempre el resultado antes de enviar nada a un cliente."
+    }
+  ],
+  "servei_relacionat": "adequacio",
+  "articles_relacionats": [
+    "proveedores-contrato-encargado-rgpd",
+    "brecha-de-datos-que-hacer",
+    "herramientas-ia-empresa-alfabetizacion"
+  ],
+  "cta_desti": "diagnostic",
+  "fonts": [
+    {
+      "nom": "Reglamento (UE) 2016/679 (RGPD) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "nom": "Ley Orgánica 3/2018 (LOPDGDD) — BOE",
+      "url": "https://www.boe.es/eli/es/lo/2018/12/05/3/con"
+    },
+    {
+      "nom": "Reglamento (UE) 2024/1689 (Reglamento europeo de IA) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+    },
+    {
+      "nom": "Agencia Española de Protección de Datos (AEPD)",
+      "url": "https://www.aepd.es/"
+    },
+    {
+      "nom": "Autoridad Catalana de Protección de Datos (APDCat)",
+      "url": "https://apdcat.gencat.cat/"
+    }
+  ]
+}

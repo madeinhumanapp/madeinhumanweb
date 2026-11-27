@@ -1,0 +1,86 @@
+{
+  "slug": "hosteleria-alojamientos-turisticos-girona",
+  "idioma": "es",
+  "grup_hreflang": "hostaleria-allotjaments-turistics-girona",
+  "estat": "esborrany",
+  "sector": "hostaleria",
+  "titol_seo": "RGPD para hoteles y alojamientos en Girona · Madeinhuman",
+  "descripcio": "Guía práctica de protección de datos para hoteles, casas rurales, campings y restaurantes de Girona: registro de viajeros, DNI, reservas y wifi.",
+  "h1": "Protección de datos para hostelería y alojamientos en Girona",
+  "entradeta": "Hoteles, casas rurales, apartamentos turísticos, campings y restaurantes en Girona y la Costa Brava: cómo tratar reservas, registro de viajeros, DNI, cámaras y personal de temporada.",
+  "capsula": "Hoteles, alojamientos turísticos y restaurantes tratan datos de huéspedes, reservas, facturación y equipos temporales. Normalmente conviene evitar fotocopiar el DNI o pasaporte sin base, cumplir el registro de viajeros con información clara, regular los motores de reserva y proteger cámaras y redes wifi para clientes.",
+  "seccions": [
+    {
+      "titol": "¿Qué datos tratáis habitualmente en un alojamiento o restaurante?",
+      "cos": "En la hostelería y el turismo de Girona los datos pasan por muchos puntos a la vez, a menudo con picos fuertes de temporada:\n\n- **Huéspedes y comensales:** reservas directas y por portales, registro de viajeros, facturación, peticiones especiales y alergias o intolerancias alimentarias.\n- **Canales digitales:** web propia, motor de reservas, redes wifi para clientes, encuestas de satisfacción y boletines promocionales.\n- **Instalaciones:** cámaras de videovigilancia en recepción, accesos, aparcamientos o zonas comunes.\n- **Equipo de temporada:** contratación estacional, turnos, control horario, nóminas y accesos temporales a recepción o TPV.\n- **Proveedores:** portales de reserva, software hotelero (PMS), agencias, gestoría y servicios informáticos."
+    },
+    {
+      "titol": "¿Podéis fotocopiar o escanear el DNI o pasaporte de los huéspedes?",
+      "cos": "Es uno de los errores más frecuentes en el sector turístico. La obligación de recoger los datos del registro de viajeros no autoriza por sí sola a quedarse una copia entera del documento de identidad.\n\nLa Agencia Española de Protección de Datos (AEPD) ha señalado en varias ocasiones que retener una fotocopia o escaneo completo del DNI o pasaporte recoge más datos de los necesarios (como la fotografía o datos no exigidos) y aumenta el riesgo de suplantación de identidad [REVISAR: enlazar nota informativa oficial de la AEPD sobre copia del DNI en alojamientos turísticos y referencia exacta al Real Decreto 933/2021].\n\n- **Qué conviene hacer:** recoger solo los datos exigidos por la normativa aplicable mediante formulario o comprobación visual, sin archivar copias del documento."
+    },
+    {
+      "titol": "¿Qué errores habituales encontramos en reservas, wifi y personal temporal?",
+      "cos": "Cuando revisamos establecimientos turísticos y restaurantes, suelen repetirse estos puntos:\n\n- **Fotocopias de DNI o tarjetas guardadas en recepción:** carpetas en papel o fotos hechas con el móvil sin control ni borrado.\n- **Datos de viajeros sin informar al cliente:** hacer el registro de entrada sin facilitar la cláusula informativa de protección de datos.\n- **Alergias en reservas de restaurante:** anotar datos de salud en libretas abiertas o pantallas visibles para todo el mundo sin limitar su acceso.\n- **Cuentas de personal que no se dan de baja:** trabajadores de temporada que mantienen acceso al correo o al PMS al acabar el verano.\n- **Red wifi de clientes mezclada con la interna:** ofrecer wifi gratuito sin separar la red de huéspedes de la red de gestión y facturación."
+    },
+    {
+      "titol": "¿Cómo debéis gestionar portales de reserva, cámaras y comunicaciones?",
+      "cos": "El sector turístico trabaja con una cadena de plataformas y proveedores que conviene tener clara:\n\n- **PMS, motor de reservas y proveedores:** revisad los contratos de encargo de tratamiento con el software hotelero, la gestoría y el mantenimiento informático, y distinguid los portales externos que actúan como responsables independientes.\n- **Videovigilancia:** colocad carteles informativos visibles antes de entrar en la zona grabada, evitad grabar zonas privadas o la vía pública sin justificación y revisad el plazo de conservación de las imágenes [REVISAR: confirmar criterio vigente de la AEPD sobre videovigilancia en establecimientos turísticos y plazo de conservación de la LOPDGDD].\n- **Envíos comerciales tras la estancia:** si queréis enviar ofertas de la temporada siguiente, asegurad la base jurídica e incluid siempre una opción de baja sencilla según la LSSI-CE."
+    },
+    {
+      "titol": "¿Qué podéis revisar antes de empezar la temporada?",
+      "cos": "Con cinco comprobaciones prácticas podéis reducir la mayor parte del riesgo antes de los meses de más ocupación:\n\n1. Dejad de fotocopiar o fotografiar DNI y pasaportes; recoged solo los datos necesarios para el registro.\n2. Colocad una cláusula informativa clara en la hoja de bienvenida, en el registro de entrada y en el motor de reservas web.\n3. Revisad los usuarios del PMS y del correo para dar de baja los accesos del personal de otras temporadas.\n4. Separad la red wifi de los clientes de la red interna del establecimiento.\n5. Verificad los carteles de videovigilancia y los contratos de encargo con los proveedores principales."
+    }
+  ],
+  "documents": [
+    "Registro de actividades de tratamiento (RAT) para huéspedes, reservas, personal y videovigilancia",
+    "Cláusula informativa para el registro de entrada y hoja de bienvenida",
+    "Textos legales de la web y primera capa informativa en el motor de reservas",
+    "Procedimiento de registro de viajeros sin copia innecesaria de DNI o pasaporte",
+    "Contratos de encargo de tratamiento con PMS, motor de reservas, informática y gestoría",
+    "Compromiso de confidencialidad y alta/baja de accesos para personal fijo y de temporada",
+    "Cartel e información completa de videovigilancia, si tenéis cámaras"
+  ],
+  "faq": [
+    {
+      "pregunta": "Si un portal externo nos pasa la reserva, ¿también debemos informar al huésped de nuestros datos?",
+      "resposta": "Sí. Cuando el huésped llega o cuando confirmáis la reserva directamente, sois responsables del tratamiento de la estancia y debéis facilitar vuestra información de protección de datos, por ejemplo en el correo de confirmación o en el registro de entrada."
+    },
+    {
+      "pregunta": "¿Cuánto tiempo debemos conservar los datos del registro de viajeros?",
+      "resposta": "Los datos exigidos por normativa de seguridad ciudadana deben conservarse durante el plazo legal establecido por esta normativa específica y bloquearse una vez cumplida la finalidad operativa [REVISAR: confirmar plazo vigente de conservación del registro de viajeros según Real Decreto 933/2021 y normativa aplicable en Cataluña]."
+    },
+    {
+      "pregunta": "¿Podemos pedir el correo electrónico para conectarse al wifi y después enviar promociones?",
+      "resposta": "Solo si informáis claramente de esta finalidad comercial y recogéis un consentimiento separado y libre, sin condicionar el acceso al wifi a aceptar publicidad si no es necesario para el servicio."
+    },
+    {
+      "pregunta": "¿Los restaurantes que solo cogen reservas por teléfono también deben cumplir el RGPD?",
+      "resposta": "Sí. Siempre que anotáis nombre, teléfono, alergias o datos de facturación, tratáis datos personales. La adecuación es sencilla y proporcional al volumen del local: registro de actividades, información básica, control de proveedores y medidas de acceso."
+    }
+  ],
+  "servei_relacionat": "adequacio",
+  "articles_relacionats": [
+    "camaras-videovigilancia-negocio",
+    "proveedores-contrato-encargado-rgpd",
+    "cookies-web-consentimiento-lssi"
+  ],
+  "cta_desti": "diagnostic",
+  "fonts": [
+    {
+      "nom": "Reglamento (UE) 2016/679 (RGPD) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "nom": "Ley Orgánica 3/2018 (LOPDGDD) — BOE",
+      "url": "https://www.boe.es/eli/es/lo/2018/12/05/3/con"
+    },
+    {
+      "nom": "Ley 34/2002 (LSSI-CE) — BOE",
+      "url": "https://www.boe.es/eli/es/l/2002/07/11/34/con"
+    },
+    {
+      "nom": "Agencia Española de Protección de Datos (AEPD)",
+      "url": "https://www.aepd.es/"
+    }
+  ]
+}

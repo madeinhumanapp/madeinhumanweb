@@ -1,0 +1,90 @@
+{
+  "slug": "comercios-tiendas-online-girona",
+  "idioma": "es",
+  "grup_hreflang": "comercos-botigues-online-girona",
+  "estat": "esborrany",
+  "sector": "comerc",
+  "titol_seo": "RGPD para comercios y tiendas online en Girona · Madeinhuman",
+  "descripcio": "Guía de protección de datos y LSSI-CE para comercios y tiendas online de Girona: cookies, ventas, boletines, videovigilancia y proveedores.",
+  "h1": "Protección de datos para comercios y tiendas online en Girona",
+  "entradeta": "Tiendas a pie de calle y comercio electrónico en Girona: qué revisar en formularios, cookies, envíos, boletines comerciales y cámaras de seguridad.",
+  "capsula": "Los comercios y tiendas online combinan el RGPD y la LOPDGDD con la LSSI-CE. Normalmente hace falta tener textos legales reales en la web, un banner de cookies que bloquee scripts no necesarios antes del consentimiento, base jurídica para los boletines, contratos con proveedores de envío y plataforma, y señalización correcta si tenéis cámaras.",
+  "seccions": [
+    {
+      "titol": "¿Qué datos tratáis en un comercio físico o una tienda online?",
+      "cos": "Tanto si vendéis en mostrador como por internet, un comercio trata datos personales cada día en varios puntos:\n\n- **Pedidos y facturación:** nombre, dirección de entrega, teléfono, correo electrónico, devoluciones y facturas.\n- **Web y marketing:** formularios de contacto, suscripciones al boletín, cuentas de cliente, cookies analíticas o publicitarias y redes sociales.\n- **Tienda física:** tarjetas de fidelización, encargos por WhatsApp, cámaras de videovigilancia y terminales de pago.\n- **Proveedores y equipo:** plataforma de comercio electrónico, pasarela de pago, mensajería, agencia de marketing, gestoría y personal de tienda."
+    },
+    {
+      "titol": "¿Qué errores habituales encontramos en tiendas online y comercios?",
+      "cos": "Muchos comercios de Girona tienen textos legales colgados al pie de la web, pero cuando se revisa el funcionamiento real aparecen desajustes frecuentes:\n\n- **Cookies cargadas antes de decidir:** herramientas de analítica o píxeles publicitarios que se activan nada más entrar en la web, antes de que el usuario acepte o rechace.\n- **Banner sin opción clara de rechazar:** botones de aceptar visibles y rechazo escondido en una segunda pantalla, contra las pautas de la Agencia Española de Protección de Datos (AEPD) [REVISAR: enlazar guía de cookies vigente de la AEPD].\n- **Envíos promocionales sin base:** añadir automáticamente al boletín a cualquier persona que ha hecho una consulta o ha dejado su correo sin informarla ni ofrecer baja sencilla.\n- **Textos copiados que no corresponden al negocio:** políticas que mencionan empresas de otro país o herramientas que la tienda no utiliza, mientras omiten la plataforma o el transportista reales.\n- **Cámaras sin cartel ni control:** videovigilancia en la tienda sin cartel informativo visible o grabando parte de la vía pública sin justificación."
+    },
+    {
+      "titol": "¿Qué exige la LSSI-CE a una tienda online además del RGPD?",
+      "cos": "Cuando vendéis productos o servicios por internet o tenéis web comercial, además del RGPD y la LOPDGDD también se aplica la Ley 34/2002 (LSSI-CE). A grandes rasgos, implica cuidar cuatro puntos:\n\n- **Identificación del titular:** aviso legal con los datos identificativos y de contacto reales del negocio.\n- **Información de compra:** condiciones generales claras sobre precios, impuestos, envíos, devoluciones y desistimiento [REVISAR: revisar encaje con normativa de consumo para condiciones de venta online].\n- **Cookies:** información clara y consentimiento previo para todas las cookies que no sean estrictamente técnicas.\n- **Comunicaciones comerciales electrónicas:** consentimiento previo o, en el caso de clientes existentes, envío solo sobre productos o servicios similares con opción de baja fácil en cada mensaje [REVISAR: confirmar redacción exacta del artículo 21.2 de la LSSI-CE]."
+    },
+    {
+      "titol": "¿Cómo debéis regular las cámaras, el marketing y los proveedores?",
+      "cos": "En un comercio moderno, gran parte de los datos pasan por herramientas externas:\n\n- **Plataforma, envíos y marketing:** revisad las condiciones de tratamiento de datos de la tienda (p. ej. Shopify, WooCommerce o PrestaShop), la herramienta de email marketing, el soporte web y las empresas de transporte, y valorad si existen transferencias internacionales de datos.\n- **Videovigilancia:** colocad el cartel informativo antes de entrar en la zona grabada, tened disponible la información completa, limitad quién puede ver las grabaciones y comprobad el plazo máximo de conservación [REVISAR: confirmar plazo máximo de un mes del artículo 22 de la LOPDGDD y excepciones].\n- **Chatbots o recomendadores con IA:** si incorporáis asistentes de inteligencia artificial (IA) en la web, tened presente la transparencia hacia el usuario y el cumplimiento del Reglamento de IA."
+    },
+    {
+      "titol": "¿Qué podéis comprobar hoy mismo en vuestra tienda?",
+      "cos": "Podéis hacer una revisión rápida en cinco pasos:\n\n1. Abrid la web en una ventana privada y comprobad si el banner de cookies permite rechazar con la misma facilidad que aceptar.\n2. Revisad todos los formularios (contacto, compra, boletín) para verificar que incluyen la primera capa informativa y el enlace a la política de privacidad.\n3. Comprobad que todos los correos promocionales llevan un enlace de baja que funcione.\n4. Listad los proveedores que acceden a datos de clientes (plataforma, agencia, mensajería, gestoría) y comprobad los contratos.\n5. Si tenéis cámaras en la tienda física, verificad el cartel informativo y la configuración de borrado automático."
+    }
+  ],
+  "documents": [
+    "Registro de actividades de tratamiento (RAT) para ventas, marketing, equipo y videovigilancia",
+    "Aviso legal, política de privacidad y política de cookies adaptados a las herramientas reales",
+    "Cláusulas de primera capa en formularios de compra, contacto y suscripción",
+    "Condiciones generales de venta y devoluciones (para comercio electrónico)",
+    "Contratos de encargo de tratamiento con plataforma web, agencia, soporte informático y gestoría",
+    "Cartel y ficha informativa de videovigilancia, si hay cámaras en la tienda",
+    "Protocolo para gestionar bajas comerciales y ejercicio de derechos de clientes"
+  ],
+  "faq": [
+    {
+      "pregunta": "Si nuestra tienda online solo utiliza cookies técnicas, ¿debemos poner banner?",
+      "resposta": "Si realmente solo cargáis cookies estrictamente necesarias para el funcionamiento de la tienda (p. ej. el carrito o la sesión), normalmente no hace falta pedir consentimiento, pero sí informar de ello en la política de cookies. Conviene verificar técnicamente que no se está cargando ningún script de terceros oculto."
+    },
+    {
+      "pregunta": "¿Podemos enviar ofertas por correo a personas que ya nos han comprado?",
+      "resposta": "La LSSI-CE permite, en determinadas condiciones, enviar comunicaciones sobre productos o servicios similares a los que el cliente ya ha contratado, siempre que se le haya informado y tenga un medio gratuito y sencillo para oponerse desde el primer momento y en cada envío [REVISAR: confirmar requisitos exactos del artículo 21.2 de la LSSI-CE]."
+    },
+    {
+      "pregunta": "¿Nuestros textos legales de la tienda están vinculados al servicio de textos web o a una adecuación completa?",
+      "resposta": "Si solo necesitáis revisar la web y los formularios, podéis ver [Textos legales y formularios web](/es/servicios/textos-legales-web/). Si también tenéis tienda física, equipo, cámaras o marketing activo, normalmente conviene hacer una [adecuación al RGPD](/es/servicios/adecuacion-rgpd-girona/) completa."
+    },
+    {
+      "pregunta": "¿Las empresas de mensajería necesitan un contrato de encargo de tratamiento?",
+      "resposta": "Depende del papel que tenga cada operador de transporte y de cómo esté configurado el servicio (responsable independiente del servicio postal o encargado del tratamiento). Conviene revisar las condiciones de cada transportista e informar claramente a los compradores sobre esta comunicación de datos."
+    }
+  ],
+  "servei_relacionat": "adequacio",
+  "articles_relacionats": [
+    "cookies-web-consentimiento-lssi",
+    "camaras-videovigilancia-negocio",
+    "proveedores-contrato-encargado-rgpd"
+  ],
+  "cta_desti": "diagnostic",
+  "fonts": [
+    {
+      "nom": "Reglamento (UE) 2016/679 (RGPD) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "nom": "Ley Orgánica 3/2018 (LOPDGDD) — BOE",
+      "url": "https://www.boe.es/eli/es/lo/2018/12/05/3/con"
+    },
+    {
+      "nom": "Ley 34/2002 (LSSI-CE) — BOE",
+      "url": "https://www.boe.es/eli/es/l/2002/07/11/34/con"
+    },
+    {
+      "nom": "Agencia Española de Protección de Datos (AEPD)",
+      "url": "https://www.aepd.es/"
+    },
+    {
+      "nom": "Autoridad Catalana de Protección de Datos (APDCat)",
+      "url": "https://apdcat.gencat.cat/"
+    }
+  ]
+}

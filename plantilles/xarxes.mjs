@@ -2,12 +2,13 @@
 // El telèfon del botó de WhatsApp surt de contingut/lloc.json (font única). L'script afegeix utm_* propis als
 // enllaços marcats segons d'on ve la visita (?o=ig|tt|gbp); no desa res al dispositiu.
 import { esc, enriquit } from './text.mjs';
+import { t } from './textos.mjs';
 
 export function paginaXarxes(lloc, p) {
-  const c = p.cap, k = lloc.contacte;
+  const c = p.cap, k = lloc.contacte, lang = p.idioma || 'ca';
   const cursiva = s => enriquit(s).replace(/<(\/?)em>/g, '<$1i>').replace(/<br \/>/g, '<br>');
   const boto = b => `    <a class="btn${b.principal ? ' principal' : ''}"${b.utm ? ' data-utm' : ''} href="${esc(b.href)}">${esc(b.text)}<small>${esc(b.detall)}</small></a>`;
-  const botons = [...p.botons, ...(p.ambWhatsapp ? [{ text: 'WhatsApp', detall: k.telefonVisible, href: `https://wa.me/${k.telefon.replace(/^\++/, '')}` }] : [])];
+  const botons = [...p.botons, ...(p.ambWhatsapp ? [{ text: t(lang, 'comu.whatsapp'), detall: k.telefonVisible, href: `https://wa.me/${k.telefon.replace(/^\++/, '')}` }] : [])];
   return `<!doctype html>
 <html lang="${p.idioma}">
 <head>
@@ -24,7 +25,7 @@ export function paginaXarxes(lloc, p) {
 <meta property="og:image" content="${lloc.web}/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Logo de madeinhuman i el lema «Protegir és avançar.»">
+<meta property="og:image:alt" content="${esc(t(lang, 'xarxes.og_alt'))}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0A0E1A">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
@@ -49,22 +50,28 @@ export function paginaXarxes(lloc, p) {
   nav{margin-top:34px;display:flex;flex-direction:column;gap:14px}
   a.btn{display:block;text-decoration:none;color:var(--crema);border:1.5px solid color-mix(in srgb, var(--crema) 22%, transparent);border-radius:16px;padding:18px 20px;font-size:17px;font-weight:700;transition:border-color .15s}
   a.btn small{display:block;font-weight:400;color:var(--gris-clar);font-size:14.5px;margin-top:4px}
-  a.btn:hover,a.btn:focus-visible{border-color:var(--daurat);outline:none}
+  a.btn:hover{border-color:var(--daurat)}
+  a.btn:focus-visible,footer a:focus-visible{outline:2px solid var(--daurat-clar);outline-offset:3px}
   a.btn.principal{background:var(--daurat);border-color:var(--daurat);color:var(--nit)}
+  a.btn.principal:focus-visible{outline-color:var(--crema)}
   a.btn.principal small{color:var(--nit);opacity:.8}
+  .salta-contingut{position:fixed;left:-9999px;top:12px;z-index:9999;padding:10px 16px;border-radius:8px;background:var(--daurat);color:var(--nit);font-weight:600;text-decoration:none}
+  .salta-contingut:focus,.salta-contingut:focus-visible{left:12px;outline:2px solid var(--crema);outline-offset:2px}
+  main:focus{outline:none}
   footer{margin-top:40px;font-family:var(--font-mono);font-size:12px;letter-spacing:2px;color:var(--gris-clar)}
   footer a{color:var(--gris-clar)}
 </style>
 </head>
 <body>
-<main>
-  <div class="logo" role="img" aria-label="Logo de madeinhuman"><div class="mi">MADE IN</div><div class="h">human<span></span></div></div>
+<a class="salta-contingut" href="#contingut">${esc(t(lang, 'comu.salta_contingut'))}</a>
+<main id="contingut" tabindex="-1">
+  <div class="logo" role="img" aria-label="${esc(t(lang, 'xarxes.logo_aria'))}"><div class="mi">MADE IN</div><div class="h">human<span></span></div></div>
   <h1>${cursiva(p.titol)}</h1>
   <p class="sub">${esc(p.subtitol)}</p>
   <nav>
 ${botons.map(boto).join('\n')}
   </nav>
-  <footer>MADEINHUMAN · <a data-utm href="/">MADEINHUMAN.CAT</a> · <a href="/politica-privacitat.html">PRIVACITAT</a></footer>
+  <footer>MADEINHUMAN · <a data-utm href="/">MADEINHUMAN.CAT</a> · <a href="/politica-privacitat.html">${esc(t(lang, 'xarxes.privacitat'))}</a></footer>
 </main>
 <script src="/xarxes/xarxes.js"></script>
 </body>

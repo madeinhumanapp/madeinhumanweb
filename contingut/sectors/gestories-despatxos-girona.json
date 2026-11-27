@@ -1,0 +1,90 @@
+{
+  "slug": "gestories-despatxos-girona",
+  "idioma": "ca",
+  "grup_hreflang": "gestories-despatxos-girona",
+  "estat": "esborrany",
+  "sector": "serveis",
+  "titol_seo": "RGPD per a gestories i despatxos a Girona · Madeinhuman",
+  "descripcio": "Guia pràctica de protecció de dades per a gestories, assessories i despatxos professionals a Girona: rols RGPD, encàrrecs, seguretat i IA.",
+  "h1": "Protecció de dades per a gestories i despatxos a Girona",
+  "entradeta": "Gestories administratives, assessories fiscals i laborals, i despatxos d'advocats o consultoria a Girona: com ordenar encàrrecs de clients, nòmines, expedients i seguretat documental.",
+  "capsula": "Les gestories i despatxos professionals tracten diàriament nòmines, declaracions fiscals, contractes i expedients sensibles de tercers. Normalment cal distingir quan actueu com a responsables i quan com a encarregats del tractament, signar contractes d'encàrrec amb cada client, blindar l'intercanvi de documents i controlar els proveïdors tecnològics.",
+  "seccions": [
+    {
+      "titol": "Quines dades tracteu habitualment en una gestoria o despatx?",
+      "cos": "Un despatx professional concentra un volum molt elevat d'informació personal i financera, sovint de centenars de persones vinculades als vostres clients:\n\n- **Àrea laboral:** nòmines, altes i baixes, baixes mèdiques (dades de salut), comptes bancaris, situació familiar i contractes de treballadors dels clients.\n- **Àrea fiscal i comptable:** declaracions d'impostos, NIF, factures, dades bancàries i patrimonials d'empreses i particulars.\n- **Àrea jurídica o mercantil:** escriptures, expedients judicials, dades de contraparts i documentació confidencial.\n- **Gestió pròpia del despatx:** clients, potencials clients, equip intern, correu electrònic, servidor o núvol i còpies de seguretat."
+    },
+    {
+      "titol": "Sou responsables o encarregats del tractament davant dels vostres clients?",
+      "cos": "És una de les qüestions clau del sector i no sempre té una única resposta: depèn del servei concret que presteu.\n\n- **Com a encarregats del tractament:** quan feu tasques per compte del client seguint les seves instruccions (p. ex. confecció de nòmines o gestió administrativa recurrent), normalment cal un contracte d'encàrrec de tractament que defineixi l'abast, la seguretat i els subencarregats.\n- **Com a responsables del tractament:** quan actueu amb criteri professional propi i obligacions legals pròpies (p. ex. defensa jurídica en un procediment o la gestió dels vostres propis clients i facturació) [REVISAR: confirmar criteri vigent de l'AEPD i del CEPD sobre quan un despatx d'advocats o assessor fiscal actua com a responsable o com a encarregat].\n\nClarificar aquest repartiment al full d'encàrrec evita malentesos quan un client us demana el contracte de protecció de dades."
+    },
+    {
+      "titol": "Quins errors habituals es repeteixen en gestories i assessories?",
+      "cos": "A la pràctica diària, la pressió dels terminis fiscals i laborals acostuma a generar aquests riscos:\n\n- **Enviar nòmines o rendes per correu sense protecció o a un destinatari equivocat:** un error d'autocompletat en el correu electrònic pot convertir-se en una bretxa de seguretat notificable.\n- **Treballar sense contractes d'encàrrec actualitzats:** prestar servei laboral o comptable durant anys sense haver regularitzat el contracte RGPD ni la llista de subencarregats (programari al núvol, suport informàtic).\n- **Carpetes compartides sense permisos per àrea:** tot l'equip accedint a tots els expedients, incloent-hi baixes mèdiques o assumptes jurídics delicats.\n- **Pujar documents de clients a eines d'IA gratuïtes:** enganxar contractes, sentències o nòmines en xats d'intel·ligència artificial (IA) públics sense acord de confidencialitat ni base jurídica.\n- **Còpies de seguretat no provades:** confiar que les còpies funcionen sense verificar mai una restauració davant d'un atac de ransomware."
+    },
+    {
+      "titol": "Què heu de vigilar amb el correu, el núvol i les eines d'IA?",
+      "cos": "Com que la confiança del client és l'actiu principal d'un despatx, les mesures tècniques i organitzatives han d'estar a l'alçada del risc:\n\n- **Intercanvi segur de documents:** sempre que sigui possible, substituïu l'enviament massiu de PDF per correu per un portal de client amb accés autenticat o fitxers xifrats.\n- **Control d'accessos i doble factor:** activeu la verificació en dos passos al correu, al programari de gestió i al núvol, i separeu permisos per departament.\n- **Subencarregats documentats:** informeu els clients dels proveïdors tecnològics que donen suport al servei i signeu els contractes d'encàrrec corresponents.\n- **Normativa d'ús de la IA al despatx:** definiu quines eines d'IA estan autoritzades, prohibiu introduir dades identificatives en versions gratuïtes i formeu l'equip tenint present el Reglament europeu d'IA [REVISAR: confirmar obligacions d'alfabetització en IA aplicables a despatxos segons l'article 4 del Reglament (UE) 2024/1689]."
+    },
+    {
+      "titol": "Per on podeu començar a posar ordre al despatx?",
+      "cos": "Una revisió ordenada us permetrà també respondre ràpidament quan un client us demani acreditar el compliment:\n\n1. Separeu en el registre d'activitats els tractaments en què sou responsables d'aquells en què actueu com a encarregats.\n2. Prepareu un model estàndard de contracte d'encàrrec de tractament per signar amb els clients d'assessoria.\n3. Reviseu permisos de carpetes, doble factor d'autenticació i còpies de seguretat del servidor o núvol.\n4. Establiu un protocol ràpid d'actuació davant errors d'enviament o incidents de seguretat (notificació al client i, si escau, a l'Agència Espanyola de Protecció de Dades (AEPD)) [REVISAR: confirmar termini de notificació de 72 hores de l'article 33 del RGPD i coordinació encarregat-responsable].\n5. Aproveu una política interna breu sobre correu, teletreball i ús d'eines d'IA."
+    }
+  ],
+  "documents": [
+    "Registre d'activitats de tractament (RAT) com a responsable i registre de categories d'encàrrec",
+    "Model de contracte d'encàrrec de tractament per als clients del despatx",
+    "Contractes amb subencarregats (programari fiscal/laboral, núvol, suport informàtic)",
+    "Clàusules informatives per a fulls d'encàrrec, pressupostos, web i correu",
+    "Compromís de confidencialitat i normes de seguretat i ús d'IA per a tot l'equip",
+    "Anàlisi de riscos i mesures de seguretat (accessos, xifrat, còpies de seguretat)",
+    "Protocol de gestió de bretxes de seguretat i d'atenció de drets"
+  ],
+  "faq": [
+    {
+      "pregunta": "Si un client ens envia un contracte d'encàrrec propi, l'hem de signar tal qual?",
+      "resposta": "Convé revisar-lo abans de signar. Comproveu que reflecteix el servei real que presteu, que autoritza els vostres proveïdors tecnològics habituals com a subencarregats i que no assumeix mesures de seguretat impossibles per a l'estructura del despatx."
+    },
+    {
+      "pregunta": "Què hem de fer si enviem per error una nòmina o una declaració a un altre client?",
+      "resposta": "Actueu de seguida: documenteu l'incident, demaneu l'eliminació al destinatari erroni, aviseu sense dilació el client responsable si actueu com a encarregats i valoreu el risc per als drets de la persona afectada per decidir si cal notificar-ho a l'autoritat de control."
+    },
+    {
+      "pregunta": "Una gestoria petita de Girona ha de tenir delegat de protecció de dades (DPO)?",
+      "resposta": "No sempre és obligatori; depèn del volum de tractaments, del tipus de dades sensibles i de l'activitat concreta del despatx. Podeu fer una primera comprovació a [Necessito un DPO?](/necessito-dpo/) i revisar si us convé una [auditoria de protecció de dades](/serveis/auditoria-proteccio-dades/)."
+    },
+    {
+      "pregunta": "Podem utilitzar eines d'IA per resumir normativa o redactar esborranys de correus?",
+      "resposta": "Sí, si es fa amb criteri: useu textos anònims o normes públiques en comptes de dades identificatives de clients, reviseu les condicions de privacitat del proveïdor i valideu sempre el resultat abans d'enviar res a un client."
+    }
+  ],
+  "servei_relacionat": "adequacio",
+  "articles_relacionats": [
+    "proveidors-contracte-encarregat-rgpd",
+    "bretxa-de-dades-que-fer",
+    "eines-ia-empresa-alfabetitzacio"
+  ],
+  "cta_desti": "diagnostic",
+  "fonts": [
+    {
+      "nom": "Reglament (UE) 2016/679 (RGPD) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "nom": "Llei Orgànica 3/2018 (LOPDGDD) — BOE",
+      "url": "https://www.boe.es/eli/es/lo/2018/12/05/3/con"
+    },
+    {
+      "nom": "Reglament (UE) 2024/1689 (Reglament europeu d'IA) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+    },
+    {
+      "nom": "Agència Espanyola de Protecció de Dades (AEPD)",
+      "url": "https://www.aepd.es/"
+    },
+    {
+      "nom": "Autoritat Catalana de Protecció de Dades (APDCat)",
+      "url": "https://apdcat.gencat.cat/"
+    }
+  ]
+}

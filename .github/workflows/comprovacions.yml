@@ -33,13 +33,57 @@ jobs:
         run: npm run sense-html
       - name: Generar dist/
         run: npm run construir
+      - name: Qualitat (enllaços, JSON-LD, accessibilitat, pes)
+        run: npm run qualitat
+      - name: Domicili només a l'avís legal
+        run: npm run domicili
+      - name: Mapa del lloc (sitemap)
+        run: npm run sitemap
+      - name: Hreflang coherent
+        run: npm run hreflang
+      - name: Títols i descripcions (límits de Google)
+        run: npm run metadades
+      - name: Textos legals en castellà
+        run: npm run legal-castella
+      - name: Markdown (llistes numerades, paràgraf destacat)
+        run: npm run markdown
+      - name: Pàgines de sector (motor i esborranys)
+        run: npm run sectors
+      - name: Taula de validació dels esborranys
+        run: npm run esborranys
+      - name: Qualitat de la construcció amb esborranys
+        run: npm run qualitat-esborranys
+      - name: Pàgina 404 bilingüe
+        run: npm run pagina-404
+      - name: Cerca interna
+        run: npm run cerca
+      - name: llms.txt
+        run: npm run llms
+      - name: Textos d'interfície (ca i es)
+        run: npm run textos
       - name: Notícies (actualitat)
         run: npm run actualitat
       - name: Esquema de les pàgines de servei
         run: npm run serveis
+      - name: Imatges i vídeos (media)
+        run: npm run media
       - name: Contractes dels formularis amb rgpd-tool
         run: npm run contractes
+      - name: Resultat del diagnòstic (semàfor)
+        run: npm run diagnostic-resultat
+      - name: Selector de reserves (API simulada)
+        run: npm run reserva
+      - name: Teclat, focus i contrast
+        run: npm run teclat
+      - name: Autotest SaaS (esborrany, només a les vistes prèvies)
+        run: npm run autotest-saas
       - name: Vista prèvia del panell
         run: npm run previsualitzacio
       - name: Seguretat de contingut (CSP)
         run: npm run csp
+      - name: Fil conductor (capes, text, espurnes, rendiment)
+        run: npm run fil
+      - name: Portada (notes, premisses, Venn, finestres)
+        run: npm run portada
+      - name: Pàgina de preguntes freqüents
+        run: npm run faq

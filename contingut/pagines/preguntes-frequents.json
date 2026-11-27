@@ -1,0 +1,115 @@
+{
+  "pagina": "preguntes-frequents",
+  "idioma": "ca",
+  "ruta": "/preguntes-frequents/",
+  "fitxer": "preguntes-frequents/index.html",
+  "cap": {
+    "titol": "Preguntes freqüents sobre RGPD i IA · Madeinhuman",
+    "descripcio": "Respostes clares sobre el RGPD, el DPO, el Reglament d'IA i com adequar la teva empresa: per a pimes i autònoms de Girona i Catalunya.",
+    "canonica": "https://madeinhuman.cat/preguntes-frequents/",
+    "alternatives": [
+      {
+        "idioma": "ca",
+        "href": "https://madeinhuman.cat/preguntes-frequents/"
+      },
+      {
+        "idioma": "es",
+        "href": "https://madeinhuman.cat/es/preguntas-frecuentes/"
+      },
+      {
+        "idioma": "x-default",
+        "href": "https://madeinhuman.cat/preguntes-frequents/"
+      }
+    ],
+    "og": {
+      "titol": "Preguntes freqüents sobre RGPD i IA · Madeinhuman",
+      "descripcio": "Respostes clares sobre el RGPD, el DPO i el Reglament d'IA per a pimes i autònoms.",
+      "tipus": "website",
+      "url": "https://madeinhuman.cat/preguntes-frequents/"
+    },
+    "jsonld": [
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inici",
+            "item": "https://madeinhuman.cat/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Preguntes freqüents",
+            "item": "https://madeinhuman.cat/preguntes-frequents/"
+          }
+        ]
+      }
+    ]
+  },
+  "blocs": [
+    {
+      "tipus": "faq",
+      "ancora": "preguntes",
+      "etiqueta": "Preguntes freqüents",
+      "titol": "Dubtes *habituals.*",
+      "entradeta": "Respostes clares per a pimes i autònoms, sense perfil jurídic. Si et toca de prop, t'enllacem el servei que t'hi pot ajudar.",
+      "titolPrincipal": true,
+      "pestanyes": [
+        {
+          "cat": "tots",
+          "text": "Totes"
+        },
+        {
+          "cat": "rgpd",
+          "text": "RGPD"
+        },
+        {
+          "cat": "ia",
+          "text": "IA"
+        },
+        {
+          "cat": "practic",
+          "text": "Pràctic"
+        },
+        {
+          "cat": "glossari",
+          "text": "Glossari"
+        }
+      ]
+    },
+    {
+      "tipus": "crida",
+      "variant": "targeta",
+      "titol": "No trobes *la resposta?*",
+      "text": "Comença per una eina gratuïta o escriu-nos directament.",
+      "botons": [
+        {
+          "text": "Diagnòstic gratuït · 4 min",
+          "href": "/diagnostic.html",
+          "estil": "primari",
+          "fletxa": true
+        },
+        {
+          "text": "Necessito un DPO?",
+          "href": "/necessito-dpo/",
+          "estil": "secundari"
+        },
+        {
+          "text": "Parla amb nosaltres",
+          "href": "/#contacte",
+          "estil": "secundari"
+        }
+      ]
+    }
+  ],
+  "scripts": [
+    "utm.js",
+    "script.js"
+  ]
+}

@@ -51,52 +51,40 @@ document.addEventListener('change', (e) => {
 // -----------------------------------------------
 // FAQ accordion
 // -----------------------------------------------
-// Les preguntes són a contingut/faq.json; el generador les incrusta a la pàgina (#dades-faq)
-const FAQ_DATA = (() => {
-  const el = document.getElementById('dades-faq');
-  try { return el ? JSON.parse(el.textContent) : []; } catch { return []; }
-})();
-
-let faqTab = 'tots';
-let faqOpen = 0;
-
-function renderFAQ() {
-  const list = document.getElementById('faqList');
-  const filtered = faqTab === 'tots' ? FAQ_DATA : FAQ_DATA.filter(f => f.cat === faqTab);
-  list.innerHTML = filtered.map((item, i) => `
-    <div class="faq-item${faqOpen === i ? ' open' : ''}" data-idx="${i}">
-      <button class="faq-q" type="button">
-        <span class="num">${String(i + 1).padStart(2, '0')}</span>
-        <span>${item.q}</span>
-        <span class="plus"></span>
-      </button>
-      <div class="faq-a">
-        <div class="faq-a-inner">${item.a}</div>
-      </div>
-    </div>
-  `).join('');
-
-  list.querySelectorAll('.faq-q').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const idx = parseInt(btn.closest('.faq-item').dataset.idx);
-      faqOpen = faqOpen === idx ? -1 : idx;
-      renderFAQ();
+// Les preguntes són a contingut/faq.json; el generador les pinta en HTML (totes obertes: sense JavaScript es
+// llegeixen totes). Aquí només es filtren per pestanyes i se'n deixa oberta una, la primera de la pestanya.
+(function () {
+  const llista = document.getElementById('faqList');
+  if (!llista) return;
+  const items = Array.from(llista.querySelectorAll('.faq-item'));
+  let pestanya = 'tots', oberta = 0;
+  const visibles = () => items.filter(it => pestanya === 'tots' || it.dataset.cat === pestanya);
+  function pinta() {
+    const vis = visibles();
+    items.forEach(it => { it.hidden = !vis.includes(it); });
+    vis.forEach((it, i) => {
+      const obert = i === oberta;
+      it.querySelector('.num').textContent = String(i + 1).padStart(2, '0');
+      it.classList.toggle('open', obert);
+      it.querySelector('.faq-q').setAttribute('aria-expanded', String(obert));
     });
-  });
-}
-
-if (document.getElementById('faqTabs')) {
-  document.getElementById('faqTabs').addEventListener('click', (e) => {
+  }
+  items.forEach(it => it.querySelector('.faq-q').addEventListener('click', () => {
+    const i = visibles().indexOf(it);
+    oberta = oberta === i ? -1 : i;
+    pinta();
+  }));
+  const pestanyes = document.getElementById('faqTabs');
+  if (pestanyes) pestanyes.addEventListener('click', e => {
     const tab = e.target.closest('.tab');
     if (!tab) return;
-    faqTab = tab.dataset.cat;
-    faqOpen = 0;
-    document.querySelectorAll('#faqTabs .tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    renderFAQ();
+    pestanya = tab.dataset.cat;
+    oberta = 0;
+    pestanyes.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === tab));
+    pinta();
   });
-  renderFAQ();
-}
+  pinta();
+})();
 
 // -----------------------------------------------
 // API
@@ -152,6 +140,7 @@ function showResult(formCard, type, msg) {
   const form = document.getElementById('formContacte');
   if (!form) return;
   const btn = form.querySelector('button[type="submit"]');
+  const antirobots = window.MIH_TURNSTILE ? window.MIH_TURNSTILE.preparar(form) : null;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -168,16 +157,19 @@ function showResult(formCard, type, msg) {
 
     if (window.MIH_UTM) window.MIH_UTM.omplir(form);  // origen de la visita (utm.js)
     const fd = new FormData(form);
+    setLoading(btn, true); // abans del token antirobots, que pot trigar uns segons
     const body = {
       nom: fd.get('nom'),
       email: fd.get('email'),
       empresa: fd.get('empresa') || undefined,
       missatge: fd.get('missatge'),
+      turnstile: antirobots ? await antirobots.token() : undefined,
+      // Casella opcional de comunicacions comercials: rgpd-tool envia un correu per confirmar-la (doble opt-in)
+      comercial: fd.get('comunicacions') === 'on',
       ...utmDelFormulari(fd),
     };
     Object.keys(body).forEach(k => body[k] === undefined && delete body[k]);
 
-    setLoading(btn, true);
     try {
       const res = await fetch(`${API_URL}/api/public/contacte`, {
         method: 'POST',
@@ -193,6 +185,7 @@ function showResult(formCard, type, msg) {
       showResult(form, 'err', "No s'ha pogut enviar el missatge. Torna-ho a intentar.");
     } finally {
       setLoading(btn, false);
+      if (antirobots) antirobots.reiniciar();
     }
   });
 })();
@@ -204,6 +197,7 @@ function showResult(formCard, type, msg) {
   const form = document.getElementById('formAdequacio');
   if (!form) return;
   const btn = form.querySelector('button[type="submit"]');
+  const antirobots = window.MIH_TURNSTILE ? window.MIH_TURNSTILE.preparar(form) : null;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -232,6 +226,7 @@ function showResult(formCard, type, msg) {
       return undefined;
     };
 
+    setLoading(btn, true); // abans del token antirobots, que pot trigar uns segons
     const body = {
       nom: fd.get('personaContacte'),
       email: fd.get('email'),
@@ -257,11 +252,13 @@ function showResult(formCard, type, msg) {
       grupEmpresarial: boolVal('grupEmpresarial'),
       diversesSeus: boolVal('diversesSeus'),
       observacions: fd.get('observacions') || undefined,
+      turnstile: antirobots ? await antirobots.token() : undefined,
+      // Casella opcional de comunicacions comercials: rgpd-tool envia un correu per confirmar-la (doble opt-in)
+      comercial: fd.get('comunicacions') === 'on',
       ...utmDelFormulari(fd),
     };
     Object.keys(body).forEach(k => body[k] === undefined && delete body[k]);
 
-    setLoading(btn, true);
     try {
       const res = await fetch(`${API_URL}/api/public/pressupost`, {
         method: 'POST',
@@ -279,6 +276,7 @@ function showResult(formCard, type, msg) {
       showResult(form, 'err', "No s'ha pogut enviar la sol·licitud. Torna-ho a intentar o contacta'ns per correu.");
     } finally {
       setLoading(btn, false);
+      if (antirobots) antirobots.reiniciar();
     }
   });
 })();
@@ -355,8 +353,9 @@ function showResult(formCard, type, msg) {
   const NUM = /^(\d{1,3}(?:\.\d{3})+|\d+)(?:,(\d+))?(.*)$/;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (!('IntersectionObserver' in window)) return;
-  const keys = Array.from(document.querySelectorAll('.metric-key'))
-    .filter(k => NUM.test(k.textContent.trim()));
+  // Xifres del bloc de context i de les notes. Els anys (2018, 2026…) no compten: es queden com són.
+  const keys = Array.from(document.querySelectorAll('.metric-key, .nota-clau'))
+    .filter(k => NUM.test(k.textContent.trim()) && !/^(19|20)\d{2}$/.test(k.textContent.trim()));
   if (!keys.length) return;
 
   function format(n, decimals, grouped) {
@@ -384,12 +383,16 @@ function showResult(formCard, type, msg) {
   }
 
   const originals = new Map();
-  keys.forEach(k => {
-    const text = k.textContent.trim();
-    originals.set(k, text);
-    const [, , decPart = '', suffix] = text.match(NUM);
+  keys.forEach(k => originals.set(k, k.textContent.trim()));
+
+  // Abans de posar-les a zero, es fixa l'amplada final (amb les tipografies ja carregades): així el text no fa
+  // saltar la maqueta mentre compta i el fil conductor (fil.js) en protegeix la caixa sencera
+  const aZero = () => keys.forEach(k => {
+    k.style.minWidth = Math.ceil(k.getBoundingClientRect().width) + 'px';
+    const [, , decPart = '', suffix] = originals.get(k).match(NUM);
     k.textContent = format(0, decPart.length, false) + suffix;
   });
+  const preparat = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
 
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -399,7 +402,7 @@ function showResult(formCard, type, msg) {
       }
     });
   }, { threshold: 0.5 });
-  keys.forEach(k => obs.observe(k));
+  preparat.then(() => { aZero(); keys.forEach(k => obs.observe(k)); });
 })();
 
 // -----------------------------------------------

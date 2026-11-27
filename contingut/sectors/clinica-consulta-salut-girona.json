@@ -1,0 +1,86 @@
+{
+  "slug": "clinica-consulta-salut-girona",
+  "idioma": "ca",
+  "grup_hreflang": "clinica-consulta-salut-girona",
+  "estat": "esborrany",
+  "sector": "salut",
+  "titol_seo": "RGPD per a clíniques i consultes a Girona · Madeinhuman",
+  "descripcio": "Guia pràctica de protecció de dades per a clíniques, dentistes, fisioterapeutes i psicòlegs a Girona: documents, errors habituals i primeres passes.",
+  "h1": "Protecció de dades per a clíniques i consultes a Girona",
+  "entradeta": "Clíniques dentals, centres de fisioteràpia, psicologia o medicina privada a Girona: com ordenar històries clíniques, cites, consentiments i proveïdors sense frenar l'activitat.",
+  "capsula": "Les clíniques i consultes de salut tracten dades de salut, que tenen una protecció reforçada segons el RGPD i la LOPDGDD. Normalment cal mantenir un registre d'activitats, informar bé els pacients, regular els proveïdors tecnològics, aplicar mesures de seguretat i valorar si cal designar un delegat de protecció de dades (DPO).",
+  "seccions": [
+    {
+      "titol": "Quines dades tracteu habitualment en una clínica o consulta?",
+      "cos": "En un centre sanitari privat de Girona no només tracteu la història clínica. A la pràctica, les dades personals es reparteixen en diversos circuits:\n\n- **Pacients:** dades identificatives, història clínica, diagnòstics, proves, consentiments informats i imatges clíniques.\n- **Agenda i comunicacions:** recordatoris de cita per telèfon, correu o missatgeria, i consultes rebudes pel formulari web.\n- **Equip i col·laboradors:** nòmines, titulacions, registres d'accés al programa de gestió i professionals externs.\n- **Proveïdors i facturació:** laboratoris, mútues, programa al núvol, gestoria i càmeres de videovigilància si n'hi ha.\n\nCom que les dades de salut són una categoria especial de dades, qualsevol descuit en l'accés o la comunicació té un impacte molt més alt que en altres activitats."
+    },
+    {
+      "titol": "Quins errors habituals veiem en consultes i centres de salut?",
+      "cos": "Quan fem una diagnosi en clíniques petites i mitjanes, solen repetir-se els mateixos punts febles:\n\n- **Enviar informes o recordatoris per canals no controlats:** compartir diagnòstics o proves per WhatsApp personal o correu sense xifrar.\n- **Comptes compartits al programa de gestió:** diversos professionals entrant amb el mateix usuari, sense poder saber qui ha consultat cada història.\n- **Proveïdors sense contracte d'encàrrec:** programari de cites, laboratoris externs o serveis informàtics que accedeixen a dades sense contracte de tractament.\n- **Clàusules genèriques:** fulls d'alta copiats que no expliquen bé qui tracta les dades, quant temps es conserven ni amb qui es comparteixen.\n- **Conservació sense criteri:** arxius antics en paper o carpetes compartides sense control d'accés ni termini definit [REVISAR: confirmar terminis de conservació d'història clínica aplicables a Catalunya segons normativa sanitària autonòmica i estatal]."
+    },
+    {
+      "titol": "Cal designar un delegat de protecció de dades (DPO) en una clínica?",
+      "cos": "Depèn del tipus de centre i de si treballeu com a consulta individual o com a centre sanitari obligat legalment a mantenir històries clíniques. La LOPDGDD preveu casos en què els centres sanitaris han de designar un delegat de protecció de dades (DPO), amb excepcions per a professionals que exerceixen a títol individual [REVISAR: confirmar redacció exacta de l'excepció de l'article 34.1.l de la LOPDGDD i criteri vigent de l'AEPD].\n\nTambé cal valorar si feu tractaments a gran escala o si combineu dades clíniques amb altres tecnologies. Si teniu dubtes sobre el vostre cas concret, podeu revisar els criteris generals al nostre qüestionari [Necessito un DPO?](/necessito-dpo/) i contrastar-ho en una revisió específica."
+    },
+    {
+      "titol": "Què heu de tenir en compte amb el programari, les mútues i la IA?",
+      "cos": "Moltes consultes depenen de programes al núvol per a cites, històries clíniques o telemedicina, i cada cop més s'exploren eines d'intel·ligència artificial (IA) per transcriure visites o resumir notes.\n\n- **Proveïdors tecnològics:** normalment cal verificar on s'allotgen les dades, quines mesures de seguretat ofereixen i signar un contracte d'encàrrec de tractament.\n- **Cessions a mútues o laboratoris:** cal tenir clara la base jurídica i informar-ne prèviament el pacient.\n- **Eines d'IA a la consulta:** abans d'introduir dades de pacients en una eina d'IA, cal valorar la base jurídica, el risc per als drets de les persones i si cal una avaluació d'impacte [REVISAR: confirmar encaix amb el Reglament europeu d'IA i guies de l'AEPD i l'APDCat sobre IA en salut]."
+    },
+    {
+      "titol": "Per on podeu començar aquesta setmana?",
+      "cos": "No cal aturar la consulta per posar ordre. Un punt de partida realista és seguir aquests passos:\n\n1. Feu un inventari breu dels programes, carpetes i proveïdors on hi ha dades de pacients.\n2. Assigneu un usuari individual i contrasenyes pròpies a cada persona de l'equip.\n3. Reviseu el full d'alta de nous pacients i el formulari web perquè informin amb claredat.\n4. Comproveu si teniu signat el contracte d'encàrrec amb el programari de gestió, el suport informàtic i la gestoria.\n5. Valoreu si el vostre centre necessita un DPO i reviseu el protocol per respondre sol·licituds d'accés a la història clínica."
+    }
+  ],
+  "documents": [
+    "Registre d'activitats de tractament (RAT) adaptat a l'activitat sanitària",
+    "Clàusules informatives de primera i segona capa per a l'alta de pacients",
+    "Contractes d'encàrrec de tractament amb programari, laboratoris, informàtica i gestoria",
+    "Compromís de confidencialitat i normes d'ús per a tot l'equip i col·laboradors",
+    "Anàlisi de riscos i, si escau, avaluació d'impacte en protecció de dades (EIPD)",
+    "Protocol d'atenció de drets dels pacients i de notificació de bretxes de seguretat",
+    "Document de designació de DPO i comunicació a l'autoritat competent, si aplica"
+  ],
+  "faq": [
+    {
+      "pregunta": "Podem enviar recordatoris de cita per WhatsApp als pacients?",
+      "resposta": "Cal valorar-ho amb prudència. En missatgeria instantània convé evitar qualsevol dada clínica (especialitat sensible, prova o diagnòstic), informar prèviament el pacient del canal i revisar les condicions del servei utilitzat [REVISAR: confirmar criteri actualitzat de l'AEPD sobre ús de WhatsApp en consultes sanitàries]."
+    },
+    {
+      "pregunta": "Un fisioterapeuta o psicòleg autònom que treballa sol ha de tenir DPO?",
+      "resposta": "Normalment la LOPDGDD contempla una excepció per als professionals sanitaris que exerceixen a títol individual, però cal revisar sempre el volum i el tipus de tractament que feu [REVISAR: confirmar supòsits exactes de l'article 34.1.l de la LOPDGDD]. Podeu fer una primera comprovació a [Necessito un DPO?](/necessito-dpo/)."
+    },
+    {
+      "pregunta": "Com hem d'actuar si un pacient demana una còpia de la seva història clínica?",
+      "resposta": "Heu de verificar la identitat de qui la sol·licita, facilitar-li la informació dins del termini legal aplicable i deixar constància del lliurament. Convé tenir un protocol intern clar perquè recepció sàpiga com tramitar-ho sense improvisar [REVISAR: confirmar interacció entre termini del RGPD i normativa d'autonomia del pacient]."
+    },
+    {
+      "pregunta": "Si ja tenim consentiments informats mèdics, també cal clàusula de protecció de dades?",
+      "resposta": "Sí, són dues coses diferents. El consentiment informat sanitari cobreix l'acte assistencial; la informació de protecció de dades explica com tracteu les dades personals, quina és la base jurídica, quant temps les conserveu i com exercir els drets."
+    }
+  ],
+  "servei_relacionat": "dpo",
+  "articles_relacionats": [
+    "proveidors-contracte-encarregat-rgpd",
+    "bretxa-de-dades-que-fer",
+    "eines-ia-empresa-alfabetitzacio"
+  ],
+  "cta_desti": "diagnostic",
+  "fonts": [
+    {
+      "nom": "Reglament (UE) 2016/679 (RGPD) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "nom": "Llei Orgànica 3/2018 (LOPDGDD) — BOE",
+      "url": "https://www.boe.es/eli/es/lo/2018/12/05/3/con"
+    },
+    {
+      "nom": "Agència Espanyola de Protecció de Dades (AEPD)",
+      "url": "https://www.aepd.es/"
+    },
+    {
+      "nom": "Autoritat Catalana de Protecció de Dades (APDCat)",
+      "url": "https://apdcat.gencat.cat/"
+    }
+  ]
+}

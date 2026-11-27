@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- ✏️ EDITABLE: títol i descripció (SEO) -->
-  <title>Diagnòstic RGPD gratuït — Quin és el risc de la vostra empresa? | Madeinhuman</title>
-  <meta name="description" content="Responeu 11 preguntes i rebeu en un minut un informe PDF gratuït amb el nivell de risc en protecció de dades de la vostra empresa, els punts més exposats i per on començar." />
-  <link rel="canonical" href="https://madeinhuman.cat/diagnostic.html" />
+  <title>Diagnòstic RGPD gratuït per a empreses · Madeinhuman</title>
+  <meta name="description" content="Responeu 11 preguntes i rebeu un informe PDF gratuït amb el nivell de risc en protecció de dades de la vostra empresa i per on començar." />
+  <link rel="canonical" href="https://madeinhuman.cat/diagnostic" />
   <meta property="og:title" content="Diagnòstic RGPD gratuït · Madeinhuman" />
   <meta property="og:description" content="11 preguntes, 4 minuts i un informe PDF amb el vostre nivell de risc en protecció de dades." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://madeinhuman.cat/diagnostic.html" />
+  <meta property="og:url" content="https://madeinhuman.cat/diagnostic" />
   <meta property="og:locale" content="ca_ES" />
   <meta property="og:image" content="https://madeinhuman.cat/og-image.png" />
   <meta property="og:image:width" content="1200" />
@@ -94,18 +94,58 @@
     .err{display:none;margin-top:14px;padding:12px 14px;border-radius:10px;background:color-mix(in srgb, var(--risc-alt) 12%, transparent);border:1px solid color-mix(in srgb, var(--risc-alt) 40%, transparent);color:var(--risc-alt-clar);font-size:14px}
     .err.on{display:block}
     .res{text-align:center}
-    .gauge{position:relative;width:min(300px,80vw);margin:6px auto 0}
-    .gauge .n{position:absolute;left:0;right:0;bottom:6px;font-family:var(--serif);font-size:54px;line-height:1}
-    .gauge .n small{font-family:var(--sans);font-size:15px;color:var(--faint)}
-    .pill{display:inline-block;margin:14px 0 24px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:20px;padding:5px 14px}
-    .pill.alt{background:color-mix(in srgb, var(--risc-alt) 16%, transparent);color:var(--alt)}.pill.mitja{background:color-mix(in srgb, var(--daurat-clar) 16%, transparent);color:var(--mitja)}.pill.baix{background:color-mix(in srgb, var(--risc-baix) 16%, transparent);color:var(--baix)}
+    .semafor-card{display:flex;flex-direction:column;align-items:center;gap:18px;background:var(--card);border:1px solid var(--border-s);border-radius:16px;padding:24px 20px;margin:18px auto 24px;max-width:520px;text-align:center}
+    .semafor{display:inline-flex;flex-direction:row;align-items:center;gap:14px;padding:12px 18px;border-radius:999px;background:var(--nit-elevat);border:1px solid var(--border-s)}
+    .llum{width:28px;height:28px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border-s);opacity:.42}
+    .llum.baix{border-color:color-mix(in srgb,var(--risc-baix) 50%,transparent)}
+    .llum.mitja{border-color:color-mix(in srgb,var(--daurat-clar) 50%,transparent)}
+    .llum.alt{border-color:color-mix(in srgb,var(--risc-alt) 50%,transparent)}
+    .llum.on{opacity:1}
+    .llum.baix.on{background:var(--baix);border-color:var(--baix);box-shadow:0 0 18px color-mix(in srgb,var(--risc-baix) 55%,transparent)}
+    .llum.mitja.on{background:var(--mitja);border-color:var(--mitja);box-shadow:0 0 18px color-mix(in srgb,var(--daurat-clar) 55%,transparent)}
+    .llum.alt.on{background:var(--alt);border-color:var(--alt);box-shadow:0 0 18px color-mix(in srgb,var(--risc-alt) 55%,transparent)}
+    .semafor-info{display:flex;flex-direction:column;align-items:center;gap:8px}
+    .semafor-cap{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:10px 14px}
+    .semafor-index{font-family:var(--serif);font-size:40px;line-height:1;color:var(--text)}
+    .semafor-index small{font-family:var(--sans);font-size:15px;color:var(--faint)}
+    .semafor-frase{color:var(--dim);font-size:15px;line-height:1.55;max-width:42ch}
+    .pill{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:20px;padding:5px 14px}
+    .pill.alt{background:color-mix(in srgb,var(--risc-alt) 18%,transparent);color:var(--risc-alt-clar)}.pill.mitja{background:color-mix(in srgb,var(--daurat-clar) 16%,transparent);color:var(--mitja)}.pill.baix{background:color-mix(in srgb,var(--risc-baix) 16%,transparent);color:var(--baix)}
+    @media(min-width:520px){
+      .semafor-card{flex-direction:row;text-align:left;padding:24px 26px;gap:24px}
+      .semafor{flex-direction:column;padding:16px 12px;gap:12px}
+      .semafor-info{align-items:flex-start}
+      .semafor-cap{justify-content:flex-start}
+    }
+    .tops-titol{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);text-align:left;margin:0 auto 10px;max-width:520px}
     .tops{list-style:none;text-align:left;display:grid;gap:10px;margin:0 auto 26px;max-width:520px}
     .tops li{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:15px}
     .tops li span{font-family:var(--mono);font-size:12px;color:var(--copper)}
-    .sent{border:1px solid color-mix(in srgb, var(--daurat) 35%, transparent);background:color-mix(in srgb, var(--daurat) 6%, transparent);border-radius:12px;padding:18px 20px;text-align:left;font-size:15px;color:var(--dim);margin-bottom:22px}
+    .sent{border:1px solid color-mix(in srgb,var(--daurat) 35%,transparent);background:color-mix(in srgb,var(--daurat) 6%,transparent);border-radius:12px;padding:18px 20px;text-align:left;font-size:15px;color:var(--dim);margin:0 auto 22px;max-width:520px}
     .sent b{color:var(--text)}
     .cta{display:flex;flex-direction:column;align-items:center;gap:8px}
+    .cta[hidden]{display:none}
     .cta small{color:var(--faint);font-size:12.5px}
+    #reserva{margin:24px auto 0;max-width:520px;text-align:left}
+    .reserva-widget{background:var(--card);border:1px solid var(--border-s);border-radius:16px;padding:22px 20px}
+    .reserva-titol{font-family:var(--serif);font-weight:500;font-size:22px;line-height:1.25;margin-bottom:8px;color:var(--text)}
+    .reserva-titol:focus{outline:none}
+    .reserva-zona{font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:18px}
+    .reserva-estat{font-size:14px;color:var(--dim);margin-bottom:12px}
+    .reserva-estat:empty{display:none}
+    .reserva-estat-err{padding:10px 14px;border-radius:10px;background:color-mix(in srgb,var(--risc-alt) 14%,transparent);border:1px solid color-mix(in srgb,var(--risc-alt) 45%,transparent);color:var(--risc-alt-clar)}
+    .reserva-dia{margin-bottom:18px}
+    .reserva-dia-titol{font-family:var(--sans);font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px;text-transform:capitalize}
+    .reserva-franges{display:flex;flex-wrap:wrap;gap:10px}
+    .reserva-franja{min-height:44px;min-width:84px;padding:10px 16px;border-radius:10px;border:1px solid var(--border-s);background:var(--nit-elevat);color:var(--text);font:inherit;font-family:var(--mono);font-size:14px;cursor:pointer}
+    .reserva-franja:hover,.reserva-franja[aria-pressed="true"]{border-color:var(--copper);background:color-mix(in srgb,var(--daurat) 16%,transparent);color:var(--copper-b)}
+    .reserva-franja:focus-visible{outline:2px solid var(--copper-b);outline-offset:2px}
+    .reserva-accions{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+    .reserva-accio{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+    .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border-s)}
+    .btn-ghost:hover{background:var(--card-h);color:var(--text)}
+    .reserva-exit-detall{font-size:16px;font-weight:600;color:var(--copper-b);margin-bottom:6px}
+    .reserva-exit-correu{font-size:15px;color:var(--dim)}
     footer{padding:18px 16px;text-align:center;font-size:12px;color:var(--faint);border-top:1px solid var(--border)}
     footer a{color:var(--dim)}
     noscript p{color:var(--dim)}
@@ -142,6 +182,8 @@
   </footer>
 
   <script src="utm.js"></script>
+  <script src="turnstile.js"></script>
+  <script src="reserva.js"></script>
   <script src="diagnostic.js"></script>
 </body>
 </html>

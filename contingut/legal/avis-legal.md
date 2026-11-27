@@ -4,8 +4,8 @@ D'acord amb l'article 10 de la Llei 34/2002 de serveis de la societat de la info
 
 | **Denominació** | MADEINHUMAN, ESPJ |
 | **NIF** | ES-41534172-J |
-| **Domicili** | Carrer Camp d'Or, 65, 17007 Girona |
-| **Correu electrònic** | [info@madeinhuman.cat](mailto:info@madeinhuman.cat) |
+| **Domicili** | {{adreca}} |
+| **Correu electrònic** | [{{correu}}](mailto:{{correu}}) |
 | **Lloc web** | [https://madeinhuman.cat](https://madeinhuman.cat) |
 
 ## Per a què serveix aquest document?
@@ -51,7 +51,7 @@ MADEINHUMAN, ESPJ vetlla per la qualitat i el bon funcionament del lloc web, per
 
 El lloc web pot contenir enllaços a pàgines externes que MADEINHUMAN, ESPJ no gestiona ni controla. Quan hi accedeixes, ho fas sota les condicions pròpies d'aquells llocs.
 
-Si detectes un enllaç a continguts il·lícits o inadequats, et demanem que ens ho notifiquis a [info@madeinhuman.cat](mailto:info@madeinhuman.cat). El retirarem de forma immediata.
+Si detectes un enllaç a continguts il·lícits o inadequats, et demanem que ens ho notifiquis a [{{correu}}](mailto:{{correu}}). El retirarem de forma immediata.
 
 ## Propietat intel·lectual i industrial
 
@@ -59,7 +59,7 @@ Tots els continguts d'aquest lloc web —textos, imatges, dissenys, logotips, ic
 
 Queda prohibida la reproducció total o parcial, la distribució, la comunicació pública o qualsevol altre acte d'explotació sense l'autorització escrita i prèvia de MADEINHUMAN, ESPJ. L'ús no autoritzat constitueix una infracció dels drets d'autor o de marques, sancionable per la llei.
 
-Per a qualsevol consulta sobre drets de propietat intel·lectual o per notificar un possible ús no autoritzat, contacta amb nosaltres a [info@madeinhuman.cat](mailto:info@madeinhuman.cat).
+Per a qualsevol consulta sobre drets de propietat intel·lectual o per notificar un possible ús no autoritzat, contacta amb nosaltres a [{{correu}}](mailto:{{correu}}).
 
 ## Protecció de dades personals
 
