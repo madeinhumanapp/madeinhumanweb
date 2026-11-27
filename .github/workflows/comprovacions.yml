@@ -75,6 +75,8 @@ jobs:
         run: npm run reserva
       - name: Teclat, focus i contrast
         run: npm run teclat
+      - name: Informe de registre (prova de l'eina)
+        run: npm run registre
       - name: Autotest SaaS (esborrany, només a les vistes prèvies)
         run: npm run autotest-saas
       - name: Vista prèvia del panell
@@ -87,3 +89,32 @@ jobs:
         run: npm run portada
       - name: Pàgina de preguntes freqüents
         run: npm run faq
+
+  visual:
+    if: github.ref != 'refs/heads/main'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Eines de comprovació (Playwright)
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Construir main (referència) i la branca actual
+        run: |
+          git fetch --no-tags origin main
+          rm -rf /tmp/main-worktree /tmp/main-dist
+          git worktree add --detach /tmp/main-worktree origin/main
+          node /tmp/main-worktree/eines/construir.mjs --sortida /tmp/main-dist
+          git worktree remove --force /tmp/main-worktree
+          npm run construir
+      - name: Regressió visual (informativa, 375 i 1280 px)
+        run: |
+          node proves/visual.mjs --base /tmp/main-dist --amplades 375,1280 --resum-markdown "$GITHUB_STEP_SUMMARY"

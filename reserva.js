@@ -23,6 +23,8 @@
       exitTitol: 'Trucada reservada',
       exitDetall: '{dia} a les {hora} ({durada} minuts)',
       exitCorreu: 'Us enviarem la confirmació per correu.',
+      pendentTitol: 'Sol·licitud rebuda',
+      pendentCorreu: "Us confirmarem l'hora per correu. Si no us arriba, reviseu el correu brossa o escriviu-nos.",
       afegirCalendari: 'Afegir al calendari',
       errOcupada: "Aquesta hora s'acaba d'ocupar. Hem actualitzat les hores disponibles.",
       errToken: "L'enllaç ja no és vàlid.",
@@ -48,6 +50,8 @@
       exitTitol: 'Llamada reservada',
       exitDetall: '{dia} a las {hora} ({durada} minutos)',
       exitCorreu: 'Os enviaremos la confirmación por correo.',
+      pendentTitol: 'Solicitud recibida',
+      pendentCorreu: 'Os confirmaremos la hora por correo. Si no os llega, revisad la carpeta de correo no deseado o escribidnos.',
       afegirCalendari: 'Añadir al calendario',
       errOcupada: 'Esta hora se acaba de ocupar. Hemos actualizado las horas disponibles.',
       errToken: 'El enlace ya no es válido.',
@@ -155,9 +159,9 @@
     var cosEl = contenidor.querySelector('.reserva-cos');
     var estat = { zona: 'Europe/Madrid', durada: 20, franges: [], seleccionada: null, carregant: false };
 
-    function mostrarEstat(text, esError) {
+    function mostrarEstat(text, esError, nomesLector) {
       estatEl.textContent = text || '';
-      estatEl.className = 'reserva-estat' + (text ? (esError ? ' reserva-estat-err' : ' reserva-estat-ok') : '');
+      estatEl.className = 'reserva-estat' + (text ? (nomesLector ? ' reserva-estat-sr' : (esError ? ' reserva-estat-err' : ' reserva-estat-ok')) : '');
     }
 
     function pintarErrorContacte(missatge) {
@@ -248,6 +252,23 @@
       enfocarTitol(cosEl);
     }
 
+    function pintarPendent(inici) {
+      var dia = nomDia(inici, estat.zona, lang);
+      var hora = horaLocal(inici, estat.zona, lang);
+      var detall = tr(lang, 'exitDetall', { dia: dia, hora: hora, durada: estat.durada });
+      mostrarEstat(dic.pendentTitol + ' · ' + detall, false, true);
+      cosEl.innerHTML =
+        '<div class="reserva-exit reserva-pendent">' +
+          '<h2 class="reserva-titol" tabindex="-1">' + esc(dic.pendentTitol) + '</h2>' +
+          '<p class="reserva-exit-detall">' + esc(detall) + '</p>' +
+          '<p class="reserva-exit-correu">' + esc(dic.pendentCorreu) + '</p>' +
+          '<div class="reserva-accions">' +
+            '<a class="btn btn-ghost reserva-accio" href="' + esc(dic.contacteHref) + '">' + esc(dic.contactar) + '</a>' +
+          '</div>' +
+        '</div>';
+      enfocarTitol(cosEl);
+    }
+
     function pintarExit(inici, fi, idFranja) {
       mostrarEstat('', false);
       var dia = nomDia(inici, estat.zona, lang);
@@ -280,6 +301,10 @@
         })
         .then(function (res) {
           if (res.ok && res.d && res.d.ok) {
+            if (res.d.estat === 'pendent') {
+              pintarPendent(res.d.inici || franja.inici);
+              return;
+            }
             pintarExit(res.d.inici || franja.inici, res.d.fi || franja.fi, franja.id);
             return;
           }

@@ -160,7 +160,7 @@ coincidir amb el nom del fitxer). Esquema i validació a `esquema/sectors.mjs`; 
   - requadre «Com es publica un esborrany» amb els passos des del panell. No existeix mai a producció.
 - A les proves es pot redirigir la carpeta amb `DIR_SECTORS`.
 
-## Selector de reserves propi (`reserva.js` i `/reserva/`, WEB-G05)
+## Selector de reserves propi (`reserva.js` i `/reserva/`, WEB-G05 i WEB-G07)
 
 Component propi sense dependències per reservar una trucada de 20 minuts contra l'API de `rgpd-tool`, preparat per
 substituir `CALENDARI_URL` quan l'API estigui desplegada:
@@ -168,11 +168,20 @@ substituir `CALENDARI_URL` quan l'API estigui desplegada:
 - **Estat actual (desactivat):** `reserva.js` té `var ACTIVA = false;` al començament. Mentre sigui `false`,
   `window.MadeinhumanReserva.muntar()` no fa res ni envia cap petició; `/diagnostic` manté `#reserva` ocult i el botó
   de `CALENDARI_URL`, i `/reserva/` mostra el missatge alternatiu amb enllaços a `/diagnostic` i `/#contacte`.
-- **API esperada a `rgpd.madeinhuman.cat`:**
+- **API i contracte (`proves/contractes/reserva.json`) a `rgpd.madeinhuman.cat`:**
   - `GET /api/public/reserva/franges?t=<token>` → `200 { ok: true, zona, durada, franges: [{ id, inici, fi }] }`
     (`404 { ok: false, error: "token" }` si el token ha caducat o no existeix; `franges: []` si no hi ha hores lliures).
-  - `POST /api/public/reserva` amb `{ t, franja }` → `200 { ok: true, inici, fi }` (genera un `.ics` en UTC al navegador
-    sense dades personals), `409` (`ocupada` → avís i recàrrega automàtica de franges), `404` (`token`), `400` (`dades`).
+  - `POST /api/public/reserva` amb `{ t, franja }` → `200 { ok: true, estat: "pendent", inici, fi }` (confirmació manual:
+    mostra «Sol·licitud rebuda» / «Solicitud recibida» amb el dia i l'hora demanats, l'avís de confirmació per correu i
+    enllaç a contacte, **sense** botó ni fitxer `.ics`, movent el focus al títol i anunciant l'estat a la regió
+    `aria-live="polite"`); `409` (`ocupada` → avís i recàrrega automàtica de franges), `404` (`token`), `400` (`dades`).
+    Si la resposta `200` arriba sense camp `estat` (format antic), manté per compatibilitat la pantalla «Trucada
+    reservada» amb el botó i el fitxer `.ics` en UTC.
+- **Com es prova:** `node proves/reserva.mjs` llegeix totes les respostes simulades directament de
+  `proves/contractes/reserva.json` (si el contracte canvia, la prova ho detecta) i comprova el flux `estat: "pendent"`
+  en català i castellà, la compatibilitat sense `estat`, els codis `409`/`400`/`404`, `ACTIVA = false` sobre `dist/` i
+  la CSP real. Amb `--captures <carpeta>`, desa captures del pas «Sol·licitud rebuda» / «Solicitud recibida» a 375 i
+  1280 px en tots dos idiomes.
 - **Com s'activarà:** quan `rgpd-tool` exposi els dos punts finals i afegeixi `tokenReserva` a la resposta de
   `/api/public/diagnostic`, només caldrà canviar `var ACTIVA = true;` a `reserva.js` (la CSP de `_headers` ja inclou
   `connect-src https://rgpd.madeinhuman.cat`). A `/reserva/?t=<token>`, el token s'esborra de la barra d'adreces amb
@@ -207,19 +216,47 @@ idioma (`en`) sense escampar cadenes per les plantilles.
 - `node proves/teclat.mjs` comprova amb Playwright el «Salta al contingut» a totes les pàgines generades, el focus visible a portada i
   servei, el menú mòbil a 375 px i el contrast WCAG AA (4,5:1 text normal, 3:1 text gran) a 1280 px.
 
-## Regressió visual automàtica (`proves/visual.mjs`, WEB-G06)
+## Regressió visual automàtica (`proves/visual.mjs` i job `visual` a la CI, WEB-G06 i WEB-G07)
 
 Compara píxel a píxel totes les pàgines HTML (llevat de `_previsualitzacio/` i `recollida.html`) entre una carpeta base (p. ex. `main`)
-i `dist/` a 375, 768 i 1280 px, sense dependències externes (canvas dins de Playwright), i genera l'informe a `captures/visual/informe.html`:
+i `dist/` a 375, 768 i 1280 px, sense dependències externes (canvas dins de Playwright), i genera l'informe a `captures/visual/informe.html`.
+Amb `--resum-markdown <fitxer>`, escriu també una taula resum en Markdown (pàgines idèntiques, pàgines amb diferències i percentatge de cadascuna):
 
 ```bash
 # 1. A main (abans dels canvis), genera la referència:
 node eines/construir.mjs --sortida /tmp/main-dist
 # 2. A la branca de treball, reconstrueix dist/ i compara:
 npm run construir
-node proves/visual.mjs --base /tmp/main-dist                          # informativa (codi 0)
-node proves/visual.mjs --base /tmp/main-dist --amplades 1280 --estricte  # falla si hi ha diferències
+node proves/visual.mjs --base /tmp/main-dist                                          # informativa (codi 0)
+node proves/visual.mjs --base /tmp/main-dist --amplades 1280 --estricte               # falla si hi ha diferències
+node proves/visual.mjs --base /tmp/main-dist --amplades 375,1280 --resum-markdown /tmp/resum.md
 ```
+
+- **Job `visual` a GitHub Actions (`.github/workflows/comprovacions.yml`):** és informatiu (`continue-on-error: true`) i s'omet a `main`
+  (`if: github.ref != 'refs/heads/main'`). Construeix `main` en una carpeta temporal fora del repositori amb `git worktree add`, construeix
+  la branca actual a `dist/`, compara a `375,1280` px i escriu la taula resum a `$GITHUB_STEP_SUMMARY` sense pujar captures com a artefacte
+  ni fer servir accions de tercers.
+
+## Informe de registre «tu» / «vosaltres» (`eines/registre.mjs`, WEB-G07)
+
+Eina **de només lectura** i sense dependències per fer l'inventari del tractament («tu» / «vosaltres» en català; «tú» / «vosotros» en castellà)
+a tota la web abans d'unificar-ne el registre. No modifica cap fitxer de `contingut/` ni cap fitxer seguit per git.
+
+```bash
+node eines/registre.mjs                     # analitza tota la web (amb esborranys) → captures/registre/informe.md
+node eines/registre.mjs --sense-esborranys  # només les pàgines publicades
+node proves/registre.mjs                    # proves unitàries (ca/es, falsos positius) i garantia de només lectura
+```
+
+- **Com funciona:** construeix la web en una carpeta temporal fora del repositori, extreu el text visible de cada `.html` (sense `<script>`,
+  `<style>` ni blocs `<pre hidden>`, però incloent `aria-label`, `alt`, `placeholder` i `title`) i detecta pronoms, possessius, clítics i
+  formes verbals freqüents de 2a persona evitant falsos positius comuns («us» dins paraula, `US`, «et al.», «et cetera», «te» substantiu, `OS`,
+  homògrafs de 3a persona del singular).
+- **Com llegir `captures/registre/informe.md`:**
+  1. **Resum:** taula amb el recompte de pàgines en cada registre (`tu`, `vosaltres`, `mixt`, `cap`), separat per publicades i esborranys (`ca`/`es`).
+  2. **Frases d'interfície comunes:** quines cadenes del menú/peu (`contingut/lloc.json`) i de `plantilles/textos.mjs` introdueixen marques de registre.
+  3. **Inventari per pàgina:** taula amb idioma, ruta, si és esborrany, comptadors i registre dominant.
+  4. **Pàgines mixtes:** detall de totes les ocurrències amb ~60 caràcters de context per localitzar-les ràpidament.
 
 ## Autotest SaaS en castellà (`/es/autotest-saas/`, esborrany, WEB-G06)
 
@@ -252,7 +289,7 @@ Generat automàticament a `dist/llms.txt` seguint `llmstxt.org`: `# Madeinhuman`
 `## Español`) ometent les buides. Només inclou pàgines publicades i indexables (idèntic amb `--esborranys`). `robots.txt`
 no canvia.
 
-## Controls de qualitat i proves noves (WEB-G04, WEB-G05 i WEB-G06)
+## Controls de qualitat i proves noves (WEB-G04, WEB-G05, WEB-G06 i WEB-G07)
 
 Tots els controls estàtics accepten `--arrel <carpeta>` (per defecte `dist`) i funcionen tant sobre producció
 (`npm run construir`) com sobre la construcció d'esborranys (`node eines/construir.mjs --esborranys`):
@@ -267,8 +304,9 @@ node proves/dades-estructurades.mjs    # JSON-LD vàlid, ProfessionalService (co
 node proves/accessibilitat.mjs         # lang coherent, <main>, un sol <h1>, nivells de títol, ids únics, alt, labels, enllaços/botons
 node proves/pes.mjs                    # pressupost ≤ 500 kB per pàgina (avís a recollida.html) i imatges ≤ 300 kB
 node proves/cerca.mjs                  # índexs de cerca (sense navegador) i interfície /cerca/ i /es/buscar/ amb Playwright + CSP
-node proves/reserva.mjs                # selector de reserves amb Playwright + CSP (còpia amb ACTIVA=true i dist/ real ACTIVA=false)
-node proves/visual.mjs --base <dir>    # regressió visual píxel a píxel amb Playwright i informe a captures/visual/informe.html
+node proves/reserva.mjs                # selector de reserves amb contracte reserva.json, estat pendent, compatibilitat, CSP i --captures
+node proves/visual.mjs --base <dir>    # regressió visual píxel a píxel, informe HTML i --resum-markdown (CI)
 node proves/teclat.mjs                 # «Salta al contingut», focus visible, menú mòbil amb teclat i contrast WCAG AA
 node proves/autotest-saas.mjs          # avaluació pura i recorregut Playwright + CSP de /es/autotest-saas/ (esborrany)
+node proves/registre.mjs               # detecció de registre tu/vosaltres (ca/es), falsos positius i garantia de només lectura
 ```
