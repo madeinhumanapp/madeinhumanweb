@@ -31,11 +31,13 @@ const NOTICIES = {
 };
 const dir = path.join(TMP, 'actualitat');
 fs.mkdirSync(dir);
+const dirSectorsBuit = path.join(TMP, 'sectors-buit');
+fs.mkdirSync(dirSectorsBuit);
 for (const [f, t] of Object.entries(NOTICIES)) fs.writeFileSync(path.join(dir, f), t);
 
 const construir = (env, sortida) => {
   try {
-    return { ok: true, sortida: execFileSync('node', ['eines/construir.mjs', '--sortida', sortida], { cwd: ARREL, env: { ...process.env, ...env }, encoding: 'utf8', stdio: 'pipe' }) };
+    return { ok: true, sortida: execFileSync('node', ['eines/construir.mjs', '--sortida', sortida], { cwd: ARREL, env: { ...process.env, DIR_SECTORS: dirSectorsBuit, ...env }, encoding: 'utf8', stdio: 'pipe' }) };
   } catch (e) { return { ok: false, sortida: String(e.stderr) + String(e.stdout) }; }
 };
 
@@ -184,7 +186,7 @@ ok('article amb valors per defecte: text de revisió i botons de diagnòstic i c
 const construirAmb = (env, sortida, extraArgs = []) => {
   try {
     return { ok: true, sortida: execFileSync('node', ['eines/construir.mjs', '--sortida', sortida, ...extraArgs],
-      { cwd: ARREL, env: { ...process.env, CF_PAGES_BRANCH: '', ...env }, encoding: 'utf8', stdio: 'pipe' }) };
+      { cwd: ARREL, env: { ...process.env, CF_PAGES_BRANCH: '', DIR_SECTORS: dirSectorsBuit, ...env }, encoding: 'utf8', stdio: 'pipe' }) };
   } catch (e) { return { ok: false, sortida: String(e.stderr) + String(e.stdout) }; }
 };
 ok('producció: no genera ni /actualitat/esborranys/ ni la pàgina de l\'esborrany',
@@ -370,6 +372,59 @@ fs.writeFileSync(path.join(dirDupAct, '2026-05-01-una.md'), cap({ titol: '"Una"'
 fs.writeFileSync(path.join(dirDupAct, '2026-05-02-dues.md'), cap({ titol: '"Dues"', ...base, data: '2026-05-02', grup_hreflang: 'mateix-grup' }) + '\nCos.\n');
 const rDupAct = construirAmb({ DIR_ACTUALITAT: dirDupAct, DATA_CONSTRUCCIO: '2026-06-01' }, path.join(TMP, 'dist-dup-act'));
 ok('rebutja dues notícies amb el mateix grup_hreflang i idioma', !rDupAct.ok && /grup_hreflang/.test(rDupAct.sortida), rDupAct.sortida.slice(0, 200));
+
+// 8. Reciprocitat guia ↔ sector: «Sectors on s'aplica» / «Sectores donde se aplica» (WEB-G04d)
+const dirSecRec = path.join(TMP, 'sectors-reciproc');
+fs.mkdirSync(dirSecRec);
+const secBaseRec = {
+  slug: 'cliniques-rec',
+  idioma: 'ca',
+  estat: 'publicat',
+  sector: 'salut',
+  titol_seo: 'RGPD clíniques · Madeinhuman',
+  descripcio: 'Descripció.',
+  h1: 'Clíniques de prova',
+  entradeta: 'Entradeta.',
+  capsula: 'Càpsula de prova.',
+  seccions: [
+    { titol: 'Primera pregunta?', cos: 'Text.' },
+    { titol: 'Segona pregunta?', cos: 'Text.' },
+  ],
+  documents: ['Doc'],
+  faq: [{ pregunta: 'P?', resposta: 'R.' }],
+  servei_relacionat: 'dpo',
+  articles_relacionats: ['guia-ca'],
+  cta_desti: 'diagnostic',
+  fonts: [{ nom: 'RGPD', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj' }],
+};
+fs.writeFileSync(path.join(dirSecRec, 'cliniques-rec.json'), JSON.stringify(secBaseRec, null, 2));
+fs.writeFileSync(path.join(dirSecRec, 'esborrany-rec.json'), JSON.stringify({
+  ...structuredClone(secBaseRec), slug: 'esborrany-rec', estat: 'esborrany', h1: 'Sector esborrany',
+}, null, 2));
+fs.writeFileSync(path.join(dirSecRec, 'clinicas-rec-es.json'), JSON.stringify({
+  ...structuredClone(secBaseRec), slug: 'clinicas-rec-es', idioma: 'es', h1: 'Clínicas de prueba', articles_relacionats: ['guia-es'],
+}, null, 2));
+
+const outRecProd = path.join(TMP, 'dist-rec-prod');
+const rRecProd = construirAmb({ DIR_ACTUALITAT: dirBil, DIR_SECTORS: dirSecRec, DATA_CONSTRUCCIO: '2026-06-01' }, outRecProd);
+const gCaRec = fs.readFileSync(path.join(outRecProd, 'actualitat/guia-ca/index.html'), 'utf8');
+const gEsRec = fs.readFileSync(path.join(outRecProd, 'es/actualidad/guia-es/index.html'), 'utf8');
+const nEsRec = fs.readFileSync(path.join(outRecProd, 'es/actualidad/noticia-es/index.html'), 'utf8');
+ok('guies mostren «Sectors on s\'aplica» / «Sectores donde se aplica» només amb sectors visibles del mateix idioma',
+  rRecProd.ok
+  && gCaRec.includes('<h2>Sectors on s&#x27;aplica</h2>')
+  && gCaRec.includes('href="/sectors/cliniques-rec/">Clíniques de prova</a>')
+  && !gCaRec.includes('esborrany-rec')
+  && !gCaRec.includes('clinicas-rec-es')
+  && gEsRec.includes('<h2>Sectores donde se aplica</h2>')
+  && gEsRec.includes('href="/es/sectores/clinicas-rec-es/">Clínicas de prueba</a>')
+  && !nEsRec.includes('Sectores donde se aplica'));
+
+const outRecDraft = path.join(TMP, 'dist-rec-draft');
+const rRecDraft = construirAmb({ DIR_ACTUALITAT: dirBil, DIR_SECTORS: dirSecRec, DATA_CONSTRUCCIO: '2026-06-01' }, outRecDraft, ['--esborranys']);
+const gCaRecDraft = fs.readFileSync(path.join(outRecDraft, 'actualitat/guia-ca/index.html'), 'utf8');
+ok('--esborranys: «Sectors on s\'aplica» inclou també sectors en esborrany visibles',
+  rRecDraft.ok && gCaRecDraft.includes('href="/sectors/esborrany-rec/">Sector esborrany</a>'));
 
 fs.rmSync(TMP, { recursive: true, force: true });
 console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions de l\'actualitat correctes');

@@ -136,8 +136,9 @@ if (fs.existsSync(DIR_SECTORS)) {
     sectors.push(s);
   }
 }
-errors.push(...validarConjuntSectors(sectors));
+errors.push(...validarConjuntSectors(sectors, totes));
 const sectorsPublicats = sectors.filter(s => s.estat === 'publicat');
+const sectorsVisibles = AMB_ESBORRANYS ? sectors : sectorsPublicats;
 
 // 2b. Pàgines de servei i portada en castellà (port de marca/pagines/generar.py, encàrrec WEB-H04):
 //     plantilles/serveis.mjs exporta paginesServei(lloc, dades, sectorsPublicats) → [[ruta relativa, html], …]
@@ -154,24 +155,24 @@ const sectorsPublicats = sectors.filter(s => s.estat === 'publicat');
   }
 }
 // 2c. Actualitat: llistat, pàgines de les notícies amb cos i RSS (per idioma, només si n'hi ha de publicades)
-if (noticies.length || (AMB_ESBORRANYS && !errors.length)) {
+const esbActualitat = AMB_ESBORRANYS && !errors.length ? esborranysActualitat(totes) : [];
+const noticiesVisibles = [...noticies, ...esbActualitat];
+if (noticies.length || esbActualitat.length) {
   const portada = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/pagines/portada.ca.json'), 'utf8'));
   const bloc = portada.blocs.find(b => b.tipus === 'actualitat');
-  const esb = AMB_ESBORRANYS && !errors.length ? esborranysActualitat(totes) : [];
-  const totesVisibles = [...noticies, ...esb];
   const ambLlistat = {
     ca: noticies.some(n => (n.cap.idioma || 'ca') === 'ca'),
     es: noticies.some(n => n.cap.idioma === 'es'),
   };
   if (noticies.length) {
-    for (const [rel, contingut] of paginesActualitat(lloc, dadesServeis, noticies, bloc, { totesVisibles })) {
+    for (const [rel, contingut] of paginesActualitat(lloc, dadesServeis, noticies, bloc, { totesVisibles: noticiesVisibles, sectorsVisibles })) {
       fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
       fs.writeFileSync(path.join(SORTIDA, rel), contingut);
       if (rel.endsWith('.html')) generades++;
     }
   }
-  if (esb.length) {
-    for (const [rel, contingut] of paginesEsborranysActualitat(lloc, dadesServeis, esb, bloc, { totesVisibles, ambLlistat })) {
+  if (esbActualitat.length) {
+    for (const [rel, contingut] of paginesEsborranysActualitat(lloc, dadesServeis, esbActualitat, bloc, { totesVisibles: noticiesVisibles, ambLlistat, sectorsVisibles })) {
       fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
       fs.writeFileSync(path.join(SORTIDA, rel), contingut);
       if (rel.endsWith('.html')) generades++;
@@ -181,7 +182,7 @@ if (noticies.length || (AMB_ESBORRANYS && !errors.length)) {
 // 2d. Pàgines de sector (WEB-G01): contingut/sectors/<slug>.json → /sectors/<slug>/ i índex /sectors/
 //     Els esborranys només es generen amb --esborranys o en vistes prèvies de Cloudflare (CF_PAGES_BRANCH != main).
 if (!errors.length && sectors.length) {
-  for (const [rel, html] of paginesSectors(lloc, dadesServeis, sectors, { ambEsborranys: AMB_ESBORRANYS })) {
+  for (const [rel, html] of paginesSectors(lloc, dadesServeis, sectors, { ambEsborranys: AMB_ESBORRANYS, noticiesVisibles })) {
     fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
     fs.writeFileSync(path.join(SORTIDA, rel), html);
     generades++;
@@ -191,7 +192,7 @@ if (!errors.length && sectors.length) {
 if (AMB_ESBORRANYS && !errors.length) {
   const [rel, html] = paginaTaulaEsborranys(lloc, dadesServeis, {
     sectors,
-    noticies: [...noticies, ...esborranysActualitat(totes)],
+    noticies: noticiesVisibles,
   });
   fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
   fs.writeFileSync(path.join(SORTIDA, rel), html);

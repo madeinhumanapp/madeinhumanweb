@@ -33,6 +33,8 @@ const TEXTOS = {
     faqTitol: 'Preguntes freqüents',
     interessa: 'Et pot interessar:',
     fontsTitol: 'Fonts',
+    guiesRel: 'Guies relacionades',
+    altresSectors: 'Altres sectors',
     ctaDefecte: { diagnostic: 'Fer el diagnòstic gratuït', contacte: 'Parla amb nosaltres', servei: 'Veure el servei' },
     contacteHref: '/#contacte',
     altreHome: '/es/',
@@ -59,6 +61,8 @@ const TEXTOS = {
     faqTitol: 'Preguntas frecuentes',
     interessa: 'Te puede interesar:',
     fontsTitol: 'Fuentes',
+    guiesRel: 'Guías relacionadas',
+    altresSectors: 'Otros sectores',
     ctaDefecte: { diagnostic: 'Hacer el diagnóstico gratuito', contacte: 'Habla con nosotros', servei: 'Ver el servicio' },
     contacteHref: '/es/#contacto',
     altreHome: '/',
@@ -77,7 +81,7 @@ export const urlSector = s => `${RUTA_PER_IDIOMA[s.idioma || 'ca']}${s.slug}/`;
 const pla = t => String(t).replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\n/g, ' ');
 
 /** → [[ruta relativa, html], …]: índexs /sectors/ i /es/sectores/ (si hi ha publicades) i cada pàgina visible. */
-export function paginesSectors(lloc, dades, sectors, { ambEsborranys = false } = {}) {
+export function paginesSectors(lloc, dades, sectors, { ambEsborranys = false, noticiesVisibles = [] } = {}) {
   const ordenats = [...sectors].sort((a, b) => a.slug.localeCompare(b.slug));
   const publicats = ordenats.filter(s => s.estat === 'publicat');
   const visibles = ambEsborranys ? ordenats : publicats;
@@ -229,6 +233,24 @@ ${s.fonts.map(f => `          <li><a href="${e(f.url)}" target="_blank" rel="noo
         </ul>
       </section>
 ` : '';
+    const guiesLlista = (s.articles_relacionats || [])
+      .map(sl => (noticiesVisibles || []).find(n => n.slug === sl && (n.cap?.idioma || 'ca') === lang && teCos(n)))
+      .filter(Boolean);
+    const guiesHtml = guiesLlista.length ? `      <nav class="pagina-seccio" aria-label="${e(t.guiesRel)}">
+        <h2>${e(t.guiesRel)}</h2>
+        <ul class="pagina-altres">${guiesLlista.map(n => `<li><a href="${urlNoticia(n)}">${e(n.cap.titol)}</a></li>`).join('')}</ul>
+      </nav>
+` : '';
+
+    const mateixIdioma = visibles.filter(x => x.slug !== s.slug && (x.idioma || 'ca') === lang);
+    const mateixSector = mateixIdioma.filter(x => x.sector === s.sector);
+    const altresLlista = [...mateixSector, ...mateixIdioma.filter(x => x.sector !== s.sector)].slice(0, 3);
+    const altresSectorsHtml = altresLlista.length ? `      <nav class="pagina-seccio" aria-label="${e(t.altresSectors)}">
+        <h2>${e(t.altresSectors)}</h2>
+        <ul class="pagina-altres">${altresLlista.map(x => `<li><a href="${urlSector(x)}">${e(x.h1)}</a></li>`).join('')}</ul>
+      </nav>
+` : '';
+
     const destiCta = s.cta_desti === 'diagnostic' ? '/diagnostic'
       : s.cta_desti === 'contacte' ? t.contacteHref
       : m.url_servei(lang, s.servei_relacionat);
@@ -252,7 +274,7 @@ ${revisio}      <p class="pagina-lede">${e(s.entradeta)}</p>
       <blockquote class="text-destacat">
         <p>${enriquit(s.capsula)}</p>
       </blockquote>
-${seccions}${documents}${faqHtml}${servei}${fonts}${ctaHtml}    </div>
+${seccions}${documents}${faqHtml}${servei}${guiesHtml}${fonts}${ctaHtml}${altresSectorsHtml}    </div>
   </main>
 ` + m.peu(lang);
     out.push([`${url.slice(1)}index.html`, esborrany ? ressaltarRevisar(html, lang).html : html]);

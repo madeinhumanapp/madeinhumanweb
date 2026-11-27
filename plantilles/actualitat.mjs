@@ -26,6 +26,7 @@ const TEXTOS_ACT = {
     esborrany: 'Esborrany: pendent de validació',
     esborranysMolla: 'Esborranys',
     indexTitol: 'En aquesta guia',
+    sectorsAplica: 'Sectors on s\'aplica',
     rssLink: 'Segueix les novetats per RSS',
     altreHome: '/es/',
   },
@@ -45,6 +46,7 @@ const TEXTOS_ACT = {
     esborrany: 'Borrador: pendiente de validación',
     esborranysMolla: 'Borradores',
     indexTitol: 'En esta guía',
+    sectorsAplica: 'Sectores donde se aplica',
     rssLink: 'Sigue las novedades por RSS',
     altreHome: '/',
   },
@@ -219,7 +221,9 @@ function mapaGrups(noticies) {
   return grups;
 }
 
-function renderArticle(n, { m, dades, bloc, altres = [], esborrany = false, grups = new Map(), ambLlistat = { ca: true, es: false } }) {
+const urlSectorSimple = s => `${s.idioma === 'es' ? '/es/sectores/' : '/sectors/'}${s.slug}/`;
+
+function renderArticle(n, { m, dades, bloc, altres = [], esborrany = false, grups = new Map(), ambLlistat = { ca: true, es: false }, sectorsVisibles = [] }) {
   const { WEB, e } = m;
   const k = n.cap;
   const lang = k.idioma || 'ca';
@@ -300,6 +304,16 @@ ${cites.map((u, idx) => (idx === 0 && k.font_url && u === k.font_url
 `);
   const servei = k.servei_relacionat ? `      <p class="noticia-servei">${e(t.interessa)} <a href="${m.url_servei(lang, k.servei_relacionat)}">${e(dades.PAGINES[k.servei_relacionat][lang].curt)}</a></p>
 ` : '';
+  const sectorsGuia = esGuia
+    ? [...(sectorsVisibles || [])]
+      .filter(s => (s.idioma || 'ca') === lang && Array.isArray(s.articles_relacionats) && s.articles_relacionats.includes(n.slug))
+      .sort((a, b) => a.slug.localeCompare(b.slug))
+    : [];
+  const sectorsHtml = sectorsGuia.length ? `      <nav class="pagina-seccio" aria-label="${e(t.sectorsAplica)}">
+        <h2>${e(t.sectorsAplica)}</h2>
+        <ul class="pagina-altres">${sectorsGuia.map(s => `<li><a href="${urlSectorSimple(s)}">${e(s.h1)}</a></li>`).join('')}</ul>
+      </nav>
+` : '';
   const ctaArticle = k.cta_desti ? (() => {
     const desti = k.cta_desti === 'diagnostic' ? '/diagnostic'
       : k.cta_desti === 'contacte' ? t.contacteHref
@@ -333,7 +347,7 @@ ${revisio}${lectura}      <p class="pagina-lede">${e(k.resum)}</p>
 ${indexHtml}      <article class="noticia-cos">
 ${cosHtml}
       </article>
-${font}${servei}${ctaArticle}${altres.length ? `      <nav class="pagina-seccio" aria-label="${e(t.mesNoticies)}">
+${font}${servei}${sectorsHtml}${ctaArticle}${altres.length ? `      <nav class="pagina-seccio" aria-label="${e(t.mesNoticies)}">
         <h2>${e(t.mesNoticies)}</h2>
         <ul class="pagina-altres">${altres.map(x => `<li><a href="${teCos(x) ? urlNoticia(x) : rutaLlistat}">${e(x.cap.titol)}</a></li>`).join('')}</ul>
       </nav>
@@ -344,7 +358,7 @@ ${font}${servei}${ctaArticle}${altres.length ? `      <nav class="pagina-seccio"
 }
 
 /** → [[ruta relativa, contingut], …]: llistat (/actualitat/ i /es/actualidad/ si n'hi ha), pàgines amb cos i rss.xml per idioma. */
-export function paginesActualitat(lloc, dades, noticies, bloc, { totesVisibles = noticies } = {}) {
+export function paginesActualitat(lloc, dades, noticies, bloc, { totesVisibles = noticies, sectorsVisibles = [] } = {}) {
   const m = marcInterior(lloc, dades);
   const { WEB, e } = m;
   const out = [];
@@ -419,7 +433,7 @@ ${cta}    </div>
     // Una pàgina per notícia amb cos (dins del seu idioma)
     for (const n of llista.filter(teCos)) {
       const altres = llista.filter(y => y !== n).slice(0, 3);
-      out.push([`${urlNoticia(n).slice(1)}index.html`, renderArticle(n, { m, dades, bloc, altres, esborrany: false, grups, ambLlistat })]);
+      out.push([`${urlNoticia(n).slice(1)}index.html`, renderArticle(n, { m, dades, bloc, altres, esborrany: false, grups, ambLlistat, sectorsVisibles })]);
     }
 
     // Canal RSS per idioma
@@ -450,7 +464,7 @@ ${llista.map(n => {
 }
 
 /** Pàgines d'esborrany d'actualitat (només vistes prèvies / --esborranys): /actualitat/esborranys/ i cada esborrany amb cos. */
-export function paginesEsborranysActualitat(lloc, dades, llistaEsborranys, bloc, { totesVisibles = llistaEsborranys, ambLlistat = { ca: true, es: false } } = {}) {
+export function paginesEsborranysActualitat(lloc, dades, llistaEsborranys, bloc, { totesVisibles = llistaEsborranys, ambLlistat = { ca: true, es: false }, sectorsVisibles = [] } = {}) {
   if (!llistaEsborranys.length) return [];
   const m = marcInterior(lloc, dades);
   const { WEB, e } = m;
@@ -485,7 +499,7 @@ export function paginesEsborranysActualitat(lloc, dades, llistaEsborranys, bloc,
   </main>
 ` + m.peu('ca')]];
   for (const n of llistaEsborranys) {
-    out.push([`${urlNoticia(n).slice(1)}index.html`, renderArticle(n, { m, dades, bloc, altres: [], esborrany: true, grups, ambLlistat })]);
+    out.push([`${urlNoticia(n).slice(1)}index.html`, renderArticle(n, { m, dades, bloc, altres: [], esborrany: true, grups, ambLlistat, sectorsVisibles })]);
   }
   return out;
 }

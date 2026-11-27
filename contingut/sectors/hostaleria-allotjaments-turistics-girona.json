@@ -59,6 +59,11 @@
     }
   ],
   "servei_relacionat": "adequacio",
+  "articles_relacionats": [
+    "cameres-videovigilancia-negoci",
+    "proveidors-contracte-encarregat-rgpd",
+    "galetes-web-consentiment-lssi"
+  ],
   "cta_desti": "diagnostic",
   "fonts": [
     {

@@ -1183,6 +1183,18 @@
         ],
         "ajuda": "Enllaç «Et pot interessar» (obligatori si cta_desti és servei)"
       },
+      "articles_relacionats": {
+        "tipus": "llista",
+        "etiqueta": "Guies relacionades",
+        "max": 4,
+        "element": {
+          "tipus": "text",
+          "etiqueta": "Slug de la guia",
+          "max": 80,
+          "obligatori": true
+        },
+        "ajuda": "Opcional: de 0 a 4 slugs de notícies o guies del mateix idioma"
+      },
       "cta_desti": {
         "tipus": "seleccio",
         "etiqueta": "Crida a l'acció (destí)",
