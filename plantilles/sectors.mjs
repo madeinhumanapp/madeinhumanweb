@@ -174,3 +174,18 @@ ${seccions}${documents}${faqHtml}${servei}${fonts}${ctaHtml}    </div>
 
   return out;
 }
+
+/** Dates `lastmod` del mapa del lloc per a les pàgines de sector publicades (amb `data_revisio`) i l'índex `/sectors/`. */
+export function datesSectorsMapa(WEB, sectors) {
+  const dates = new Map();
+  const publicats = (sectors || []).filter(s => s.estat === 'publicat');
+  let mesRecent = '';
+  for (const s of publicats) {
+    if (s.data_revisio) {
+      dates.set(`${WEB}${RUTA_SECTORS}${s.slug}/`, s.data_revisio);
+      if (s.data_revisio > mesRecent) mesRecent = s.data_revisio;
+    }
+  }
+  if (publicats.length && mesRecent) dates.set(`${WEB}${RUTA_SECTORS}`, mesRecent);
+  return dates;
+}

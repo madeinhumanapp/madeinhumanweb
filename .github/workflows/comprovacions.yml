@@ -57,6 +57,8 @@ jobs:
         run: npm run media
       - name: Contractes dels formularis amb rgpd-tool
         run: npm run contractes
+      - name: Resultat del diagnòstic (semàfor)
+        run: npm run diagnostic-resultat
       - name: Vista prèvia del panell
         run: npm run previsualitzacio
       - name: Seguretat de contingut (CSP)
