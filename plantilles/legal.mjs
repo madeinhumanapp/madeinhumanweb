@@ -38,6 +38,7 @@ export function paginaLegal(lloc, p, cosFont) {
 <body>
 ${menu(lloc, ctx)}
 
+  <main>
   <section class="block legal-page">
     <div class="container legal-container">
       <span class="eyebrow">${esc(p.etiqueta)}</span>
@@ -50,6 +51,7 @@ ${markdown(cos, { classeTaula: 'legal-table' })}
       </div>
     </div>
   </section>
+  </main>
 
 ${peu(lloc, ctx)}
 

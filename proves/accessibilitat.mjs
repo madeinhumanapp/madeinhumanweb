@@ -14,7 +14,14 @@ if (!fs.existsSync(ARREL) || !fs.statSync(ARREL).isDirectory()) {
   process.exit(1);
 }
 
-const PENDENTS_DE_CLAUDE = new Set([]);
+// Excepcions en fitxers protegits que Gemini no pot tocar (aplicacions JS i plantilles/formularis/): surten com a avís
+const PENDENTS_DE_CLAUDE = [
+  { pagina: 'recollida.html', patro: /falta element <main>|s'esperava 1 <h1>/ },
+  { pagina: 'necessito-dpo/index.html', patro: /s'esperava 1 <h1>/ },
+  { pagina: 'index.html', patro: /^camp <(input|select|textarea)\b.*sense label ni aria-label$/ },
+];
+
+const esPendent = (pagina, detall) => PENDENTS_DE_CLAUDE.some(x => x.pagina === pagina && x.patro.test(detall));
 
 function atribut(etiqueta, nom) {
   const m = new RegExp(`(?:^|\\s)${nom}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s"'=<>\`]+))`, 'i').exec(etiqueta);
@@ -65,7 +72,7 @@ const avisos = [];
 
 function afegir(pagina, detall) {
   const linia = `${pagina}: ${detall}`;
-  if (PENDENTS_DE_CLAUDE.has(pagina)) avisos.push(linia);
+  if (esPendent(pagina, detall)) avisos.push(linia);
   else errors.push(linia);
 }
 

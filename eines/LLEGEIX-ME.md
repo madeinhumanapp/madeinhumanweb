@@ -75,7 +75,8 @@ servei_relacionat: auditoria   # opcional: adequacio | dpo | auditoria | ia | we
 cta_desti: servei          # opcional: diagnostic | contacte | servei (amb servei, servei_relacionat és obligatori)
 cta_text: "…"              # opcional (màx. 80): text del botó de la crida final
 estat: publicat            # esborrany | publicat
-idioma: ca
+idioma: ca                 # ca (/actualitat/…) | es (/es/actualidad/…)
+grup_hreflang: "..."       # opcional: mateix valor a les versions ca i es d'una mateixa notícia o guia
 ---
 
 ## Què ha passat
@@ -84,14 +85,22 @@ idioma: ca
 Notes de revisió: tot el que hi ha després d'aquesta línia no es publica mai.
 ```
 
-- **Amb cos** (Markdown de `plantilles/markdown.mjs`): pàgina pròpia, i la targeta enllaça a la pàgina.
-  **Sense cos** («breu»): només targeta.
-- Surten al llistat `/actualitat/`, al canal `/actualitat/rss.xml` i al mapa del lloc. A la portada, el bloc
-  `actualitat` amb `"origen": "actualitat"` mostra les 3 últimes; si no n'hi ha cap de publicada, la llista manual.
+- **Amb cos** (Markdown de `plantilles/markdown.mjs`): pàgina pròpia (`/actualitat/<slug>/` en català o
+  `/es/actualidad/<slug>/` en castellà), i la targeta enllaça a la pàgina. **Sense cos** («breu»): només targeta.
+- **Idiomes separats:** el llistat `/actualitat/`, el canal `/actualitat/rss.xml` i la portada només mostren notícies
+  publicades en català; `/es/actualidad/` i `/es/actualidad/rss.xml` només es generen quan hi ha notícies publicades
+  en castellà. Si dues pàgines visibles comparteixen `grup_hreflang`, generen `hreflang` recíprocs (`ca` ↔ `es`,
+  `x-default` → `ca`); cap grup no pot repetir idioma.
+- **Guies (`tipus_article: guia`):** mostren temps de lectura estimat (`paraules / 200`, mínim 1 min), un índex de
+  continguts («En aquesta guia» / «En esta guía») amb enllaços als `##` quan n'hi ha 3 o més (amb `id` estable i únic
+  a cada `h2`), i el bloc automàtic «Sectors on s'aplica» / «Sectores donde se aplica» amb els sectors visibles del
+  mateix idioma que les citen a `articles_relacionats`.
 - Una notícia amb `estat: publicat` i qualsevol `[REVISAR` no deixa construir la web.
-- **Esborranys (`estat: esborrany`) amb cos:** no surten mai a producció (`npm run construir`), ni al llistat `/actualitat/`,
-  ni al RSS, ni al mapa del lloc, ni a la portada. En vistes prèvies (`CF_PAGES_BRANCH` ≠ `main`) o amb `--esborranys` es
-  genera la seva pàgina amb `noindex, nofollow` i la franja «Esborrany: pendent de validació», i un índex a `/actualitat/esborranys/`.
+- **Esborranys (`estat: esborrany`) amb cos:** no surten mai a producció (`npm run construir`), ni als llistats,
+  ni als RSS, ni al mapa del lloc, ni a la portada. En vistes prèvies (`CF_PAGES_BRANCH` ≠ `main`) o amb `--esborranys`
+  es genera la seva pàgina amb `noindex, nofollow`, la franja d'esborrany i cada `[REVISAR]` ressaltat
+  (`<mark class="revisar" id="revisar-N">` + caixa resum «Marques pendents (N)»), a més de `/actualitat/esborranys/`
+  i la taula global `/esborranys/`.
 - Programació: una notícia publicada amb data futura surt a la primera construcció d'aquell dia
   (`DATA_CONSTRUCCIO=AAAA-MM-DD npm run construir` simula un altre dia). Quan hi hagi panell, un cron reconstruirà
   la web cada matí (WEB-A03).
@@ -127,12 +136,32 @@ coincidir amb el nom del fitxer). Esquema i validació a `esquema/sectors.mjs`; 
   `/es/sectores/<slug>/` (índex `/es/sectores/`). El camp opcional `grup_hreflang` vincula la versió catalana i la
   castellana d'una mateixa pàgina per generar `hreflang` recíprocs (`ca` ↔ `es`, `x-default` → `ca`); un mateix grup
   no pot tenir dues pàgines del mateix idioma.
+- **Enllaçat intern (`articles_relacionats`):** llista opcional de 0 a 4 slugs de notícia/guia del **mateix idioma**
+  (validat a la construcció). Pinta el bloc «Guies relacionades» / «Guías relacionadas» amb les visibles i alimenta el
+  bloc automàtic «Sectors on s'aplica» a les guies. Cada pàgina de sector també mostra fins a 3 «Altres sectors» /
+  «Otros sectores» visibles del mateix idioma (prioritzant el mateix `sector`).
 - **Publicades (`estat: "publicat"`):** es generen sempre, surten a l'índex del seu idioma, s'enllacen des de la pàgina
   de servei corresponent («Per sectors» / «Por sectores») i entren soles al mapa del lloc. Qualsevol marca `[REVISAR`
   atura la construcció.
 - **Esborranys (`estat: "esborrany"`):** **no** es generen a producció (`npm run construir` o `CF_PAGES_BRANCH=main`).
-  Només es generen, amb `noindex, nofollow` i la franja «Esborrany: pendent de validació» (o «Borrador: pendiente de
-  validación»), a les vistes prèvies de Cloudflare (`CF_PAGES_BRANCH` present i diferent de `main`) o localment amb
-  `node eines/construir.mjs --esborranys`. No apareixen als índexs ni al mapa del lloc. Si no hi ha cap pàgina
-  publicada en un idioma, el seu índex no es genera.
+  Només es generen, amb `noindex, nofollow`, la franja d'esborrany i les marques `[REVISAR]` ressaltades
+  (`<mark class="revisar" id="revisar-N">` + caixa «Marques pendents (N)»), a les vistes prèvies de Cloudflare
+  (`CF_PAGES_BRANCH` present i diferent de `main`) o localment amb `node eines/construir.mjs --esborranys`.
+  No apareixen als índexs ni al mapa del lloc. Si no hi ha cap pàgina publicada en un idioma, el seu índex no es genera.
+- **Taula de validació (`/esborranys/`):** en mode esborranys es genera una taula central amb tots els esborranys
+  (sectors, guies i notícies, `ca` i `es`), ordenats de menys a més marques `[REVISAR]`, amb enllaços a la pàgina, a
+  la traducció (si comparteixen `grup_hreflang`) i al fitxer d'origen. No existeix mai a producció.
 - A les proves es pot redirigir la carpeta amb `DIR_SECTORS`.
+
+## Controls de qualitat estàtics (sense navegador, WEB-G04)
+
+Tots accepten `--arrel <carpeta>` (per defecte `dist`) i funcionen tant sobre producció (`npm run construir`) com sobre
+la construcció d'esborranys (`node eines/construir.mjs --esborranys`):
+
+```bash
+node proves/esborranys.mjs             # taula /esborranys/, marques ressaltades i absència a producció
+node proves/enllacos.mjs               # enllaços i recursos interns, fragments #id, href buits, target=_blank rel=noopener
+node proves/dades-estructurades.mjs    # JSON-LD vàlid, @context, Article/BreadcrumbList/FAQPage/Service, sense adreça/geo
+node proves/accessibilitat.mjs         # lang coherent, <main>, un sol <h1>, nivells de títol, ids únics, alt, labels, enllaços/botons
+node proves/pes.mjs                    # pressupost ≤ 500 kB per pàgina (avís a recollida.html) i imatges ≤ 300 kB
+```

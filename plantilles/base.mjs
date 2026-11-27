@@ -85,12 +85,16 @@ function flotants(lloc, ctx) {
 export function pagina(lloc, p, formularis = {}, faq = [], actualitat = [], media = [], imatges = {}, serveis = null) {
   const ctx = { ruta: p.ruta, idioma: p.idioma, formularis, faq, actualitat,
     media: new Map((media || []).map(e => [e.id, e])), imatges: imatges || {}, serveis };
+  const blocsHtml = p.blocs.filter(b => !b.amagat).map(b => renderBloc(b, ctx)).join('\n');
+  const teTop = /\bid="top"/.test(blocsHtml);
   return `<!DOCTYPE html>
 <html lang="${p.idioma}">
 ${cap(lloc, p, faq)}
 <body>
 ${menu(lloc, ctx)}
-${p.blocs.filter(b => !b.amagat).map(b => renderBloc(b, ctx)).join('\n')}
+<main${teTop ? '' : ' id="top"'}>
+${blocsHtml}
+</main>
 ${peu(lloc, ctx)}
 ${flotants(lloc, ctx)}
 ${(p.scripts || []).map(s => `<script src="${absoluta(s)}"></script>`).join('\n')}${p.pagina === 'portada' ? `
