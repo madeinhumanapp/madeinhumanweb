@@ -47,6 +47,8 @@ jobs:
         run: npm run markdown
       - name: Pàgines de sector (motor i esborranys)
         run: npm run sectors
+      - name: Pàgina 404 bilingüe
+        run: npm run pagina-404
       - name: Notícies (actualitat)
         run: npm run actualitat
       - name: Esquema de les pàgines de servei

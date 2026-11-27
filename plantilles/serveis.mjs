@@ -196,6 +196,16 @@ ${seccions}${perSectors}${bloc_final(lang, clau)}    </div>
         <li><a href="/#contacte">Contacte</a></li>
         <li><a href="/es/" lang="es" hreflang="es">Versión en castellano</a></li>
       </ul>
+      <section class="pagina-seccio" lang="es">
+        <h2>Esta página no existe.</h2>
+        <p class="pagina-lede">Quizás la dirección ha cambiado o tiene algún error. Puedes volver al inicio o ir directamente a donde querías.</p>
+        <ul class="pagina-altres">
+          <li><a href="/es/">Inicio</a></li>
+          <li><a href="/es/#servicios">Servicios</a></li>
+          <li><a href="/es/#contacto">Contacto</a></li>
+          <li><a href="/es/preguntas-frecuentes/">Preguntas frecuentes</a></li>
+        </ul>
+      </section>
     </div>
   </main>
 `;
