@@ -1,0 +1,58 @@
+{
+  "franges": {
+    "metode": "GET",
+    "ruta": "/api/public/reserva/franges?t=<token de 32 caràcters>",
+    "respostes": {
+      "200": {
+        "ok": true,
+        "zona": "Europe/Madrid",
+        "durada": 20,
+        "franges": [
+          {
+            "id": "f_20261203T1400Z",
+            "inici": "2026-12-03T15:00:00+01:00",
+            "fi": "2026-12-03T15:20:00+01:00"
+          }
+        ]
+      },
+      "200-buit": {
+        "ok": true,
+        "zona": "Europe/Madrid",
+        "durada": 20,
+        "franges": []
+      },
+      "404": {
+        "ok": false,
+        "error": "token"
+      }
+    }
+  },
+  "reserva": {
+    "metode": "POST",
+    "ruta": "/api/public/reserva",
+    "cos": {
+      "t": "<token de 32 caràcters>",
+      "franja": "f_20261203T1400Z"
+    },
+    "respostes": {
+      "200": {
+        "ok": true,
+        "estat": "pendent",
+        "inici": "2026-12-03T15:00:00+01:00",
+        "fi": "2026-12-03T15:20:00+01:00"
+      },
+      "400": {
+        "ok": false,
+        "error": "dades"
+      },
+      "404": {
+        "ok": false,
+        "error": "token"
+      },
+      "409": {
+        "ok": false,
+        "error": "ocupada"
+      }
+    }
+  }
+}
