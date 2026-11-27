@@ -6,10 +6,15 @@ import { markdown } from './markdown.mjs';
 import { enriquit } from './text.mjs';
 import { marcInterior } from './serveis.mjs';
 import { dataLlarga, ressaltarRevisar, urlNoticia, teCos } from './actualitat.mjs';
+import { t } from './textos.mjs';
 
 export const RUTA_SECTORS = '/sectors/';
 export const RUTA_SECTORS_ES = '/es/sectores/';
 const RUTA_PER_IDIOMA = { ca: RUTA_SECTORS, es: RUTA_SECTORS_ES };
+const RUTES_IDIOMA = {
+  ca: { contacteHref: '/#contacte', altreHome: '/es/' },
+  es: { contacteHref: '/es/#contacto', altreHome: '/' },
+};
 const MESOS_ES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
 function dataLlargaIdioma(iso, lang) {
@@ -18,67 +23,8 @@ function dataLlargaIdioma(iso, lang) {
   return `${d} de ${MESOS_ES[m - 1]} de ${a}`;
 }
 
-const TEXTOS = {
-  ca: {
-    sectors: 'Sectors',
-    eyebrowIdx: 'Sectors · Girona',
-    titolIdx: 'Protecció de dades per sectors · Girona · Madeinhuman',
-    descIdx: 'Guies pràctiques de protecció de dades i RGPD per sector per a empreses i entitats de Girona: obligacions, documents i primeres passes.',
-    h1Idx: 'Protecció de dades per sectors',
-    ledeIdx: 'Cada activitat tracta dades diferents i té riscos propis. Aquí trobareu guies pràctiques adaptades al vostre sector.',
-    esborrany: 'Esborrany: pendent de validació',
-    revisioPrefix: 'Darrera revisió jurídica:',
-    revisatDefecte: 'Revisat per un consultor RGPD i DPO extern de madeinhuman',
-    docsTitol: 'Documents habituals',
-    faqTitol: 'Preguntes freqüents',
-    interessa: 'Et pot interessar:',
-    fontsTitol: 'Fonts',
-    guiesRel: 'Guies relacionades',
-    altresSectors: 'Altres sectors',
-    ctaDefecte: { diagnostic: 'Fer el diagnòstic gratuït', contacte: 'Parla amb nosaltres', servei: 'Veure el servei' },
-    contacteHref: '/#contacte',
-    altreHome: '/es/',
-    etiquetes: {
-      salut: 'Salut',
-      educacio: 'Educació i lleure',
-      comerc: 'Comerç',
-      serveis: 'Serveis professionals',
-      hostaleria: 'Hostaleria i turisme',
-      social: 'Entitats socials',
-    },
-  },
-  es: {
-    sectors: 'Sectores',
-    eyebrowIdx: 'Sectores · Girona',
-    titolIdx: 'Protección de datos por sectores · Girona · Madeinhuman',
-    descIdx: 'Guías prácticas de protección de datos y RGPD por sector para empresas y entidades de Girona: obligaciones, documentos y primeros pasos.',
-    h1Idx: 'Protección de datos por sectores',
-    ledeIdx: 'Cada actividad trata datos distintos y tiene riesgos propios. Aquí encontraréis guías prácticas adaptadas a vuestro sector.',
-    esborrany: 'Borrador: pendiente de validación',
-    revisioPrefix: 'Última revisión jurídica:',
-    revisatDefecte: 'Revisado por un consultor RGPD y DPO externo de madeinhuman',
-    docsTitol: 'Documentos que suelen hacer falta',
-    faqTitol: 'Preguntas frecuentes',
-    interessa: 'Te puede interesar:',
-    fontsTitol: 'Fuentes',
-    guiesRel: 'Guías relacionadas',
-    altresSectors: 'Otros sectores',
-    ctaDefecte: { diagnostic: 'Hacer el diagnóstico gratuito', contacte: 'Habla con nosotros', servei: 'Ver el servicio' },
-    contacteHref: '/es/#contacto',
-    altreHome: '/',
-    etiquetes: {
-      salut: 'Salud',
-      educacio: 'Educación y ocio',
-      comerc: 'Comercio',
-      serveis: 'Servicios profesionales',
-      hostaleria: 'Hostelería y turismo',
-      social: 'Entidades sociales',
-    },
-  },
-};
-
 export const urlSector = s => `${RUTA_PER_IDIOMA[s.idioma || 'ca']}${s.slug}/`;
-const pla = t => String(t).replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\n/g, ' ');
+const pla = s => String(s).replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\n/g, ' ');
 
 /** → [[ruta relativa, html], …]: índexs /sectors/ i /es/sectores/ (si hi ha publicades) i cada pàgina visible. */
 export function paginesSectors(lloc, dades, sectors, { ambEsborranys = false, noticiesVisibles = [] } = {}) {
@@ -109,33 +55,35 @@ export function paginesSectors(lloc, dades, sectors, { ambEsborranys = false, no
   // 1. Índexs /sectors/ i /es/sectores/ (només si hi ha alguna pàgina publicada en aquell idioma)
   for (const lang of ['ca', 'es']) {
     if (!ambIndex[lang]) continue;
-    const t = TEXTOS[lang];
+    const rutes = RUTES_IDIOMA[lang];
     const c = dades.COMU[lang];
     const rutaIdx = RUTA_PER_IDIOMA[lang];
     const alternates = ambIndex.ca && ambIndex.es
       ? [['ca', RUTA_SECTORS], ['es', RUTA_SECTORS_ES], ['x-default', RUTA_SECTORS]]
       : [[lang, rutaIdx], ['x-default', rutaIdx]];
-    const urlAltre = ambIndex.ca && ambIndex.es ? RUTA_PER_IDIOMA[lang === 'ca' ? 'es' : 'ca'] : t.altreHome;
+    const urlAltre = ambIndex.ca && ambIndex.es ? RUTA_PER_IDIOMA[lang === 'ca' ? 'es' : 'ca'] : rutes.altreHome;
+    const nomSectors = t(lang, 'sectors.nom');
+    const h1Idx = t(lang, 'sectors.h1_idx');
     const ldIndex = {
       '@context': 'https://schema.org',
       '@graph': [
-        { '@type': 'CollectionPage', name: t.h1Idx, url: WEB + rutaIdx,
+        { '@type': 'CollectionPage', name: h1Idx, url: WEB + rutaIdx,
           inLanguage: lang, publisher: { '@id': `${WEB}/#empresa` } },
         { '@type': 'BreadcrumbList', itemListElement: [
           { '@type': 'ListItem', position: 1, name: c.inici, item: WEB + c.home },
-          { '@type': 'ListItem', position: 2, name: t.sectors, item: WEB + rutaIdx },
+          { '@type': 'ListItem', position: 2, name: nomSectors, item: WEB + rutaIdx },
         ] },
       ],
     };
     const targetes = pubPerIdioma[lang].map(s => `<li><a href="${urlSector(s)}"><strong>${e(s.h1)}</strong><span>${e(s.entradeta)}</span></a></li>`).join('');
     out.push([`${rutaIdx.slice(1)}index.html`,
-      m.cap(lang, t.titolIdx, t.descIdx, rutaIdx, alternates, ldIndex, { comentari: false })
+      m.cap(lang, t(lang, 'sectors.titol_idx'), t(lang, 'sectors.desc_idx'), rutaIdx, alternates, ldIndex, { comentari: false })
       + m.nav(lang, urlAltre) + `  <main class="pagina">
     <div class="container pagina-contingut legal-content">
-      <nav class="molles" aria-label="Ruta"><a href="${c.home}">${e(c.inici)}</a> › <span aria-current="page">${e(t.sectors)}</span></nav>
-      <span class="eyebrow">${e(t.eyebrowIdx)}</span>
-      <h1 class="section-title pagina-h1">${e(t.h1Idx)}</h1>
-      <p class="pagina-lede">${e(t.ledeIdx)}</p>
+      <nav class="molles" aria-label="${e(t(lang, 'comu.ruta'))}"><a href="${c.home}">${e(c.inici)}</a> › <span aria-current="page">${e(nomSectors)}</span></nav>
+      <span class="eyebrow">${e(t(lang, 'sectors.eyebrow_idx'))}</span>
+      <h1 class="section-title pagina-h1">${e(h1Idx)}</h1>
+      <p class="pagina-lede">${e(t(lang, 'sectors.lede_idx'))}</p>
       <ul class="pagina-serveis">${targetes}</ul>
     </div>
   </main>
@@ -145,18 +93,19 @@ export function paginesSectors(lloc, dades, sectors, { ambEsborranys = false, no
   // 2. Cada pàgina de sector visible (publicades; i esborranys només si ambEsborranys)
   for (const s of visibles) {
     const lang = s.idioma || 'ca';
-    const t = TEXTOS[lang];
+    const rutes = RUTES_IDIOMA[lang];
     const c = dades.COMU[lang];
     const rutaIdx = RUTA_PER_IDIOMA[lang];
     const url = urlSector(s);
     const esborrany = s.estat === 'esborrany';
+    const nomSectors = t(lang, 'sectors.nom');
 
     const parella = s.grup_hreflang ? grups.get(s.grup_hreflang) : null;
     const teParella = Boolean(parella && parella.ca && parella.es);
     const alternates = teParella
       ? [['ca', urlSector(parella.ca)], ['es', urlSector(parella.es)], ['x-default', urlSector(parella.ca)]]
       : [[lang, url], ['x-default', url]];
-    const urlAltre = teParella ? urlSector(parella[lang === 'ca' ? 'es' : 'ca']) : t.altreHome;
+    const urlAltre = teParella ? urlSector(parella[lang === 'ca' ? 'es' : 'ca']) : rutes.altreHome;
 
     const nomServei = s.servei_relacionat ? dades.PAGINES[s.servei_relacionat][lang].curt : s.h1;
     const cites = (s.fonts || []).map(f => f.url);
@@ -177,7 +126,7 @@ export function paginesSectors(lloc, dades, sectors, { ambEsborranys = false, no
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: c.inici, item: WEB + c.home },
-          { '@type': 'ListItem', position: 2, name: t.sectors, item: WEB + rutaIdx },
+          { '@type': 'ListItem', position: 2, name: nomSectors, item: WEB + rutaIdx },
           { '@type': 'ListItem', position: 3, name: s.h1, item: WEB + url },
         ],
       },
@@ -195,11 +144,11 @@ export function paginesSectors(lloc, dades, sectors, { ambEsborranys = false, no
     const ld = { '@context': 'https://schema.org', '@graph': graf };
 
     const franjaEsborrany = esborrany
-      ? `      <p class="sector-esborrany" role="note">${e(t.esborrany)}</p>\n`
+      ? `      <p class="sector-esborrany" role="note">${e(t(lang, 'comu.esborrany'))}</p>\n`
       : '';
-    const mollaSectors = ambIndex[lang] ? `<a href="${rutaIdx}">${e(t.sectors)}</a>` : e(t.sectors);
+    const mollaSectors = ambIndex[lang] ? `<a href="${rutaIdx}">${e(nomSectors)}</a>` : e(nomSectors);
     const revisio = s.data_revisio
-      ? `      <p class="noticia-revisio">${e(t.revisioPrefix)} <time datetime="${e(s.data_revisio)}">${dataLlargaIdioma(s.data_revisio, lang)}</time> · ${e(s.revisat_per || t.revisatDefecte)}</p>\n`
+      ? `      <p class="noticia-revisio">${e(t(lang, 'comu.revisio_prefix'))} <time datetime="${e(s.data_revisio)}">${dataLlargaIdioma(s.data_revisio, lang)}</time> · ${e(s.revisat_per || t(lang, 'comu.revisat_defecte'))}</p>\n`
       : '';
     const seccions = s.seccions.map(({ titol, cos }) => `      <section class="pagina-seccio">
         <h2>${e(titol)}</h2>
@@ -207,14 +156,14 @@ export function paginesSectors(lloc, dades, sectors, { ambEsborranys = false, no
       </section>
 `).join('');
     const documents = s.documents?.length ? `      <section class="pagina-seccio sector-documents">
-        <h2>${e(t.docsTitol)}</h2>
+        <h2>${e(t(lang, 'sectors.docs_titol'))}</h2>
         <ul>
 ${s.documents.map(doc => `          <li>${e(doc)}</li>`).join('\n')}
         </ul>
       </section>
 ` : '';
     const faqHtml = s.faq?.length ? `      <section class="pagina-seccio sector-faq">
-        <h2>${e(t.faqTitol)}</h2>
+        <h2>${e(t(lang, 'sectors.faq_titol'))}</h2>
         <dl class="sector-faq-llista">
 ${s.faq.map(f => `          <div class="sector-faq-item">
             <dt>${e(f.pregunta)}</dt>
@@ -224,10 +173,11 @@ ${s.faq.map(f => `          <div class="sector-faq-item">
       </section>
 ` : '';
     const servei = s.servei_relacionat
-      ? `      <p class="noticia-servei">${e(t.interessa)} <a href="${m.url_servei(lang, s.servei_relacionat)}">${e(dades.PAGINES[s.servei_relacionat][lang].curt)}</a></p>\n`
+      ? `      <p class="noticia-servei">${e(t(lang, 'comu.interessa'))} <a href="${m.url_servei(lang, s.servei_relacionat)}">${e(dades.PAGINES[s.servei_relacionat][lang].curt)}</a></p>\n`
       : '';
-    const fonts = s.fonts?.length ? `      <section class="noticia-fonts" aria-label="${e(t.fontsTitol)}">
-        <h2>${e(t.fontsTitol)}</h2>
+    const fontsTitol = t(lang, 'comu.fonts_titol');
+    const fonts = s.fonts?.length ? `      <section class="noticia-fonts" aria-label="${e(fontsTitol)}">
+        <h2>${e(fontsTitol)}</h2>
         <ul>
 ${s.fonts.map(f => `          <li><a href="${e(f.url)}" target="_blank" rel="noopener">${e(f.nom)}</a></li>`).join('\n')}
         </ul>
@@ -236,8 +186,9 @@ ${s.fonts.map(f => `          <li><a href="${e(f.url)}" target="_blank" rel="noo
     const guiesLlista = (s.articles_relacionats || [])
       .map(sl => (noticiesVisibles || []).find(n => n.slug === sl && (n.cap?.idioma || 'ca') === lang && teCos(n)))
       .filter(Boolean);
-    const guiesHtml = guiesLlista.length ? `      <nav class="pagina-seccio" aria-label="${e(t.guiesRel)}">
-        <h2>${e(t.guiesRel)}</h2>
+    const guiesRelTitol = t(lang, 'sectors.guies_rel');
+    const guiesHtml = guiesLlista.length ? `      <nav class="pagina-seccio" aria-label="${e(guiesRelTitol)}">
+        <h2>${e(guiesRelTitol)}</h2>
         <ul class="pagina-altres">${guiesLlista.map(n => `<li><a href="${urlNoticia(n)}">${e(n.cap.titol)}</a></li>`).join('')}</ul>
       </nav>
 ` : '';
@@ -245,21 +196,25 @@ ${s.fonts.map(f => `          <li><a href="${e(f.url)}" target="_blank" rel="noo
     const mateixIdioma = visibles.filter(x => x.slug !== s.slug && (x.idioma || 'ca') === lang);
     const mateixSector = mateixIdioma.filter(x => x.sector === s.sector);
     const altresLlista = [...mateixSector, ...mateixIdioma.filter(x => x.sector !== s.sector)].slice(0, 3);
-    const altresSectorsHtml = altresLlista.length ? `      <nav class="pagina-seccio" aria-label="${e(t.altresSectors)}">
-        <h2>${e(t.altresSectors)}</h2>
+    const altresTitol = t(lang, 'sectors.altres');
+    const altresSectorsHtml = altresLlista.length ? `      <nav class="pagina-seccio" aria-label="${e(altresTitol)}">
+        <h2>${e(altresTitol)}</h2>
         <ul class="pagina-altres">${altresLlista.map(x => `<li><a href="${urlSector(x)}">${e(x.h1)}</a></li>`).join('')}</ul>
       </nav>
 ` : '';
 
     const destiCta = s.cta_desti === 'diagnostic' ? '/diagnostic'
-      : s.cta_desti === 'contacte' ? t.contacteHref
+      : s.cta_desti === 'contacte' ? rutes.contacteHref
       : m.url_servei(lang, s.servei_relacionat);
-    const textCta = s.cta_text || t.ctaDefecte[s.cta_desti];
+    const textCta = s.cta_text || t(lang, `comu.cta_${s.cta_desti}`);
     const ctaHtml = `      <aside class="noticia-cta">
         <h2>${e(c.cta_titol)}</h2>
         <a class="btn btn-primary" href="${destiCta}">${e(textCta)}</a>
       </aside>
 `;
+    const etiquetaSector = (() => {
+      try { return t(lang, `sectors.etiqueta.${s.sector}`); } catch { return s.sector; }
+    })();
 
     const html = m.cap(lang, s.titol_seo, s.descripcio, url, alternates, ld, {
         comentari: false,
@@ -267,8 +222,8 @@ ${s.fonts.map(f => `          <li><a href="${e(f.url)}" target="_blank" rel="noo
       })
       + m.nav(lang, urlAltre) + `  <main class="pagina">
     <div class="container pagina-contingut legal-content">
-      <nav class="molles" aria-label="Ruta"><a href="${c.home}">${e(c.inici)}</a> › ${mollaSectors} › <span aria-current="page">${e(s.h1)}</span></nav>
-${franjaEsborrany}      <span class="eyebrow">${e(t.etiquetes[s.sector] || s.sector)} · Girona</span>
+      <nav class="molles" aria-label="${e(t(lang, 'comu.ruta'))}"><a href="${c.home}">${e(c.inici)}</a> › ${mollaSectors} › <span aria-current="page">${e(s.h1)}</span></nav>
+${franjaEsborrany}      <span class="eyebrow">${e(etiquetaSector)} · Girona</span>
       <h1 class="section-title pagina-h1">${e(s.h1)}</h1>
 ${revisio}      <p class="pagina-lede">${e(s.entradeta)}</p>
       <blockquote class="text-destacat">
@@ -286,16 +241,22 @@ ${seccions}${documents}${faqHtml}${servei}${guiesHtml}${fonts}${ctaHtml}${altres
 const extreureMarques = text => [...String(text).matchAll(/\[REVISAR[^\]]*\]/g)].map(m => m[0]);
 
 /** Genera el document Markdown amb totes les marques [REVISAR] agrupades per fitxer (WEB-G05b). */
-export function generarMarkdownMarques(files) {
+export function generarMarkdownMarques(files, lang = 'ca') {
   const ambMarques = (files || []).filter(f => (f.llistaMarques || []).length > 0);
   const total = ambMarques.reduce((acc, f) => acc + f.llistaMarques.length, 0);
-  if (!total) return '# Marques [REVISAR] pendents\n\nCap marca pendent.\n';
+  if (!total) return `${t(lang, 'taula.md_titol')}\n\n${t(lang, 'taula.md_cap')}\n`;
   const blocs = ambMarques.map(f => [
     `## ${f.fitxer} — ${f.titol} (${f.llistaMarques.length})`,
     '',
     ...f.llistaMarques.map(m => `- ${m}`),
   ].join('\n'));
-  return `# Marques [REVISAR] pendents\n\nTotal: ${total} ${total === 1 ? 'marca' : 'marques'} en ${ambMarques.length} ${ambMarques.length === 1 ? 'esborrany' : 'esborranys'}.\n\n${blocs.join('\n\n')}\n`;
+  const totalLinia = t(lang, 'taula.md_total', {
+    n: total,
+    paraulaMarques: t(lang, total === 1 ? 'taula.md_marca_sg' : 'taula.md_marca_pl'),
+    m: ambMarques.length,
+    paraulaEsborranys: t(lang, ambMarques.length === 1 ? 'taula.md_esb_sg' : 'taula.md_esb_pl'),
+  });
+  return `${t(lang, 'taula.md_titol')}\n\n${totalLinia}\n\n${blocs.join('\n\n')}\n`;
 }
 
 /** Script petit propi per filtrar /esborranys/ des de l'URL i copiar/descarregar les marques (WEB-G05b). */
@@ -464,7 +425,7 @@ export function paginaTaulaEsborranys(lloc, dades, { sectors = [], noticies = []
     const llistaMarques = extreureMarques(textVisible);
     const fitxer = `contingut/sectors/${s.slug}.json`;
     files.push({
-      tipus: 'sector',
+      tipus: t('ca', 'taula.tipus_sector'),
       tipusClau: 'sector',
       idioma: lang,
       titol: s.h1,
@@ -485,7 +446,7 @@ export function paginaTaulaEsborranys(lloc, dades, { sectors = [], noticies = []
     const esGuia = n.cap.tipus_article === 'guia';
     const fitxer = `contingut/actualitat/${n.fitxer}`;
     files.push({
-      tipus: esGuia ? 'guia' : 'notícia',
+      tipus: t('ca', esGuia ? 'taula.tipus_guia' : 'taula.tipus_noticia'),
       tipusClau: esGuia ? 'guia' : 'noticia',
       idioma: lang,
       titol: n.cap.titol,
@@ -506,34 +467,34 @@ export function paginaTaulaEsborranys(lloc, dades, { sectors = [], noticies = []
   const ld = {
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'CollectionPage', name: 'Taula de validació d\'esborranys', url: WEB + ruta, inLanguage: 'ca', publisher: { '@id': `${WEB}/#empresa` } },
+      { '@type': 'CollectionPage', name: t('ca', 'taula.nom'), url: WEB + ruta, inLanguage: 'ca', publisher: { '@id': `${WEB}/#empresa` } },
       { '@type': 'BreadcrumbList', itemListElement: [
         { '@type': 'ListItem', position: 1, name: c.inici, item: WEB + c.home },
-        { '@type': 'ListItem', position: 2, name: 'Esborranys', item: WEB + ruta },
+        { '@type': 'ListItem', position: 2, name: t('ca', 'comu.esborranys'), item: WEB + ruta },
       ] },
     ],
   };
 
-  const filtresHtml = files.length ? `      <nav class="esborranys-filtres" aria-label="Filtres de la taula d&#x27;esborranys">
+  const filtresHtml = files.length ? `      <nav class="esborranys-filtres" aria-label="${e(t('ca', 'taula.filtres_aria'))}">
         <div class="esborranys-filtres-grup">
-          <span class="esborranys-filtres-etiqueta">Tipus:</span>
-          <a class="esborranys-filtre" data-filtre-tipus="" href="/esborranys/" aria-current="true">Tots</a>
-          <a class="esborranys-filtre" data-filtre-tipus="sector" href="/esborranys/?tipus=sector">Sectors</a>
-          <a class="esborranys-filtre" data-filtre-tipus="guia" href="/esborranys/?tipus=guia">Guies</a>
-          <a class="esborranys-filtre" data-filtre-tipus="noticia" href="/esborranys/?tipus=noticia">Notícies</a>
+          <span class="esborranys-filtres-etiqueta">${e(t('ca', 'taula.filtre_tipus'))}</span>
+          <a class="esborranys-filtre" data-filtre-tipus="" href="/esborranys/" aria-current="true">${e(t('ca', 'taula.filtre_tots'))}</a>
+          <a class="esborranys-filtre" data-filtre-tipus="sector" href="/esborranys/?tipus=sector">${e(t('ca', 'taula.filtre_sectors'))}</a>
+          <a class="esborranys-filtre" data-filtre-tipus="guia" href="/esborranys/?tipus=guia">${e(t('ca', 'taula.filtre_guies'))}</a>
+          <a class="esborranys-filtre" data-filtre-tipus="noticia" href="/esborranys/?tipus=noticia">${e(t('ca', 'taula.filtre_noticies'))}</a>
         </div>
         <div class="esborranys-filtres-grup">
-          <span class="esborranys-filtres-etiqueta">Idioma:</span>
-          <a class="esborranys-filtre" data-filtre-idioma="" href="/esborranys/" aria-current="true">Tots</a>
-          <a class="esborranys-filtre" data-filtre-idioma="ca" href="/esborranys/?idioma=ca">Català</a>
-          <a class="esborranys-filtre" data-filtre-idioma="es" href="/esborranys/?idioma=es">Castellà</a>
+          <span class="esborranys-filtres-etiqueta">${e(t('ca', 'taula.filtre_idioma'))}</span>
+          <a class="esborranys-filtre" data-filtre-idioma="" href="/esborranys/" aria-current="true">${e(t('ca', 'taula.filtre_tots'))}</a>
+          <a class="esborranys-filtre" data-filtre-idioma="ca" href="/esborranys/?idioma=ca">${e(t('ca', 'taula.filtre_ca'))}</a>
+          <a class="esborranys-filtre" data-filtre-idioma="es" href="/esborranys/?idioma=es">${e(t('ca', 'taula.filtre_es'))}</a>
         </div>
       </nav>
 ` : '';
 
   const accionsHtml = files.length ? `      <div class="esborranys-accions">
-        <button type="button" class="btn btn-primary esborranys-accio" id="btn-copiar-marques"${totalMarques ? '' : ' disabled'}>Copiar totes les marques</button>
-        <button type="button" class="btn btn-ghost esborranys-accio" id="btn-descarregar-marques"${totalMarques ? '' : ' disabled'}>Descarregar en Markdown</button>
+        <button type="button" class="btn btn-primary esborranys-accio" id="btn-copiar-marques"${totalMarques ? '' : ' disabled'}>${e(t('ca', 'taula.btn_copiar'))}</button>
+        <button type="button" class="btn btn-ghost esborranys-accio" id="btn-descarregar-marques"${totalMarques ? '' : ' disabled'}>${e(t('ca', 'taula.btn_descarregar'))}</button>
         <span class="esborranys-avis" id="esborranys-avis" role="status" aria-live="polite"></span>
       </div>
 ` : '';
@@ -543,19 +504,19 @@ export function paginaTaulaEsborranys(lloc, dades, { sectors = [], noticies = []
         <table class="esborranys-taula">
           <thead>
             <tr>
-              <th scope="col">Tipus</th>
-              <th scope="col">Idioma</th>
-              <th scope="col">Títol</th>
-              <th scope="col">Marques [REVISAR]</th>
-              <th scope="col">Traducció</th>
-              <th scope="col">Fitxer</th>
+              <th scope="col">${e(t('ca', 'taula.col_tipus'))}</th>
+              <th scope="col">${e(t('ca', 'taula.col_idioma'))}</th>
+              <th scope="col">${e(t('ca', 'taula.col_titol'))}</th>
+              <th scope="col">${e(t('ca', 'taula.col_marques'))}</th>
+              <th scope="col">${e(t('ca', 'taula.col_traduccio'))}</th>
+              <th scope="col">${e(t('ca', 'taula.col_fitxer'))}</th>
             </tr>
           </thead>
           <tbody>
 ${files.map(f => {
     const detallMarques = f.marques ? `
                 <details class="esborranys-detall">
-                  <summary>Veure ${f.marques === 1 ? '1 marca' : `${f.marques} marques`}</summary>
+                  <summary>${e(f.marques === 1 ? t('ca', 'taula.veure_1_marca') : t('ca', 'taula.veure_n_marques', { n: f.marques }))}</summary>
                   <ol class="esborranys-marques-llista">
 ${f.llistaMarques.map(marca => `                    <li>${e(marca)}</li>`).join('\n')}
                   </ol>
@@ -565,36 +526,36 @@ ${f.llistaMarques.map(marca => `                    <li>${e(marca)}</li>`).join(
               <td>${e(f.idioma)}</td>
               <td><a href="${e(f.url)}">${e(f.titol)}</a>${detallMarques}</td>
               <td class="esborranys-marques${f.marques === 0 ? ' esborranys-marques-zero' : ''}">${f.marques}</td>
-              <td>${f.traduccio ? `<a href="${e(f.traduccio.url)}">Versió ${e(f.traduccio.idioma.toUpperCase())}</a>` : '—'}</td>
+              <td>${f.traduccio ? `<a href="${e(f.traduccio.url)}">${e(t('ca', 'taula.versio_idioma', { idioma: f.traduccio.idioma.toUpperCase() }))}</a>` : '—'}</td>
               <td class="esborranys-fitxer"><code title="${e(f.fitxer)}">${e(f.nomCurt)}</code></td>
             </tr>`;
   }).join('\n')}
           </tbody>
         </table>
       </div>
-` : '      <p>No hi ha cap esborrany pendent de validació.</p>\n';
+` : `      <p>${e(t('ca', 'taula.buit'))}</p>\n`;
 
   const guiaPublicacioHtml = `      <aside class="esborranys-guia" aria-labelledby="esborranys-guia-titol">
-        <h2 id="esborranys-guia-titol">Com es publica un esborrany</h2>
+        <h2 id="esborranys-guia-titol">${e(t('ca', 'taula.guia_titol'))}</h2>
         <ol>
-          <li>Obre la pàgina des de la taula i resol totes les marques <code>[REVISAR]</code> al fitxer corresponent des del panell.</li>
-          <li>Posa <code>estat: publicat</code> i la <code>data_revisio</code> del dia des del panell.</li>
-          <li>Comprova la vista prèvia abans de publicar per confirmar que no queda cap marca pendent.</li>
+          <li>${e(t('ca', 'taula.guia_pas_1_a'))}<code>[REVISAR]</code>${e(t('ca', 'taula.guia_pas_1_b'))}</li>
+          <li>${e(t('ca', 'taula.guia_pas_2_a'))}<code>estat: publicat</code>${e(t('ca', 'taula.guia_pas_2_b'))}<code>data_revisio</code>${e(t('ca', 'taula.guia_pas_2_c'))}</li>
+          <li>${e(t('ca', 'taula.guia_pas_3'))}</li>
         </ol>
       </aside>
 `;
 
   return ['esborranys/index.html',
-    m.cap('ca', 'Taula de validació d\'esborranys · Madeinhuman', 'Resum de tots els esborranys pendents de validació a la vista prèvia.', ruta,
+    m.cap('ca', t('ca', 'taula.titol_seo'), t('ca', 'taula.desc'), ruta,
       [['ca', ruta], ['x-default', ruta]], ld, { comentari: false, robots: 'noindex, nofollow' })
     + m.nav('ca', '/es/') + `  <main class="pagina">
     <div class="container pagina-contingut legal-content">
-      <nav class="molles" aria-label="Ruta"><a href="${c.home}">${e(c.inici)}</a> › <span aria-current="page">Esborranys</span></nav>
-      <p class="sector-esborrany" role="note">Esborrany: pendent de validació</p>
-      <span class="eyebrow">Vista prèvia · Validació</span>
-      <h1 class="section-title pagina-h1">Taula de validació d&#x27;esborranys</h1>
-      <p class="pagina-lede">Tots els esborranys de sectors, guies i notícies ordenats dels que tenen menys marques pendents als que en tenen més. Aquesta pàgina no es publica mai a producció.</p>
-      <p class="esborranys-resum" data-esborranys-resum aria-live="polite"><strong>${files.length}</strong> esborranys · <strong>${totalMarques}</strong> marques <code>[REVISAR]</code> pendents</p>
+      <nav class="molles" aria-label="${e(t('ca', 'comu.ruta'))}"><a href="${c.home}">${e(c.inici)}</a> › <span aria-current="page">${e(t('ca', 'comu.esborranys'))}</span></nav>
+      <p class="sector-esborrany" role="note">${e(t('ca', 'comu.esborrany'))}</p>
+      <span class="eyebrow">${e(t('ca', 'taula.eyebrow'))}</span>
+      <h1 class="section-title pagina-h1">${e(t('ca', 'taula.nom'))}</h1>
+      <p class="pagina-lede">${e(t('ca', 'taula.lede'))}</p>
+      <p class="esborranys-resum" data-esborranys-resum aria-live="polite"><strong>${files.length}</strong> ${e(t('ca', 'taula.resum_esborranys'))} · <strong>${totalMarques}</strong> ${e(t('ca', 'taula.resum_marques'))} <code>[REVISAR]</code> ${e(t('ca', 'taula.resum_pendents'))}</p>
 ${accionsHtml}${filtresHtml}${cosTaula}${guiaPublicacioHtml}${markdownHtml}    </div>
   </main>
   <script src="/esborranys/esborranys.js" defer></script>
