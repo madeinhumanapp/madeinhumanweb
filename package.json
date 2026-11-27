@@ -19,7 +19,7 @@
     "pagina-404": "node proves/pagina-404.mjs",
     "esborranys": "node proves/esborranys.mjs",
     "qualitat": "node proves/enllacos.mjs && node proves/dades-estructurades.mjs && node proves/accessibilitat.mjs && node proves/pes.mjs",
-    "qualitat-esborranys": "node eines/construir.mjs --esborranys --sortida dist-esborranys && node proves/enllacos.mjs --arrel dist-esborranys && node proves/dades-estructurades.mjs --arrel dist-esborranys && node proves/accessibilitat.mjs --arrel dist-esborranys && node proves/pes.mjs --arrel dist-esborranys",
+    "qualitat-esborranys": "node eines/construir.mjs --esborranys --sortida /tmp/madeinhuman-dist-esborranys && node proves/enllacos.mjs --arrel /tmp/madeinhuman-dist-esborranys && node proves/dades-estructurades.mjs --arrel /tmp/madeinhuman-dist-esborranys && node proves/accessibilitat.mjs --arrel /tmp/madeinhuman-dist-esborranys && node proves/pes.mjs --arrel /tmp/madeinhuman-dist-esborranys",
     "diagnostic-resultat": "node proves/diagnostic-resultat.mjs",
     "actualitat": "node proves/actualitat.mjs",
     "serveis": "node proves/serveis.mjs",
