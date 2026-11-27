@@ -2,12 +2,12 @@
    MADEINHUMAN — Selector de reserves propi (WEB-G05a)
    Sense dependències, sense galetes ni emmagatzematge al navegador.
    Client de l'API de rgpd-tool (/api/public/reserva/franges i /api/public/reserva).
-   Es manté desactivat (ACTIVA = false) fins que l'API estigui desplegada.
+   Interruptor ACTIVA: false = no es munta ni fa cap petició (es torna al botó de contacte).
    ===================================================================== */
 (function () {
   'use strict';
 
-  var ACTIVA = false;
+  var ACTIVA = true;
   var API_BASE = 'https://rgpd.madeinhuman.cat';
 
   var TEXTOS = {
