@@ -188,7 +188,7 @@ ${seccions}${perSectors}${bloc_final(lang, clau)}    </div>
     <div class="container pagina-contingut legal-content">
       <span class="eyebrow">Error 404</span>
       <h1 class="section-title pagina-h1">Aquesta pàgina <em>no existeix.</em></h1>
-      <p class="pagina-lede">Potser l'adreça ha canviat o té algun error. Pots tornar a l'inici o anar directament on volies.</p>
+      <p class="pagina-lede">Potser l'adreça ha canviat o té algun error. Podeu tornar a l'inici o anar directament on volíeu.</p>
       <form class="cerca-form cerca-form-404" role="search" method="get" action="/cerca/">
         <label class="cerca-label" for="cerca-404-ca">Cerca al web</label>
         <div class="cerca-fila">
@@ -206,7 +206,7 @@ ${seccions}${perSectors}${bloc_final(lang, clau)}    </div>
       </ul>
       <section class="pagina-seccio" lang="es">
         <h2>Esta página no existe.</h2>
-        <p class="pagina-lede">Quizás la dirección ha cambiado o tiene algún error. Puedes volver al inicio o ir directamente a donde querías.</p>
+        <p class="pagina-lede">Quizás la dirección ha cambiado o tiene algún error. Podéis volver al inicio o ir directamente a donde queríais.</p>
         <form class="cerca-form cerca-form-404" role="search" method="get" action="/es/buscar/">
           <label class="cerca-label" for="cerca-404-es">Buscar en la web</label>
           <div class="cerca-fila">

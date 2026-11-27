@@ -31,7 +31,7 @@ ok('hi ha un element lang="es" amb el text en castellà', !!blocEs);
 ok('el bloc en castellà va sota el missatge en català',
   html.indexOf('Aquesta pàgina') !== -1 && html.indexOf('lang="es"') > html.indexOf('Aquesta pàgina'));
 ok('el títol i la frase en castellà', blocEs.includes('Esta página no existe.')
-  && blocEs.includes('Quizás la dirección ha cambiado o tiene algún error. Puedes volver al inicio o ir directamente a donde querías.'));
+  && blocEs.includes('Quizás la dirección ha cambiado o tiene algún error. Podéis volver al inicio o ir directamente a donde queríais.'));
 const enllacosEs = [['Inicio', '/es/'], ['Servicios', '/es/#servicios'], ['Contacto', '/es/#contacto'], ['Preguntas frecuentes', '/es/preguntas-frecuentes/']];
 ok('els quatre enllaços principals en castellà', enllacosEs.every(([t, href]) => blocEs.includes(`<a href="${href}">${t}</a>`)),
   enllacosEs.filter(([t, href]) => !blocEs.includes(`<a href="${href}">${t}</a>`)).map(([t]) => t).join(', '));
