@@ -164,7 +164,7 @@ ok('/esborranys/ existeix, té noindex, nofollow, franja i resum total (4 esborr
   && htmlTaula.includes('Esborrany: pendent de validació')
   && htmlTaula.includes('<strong>4</strong> esborranys · <strong>4</strong> marques'));
 
-const filesTaula = [...htmlTaula.matchAll(/<tr>\s*<td>([\s\S]*?)<\/tr>/g)].map(m => m[0]);
+const filesTaula = [...htmlTaula.matchAll(/<tr\b[^>]*>\s*<td>([\s\S]*?)<\/tr>/g)].map(m => m[0]);
 ok('la taula té exactament els 4 esborranys i no les pàgines publicades',
   filesTaula.length === 4
   && !htmlTaula.includes(sectorPublicat.h1)
@@ -178,14 +178,56 @@ const idxSector3 = htmlTaula.indexOf('Sector amb tres marques');
 ok('la taula ordena de menys a més marques (0 → 1 → 3) i després per tipus i títol',
   idxNoticia0 > 0 && idxNoticia0 < idxSector0 && idxSector0 < idxGuia1 && idxGuia1 < idxSector3);
 
-ok('la taula inclou columnes tipus, idioma, enllaç de traducció pel grup_hreflang i fitxer d\'origen',
+ok('la taula inclou columnes tipus, idioma, enllaç de traducció pel grup_hreflang i fitxer curt amb camí complet a title',
   htmlTaula.includes('<td>notícia</td>')
   && htmlTaula.includes('<td>guia</td>')
   && htmlTaula.includes('<td>sector</td>')
   && htmlTaula.includes('href="/es/sectores/sector-cero-marcas/">Versió ES</a>')
   && htmlTaula.includes('href="/sectors/sector-tres-marques/">Versió CA</a>')
-  && htmlTaula.includes('<code>contingut/sectors/sector-tres-marques.json</code>')
-  && htmlTaula.includes('<code>contingut/actualitat/2026-12-01-guia-una-marca.md</code>'));
+  && htmlTaula.includes('<code title="contingut/sectors/sector-tres-marques.json">sector-tres-marques.json</code>')
+  && htmlTaula.includes('<code title="contingut/actualitat/2026-12-01-guia-una-marca.md">2026-12-01-guia-una-marca.md</code>'));
+
+// 3b. Taula de validació 2.0 (WEB-G05b): filtres per URL, <details> per esborrany, Markdown i guia
+ok('la taula té filtres per tipus i idioma amb enllaços d\'URL i files amb data-tipus / data-idioma / data-marques',
+  htmlTaula.includes('data-filtre-tipus="sector" href="/esborranys/?tipus=sector"')
+  && htmlTaula.includes('data-filtre-tipus="guia" href="/esborranys/?tipus=guia"')
+  && htmlTaula.includes('data-filtre-tipus="noticia" href="/esborranys/?tipus=noticia"')
+  && htmlTaula.includes('data-filtre-idioma="ca" href="/esborranys/?idioma=ca"')
+  && htmlTaula.includes('data-filtre-idioma="es" href="/esborranys/?idioma=es"')
+  && htmlTaula.includes('data-tipus="sector" data-idioma="ca" data-marques="3"')
+  && htmlTaula.includes('data-tipus="sector" data-idioma="es" data-marques="0"')
+  && htmlTaula.includes('data-tipus="guia" data-idioma="ca" data-marques="1"')
+  && htmlTaula.includes('data-tipus="noticia" data-idioma="ca" data-marques="0"'));
+
+const detalls = [...htmlTaula.matchAll(/<details class="esborranys-detall">[\s\S]*?<\/details>/g)].map(m => m[0]);
+ok('cada esborrany amb marques té un <details> amb la llista completa de marques [REVISAR]',
+  detalls.length === 2
+  && detalls[0].includes('Veure 1 marca')
+  && detalls[0].includes('[REVISAR: confirmar article 33]')
+  && detalls[1].includes('Veure 3 marques')
+  && detalls[1].includes('[REVISAR: primera marca]')
+  && detalls[1].includes('[REVISAR: segona marca]')
+  && detalls[1].includes('[REVISAR: tercera marca]'));
+
+const mdBloc = /<pre id="esborranys-markdown" hidden>([\s\S]*?)<\/pre>/.exec(htmlTaula)?.[1] || '';
+ok('hi ha botons de copiar/descarregar i el Markdown agrupat per fitxer amb les 4 marques',
+  htmlTaula.includes('id="btn-copiar-marques"')
+  && htmlTaula.includes('Copiar totes les marques')
+  && htmlTaula.includes('id="btn-descarregar-marques"')
+  && htmlTaula.includes('Descarregar en Markdown')
+  && mdBloc.includes('# Marques [REVISAR] pendents')
+  && mdBloc.includes('Total: 4 marques en 2 esborranys.')
+  && mdBloc.includes('## contingut/actualitat/2026-12-01-guia-una-marca.md — Guia amb una marca (1)')
+  && mdBloc.includes('- [REVISAR: confirmar article 33]')
+  && mdBloc.includes('## contingut/sectors/sector-tres-marques.json — Sector amb tres marques (3)')
+  && mdBloc.includes('- [REVISAR: tercera marca]'));
+
+ok('hi ha el requadre «Com es publica un esborrany» i el script /esborranys/esborranys.js',
+  htmlTaula.includes('Com es publica un esborrany')
+  && htmlTaula.includes('estat: publicat')
+  && htmlTaula.includes('data_revisio')
+  && htmlTaula.includes('src="/esborranys/esborranys.js"')
+  && fs.existsSync(path.join(outDraft, 'esborranys/esborranys.js')));
 
 // 4. Ressaltat de marques i caixa resum a les pàgines d'esborrany
 const htmlSec3 = fs.readFileSync(path.join(outDraft, `sectors/${sectorBase.slug}/index.html`), 'utf8');
@@ -219,8 +261,9 @@ ok('/esborranys/ no entra mai al mapa del lloc', !mapaDraft.includes('/esborrany
 const outProd = path.join(TMP, 'dist-prod');
 const rProd = construir({ DIR_SECTORS: dirSectors, DIR_ACTUALITAT: dirAct, DATA_CONSTRUCCIO: '2026-06-01' }, outProd);
 ok('producció construeix sense errors', rProd.ok, rProd.sortida);
-ok('producció no genera /esborranys/ ni /actualitat/esborranys/',
+ok('producció no genera /esborranys/, /esborranys/esborranys.js ni /actualitat/esborranys/',
   !fs.existsSync(path.join(outProd, 'esborranys/index.html'))
+  && !fs.existsSync(path.join(outProd, 'esborranys/esborranys.js'))
   && !fs.existsSync(path.join(outProd, 'actualitat/esborranys/index.html')));
 let algunMarkProd = false;
 (function recorre(dir) {

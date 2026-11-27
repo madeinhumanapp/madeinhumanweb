@@ -283,9 +283,150 @@ ${seccions}${documents}${faqHtml}${servei}${guiesHtml}${fonts}${ctaHtml}${altres
   return out;
 }
 
-const comptarMarques = text => (String(text).match(/\[REVISAR[^\]]*\]/g) || []).length;
+const extreureMarques = text => [...String(text).matchAll(/\[REVISAR[^\]]*\]/g)].map(m => m[0]);
 
-/** Taula de validació de tots els esborranys (/esborranys/, WEB-G04a): només per a vistes prèvies / --esborranys. */
+/** Genera el document Markdown amb totes les marques [REVISAR] agrupades per fitxer (WEB-G05b). */
+export function generarMarkdownMarques(files) {
+  const ambMarques = (files || []).filter(f => (f.llistaMarques || []).length > 0);
+  const total = ambMarques.reduce((acc, f) => acc + f.llistaMarques.length, 0);
+  if (!total) return '# Marques [REVISAR] pendents\n\nCap marca pendent.\n';
+  const blocs = ambMarques.map(f => [
+    `## ${f.fitxer} — ${f.titol} (${f.llistaMarques.length})`,
+    '',
+    ...f.llistaMarques.map(m => `- ${m}`),
+  ].join('\n'));
+  return `# Marques [REVISAR] pendents\n\nTotal: ${total} ${total === 1 ? 'marca' : 'marques'} en ${ambMarques.length} ${ambMarques.length === 1 ? 'esborrany' : 'esborranys'}.\n\n${blocs.join('\n\n')}\n`;
+}
+
+/** Script petit propi per filtrar /esborranys/ des de l'URL i copiar/descarregar les marques (WEB-G05b). */
+export function scriptTaulaEsborranys() {
+  return `// Filtres per URL i exportació de marques [REVISAR] de /esborranys/ (WEB-G05b)
+(function () {
+  var files = Array.prototype.slice.call(document.querySelectorAll('.esborranys-taula tbody tr'));
+  var filtresTipus = Array.prototype.slice.call(document.querySelectorAll('[data-filtre-tipus]'));
+  var filtresIdioma = Array.prototype.slice.call(document.querySelectorAll('[data-filtre-idioma]'));
+  var resum = document.querySelector('[data-esborranys-resum]');
+  var totalFiles = files.length;
+  var totalMarques = files.reduce(function (acc, tr) { return acc + Number(tr.getAttribute('data-marques') || 0); }, 0);
+
+  function construirUrl(tipus, idioma) {
+    var p = new URLSearchParams();
+    if (tipus) p.set('tipus', tipus);
+    if (idioma) p.set('idioma', idioma);
+    var q = p.toString();
+    return '/esborranys/' + (q ? '?' + q : '');
+  }
+
+  function llegirEstat() {
+    var p = new URLSearchParams(window.location.search);
+    var tipus = (p.get('tipus') || '').toLowerCase();
+    if (tipus === 'notícia') tipus = 'noticia';
+    var idioma = (p.get('idioma') || '').toLowerCase();
+    return { tipus: tipus, idioma: idioma };
+  }
+
+  function aplicar() {
+    var estat = llegirEstat();
+    var visibles = 0;
+    var marquesVisibles = 0;
+    files.forEach(function (tr) {
+      var okT = !estat.tipus || tr.getAttribute('data-tipus') === estat.tipus;
+      var okI = !estat.idioma || tr.getAttribute('data-idioma') === estat.idioma;
+      var mostra = okT && okI;
+      tr.hidden = !mostra;
+      if (mostra) {
+        visibles++;
+        marquesVisibles += Number(tr.getAttribute('data-marques') || 0);
+      }
+    });
+    filtresTipus.forEach(function (a) {
+      var v = a.getAttribute('data-filtre-tipus') || '';
+      a.setAttribute('href', construirUrl(v, estat.idioma));
+      if (v === estat.tipus) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+    filtresIdioma.forEach(function (a) {
+      var v = a.getAttribute('data-filtre-idioma') || '';
+      a.setAttribute('href', construirUrl(estat.tipus, v));
+      if (v === estat.idioma) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+    if (resum) {
+      var filtrat = Boolean(estat.tipus || estat.idioma);
+      resum.innerHTML = filtrat
+        ? '<strong>' + visibles + '</strong> de <strong>' + totalFiles + '</strong> esborranys · <strong>' + marquesVisibles + '</strong> marques <code>[REVISAR]</code> pendents'
+        : '<strong>' + totalFiles + '</strong> esborranys · <strong>' + totalMarques + '</strong> marques <code>[REVISAR]</code> pendents';
+    }
+  }
+
+  filtresTipus.concat(filtresIdioma).forEach(function (a) {
+    a.addEventListener('click', function (ev) {
+      if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || ev.button !== 0) return;
+      ev.preventDefault();
+      var href = a.getAttribute('href');
+      if (href && window.history && window.history.pushState) {
+        window.history.pushState(null, '', href);
+      }
+      aplicar();
+    });
+  });
+  window.addEventListener('popstate', aplicar);
+  aplicar();
+
+  var fontMd = document.getElementById('esborranys-markdown');
+  var avis = document.getElementById('esborranys-avis');
+  var btnCopiar = document.getElementById('btn-copiar-marques');
+  var btnDescarregar = document.getElementById('btn-descarregar-marques');
+  function dirAvis(text) { if (avis) avis.textContent = text; }
+
+  if (btnCopiar && fontMd) {
+    btnCopiar.addEventListener('click', function () {
+      var md = fontMd.textContent || '';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(md).then(function () {
+          dirAvis('Marques copiades al porta-retalls.');
+        }, function () {
+          dirAvis('No s\\'ha pogut copiar al porta-retalls.');
+        });
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = md;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          dirAvis('Marques copiades al porta-retalls.');
+        } catch (err) {
+          dirAvis('No s\\'ha pogut copiar al porta-retalls.');
+        }
+        ta.remove();
+      }
+    });
+  }
+
+  if (btnDescarregar && fontMd) {
+    btnDescarregar.addEventListener('click', function () {
+      var md = fontMd.textContent || '';
+      var blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'marques-revisar.md';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      dirAvis('Fitxer marques-revisar.md descarregat.');
+    });
+  }
+})();
+`;
+}
+
+/** Taula de validació de tots els esborranys (/esborranys/, WEB-G04a / WEB-G05b): només per a vistes prèvies / --esborranys. */
 export function paginaTaulaEsborranys(lloc, dades, { sectors = [], noticies = [] } = {}) {
   const m = marcInterior(lloc, dades);
   const { WEB, e } = m;
@@ -320,14 +461,19 @@ export function paginaTaulaEsborranys(lloc, dades, { sectors = [], noticies = []
       ...(s.documents || []),
       ...(s.faq || []).flatMap(x => [x.pregunta, x.resposta]),
     ].join('\n');
+    const llistaMarques = extreureMarques(textVisible);
+    const fitxer = `contingut/sectors/${s.slug}.json`;
     files.push({
       tipus: 'sector',
+      tipusClau: 'sector',
       idioma: lang,
       titol: s.h1,
       url: urlSector(s),
-      marques: comptarMarques(textVisible),
+      marques: llistaMarques.length,
+      llistaMarques,
       traduccio: parella ? { url: urlSector(parella), idioma: parella.idioma || 'ca' } : null,
-      fitxer: `contingut/sectors/${s.slug}.json`,
+      fitxer,
+      nomCurt: `${s.slug}.json`,
     });
   }
   for (const n of noticies) {
@@ -335,20 +481,27 @@ export function paginaTaulaEsborranys(lloc, dades, { sectors = [], noticies = []
     const lang = n.cap.idioma || 'ca';
     const parella = n.cap.grup_hreflang ? grupsNoticies.get(n.cap.grup_hreflang)?.[lang === 'ca' ? 'es' : 'ca'] : null;
     const textVisible = [n.cap.titol, n.cap.resum, n.cos].join('\n');
+    const llistaMarques = extreureMarques(textVisible);
+    const esGuia = n.cap.tipus_article === 'guia';
+    const fitxer = `contingut/actualitat/${n.fitxer}`;
     files.push({
-      tipus: n.cap.tipus_article === 'guia' ? 'guia' : 'notícia',
+      tipus: esGuia ? 'guia' : 'notícia',
+      tipusClau: esGuia ? 'guia' : 'noticia',
       idioma: lang,
       titol: n.cap.titol,
       url: urlNoticia(n),
-      marques: comptarMarques(textVisible),
+      marques: llistaMarques.length,
+      llistaMarques,
       traduccio: parella ? { url: urlNoticia(parella), idioma: parella.cap.idioma || 'ca' } : null,
-      fitxer: `contingut/actualitat/${n.fitxer}`,
+      fitxer,
+      nomCurt: n.fitxer,
     });
   }
 
   // Ordre: primer les que tenen menys marques, després per tipus i títol
   files.sort((a, b) => a.marques - b.marques || a.tipus.localeCompare(b.tipus, 'ca') || a.titol.localeCompare(b.titol, 'ca'));
   const totalMarques = files.reduce((acc, f) => acc + f.marques, 0);
+  const markdownMarques = generarMarkdownMarques(files);
 
   const ld = {
     '@context': 'https://schema.org',
@@ -360,6 +513,31 @@ export function paginaTaulaEsborranys(lloc, dades, { sectors = [], noticies = []
       ] },
     ],
   };
+
+  const filtresHtml = files.length ? `      <nav class="esborranys-filtres" aria-label="Filtres de la taula d&#x27;esborranys">
+        <div class="esborranys-filtres-grup">
+          <span class="esborranys-filtres-etiqueta">Tipus:</span>
+          <a class="esborranys-filtre" data-filtre-tipus="" href="/esborranys/" aria-current="true">Tots</a>
+          <a class="esborranys-filtre" data-filtre-tipus="sector" href="/esborranys/?tipus=sector">Sectors</a>
+          <a class="esborranys-filtre" data-filtre-tipus="guia" href="/esborranys/?tipus=guia">Guies</a>
+          <a class="esborranys-filtre" data-filtre-tipus="noticia" href="/esborranys/?tipus=noticia">Notícies</a>
+        </div>
+        <div class="esborranys-filtres-grup">
+          <span class="esborranys-filtres-etiqueta">Idioma:</span>
+          <a class="esborranys-filtre" data-filtre-idioma="" href="/esborranys/" aria-current="true">Tots</a>
+          <a class="esborranys-filtre" data-filtre-idioma="ca" href="/esborranys/?idioma=ca">Català</a>
+          <a class="esborranys-filtre" data-filtre-idioma="es" href="/esborranys/?idioma=es">Castellà</a>
+        </div>
+      </nav>
+` : '';
+
+  const accionsHtml = files.length ? `      <div class="esborranys-accions">
+        <button type="button" class="btn btn-primary esborranys-accio" id="btn-copiar-marques"${totalMarques ? '' : ' disabled'}>Copiar totes les marques</button>
+        <button type="button" class="btn btn-ghost esborranys-accio" id="btn-descarregar-marques"${totalMarques ? '' : ' disabled'}>Descarregar en Markdown</button>
+        <span class="esborranys-avis" id="esborranys-avis" role="status" aria-live="polite"></span>
+      </div>
+` : '';
+  const markdownHtml = files.length ? `      <pre id="esborranys-markdown" hidden>${e(markdownMarques)}</pre>\n` : '';
 
   const cosTaula = files.length ? `      <div class="esborranys-taula-wrap">
         <table class="esborranys-taula">
@@ -374,18 +552,37 @@ export function paginaTaulaEsborranys(lloc, dades, { sectors = [], noticies = []
             </tr>
           </thead>
           <tbody>
-${files.map(f => `            <tr>
+${files.map(f => {
+    const detallMarques = f.marques ? `
+                <details class="esborranys-detall">
+                  <summary>Veure ${f.marques === 1 ? '1 marca' : `${f.marques} marques`}</summary>
+                  <ol class="esborranys-marques-llista">
+${f.llistaMarques.map(marca => `                    <li>${e(marca)}</li>`).join('\n')}
+                  </ol>
+                </details>` : '';
+    return `            <tr data-tipus="${e(f.tipusClau)}" data-idioma="${e(f.idioma)}" data-marques="${f.marques}">
               <td>${e(f.tipus)}</td>
               <td>${e(f.idioma)}</td>
-              <td><a href="${e(f.url)}">${e(f.titol)}</a></td>
+              <td><a href="${e(f.url)}">${e(f.titol)}</a>${detallMarques}</td>
               <td class="esborranys-marques${f.marques === 0 ? ' esborranys-marques-zero' : ''}">${f.marques}</td>
               <td>${f.traduccio ? `<a href="${e(f.traduccio.url)}">Versió ${e(f.traduccio.idioma.toUpperCase())}</a>` : '—'}</td>
-              <td><code>${e(f.fitxer)}</code></td>
-            </tr>`).join('\n')}
+              <td class="esborranys-fitxer"><code title="${e(f.fitxer)}">${e(f.nomCurt)}</code></td>
+            </tr>`;
+  }).join('\n')}
           </tbody>
         </table>
       </div>
 ` : '      <p>No hi ha cap esborrany pendent de validació.</p>\n';
+
+  const guiaPublicacioHtml = `      <aside class="esborranys-guia" aria-labelledby="esborranys-guia-titol">
+        <h2 id="esborranys-guia-titol">Com es publica un esborrany</h2>
+        <ol>
+          <li>Obre la pàgina des de la taula i resol totes les marques <code>[REVISAR]</code> al fitxer corresponent des del panell.</li>
+          <li>Posa <code>estat: publicat</code> i la <code>data_revisio</code> del dia des del panell.</li>
+          <li>Comprova la vista prèvia abans de publicar per confirmar que no queda cap marca pendent.</li>
+        </ol>
+      </aside>
+`;
 
   return ['esborranys/index.html',
     m.cap('ca', 'Taula de validació d\'esborranys · Madeinhuman', 'Resum de tots els esborranys pendents de validació a la vista prèvia.', ruta,
@@ -397,9 +594,10 @@ ${files.map(f => `            <tr>
       <span class="eyebrow">Vista prèvia · Validació</span>
       <h1 class="section-title pagina-h1">Taula de validació d&#x27;esborranys</h1>
       <p class="pagina-lede">Tots els esborranys de sectors, guies i notícies ordenats dels que tenen menys marques pendents als que en tenen més. Aquesta pàgina no es publica mai a producció.</p>
-      <p class="esborranys-resum"><strong>${files.length}</strong> esborranys · <strong>${totalMarques}</strong> marques <code>[REVISAR]</code> pendents</p>
-${cosTaula}    </div>
+      <p class="esborranys-resum" data-esborranys-resum aria-live="polite"><strong>${files.length}</strong> esborranys · <strong>${totalMarques}</strong> marques <code>[REVISAR]</code> pendents</p>
+${accionsHtml}${filtresHtml}${cosTaula}${guiaPublicacioHtml}${markdownHtml}    </div>
   </main>
+  <script src="/esborranys/esborranys.js" defer></script>
 ` + m.peu('ca')];
 }
 
