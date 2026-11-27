@@ -24,6 +24,10 @@ const AMB_ESBORRANYS = args.includes('--esborranys') || Boolean(process.env.CF_P
 const NO_PUBLICAR = new Set(['contingut', 'captures', 'plantilles', 'esquema', 'eines', 'proves', 'marca', 'docs', 'dist', 'AGENTS.md',
   'node_modules', '.git', '.github', '.wrangler', 'CLAUDE.md', '.gitignore', 'package.json', 'package-lock.json', 'sitemap.xml']);
 
+// Eines estàtiques en esborrany (encara sense validació jurídica): només es copien a les vistes prèvies
+// (mode esborranys). A producció no existeixen fins que l'Albert les validi i es treguin d'aquesta llista.
+const NOMES_ESBORRANYS = new Set(['es/autotest-saas']);
+
 const t0 = Date.now();
 fs.rmSync(SORTIDA, { recursive: true, force: true });
 fs.mkdirSync(SORTIDA, { recursive: true });
@@ -35,6 +39,7 @@ let copiats = 0;
     const r = path.join(rel, e.name);
     if (!rel && NO_PUBLICAR.has(e.name)) continue;
     if (!rel && e.name === 'media') continue; // es copia de DIR_MEDIA (per defecte, l'arrel del repositori)
+    if (!AMB_ESBORRANYS && NOMES_ESBORRANYS.has(r.split(path.sep).join('/'))) continue;
     if (e.isDirectory()) { fs.mkdirSync(path.join(SORTIDA, r), { recursive: true }); copia(dir, r); }
     else { fs.copyFileSync(path.join(dir, r), path.join(SORTIDA, r)); copiats++; }
   }

@@ -115,7 +115,9 @@ async function obrir(rel, amplada = 1280) {
         const st = document.createElement('style');
         st.textContent = '*, *::before, *::after { animation-duration: 0s !important; animation-delay: 0s !important; transition-duration: 0s !important; transition-delay: 0s !important; }';
         document.head.appendChild(st);
-        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => el.classList.add('visible', 'in'));
+        // La classe que mostra els elements és «revealed» (script.js); després s'acaben les transicions en curs
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => el.classList.add('revealed'));
+        document.getAnimations().forEach(a => { try { a.finish(); } catch { /* animació infinita */ } });
         if (document.fonts && document.fonts.ready) await document.fonts.ready;
         await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
         return true;

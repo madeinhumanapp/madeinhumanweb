@@ -73,6 +73,10 @@ jobs:
         run: npm run diagnostic-resultat
       - name: Selector de reserves (API simulada)
         run: npm run reserva
+      - name: Teclat, focus i contrast
+        run: npm run teclat
+      - name: Autotest SaaS (esborrany, només a les vistes prèvies)
+        run: npm run autotest-saas
       - name: Vista prèvia del panell
         run: npm run previsualitzacio
       - name: Seguretat de contingut (CSP)

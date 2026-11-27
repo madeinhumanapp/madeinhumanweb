@@ -148,6 +148,8 @@ coincidir amb el nom del fitxer). Esquema i validació a `esquema/sectors.mjs`; 
   (`<mark class="revisar" id="revisar-N">` + caixa «Marques pendents (N)»), a les vistes prèvies de Cloudflare
   (`CF_PAGES_BRANCH` present i diferent de `main`) o localment amb `node eines/construir.mjs --esborranys`.
   No apareixen als índexs ni al mapa del lloc. Si no hi ha cap pàgina publicada en un idioma, el seu índex no es genera.
+- **Eines estàtiques en esborrany (`NOMES_ESBORRANYS` a `construir.mjs`):** carpetes que només es copien en mode esborranys
+  (ara, `es/autotest-saas/`). A producció no existeixen fins que es validen i es treuen de la llista.
 - **Taula de validació 2.0 (`/esborranys/`):** en mode esborranys es genera una taula central amb tots els esborranys
   (sectors, guies i notícies, `ca` i `es`), ordenats de menys a més marques `[REVISAR]`, amb:
   - filtres per tipus i idioma reflectits a l'URL (`/esborranys/?tipus=sector&idioma=es`, compatibles amb «Enrere» i

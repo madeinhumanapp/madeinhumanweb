@@ -2,7 +2,10 @@
 // 1) Avaluació pura (sense navegador): 12 preguntes, paquets, perfil, avisos EIPD/art. 27 i semàfor verd/ambre/vermell.
 // 2) Comprovacions estàtiques a dist/: noindex, nofollow, fora del mapa del lloc, sense enllaços des d'altres pàgines, sense fetch ni emmagatzematge.
 // 3) Navegador (Playwright, servidor local + CSP real de _headers): recorregut complet a 375 i 1280 px, «Atrás», resultat, 0 xarxa externa, 0 CSP.
-// Ús: npm run construir && node proves/autotest-saas.mjs
+// L'eina només es publica a les vistes prèvies (NOMES_ESBORRANYS a eines/construir.mjs): es prova sobre una construcció
+// amb esborranys i es comprova que el dist/ de producció no la conté.
+// Ús: npm run construir && node eines/construir.mjs --esborranys --sortida /tmp/madeinhuman-dist-esborranys
+//     && node proves/autotest-saas.mjs --arrel /tmp/madeinhuman-dist-esborranys
 import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
@@ -12,7 +15,9 @@ import { PREGUNTES, AVISOS, PUNTS, PAQUETS, TEXTOS } from '../es/autotest-saas/d
 import { avaluar } from '../es/autotest-saas/src/avaluar.js';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const DIST = path.join(ARREL, 'dist');
+const ARGS = process.argv.slice(2);
+const DIST_PRODUCCIO = path.join(ARREL, 'dist');
+const DIST = ARGS.includes('--arrel') ? path.resolve(ARGS[ARGS.indexOf('--arrel') + 1]) : DIST_PRODUCCIO;
 
 let fallades = 0;
 const ok = (nom, cond, detall = '') => {
@@ -117,6 +122,10 @@ ok('totes les afirmacions jurídiques de punts, paquets i avís legal porten mar
   && TEXTOS.avisLegal.includes('[REVISAR:'));
 
 // ── 2) Comprovacions estàtiques (codi font i dist/) ──────────────────────────
+if (DIST !== DIST_PRODUCCIO && fs.existsSync(path.join(DIST_PRODUCCIO, 'index.html'))) {
+  ok('el dist/ de producció no conté l\'autotest SaaS (només vistes prèvies)',
+    !fs.existsSync(path.join(DIST_PRODUCCIO, 'es/autotest-saas')));
+}
 const FITXER_DIST = path.join(DIST, 'es/autotest-saas/index.html');
 ok('dist/es/autotest-saas/index.html existeix després de construir', fs.existsSync(FITXER_DIST));
 if (!fs.existsSync(FITXER_DIST)) process.exit(1);
