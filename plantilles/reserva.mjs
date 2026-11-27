@@ -22,7 +22,7 @@ export function paginaReserva(lloc, dades) {
   return ['reserva/index.html',
     m.cap('ca', 'Reservar una trucada · Madeinhuman', 'Reserveu una trucada de 20 minuts amb el nostre equip per revisar el vostre diagnòstic RGPD.', ruta,
       [['ca', ruta], ['x-default', ruta]], ld, { comentari: false, robots: 'noindex, nofollow' })
-    + m.nav('ca', '/es/') + `  <main class="pagina">
+    + m.nav('ca', '/es/') + `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut legal-content">
       <nav class="molles" aria-label="Ruta"><a href="${c.home}">${e(c.inici)}</a> › <span aria-current="page">Reserva</span></nav>
       <span class="eyebrow">Trucada · 20 minuts</span>

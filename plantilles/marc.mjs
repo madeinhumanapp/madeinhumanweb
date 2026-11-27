@@ -13,7 +13,8 @@ export function menu(lloc, ctx) {
   const altre = { ...m.altreIdioma, href: ctx.urlAltre || m.altreIdioma.href };
   const idioma = cls => `<a href="${esc(altre.href)}" hreflang="${altre.idioma}" lang="${altre.idioma}"${cls}>${esc(altre.text)}</a>`;
   const a = e => `<a href="${esc(enllac(e.href, ctx))}">${esc(e.text)}</a>`;
-  return `${portada ? `
+  const salta = ctx.idioma === 'es' ? 'Saltar al contenido' : 'Salta al contingut';
+  return `<a class="salta-contingut" href="#contingut">${salta}</a>${portada ? `
 <div class="scroll-progress" id="scrollProgress"></div>` : ''}
 <nav class="nav${portada ? '' : ' scrolled'}" id="navbar">
   <div class="container nav-inner">

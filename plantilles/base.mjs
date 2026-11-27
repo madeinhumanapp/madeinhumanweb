@@ -92,7 +92,7 @@ export function pagina(lloc, p, formularis = {}, faq = [], actualitat = [], medi
 ${cap(lloc, p, faq)}
 <body>
 ${menu(lloc, ctx)}
-<main${teTop ? '' : ' id="top"'}>
+${teTop ? '' : '<div id="top"></div>\n'}<main id="contingut" tabindex="-1">
 ${blocsHtml}
 </main>
 ${peu(lloc, ctx)}

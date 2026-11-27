@@ -49,15 +49,21 @@ export function paginaXarxes(lloc, p) {
   nav{margin-top:34px;display:flex;flex-direction:column;gap:14px}
   a.btn{display:block;text-decoration:none;color:var(--crema);border:1.5px solid color-mix(in srgb, var(--crema) 22%, transparent);border-radius:16px;padding:18px 20px;font-size:17px;font-weight:700;transition:border-color .15s}
   a.btn small{display:block;font-weight:400;color:var(--gris-clar);font-size:14.5px;margin-top:4px}
-  a.btn:hover,a.btn:focus-visible{border-color:var(--daurat);outline:none}
+  a.btn:hover{border-color:var(--daurat)}
+  a.btn:focus-visible,footer a:focus-visible{outline:2px solid var(--daurat-clar);outline-offset:3px}
   a.btn.principal{background:var(--daurat);border-color:var(--daurat);color:var(--nit)}
+  a.btn.principal:focus-visible{outline-color:var(--crema)}
   a.btn.principal small{color:var(--nit);opacity:.8}
+  .salta-contingut{position:fixed;left:-9999px;top:12px;z-index:9999;padding:10px 16px;border-radius:8px;background:var(--daurat);color:var(--nit);font-weight:600;text-decoration:none}
+  .salta-contingut:focus,.salta-contingut:focus-visible{left:12px;outline:2px solid var(--crema);outline-offset:2px}
+  main:focus{outline:none}
   footer{margin-top:40px;font-family:var(--font-mono);font-size:12px;letter-spacing:2px;color:var(--gris-clar)}
   footer a{color:var(--gris-clar)}
 </style>
 </head>
 <body>
-<main>
+<a class="salta-contingut" href="#contingut">${p.idioma === 'es' ? 'Saltar al contenido' : 'Salta al contingut'}</a>
+<main id="contingut" tabindex="-1">
   <div class="logo" role="img" aria-label="Logo de madeinhuman"><div class="mi">MADE IN</div><div class="h">human<span></span></div></div>
   <h1>${cursiva(p.titol)}</h1>
   <p class="sub">${esc(p.subtitol)}</p>

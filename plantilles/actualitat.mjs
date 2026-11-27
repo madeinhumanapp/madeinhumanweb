@@ -309,7 +309,7 @@ ${cites.map((u, idx) => (idx === 0 && k.font_url && u === k.font_url
     ...(esborrany ? { robots: 'noindex, nofollow' } : {}),
     capExtra: rss + `  <meta property="article:published_time" content="${k.data}" />\n`,
   })
-    + m.nav(lang, urlAltre) + `  <main class="pagina">
+    + m.nav(lang, urlAltre) + `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut legal-content">
 ${molles}
 ${franja}      <span class="eyebrow">${e(tag)} · <time datetime="${k.data}">${dataLlargaIdioma(k.data, lang)}</time></span>
@@ -388,7 +388,7 @@ export function paginesActualitat(lloc, dades, noticies, bloc, { totesVisibles =
     ] };
     out.push([`${ruta.slice(1)}index.html`,
       m.cap(lang, `${titolLlistat} · Madeinhuman`, entradeta, ruta, alternates, ldLlistat, { comentari: false, capExtra: rss })
-      + m.nav(lang, urlAltre) + `  <main class="pagina">
+      + m.nav(lang, urlAltre) + `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut">
       <nav class="molles" aria-label="${e(t(lang, 'comu.ruta'))}"><a href="${c.home}">${e(c.inici)}</a> › <span aria-current="page">${e(etiqueta)}</span></nav>
       <span class="eyebrow">${e(etiqueta)}</span>
@@ -458,7 +458,7 @@ export function paginesEsborranysActualitat(lloc, dades, llistaEsborranys, bloc,
   const out = [[`${rutaIndex.slice(1)}index.html`,
     m.cap('ca', t('ca', 'actualitat.esb_titol_seo'), t('ca', 'actualitat.esb_desc'), rutaIndex,
       [['ca', rutaIndex], ['x-default', rutaIndex]], ldIndex, { comentari: false, robots: 'noindex, nofollow' })
-    + m.nav('ca', '/es/') + `  <main class="pagina">
+    + m.nav('ca', '/es/') + `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut legal-content">
       <nav class="molles" aria-label="${e(t('ca', 'comu.ruta'))}"><a href="${c.home}">${e(c.inici)}</a> › ${mollaAct} › <span aria-current="page">${e(t('ca', 'comu.esborranys'))}</span></nav>
       <p class="sector-esborrany" role="note">${e(t('ca', 'comu.esborrany'))}</p>

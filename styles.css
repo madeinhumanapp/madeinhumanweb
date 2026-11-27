@@ -2435,5 +2435,42 @@ mark.revisar {
   .cerca-boto { width: 100%; justify-content: center; }
 }
 
+/* ===== Accessibilitat: salta al contingut i focus visible (WEB-G06b) ===== */
+.salta-contingut {
+  position: fixed;
+  left: -9999px;
+  top: 12px;
+  z-index: 9999;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--daurat);
+  color: var(--text-sobre-daurat);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+}
+.salta-contingut:focus,
+.salta-contingut:focus-visible {
+  left: 12px;
+  outline: 2px solid var(--crema);
+  outline-offset: 2px;
+}
+:is(a, button, summary, input, select, textarea, [tabindex]):focus-visible,
+.input:focus-visible,
+.textarea:focus-visible,
+.select:focus-visible {
+  outline: 2px solid var(--daurat-clar);
+  outline-offset: 3px;
+}
+:is(.btn-primary, .nav-cta, .whatsapp-float):focus-visible {
+  outline: 2px solid var(--crema);
+  outline-offset: 3px;
+}
+main#contingut:focus {
+  outline: none;
+}
+
 
 

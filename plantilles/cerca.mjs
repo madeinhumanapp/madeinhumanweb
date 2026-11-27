@@ -90,7 +90,7 @@ export function paginesCerca(lloc, dades) {
       comentari: false,
       robots: 'noindex, follow',
     })
-      + m.nav(lang, k.rutaAltre) + `  <main class="pagina">
+      + m.nav(lang, k.rutaAltre) + `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut legal-content">
       <nav class="molles" aria-label="Ruta"><a href="${c.home}">${e(c.inici)}</a> › <span aria-current="page">${e(k.molla)}</span></nav>
       <span class="eyebrow">${e(k.eyebrow)}</span>

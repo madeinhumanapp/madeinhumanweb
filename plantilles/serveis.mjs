@@ -169,7 +169,7 @@ export function paginesServei(lloc, dades, sectorsPublicats = []) {
         <ul class="pagina-altres">${delServei.map(s => `<li><a href="${prefixSectors}${s.slug}/">${e(s.h1)}</a></li>`).join('')}</ul>
       </nav>
 ` : '';
-    const cos = `  <main class="pagina">
+    const cos = `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut legal-content">
       <nav class="molles" aria-label="${lang === 'ca' ? 'Ruta' : 'Ruta'}"><a href="${c.home}">${e(c.inici)}</a> › <a href="${c.breadcrumb_serveis}">${e(c.serveis)}</a> › <span aria-current="page">${e(p.curt)}</span></nav>
       <span class="eyebrow">${e(p.eyebrow)}</span>
@@ -184,7 +184,7 @@ ${seccions}${perSectors}${bloc_final(lang, clau)}    </div>
   // Pàgina «no trobada»: Cloudflare Pages la serveix amb codi 404 (sense ella, tornaria la portada amb codi 200)
   function pagina_404() {
     const c = COMU.ca;
-    const cos = `  <main class="pagina">
+    const cos = `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut legal-content">
       <span class="eyebrow">Error 404</span>
       <h1 class="section-title pagina-h1">Aquesta pàgina <em>no existeix.</em></h1>
@@ -237,7 +237,7 @@ ${seccions}${perSectors}${bloc_final(lang, clau)}    </div>
       .join('');
     const c = COMU.es;
     const passos = c.metode.map(({ titol: t, text: d }, i) => `<li><span class="pas-num">${String(i + 1).padStart(2, '0')}</span><strong>${e(t)}</strong><span>${e(d)}</span></li>`).join('');
-    const cos = `  <main class="pagina">
+    const cos = `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut legal-content">
       <span class="eyebrow">${e(p.eyebrow)}</span>
       <h1 class="section-title pagina-h1 pagina-h1-gran">${enriquit(p.h1)}</h1>
