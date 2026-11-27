@@ -223,7 +223,7 @@ function renderArticle(n, { m, dades, bloc, altres = [], esborrany = false, grup
   const cites = fontsExtres.length ? [...new Set([...(k.font_url ? [k.font_url] : []), ...fontsExtres])] : [];
   const descSeo = k.meta_descripcio || k.resum;
   const ld = { '@context': 'https://schema.org', '@graph': [
-    m.empresa_ld(),
+    m.empresa_ld(lang),
     { '@type': esGuia ? 'Article' : 'NewsArticle', headline: k.titol, description: k.resum,
       datePublished: k.data, dateModified: k.data_revisio || k.data, inLanguage: lang,
       url: WEB + url, mainEntityOfPage: WEB + url, image: `${WEB}/og-image.png`,

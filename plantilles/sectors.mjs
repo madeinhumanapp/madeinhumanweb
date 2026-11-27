@@ -110,7 +110,7 @@ export function paginesSectors(lloc, dades, sectors, { ambEsborranys = false, no
     const nomServei = s.servei_relacionat ? dades.PAGINES[s.servei_relacionat][lang].curt : s.h1;
     const cites = (s.fonts || []).map(f => f.url);
     const graf = [
-      m.empresa_ld(),
+      m.empresa_ld(lang),
       {
         '@type': 'Service',
         name: s.h1,

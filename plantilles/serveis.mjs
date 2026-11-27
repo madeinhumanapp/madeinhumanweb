@@ -9,6 +9,49 @@ import { t } from './textos.mjs';
 
 const CARPETA = { ca: 'serveis', es: 'es/servicios' };
 
+/** Extreu URL https:// de perfils socials declarats a lloc.json (sameAs / xarxes / perfils); mai inventa res. */
+export function perfilsSocials(lloc) {
+  const fonts = [lloc?.sameAs, lloc?.xarxes, lloc?.perfils];
+  const llista = [];
+  for (const font of fonts) {
+    if (!font) continue;
+    const valors = Array.isArray(font)
+      ? font.map(x => (typeof x === 'string' ? x : (x?.href || x?.url || '')))
+      : (typeof font === 'object' ? Object.values(font).map(x => (typeof x === 'string' ? x : (x?.href || x?.url || ''))) : []);
+    for (const v of valors) {
+      const s = String(v || '').trim();
+      if (!s || /\s/.test(s)) continue;
+      try {
+        const u = new URL(s);
+        if (u.protocol === 'https:' && !llista.includes(s)) llista.push(s);
+      } catch { /* ignora URL no vàlida */ }
+    }
+  }
+  return llista;
+}
+
+/** Genera el ContactPoint de l'empresa amb el correu, telèfon i idiomes de lloc.json. */
+export function contactPointEmpresa(lloc) {
+  const k = lloc?.contacte || {};
+  const cp = {
+    '@type': 'ContactPoint',
+    contactType: 'customer service',
+  };
+  if (k.telefon) cp.telephone = k.telefon;
+  if (k.correu) cp.email = k.correu;
+  const idiomes = Object.keys(lloc?.menu || {});
+  if (idiomes.length) cp.availableLanguage = idiomes;
+  return cp;
+}
+
+/** Noms dels serveis de contingut/serveis.json en l'idioma demanat (per a knowsAbout). */
+export function nomsServeis(serveis, lang = 'ca') {
+  if (!serveis?.SERVEIS || !serveis?.PAGINES) return [];
+  return serveis.SERVEIS
+    .map(k => serveis.PAGINES[k]?.[lang]?.curt || serveis.PAGINES[k]?.ca?.curt)
+    .filter(Boolean);
+}
+
 // Marc comú de les pàgines interiors (cap, menú, peu, bloc final): també el fan servir les notícies
 export function marcInterior(lloc, dades) {
   const { COMU, ZONA, SERVEIS, SLUG, PAGINES } = dades;
@@ -37,7 +80,9 @@ export function marcInterior(lloc, dades) {
     return COMU[lang].zona_text.replace('{zona}', () => llista);
   }
 
-  function empresa_ld() {
+  function empresa_ld(lang = 'ca') {
+    const sameAs = perfilsSocials(lloc);
+    const coneixements = nomsServeis(dades, lang);
     return {
       '@type': 'ProfessionalService',
       '@id': `${WEB}/#empresa`,
@@ -45,9 +90,12 @@ export function marcInterior(lloc, dades) {
       url: WEB + '/',
       telephone: NAP.telefon,
       email: NAP.correu,
+      contactPoint: contactPointEmpresa(lloc),
       image: `${WEB}/og-image.png`,
       address: { '@type': 'PostalAddress', addressLocality: NAP.ciutat, addressRegion: 'Girona', addressCountry: 'ES' },
       areaServed: ZONA.map(z => ({ '@type': 'AdministrativeArea', name: z })),
+      ...(coneixements.length ? { knowsAbout: coneixements } : {}),
+      ...(sameAs.length ? { sameAs } : {}),
     };
   }
 
@@ -152,7 +200,7 @@ export function paginesServei(lloc, dades, sectorsPublicats = [], faqs = null) {
     const url_altre = url_servei(altre, clau);
     const alternates = [['ca', url_servei('ca', clau)], ['es', url_servei('es', clau)], ['x-default', url_servei('ca', clau)]];
     const ld = { '@context': 'https://schema.org', '@graph': [
-      empresa_ld(),
+      empresa_ld(lang),
       { '@type': 'Service', name: p.curt, description: p.descripcio, url: WEB + url,
         serviceType: p.curt, provider: { '@id': `${WEB}/#empresa` },
         areaServed: ZONA.map(z => ({ '@type': 'AdministrativeArea', name: z })), inLanguage: lang },
@@ -252,7 +300,7 @@ ${seccions}${faqServei}${perSectors}${bloc_final(lang, clau)}    </div>
 
   function portada_es() {
     const p = PORTADA_ES;
-    const ld = { '@context': 'https://schema.org', '@graph': [{ ...empresa_ld(), description: p.descripcio, inLanguage: 'es' }] };
+    const ld = { '@context': 'https://schema.org', '@graph': [{ ...empresa_ld('es'), description: p.descripcio, inLanguage: 'es' }] };
     const alternates = [['ca', '/'], ['es', '/es/'], ['x-default', '/']];
     const targetes = SERVEIS.map(
       k => `<li><a href="${url_servei('es', k)}"><strong>${e(PAGINES[k].es.curt)}</strong><span>${e(PAGINES[k].es.lede)}</span></a></li>`)

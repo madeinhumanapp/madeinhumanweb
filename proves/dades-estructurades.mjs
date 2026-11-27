@@ -62,11 +62,55 @@ function afegir(pagina, detall) {
 
 const noBuit = v => typeof v === 'string' ? v.trim().length > 0 : Boolean(v);
 
+const LLOC = JSON.parse(fs.readFileSync(path.join(ARREL_REPO, 'contingut/lloc.json'), 'utf8'));
+const SERVEIS = JSON.parse(fs.readFileSync(path.join(ARREL_REPO, 'contingut/serveis.json'), 'utf8'));
+const { perfilsSocials, nomsServeis } = await import('../plantilles/serveis.mjs');
+const SAME_AS_ESPERAT = perfilsSocials(LLOC);
+
 function validarNode(rel, node, idx, esArrel = false) {
   if (!node || typeof node !== 'object') return;
   if (Array.isArray(node)) { node.forEach(x => validarNode(rel, x, idx, esArrel)); return; }
 
   const tipusLlista = Array.isArray(node['@type']) ? node['@type'] : (node['@type'] ? [node['@type']] : []);
+
+  if (tipusLlista.includes('ProfessionalService')) {
+    // contactPoint amb correu i telèfon de lloc.json (WEB-G06e)
+    const cp = Array.isArray(node.contactPoint) ? node.contactPoint[0] : node.contactPoint;
+    if (!cp || cp['@type'] !== 'ContactPoint') {
+      afegir(rel, `JSON-LD[${idx}] ProfessionalService: falta «contactPoint» de tipus ContactPoint`);
+    } else {
+      if (cp.email !== LLOC.contacte.correu) afegir(rel, `JSON-LD[${idx}] ProfessionalService.contactPoint.email esperat «${LLOC.contacte.correu}», trobat «${cp.email}»`);
+      if (cp.telephone !== LLOC.contacte.telefon) afegir(rel, `JSON-LD[${idx}] ProfessionalService.contactPoint.telephone esperat «${LLOC.contacte.telefon}», trobat «${cp.telephone}»`);
+    }
+    // knowsAbout amb tots els noms dels serveis de serveis.json en l'idioma de la pàgina
+    const lang = rel.startsWith('es/') ? 'es' : 'ca';
+    const nomsEsperats = nomsServeis(SERVEIS, lang);
+    if (!Array.isArray(node.knowsAbout) || node.knowsAbout.length === 0) {
+      afegir(rel, `JSON-LD[${idx}] ProfessionalService: falta «knowsAbout»`);
+    } else {
+      for (const nom of nomsEsperats) {
+        if (!node.knowsAbout.includes(nom)) {
+          afegir(rel, `JSON-LD[${idx}] ProfessionalService.knowsAbout: falta el servei «${nom}»`);
+        }
+      }
+    }
+    // sameAs: URL https:// vàlides i exactament iguals a les de lloc.json (si no n'hi ha cap a lloc.json, no s'inventa res)
+    if (SAME_AS_ESPERAT.length > 0) {
+      if (!Array.isArray(node.sameAs) || node.sameAs.length !== SAME_AS_ESPERAT.length
+        || SAME_AS_ESPERAT.some((u, i) => node.sameAs[i] !== u)) {
+        afegir(rel, `JSON-LD[${idx}] ProfessionalService.sameAs no coincideix amb lloc.json`);
+      }
+    } else if (Array.isArray(node.sameAs) && node.sameAs.length > 0) {
+      afegir(rel, `JSON-LD[${idx}] ProfessionalService.sameAs conté URL no presents a lloc.json (${node.sameAs.join(', ')})`);
+    }
+    if (Array.isArray(node.sameAs)) {
+      for (const u of node.sameAs) {
+        let okUrl = false;
+        try { okUrl = new URL(u).protocol === 'https:'; } catch { okUrl = false; }
+        if (!okUrl) afegir(rel, `JSON-LD[${idx}] ProfessionalService.sameAs: URL no vàlida «${u}»`);
+      }
+    }
+  }
 
   if (tipusLlista.includes('Article') || tipusLlista.includes('NewsArticle')) {
     for (const camp of ['headline', 'datePublished', 'author', 'publisher', 'inLanguage']) {
@@ -154,6 +198,14 @@ for (const rel of htmlFitxers) {
     else validarNode(rel, dades, idx, true);
     idx++;
   }
+}
+
+// Prova unitària: si lloc.json declara perfils socials, empresa_ld() només agafa URL https:// vàlides
+const { marcInterior } = await import('../plantilles/serveis.mjs');
+const llocProva = { ...LLOC, sameAs: ['https://www.linkedin.com/company/madeinhuman', 'http://insegur.example', 'no-es-url'] };
+const ldProva = marcInterior(llocProva, SERVEIS).empresa_ld('ca');
+if (!Array.isArray(ldProva.sameAs) || ldProva.sameAs.length !== 1 || ldProva.sameAs[0] !== 'https://www.linkedin.com/company/madeinhuman') {
+  errors.push('empresa_ld(): no filtra correctament sameAs a URL https:// vàlides');
 }
 
 console.log(`Analitzats ${totalBlocs} blocs JSON-LD en ${htmlFitxers.length} pàgines a ${path.relative(ARREL_REPO, ARREL) || ARREL}`);
