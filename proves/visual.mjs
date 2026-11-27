@@ -153,7 +153,7 @@ try {
         if (!cssOk || falladesLocals > 0) throw new Error('crashed: full d\'estil incomplet');
         return await pagina.screenshot({ fullPage: true, animations: 'disabled', type: 'png' });
       } catch (err) {
-        if (intent === 2 || !/crashed|closed|Target page/i.test(String(err.message))) throw err;
+        if (intent === 2 || !/crashed|closed|Target page|ERR_ABORTED|ERR_CONNECTION/i.test(String(err.message))) throw err;
         await iniciarNavegador();
       } finally {
         pagina.off('requestfailed', onFail);
