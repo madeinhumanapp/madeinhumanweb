@@ -37,10 +37,11 @@ Estat: ▶ a punt · ◐ en curs · ☑ integrat · ☐ encara no (depèn d'una 
 | WEB-G02 | [Resultat del diagnòstic en semàfor + enllaçat intern dels sectors](WEB-G02-semafor-i-sectors.md) (Gemini, gran) | ☑ | `gemini/WEB-G02` | WEB-G01 integrat | T12 |
 | WEB-G03 | [Paquet: esborranys d'articles a la vista prèvia, sectors en castellà, 5 sectors i 5 articles](WEB-G03-paquet-contingut.md) (Gemini, molt gran) | ☑ (esborranys pendents de validació) | `gemini/WEB-G03` | WEB-G02 integrat | T12 |
 | WEB-G04 | [Megapaquet: taula de validació, actualitat en castellà, enllaçat intern i controls de qualitat](WEB-G04-megapaquet.md) (Gemini, molt gran) | ☑ (esborranys pendents de validació) | `gemini/WEB-G04` | WEB-G03 integrat | T12 |
-| WEB-G05 | [Megapaquet: selector de reserves, taula de validació 2.0, textos centralitzats, cerca, llms.txt i etiquetes dels formularis](WEB-G05-megapaquet.md) (Gemini, molt gran) | ▶ | `gemini/WEB-G05` | WEB-G04 integrat | T12 |
+| WEB-G05 | [Megapaquet: selector de reserves, taula de validació 2.0, textos centralitzats, cerca, llms.txt i etiquetes dels formularis](WEB-G05-megapaquet.md) (Gemini, molt gran) | ☑ (reserves desactivades fins a l'API) | `gemini/WEB-G05` | WEB-G04 integrat | T12 |
+| WEB-G06 | [Megapaquet: regressió visual, teclat i contrast, textos centralitzats, preguntes per servei, JSON-LD i autotest SaaS](WEB-G06-megapaquet.md) (Gemini, enorme) | ▶ | `gemini/WEB-G06` | WEB-G05 integrat | T08, T14 |
 | WEB-T14 | [Revisió lingüística i de to dels 25 esborranys](WEB-T14-revisio-esborranys.md) (Mistral) | ▶ | `mistral/WEB-T14` | — | G05 (no toquen els mateixos fitxers) |
 
-Ordre recomanat ara: **Gemini** WEB-G05; **Mistral** correcció de WEB-T08 → WEB-T14. Un sol encàrrec obert per sessió
+Ordre recomanat ara: **Gemini** WEB-G06; **Mistral** correcció de WEB-T08 → WEB-T14. Un sol encàrrec obert per sessió
 (de Vibe o d'Antigravity). Branca base: `main`.
 
 Quan un encàrrec queda integrat, Claude n'actualitza l'estat aquí i, si cal, escriu el següent.
