@@ -159,13 +159,14 @@ export function paginesServei(lloc, dades, sectorsPublicats = []) {
         ${markdown(cos)}
       </section>
 `).join('');
-    const delServei = lang === 'ca'
-      ? (sectorsPublicats || []).filter(s => s.estat === 'publicat' && s.servei_relacionat === clau)
-          .sort((a, b) => a.slug.localeCompare(b.slug))
-      : [];
-    const perSectors = delServei.length ? `      <nav class="pagina-seccio" aria-label="Per sectors">
-        <h2>Per sectors</h2>
-        <ul class="pagina-altres">${delServei.map(s => `<li><a href="/sectors/${s.slug}/">${e(s.h1)}</a></li>`).join('')}</ul>
+    const delServei = (sectorsPublicats || [])
+      .filter(s => s.estat === 'publicat' && (s.idioma || 'ca') === lang && s.servei_relacionat === clau)
+      .sort((a, b) => a.slug.localeCompare(b.slug));
+    const titolSectors = lang === 'es' ? 'Por sectores' : 'Per sectors';
+    const prefixSectors = lang === 'es' ? '/es/sectores/' : '/sectors/';
+    const perSectors = delServei.length ? `      <nav class="pagina-seccio" aria-label="${titolSectors}">
+        <h2>${titolSectors}</h2>
+        <ul class="pagina-altres">${delServei.map(s => `<li><a href="${prefixSectors}${s.slug}/">${e(s.h1)}</a></li>`).join('')}</ul>
       </nav>
 ` : '';
     const cos = `  <main class="pagina">

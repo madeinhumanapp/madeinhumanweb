@@ -8,7 +8,7 @@ import { paginaLegal } from '../plantilles/legal.mjs';
 import { paginaXarxes } from '../plantilles/xarxes.mjs';
 import { validarServeis, CAMPS_SERVEI, CAMPS_PORTADA_ES, CAMPS_COMU } from '../esquema/serveis.mjs';
 import { validarPagina, validarFaq, validarNoticia, validarLloc, ESQUEMA, CAMPS_NOTICIA, CAMPS_XARXES, validarMedia, usosDeMedia, PATRO_ID_MEDIA } from '../esquema/blocs.mjs';
-import { validarSector, CAMPS_SECTOR } from '../esquema/sectors.mjs';
+import { validarSector, validarConjuntSectors, CAMPS_SECTOR } from '../esquema/sectors.mjs';
 import { llegirNoticia, publicades, esborranysActualitat, targeta, paginesActualitat, paginesEsborranysActualitat, datesActualitatMapa } from '../plantilles/actualitat.mjs';
 import { paginesSectors, datesSectorsMapa } from '../plantilles/sectors.mjs';
 
@@ -134,6 +134,7 @@ if (fs.existsSync(DIR_SECTORS)) {
     sectors.push(s);
   }
 }
+errors.push(...validarConjuntSectors(sectors));
 const sectorsPublicats = sectors.filter(s => s.estat === 'publicat');
 
 // 2b. Pàgines de servei i portada en castellà (port de marca/pagines/generar.py, encàrrec WEB-H04):
