@@ -80,6 +80,43 @@ export function targeta(n) {
 // Text pla d'un camp enriquit (per a <title> i descripcions)
 const pla = s => String(s).replace(/\*\*?(.+?)\*\*?/g, '$1').replace(/\n/g, ' ');
 
+/** Ressalta cada [REVISAR…] dins del contingut visible (<main>) d'una pàgina d'esborrany i hi afegeix la caixa resum. */
+export function ressaltarRevisar(html, lang = 'ca') {
+  const mMain = /(<main\b[^>]*>)([\s\S]*?)(<\/main>)/i.exec(html);
+  if (!mMain) return { html, marques: [] };
+  const [sencer, obre, cosMain, tanca] = mMain;
+  // Protegeix les molles i la franja d'esborrany per no duplicar ni alterar marques fora del cos
+  const protegits = [];
+  let treball = cosMain.replace(/<nav\b[^>]*class="molles"[^>]*>[\s\S]*?<\/nav>|<p\b[^>]*class="sector-esborrany"[^>]*>[\s\S]*?<\/p>/gi,
+    m => `\u0000P${protegits.push(m) - 1}\u0000`);
+  const marques = [];
+  treball = treball.replace(/(<[^>]+>)|([^<]+)/g, (tot, etiq, text) => {
+    if (etiq) return etiq;
+    return text.replace(/\[REVISAR[^\]]*\]/g, marca => {
+      const n = marques.length + 1;
+      marques.push({ n, text: marca });
+      return `<mark class="revisar" id="revisar-${n}">${marca}</mark>`;
+    });
+  });
+  treball = treball.replace(/\u0000P(\d+)\u0000/g, (_, i) => protegits[Number(i)]);
+  if (marques.length) {
+    const titol = lang === 'es' ? `Marcas pendientes (${marques.length})` : `Marques pendents (${marques.length})`;
+    const caixa = `      <aside class="revisar-caixa" aria-label="${titol}">
+        <h2>${titol}</h2>
+        <ol>
+${marques.map(({ n, text }) => `          <li><a href="#revisar-${n}">#${n}</a> ${text}</li>`).join('\n')}
+        </ol>
+      </aside>
+`;
+    const idxFinal = treball.lastIndexOf('</div>');
+    treball = idxFinal >= 0
+      ? treball.slice(0, idxFinal) + caixa + treball.slice(idxFinal)
+      : treball + caixa;
+  }
+  const resultat = html.slice(0, mMain.index) + obre + treball + tanca + html.slice(mMain.index + sencer.length);
+  return { html: resultat, marques };
+}
+
 function renderArticle(n, { m, dades, bloc, altres = [], esborrany = false }) {
   const { WEB, e } = m;
   const c = dades.COMU.ca;
@@ -143,7 +180,7 @@ ${cites.map((u, idx) => (idx === 0 && k.font_url && u === k.font_url
     ? `      <nav class="molles" aria-label="Ruta"><a href="${c.home}">${e(c.inici)}</a> › <a href="${RUTA}">${e(bloc.etiqueta)}</a> › <a href="${RUTA}esborranys/">Esborranys</a> › <span aria-current="page">${e(k.titol)}</span></nav>`
     : `      <nav class="molles" aria-label="Ruta"><a href="${c.home}">${e(c.inici)}</a> › <a href="${RUTA}">${e(bloc.etiqueta)}</a> › <span aria-current="page">${e(k.titol)}</span></nav>`;
   const franja = esborrany ? '      <p class="sector-esborrany" role="note">Esborrany: pendent de validació</p>\n' : '';
-  return m.cap('ca', `${k.titol} · Madeinhuman`, descSeo, url, [['ca', url], ['x-default', url]], ld, {
+  const html = m.cap('ca', `${k.titol} · Madeinhuman`, descSeo, url, [['ca', url], ['x-default', url]], ld, {
     ogType: 'article', comentari: false,
     ...(esborrany ? { robots: 'noindex, nofollow' } : {}),
     capExtra: rss + `  <meta property="article:published_time" content="${k.data}" />\n`,
@@ -164,6 +201,7 @@ ${font}${servei}${ctaArticle}${altres.length ? `      <nav class="pagina-seccio"
 ` : ''}    </div>
   </main>
 ` + m.peu('ca');
+  return esborrany ? ressaltarRevisar(html, 'ca').html : html;
 }
 
 /** → [[ruta relativa, contingut], …]: llistat, una pàgina per notícia amb cos i rss.xml */
@@ -282,7 +320,7 @@ export function paginesEsborranysActualitat(lloc, dades, llistaEsborranys, bloc)
       <p class="sector-esborrany" role="note">Esborrany: pendent de validació</p>
       <span class="eyebrow">Vista prèvia · Esborranys</span>
       <h1 class="section-title pagina-h1">Esborranys pendents de validació</h1>
-      <p class="pagina-lede">Aquesta llista només es genera a les vistes prèvies i no es publica mai a producció.</p>
+      <p class="pagina-lede">Aquesta llista només es genera a les vistes prèvies i no es publica mai a producció. Consulta tots els esborranys de la web a la <a href="/esborranys/">taula de validació</a>.</p>
       <ul class="pagina-serveis">${items}</ul>
     </div>
   </main>

@@ -10,7 +10,7 @@ import { validarServeis, CAMPS_SERVEI, CAMPS_PORTADA_ES, CAMPS_COMU } from '../e
 import { validarPagina, validarFaq, validarNoticia, validarLloc, ESQUEMA, CAMPS_NOTICIA, CAMPS_XARXES, validarMedia, usosDeMedia, PATRO_ID_MEDIA } from '../esquema/blocs.mjs';
 import { validarSector, validarConjuntSectors, CAMPS_SECTOR } from '../esquema/sectors.mjs';
 import { llegirNoticia, publicades, esborranysActualitat, targeta, paginesActualitat, paginesEsborranysActualitat, datesActualitatMapa } from '../plantilles/actualitat.mjs';
-import { paginesSectors, datesSectorsMapa } from '../plantilles/sectors.mjs';
+import { paginesSectors, datesSectorsMapa, paginaTaulaEsborranys } from '../plantilles/sectors.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -179,6 +179,16 @@ if (!errors.length && sectors.length) {
     fs.writeFileSync(path.join(SORTIDA, rel), html);
     generades++;
   }
+}
+// 2d-bis. Taula de validació d'esborranys (WEB-G04a): /esborranys/, només en mode esborranys / vista prèvia.
+if (AMB_ESBORRANYS && !errors.length) {
+  const [rel, html] = paginaTaulaEsborranys(lloc, dadesServeis, {
+    sectors,
+    noticies: [...noticies, ...esborranysActualitat(totes)],
+  });
+  fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
+  fs.writeFileSync(path.join(SORTIDA, rel), html);
+  generades++;
 }
 if (errors.length) { console.error('El contingut no és vàlid:\n  ' + errors.join('\n  ')); process.exit(1); }
 

@@ -5,7 +5,7 @@
 import { markdown } from './markdown.mjs';
 import { enriquit } from './text.mjs';
 import { marcInterior } from './serveis.mjs';
-import { dataLlarga } from './actualitat.mjs';
+import { dataLlarga, ressaltarRevisar, urlNoticia, teCos } from './actualitat.mjs';
 
 export const RUTA_SECTORS = '/sectors/';
 export const RUTA_SECTORS_ES = '/es/sectores/';
@@ -239,8 +239,7 @@ ${s.fonts.map(f => `          <li><a href="${e(f.url)}" target="_blank" rel="noo
       </aside>
 `;
 
-    out.push([`${url.slice(1)}index.html`,
-      m.cap(lang, s.titol_seo, s.descripcio, url, alternates, ld, {
+    const html = m.cap(lang, s.titol_seo, s.descripcio, url, alternates, ld, {
         comentari: false,
         robots: esborrany ? 'noindex, nofollow' : 'index, follow, max-image-preview:large',
       })
@@ -255,10 +254,131 @@ ${revisio}      <p class="pagina-lede">${e(s.entradeta)}</p>
       </blockquote>
 ${seccions}${documents}${faqHtml}${servei}${fonts}${ctaHtml}    </div>
   </main>
-` + m.peu(lang)]);
+` + m.peu(lang);
+    out.push([`${url.slice(1)}index.html`, esborrany ? ressaltarRevisar(html, lang).html : html]);
   }
 
   return out;
+}
+
+const comptarMarques = text => (String(text).match(/\[REVISAR[^\]]*\]/g) || []).length;
+
+/** Taula de validació de tots els esborranys (/esborranys/, WEB-G04a): només per a vistes prèvies / --esborranys. */
+export function paginaTaulaEsborranys(lloc, dades, { sectors = [], noticies = [] } = {}) {
+  const m = marcInterior(lloc, dades);
+  const { WEB, e } = m;
+  const c = dades.COMU.ca;
+  const ruta = '/esborranys/';
+
+  // Mapa de traduccions visibles per grup_hreflang (sectors i notícies per separat)
+  const grupsSectors = new Map();
+  for (const s of sectors) {
+    if (!s.grup_hreflang) continue;
+    const g = grupsSectors.get(s.grup_hreflang) || {};
+    g[s.idioma || 'ca'] = s;
+    grupsSectors.set(s.grup_hreflang, g);
+  }
+  const grupsNoticies = new Map();
+  for (const n of noticies.filter(teCos)) {
+    const gr = n.cap?.grup_hreflang;
+    if (!gr) continue;
+    const g = grupsNoticies.get(gr) || {};
+    g[n.cap.idioma || 'ca'] = n;
+    grupsNoticies.set(gr, g);
+  }
+
+  const files = [];
+  for (const s of sectors) {
+    if (s.estat !== 'esborrany') continue;
+    const lang = s.idioma || 'ca';
+    const parella = s.grup_hreflang ? grupsSectors.get(s.grup_hreflang)?.[lang === 'ca' ? 'es' : 'ca'] : null;
+    const textVisible = [
+      s.h1, s.entradeta, s.capsula,
+      ...(s.seccions || []).flatMap(x => [x.titol, x.cos]),
+      ...(s.documents || []),
+      ...(s.faq || []).flatMap(x => [x.pregunta, x.resposta]),
+    ].join('\n');
+    files.push({
+      tipus: 'sector',
+      idioma: lang,
+      titol: s.h1,
+      url: urlSector(s),
+      marques: comptarMarques(textVisible),
+      traduccio: parella ? { url: urlSector(parella), idioma: parella.idioma || 'ca' } : null,
+      fitxer: `contingut/sectors/${s.slug}.json`,
+    });
+  }
+  for (const n of noticies) {
+    if (n.cap?.estat !== 'esborrany' || !teCos(n)) continue;
+    const lang = n.cap.idioma || 'ca';
+    const parella = n.cap.grup_hreflang ? grupsNoticies.get(n.cap.grup_hreflang)?.[lang === 'ca' ? 'es' : 'ca'] : null;
+    const textVisible = [n.cap.titol, n.cap.resum, n.cos].join('\n');
+    files.push({
+      tipus: n.cap.tipus_article === 'guia' ? 'guia' : 'notícia',
+      idioma: lang,
+      titol: n.cap.titol,
+      url: urlNoticia(n),
+      marques: comptarMarques(textVisible),
+      traduccio: parella ? { url: urlNoticia(parella), idioma: parella.cap.idioma || 'ca' } : null,
+      fitxer: `contingut/actualitat/${n.fitxer}`,
+    });
+  }
+
+  // Ordre: primer les que tenen menys marques, després per tipus i títol
+  files.sort((a, b) => a.marques - b.marques || a.tipus.localeCompare(b.tipus, 'ca') || a.titol.localeCompare(b.titol, 'ca'));
+  const totalMarques = files.reduce((acc, f) => acc + f.marques, 0);
+
+  const ld = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'CollectionPage', name: 'Taula de validació d\'esborranys', url: WEB + ruta, inLanguage: 'ca', publisher: { '@id': `${WEB}/#empresa` } },
+      { '@type': 'BreadcrumbList', itemListElement: [
+        { '@type': 'ListItem', position: 1, name: c.inici, item: WEB + c.home },
+        { '@type': 'ListItem', position: 2, name: 'Esborranys', item: WEB + ruta },
+      ] },
+    ],
+  };
+
+  const cosTaula = files.length ? `      <div class="esborranys-taula-wrap">
+        <table class="esborranys-taula">
+          <thead>
+            <tr>
+              <th scope="col">Tipus</th>
+              <th scope="col">Idioma</th>
+              <th scope="col">Títol</th>
+              <th scope="col">Marques [REVISAR]</th>
+              <th scope="col">Traducció</th>
+              <th scope="col">Fitxer</th>
+            </tr>
+          </thead>
+          <tbody>
+${files.map(f => `            <tr>
+              <td>${e(f.tipus)}</td>
+              <td>${e(f.idioma)}</td>
+              <td><a href="${e(f.url)}">${e(f.titol)}</a></td>
+              <td class="esborranys-marques${f.marques === 0 ? ' esborranys-marques-zero' : ''}">${f.marques}</td>
+              <td>${f.traduccio ? `<a href="${e(f.traduccio.url)}">Versió ${e(f.traduccio.idioma.toUpperCase())}</a>` : '—'}</td>
+              <td><code>${e(f.fitxer)}</code></td>
+            </tr>`).join('\n')}
+          </tbody>
+        </table>
+      </div>
+` : '      <p>No hi ha cap esborrany pendent de validació.</p>\n';
+
+  return ['esborranys/index.html',
+    m.cap('ca', 'Taula de validació d\'esborranys · Madeinhuman', 'Resum de tots els esborranys pendents de validació a la vista prèvia.', ruta,
+      [['ca', ruta], ['x-default', ruta]], ld, { comentari: false, robots: 'noindex, nofollow' })
+    + m.nav('ca', '/es/') + `  <main class="pagina">
+    <div class="container pagina-contingut legal-content">
+      <nav class="molles" aria-label="Ruta"><a href="${c.home}">${e(c.inici)}</a> › <span aria-current="page">Esborranys</span></nav>
+      <p class="sector-esborrany" role="note">Esborrany: pendent de validació</p>
+      <span class="eyebrow">Vista prèvia · Validació</span>
+      <h1 class="section-title pagina-h1">Taula de validació d&#x27;esborranys</h1>
+      <p class="pagina-lede">Tots els esborranys de sectors, guies i notícies ordenats dels que tenen menys marques pendents als que en tenen més. Aquesta pàgina no es publica mai a producció.</p>
+      <p class="esborranys-resum"><strong>${files.length}</strong> esborranys · <strong>${totalMarques}</strong> marques <code>[REVISAR]</code> pendents</p>
+${cosTaula}    </div>
+  </main>
+` + m.peu('ca')];
 }
 
 /** Dates `lastmod` del mapa del lloc per a les pàgines de sector publicades (amb `data_revisio`) i els índexs `/sectors/` i `/es/sectores/`. */

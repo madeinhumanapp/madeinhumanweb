@@ -207,7 +207,8 @@ ok('--esborranys genera /actualitat/esborranys/ amb noindex, franja i enllaç no
 ok('--esborranys genera la pàgina de l\'esborrany amb noindex, nofollow i franja visible',
   pagEsb.includes('<meta name="robots" content="noindex, nofollow" />')
   && pagEsb.includes('Esborrany: pendent de validació')
-  && pagEsb.includes('Text amb [REVISAR].'));
+  && pagEsb.includes('<mark class="revisar" id="revisar-1">[REVISAR: data]</mark>')
+  && pagEsb.includes('Text amb <mark class="revisar" id="revisar-2">[REVISAR]</mark>.'));
 ok('--esborranys manté els esborranys fora de /actualitat/, RSS, mapa del lloc i portada',
   !fs.readFileSync(path.join(outDraft, 'actualitat/index.html'), 'utf8').includes('Esborrany')
   && !fs.readFileSync(path.join(outDraft, 'actualitat/rss.xml'), 'utf8').includes('Esborrany')
