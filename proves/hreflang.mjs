@@ -159,17 +159,21 @@ for (const a of ambHreflang) {
 }
 ok('reciprocitat entre totes les pàgines alternatives', errorsReciprocitat.length === 0, errorsReciprocitat.join(' · '));
 
-// 5. Actualitat: només ca i x-default cap a la pròpia canònica (cap es)
-const paginesActualitat = [...paginesPerFitxer.values()].filter(p => p.ruta === 'actualitat/index.html' || p.ruta.startsWith('actualitat/'));
+// 5. Actualitat (ca i es): la pròpia llengua i x-default cap a la pròpia canònica; o bé, si hi ha traducció
+//    (grup_hreflang, WEB-G04), ca + es + x-default, amb la pròpia llengua cap a la canònica i x-default cap a la catalana
+const paginesActualitat = [...paginesPerFitxer.values()].filter(p => p.ruta.startsWith('actualitat/') || p.ruta.startsWith('es/actualidad/'));
 const errorsActualitat = [];
 for (const p of paginesActualitat) {
   const codis = p.alternatives.map(a => a.hreflang).sort().join(',');
-  const totsCanonica = p.alternatives.every(a => a.href === p.canonica);
-  if (codis !== 'ca,x-default' || !totsCanonica) {
-    errorsActualitat.push(`${p.ruta}: té [${codis}] (esperat ca,x-default cap a ${p.canonica})`);
+  const href = codi => p.alternatives.find(a => a.hreflang === codi)?.href;
+  const propia = href(p.lang) === p.canonica;
+  const sola = codis === `${p.lang},x-default`.split(',').sort().join(',') && p.alternatives.every(a => a.href === p.canonica);
+  const parella = codis === 'ca,es,x-default' && propia && href('x-default') === href('ca');
+  if (!sola && !parella) {
+    errorsActualitat.push(`${p.ruta}: té [${codis}] (esperat ${p.lang},x-default cap a ${p.canonica}, o ca,es,x-default amb x-default cap a la catalana)`);
   }
 }
-ok(`actualitat (${paginesActualitat.length} pàgina/es) declara només ca i x-default cap a la pròpia canònica`,
+ok(`actualitat (${paginesActualitat.length} pàgina/es): pròpia llengua i x-default, o parella ca/es amb x-default cap a la catalana`,
   paginesActualitat.length > 0 && errorsActualitat.length === 0, errorsActualitat.join(' · '));
 
 console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions de hreflang correctes');

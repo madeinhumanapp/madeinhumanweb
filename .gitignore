@@ -21,4 +21,5 @@ venv/
 
 # Sortida del generador (es construeix a Cloudflare)
 dist/
+dist-esborranys/
 captures/
