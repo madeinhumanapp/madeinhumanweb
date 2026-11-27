@@ -10,7 +10,7 @@ import { validarServeis, CAMPS_SERVEI, CAMPS_PORTADA_ES, CAMPS_COMU } from '../e
 import { validarPagina, validarFaq, validarNoticia, validarLloc, ESQUEMA, CAMPS_NOTICIA, CAMPS_XARXES, validarMedia, usosDeMedia, PATRO_ID_MEDIA } from '../esquema/blocs.mjs';
 import { validarSector, CAMPS_SECTOR } from '../esquema/sectors.mjs';
 import { llegirNoticia, publicades, targeta, paginesActualitat, datesActualitatMapa } from '../plantilles/actualitat.mjs';
-import { paginesSectors } from '../plantilles/sectors.mjs';
+import { paginesSectors, datesSectorsMapa } from '../plantilles/sectors.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -118,14 +118,32 @@ for (const f of fs.readdirSync(path.join(ARREL, 'contingut/pagines'))) {
 }
 // Els blocs només poden fer servir entrades de media.json que existeixin i siguin del tipus del filtre
 for (const [f, p] of paginesBlocs) errors.push(...usosDeMedia([p], media).map(x => `${f}: ${x}`));
+// Llegeix i valida les pàgines de sector (WEB-G01 / WEB-G02) abans dels serveis perquè aquests puguin enllaçar les publicades
+const DIR_SECTORS = process.env.DIR_SECTORS ? path.resolve(process.env.DIR_SECTORS) : path.join(ARREL, 'contingut/sectors');
+const sectors = [];
+const slugsSectors = new Set();
+if (fs.existsSync(DIR_SECTORS)) {
+  for (const f of fs.readdirSync(DIR_SECTORS).filter(x => x.endsWith('.json')).sort()) {
+    let s;
+    try { s = JSON.parse(fs.readFileSync(path.join(DIR_SECTORS, f), 'utf8')); }
+    catch (err) { errors.push(`sectors/${f}: JSON no vàlid (${err.message})`); continue; }
+    const eSector = validarSector(s, f);
+    if (eSector.length) { errors.push(...eSector.map(x => `sectors/${f}: ${x}`)); continue; }
+    if (slugsSectors.has(s.slug)) { errors.push(`sectors/${f}: slug repetit «${s.slug}»`); continue; }
+    slugsSectors.add(s.slug);
+    sectors.push(s);
+  }
+}
+const sectorsPublicats = sectors.filter(s => s.estat === 'publicat');
+
 // 2b. Pàgines de servei i portada en castellà (port de marca/pagines/generar.py, encàrrec WEB-H04):
-//     plantilles/serveis.mjs exporta paginesServei(lloc, dades) → [[ruta relativa, html], …]
+//     plantilles/serveis.mjs exporta paginesServei(lloc, dades, sectorsPublicats) → [[ruta relativa, html], …]
 {
   const { paginesServei } = await import('../plantilles/serveis.mjs');
   const dades = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/serveis.json'), 'utf8'));
   const eServeis = validarServeis(dades).map(e => `serveis.json: ${e}`);
   errors.push(...eServeis);
-  for (const [rel, html] of eServeis.length ? [] : paginesServei(lloc, dades)) {
+  for (const [rel, html] of eServeis.length ? [] : paginesServei(lloc, dades, sectorsPublicats)) {
     if (!/^[a-z0-9/_-]+\.html$/.test(rel)) { errors.push(`ruta de servei no vàlida: ${rel}`); continue; }
     fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
     fs.writeFileSync(path.join(SORTIDA, rel), html);
@@ -145,21 +163,6 @@ if (noticies.length) {
 }
 // 2d. Pàgines de sector (WEB-G01): contingut/sectors/<slug>.json → /sectors/<slug>/ i índex /sectors/
 //     Els esborranys només es generen amb --esborranys o en vistes prèvies de Cloudflare (CF_PAGES_BRANCH != main).
-const DIR_SECTORS = process.env.DIR_SECTORS ? path.resolve(process.env.DIR_SECTORS) : path.join(ARREL, 'contingut/sectors');
-const sectors = [];
-const slugsSectors = new Set();
-if (fs.existsSync(DIR_SECTORS)) {
-  for (const f of fs.readdirSync(DIR_SECTORS).filter(x => x.endsWith('.json')).sort()) {
-    let s;
-    try { s = JSON.parse(fs.readFileSync(path.join(DIR_SECTORS, f), 'utf8')); }
-    catch (err) { errors.push(`sectors/${f}: JSON no vàlid (${err.message})`); continue; }
-    const eSector = validarSector(s, f);
-    if (eSector.length) { errors.push(...eSector.map(x => `sectors/${f}: ${x}`)); continue; }
-    if (slugsSectors.has(s.slug)) { errors.push(`sectors/${f}: slug repetit «${s.slug}»`); continue; }
-    slugsSectors.add(s.slug);
-    sectors.push(s);
-  }
-}
 if (!errors.length && sectors.length) {
   for (const [rel, html] of paginesSectors(lloc, dadesServeis, sectors, { ambEsborranys: AMB_ESBORRANYS })) {
     fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
@@ -169,7 +172,7 @@ if (!errors.length && sectors.length) {
 }
 if (errors.length) { console.error('El contingut no és vàlid:\n  ' + errors.join('\n  ')); process.exit(1); }
 
-// 2d. Mapa del lloc (WEB-T01): recorre els .html de SORTIDA (sense _previsualitzacio/) i hi inclou tota
+// 2e. Mapa del lloc (WEB-T01 / WEB-G02): recorre els .html de SORTIDA (sense _previsualitzacio/) i hi inclou tota
 //     pàgina amb <link rel="canonical"> i sense noindex, amb l'adreça canònica (sense .html final).
 function atributHtml(etiqueta, nom) {
   const m = new RegExp(`\\b${nom}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s"'=<>\`]+))`, 'i').exec(etiqueta);
@@ -210,7 +213,11 @@ function generarMapa(dir, dates) {
   }).join('');
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entrades}</urlset>\n`;
 }
-fs.writeFileSync(path.join(SORTIDA, 'sitemap.xml'), generarMapa(SORTIDA, datesActualitatMapa(lloc.web, noticies)));
+const datesMapa = new Map([
+  ...datesActualitatMapa(lloc.web, noticies),
+  ...datesSectorsMapa(lloc.web, sectors),
+]);
+fs.writeFileSync(path.join(SORTIDA, 'sitemap.xml'), generarMapa(SORTIDA, datesMapa));
 
 // 3. Vista prèvia del panell: les mateixes plantilles, servides al navegador
 const PREV = path.join(SORTIDA, '_previsualitzacio');

@@ -133,7 +133,7 @@ ${JSON.stringify(ld, null, 2)}
   return { WEB, NAP, e, url_servei, zona_text, empresa_ld, cap, nav, peu, bloc_final };
 }
 
-export function paginesServei(lloc, dades) {
+export function paginesServei(lloc, dades, sectorsPublicats = []) {
   const { COMU, ZONA, SERVEIS, SLUG, PAGINES, PORTADA_ES } = dades;
   const { WEB, NAP, e, url_servei, zona_text, empresa_ld, cap, nav, peu, bloc_final } = marcInterior(lloc, dades);
 
@@ -159,13 +159,22 @@ export function paginesServei(lloc, dades) {
         ${markdown(cos)}
       </section>
 `).join('');
+    const delServei = lang === 'ca'
+      ? (sectorsPublicats || []).filter(s => s.estat === 'publicat' && s.servei_relacionat === clau)
+          .sort((a, b) => a.slug.localeCompare(b.slug))
+      : [];
+    const perSectors = delServei.length ? `      <nav class="pagina-seccio" aria-label="Per sectors">
+        <h2>Per sectors</h2>
+        <ul class="pagina-altres">${delServei.map(s => `<li><a href="/sectors/${s.slug}/">${e(s.h1)}</a></li>`).join('')}</ul>
+      </nav>
+` : '';
     const cos = `  <main class="pagina">
     <div class="container pagina-contingut legal-content">
       <nav class="molles" aria-label="${lang === 'ca' ? 'Ruta' : 'Ruta'}"><a href="${c.home}">${e(c.inici)}</a> › <a href="${c.breadcrumb_serveis}">${e(c.serveis)}</a> › <span aria-current="page">${e(p.curt)}</span></nav>
       <span class="eyebrow">${e(p.eyebrow)}</span>
       <h1 class="section-title pagina-h1">${enriquit(p.h1)}</h1>
       <p class="pagina-lede">${e(p.lede)}</p>
-${seccions}${bloc_final(lang, clau)}    </div>
+${seccions}${perSectors}${bloc_final(lang, clau)}    </div>
   </main>
 `;
     return cap(lang, p.titol_seo, p.descripcio, url, alternates, ld) + nav(lang, url_altre) + cos + peu(lang);

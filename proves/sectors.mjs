@@ -217,6 +217,83 @@ fs.writeFileSync(path.join(dirRev, `${pubRev.slug}.json`), JSON.stringify(pubRev
 const rRev = construir({ DIR_SECTORS: dirRev }, path.join(TMP, 'dist-rev'));
 ok('construir.mjs atura la construcció si una pàgina publicada té [REVISAR', !rRev.ok && /\[REVISAR\]/.test(rRev.sortida), rRev.sortida.slice(0, 200));
 
+// 7. Enllaçat intern des de les pàgines de servei i lastmod dels sectors al mapa del lloc (WEB-G02b)
+const dirEnllac = path.join(TMP, 'sectors-enllac');
+fs.mkdirSync(dirEnllac);
+const pubAdequacio = {
+  ...structuredClone(basePublicat),
+  slug: 'comerc-prova-girona',
+  sector: 'comerc',
+  titol_seo: 'RGPD per a comerços a Girona · Madeinhuman',
+  h1: 'Protecció de dades per a comerços a Girona',
+  servei_relacionat: 'adequacio',
+  cta_desti: 'diagnostic',
+  data_revisio: '2026-06-20',
+};
+const pubSenseData = {
+  ...structuredClone(basePublicat),
+  slug: 'hostaleria-sense-data-girona',
+  sector: 'hostaleria',
+  titol_seo: 'RGPD per a hostaleria a Girona · Madeinhuman',
+  h1: 'Protecció de dades per a hostaleria a Girona',
+  servei_relacionat: 'adequacio',
+  cta_desti: 'diagnostic',
+};
+delete pubSenseData.data_revisio;
+const draftAdequacio = {
+  ...structuredClone(baseEsborrany),
+  slug: 'esborrany-adequacio-girona',
+  servei_relacionat: 'adequacio',
+  data_revisio: '2026-12-31',
+};
+fs.writeFileSync(path.join(dirEnllac, `${basePublicat.slug}.json`), JSON.stringify(basePublicat, null, 2));
+fs.writeFileSync(path.join(dirEnllac, `${pubAdequacio.slug}.json`), JSON.stringify(pubAdequacio, null, 2));
+fs.writeFileSync(path.join(dirEnllac, `${pubSenseData.slug}.json`), JSON.stringify(pubSenseData, null, 2));
+fs.writeFileSync(path.join(dirEnllac, `${draftAdequacio.slug}.json`), JSON.stringify(draftAdequacio, null, 2));
+
+const outEnllac = path.join(TMP, 'dist-enllac');
+const rEnllac = construir({ DIR_SECTORS: dirEnllac }, outEnllac, ['--esborranys']);
+ok('construeix amb diversos sectors publicats i esborrany per comprovar enllaçat intern', rEnllac.ok, rEnllac.sortida);
+
+const srvAdequacio = fs.readFileSync(path.join(outEnllac, 'serveis/adequacio-rgpd-girona/index.html'), 'utf8');
+const srvDpo = fs.readFileSync(path.join(outEnllac, 'serveis/dpo-extern/index.html'), 'utf8');
+const srvAuditoria = fs.readFileSync(path.join(outEnllac, 'serveis/auditoria-proteccio-dades/index.html'), 'utf8');
+const srvAdequacioEs = fs.readFileSync(path.join(outEnllac, 'es/servicios/adecuacion-rgpd-girona/index.html'), 'utf8');
+
+ok('servei d\'adequació mostra «Per sectors» amb els seus sectors publicats i cap esborrany',
+  srvAdequacio.includes('<h2>Per sectors</h2>')
+  && srvAdequacio.includes(`<li><a href="/sectors/${pubAdequacio.slug}/">${pubAdequacio.h1}</a></li>`)
+  && srvAdequacio.includes(`<li><a href="/sectors/${pubSenseData.slug}/">${pubSenseData.h1}</a></li>`)
+  && !srvAdequacio.includes(basePublicat.slug)
+  && !srvAdequacio.includes(draftAdequacio.slug));
+ok('servei de DPO només enllaça el sector de DPO; auditoria i castellà no tenen «Per sectors»',
+  srvDpo.includes('<h2>Per sectors</h2>')
+  && srvDpo.includes(`<li><a href="/sectors/${basePublicat.slug}/">${basePublicat.h1}</a></li>`)
+  && !srvDpo.includes(pubAdequacio.slug)
+  && !srvAuditoria.includes('Per sectors')
+  && !srvAdequacioEs.includes('Per sectors'));
+
+const mapaEnllac = fs.readFileSync(path.join(outEnllac, 'sitemap.xml'), 'utf8');
+ok('mapa del lloc posa lastmod = data_revisio a cada sector publicat amb data, i la més recent a /sectors/',
+  mapaEnllac.includes(`<loc>https://madeinhuman.cat/sectors/${basePublicat.slug}/</loc>\n    <lastmod>2026-05-10</lastmod>`)
+  && mapaEnllac.includes(`<loc>https://madeinhuman.cat/sectors/${pubAdequacio.slug}/</loc>\n    <lastmod>2026-06-20</lastmod>`)
+  && mapaEnllac.includes(`<loc>https://madeinhuman.cat/sectors/</loc>\n    <lastmod>2026-06-20</lastmod>`)
+  && mapaEnllac.includes(`<loc>https://madeinhuman.cat/sectors/${pubSenseData.slug}/</loc>\n  </url>`)
+  && !mapaEnllac.includes(draftAdequacio.slug));
+
+// Sense cap sector publicat, les pàgines de servei no porten «Per sectors» i són idèntiques a una construcció sense sectors
+const dirBuit = path.join(TMP, 'sectors-buit');
+fs.mkdirSync(dirBuit);
+const outSense = path.join(TMP, 'dist-sense-sectors');
+const rSense = construir({ DIR_SECTORS: dirBuit }, outSense);
+const slugsServeisCa = ['adequacio-rgpd-girona', 'dpo-extern', 'auditoria-proteccio-dades', 'reglament-ia-empreses', 'textos-legals-web'];
+const igualsSensePublicats = rSense.ok && slugsServeisCa.every(sl => {
+  const a = fs.readFileSync(path.join(outNomesDraft, `serveis/${sl}/index.html`), 'utf8');
+  const b = fs.readFileSync(path.join(outSense, `serveis/${sl}/index.html`), 'utf8');
+  return a === b && !a.includes('Per sectors');
+});
+ok('sense sectors publicats, les pàgines de servei no tenen «Per sectors» i són idèntiques', igualsSensePublicats);
+
 fs.rmSync(TMP, { recursive: true, force: true });
 console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions de les pàgines de sector correctes');
 process.exit(fallades ? 1 : 0);
