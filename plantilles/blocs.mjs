@@ -13,6 +13,22 @@ export function enllac(href, ctx) {
   return href;
 }
 
+/** Genera un id estable (minúscules, sense accents, guions) a partir del text d'una pregunta freqüent (WEB-G06d). */
+export function idPreguntaFaq(pregunta, vistos = null) {
+  const base = String(pregunta || '')
+    .replace(/l·l/gi, 'll')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'pregunta';
+  if (!vistos) return base;
+  let id = base;
+  let k = 2;
+  while (vistos.has(id)) id = `${base}-${k++}`;
+  vistos.add(id);
+  return id;
+}
+
 const boto = (b, ctx) =>
   `<a href="${esc(enllac(b.href, ctx))}" class="btn ${b.estil === 'secundari' ? 'btn-ghost' : 'btn-primary'}">${esc(b.text)}` +
   (b.fletxa ? ' <span class="arrow" aria-hidden="true">&rarr;</span>' : '') + '</a>';
@@ -286,6 +302,7 @@ ${d.junts.items.map(i => `          <li>${esc(i)}</li>`).join('\n')}
       return slug && nom ? `
           <p class="faq-servei">${esc(t(lang, 'comu.interessa'))} <a href="/${es ? 'es/servicios' : 'serveis'}/${esc(slug)}/">${esc(nom)} <span class="arrow" aria-hidden="true">&rarr;</span></a></p>` : '';
     };
+    const vistosId = new Set();
     return `
 <section class="block faq"${attr('id', d.ancora)}>
   <div class="container">
@@ -297,8 +314,10 @@ ${d.junts.items.map(i => `          <li>${esc(i)}</li>`).join('\n')}
 ${d.pestanyes.map((t, i) => `        <button class="tab${i === 0 ? ' active' : ''}" data-cat="${esc(t.cat)}">${esc(t.text)}</button>`).join('\n')}
       </div>
     </div>
-    <div class="faq-list" id="faqList">${(ctx.faq || []).map((f, i) => `
-      <div class="faq-item open" data-cat="${esc(f.cat)}">
+    <div class="faq-list" id="faqList">${(ctx.faq || []).map((f, i) => {
+      const idFaq = idPreguntaFaq(f.pregunta, vistosId);
+      return `
+      <div class="faq-item open" id="${idFaq}" data-cat="${esc(f.cat)}">
         <button class="faq-q" type="button" aria-expanded="true" aria-controls="faq-r${i + 1}">
           <span class="num">${String(i + 1).padStart(2, '0')}</span>
           <span>${esc(f.pregunta)}</span>
@@ -307,7 +326,8 @@ ${d.pestanyes.map((t, i) => `        <button class="tab${i === 0 ? ' active' : '
         <div class="faq-a" id="faq-r${i + 1}">
           <div class="faq-a-inner">${enriquit(f.resposta)}${f.servei ? servei(f.servei) : ''}</div>
         </div>
-      </div>`).join('')}
+      </div>`;
+    }).join('')}
     </div>
   </div>
 </section>`;

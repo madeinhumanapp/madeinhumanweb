@@ -65,6 +65,32 @@ const h1Es = [...htmlEs.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
 ok('la pàgina en castellà té exactament un <h1> (el titular del bloc faq)', h1Es.length === 1 && h1Es[0][1] === enriquit(blocFaqEs.titol), `h1 trobats: ${h1Es.length}; contingut: ${h1Es[0]?.[1]}`);
 ok('el menú en castellà porta a /es/preguntas-frecuentes/', (htmlEs.match(/href="\/es\/preguntas-frecuentes\/"/g) || []).length >= 2);
 
+// 1c) IDs estables a cada pregunta i enllaços des de les pàgines de servei (WEB-G06d)
+const { idPreguntaFaq } = await import('../plantilles/blocs.mjs');
+for (const [lang, llista, contingutHtml, carpeta, rutaFaq] of [
+  ['ca', faq, html, 'serveis', '/preguntes-frequents/'],
+  ['es', faqEs, htmlEs, 'es/servicios', '/es/preguntas-frecuentes/'],
+]) {
+  const vistos = new Set();
+  const ids = llista.map(f => idPreguntaFaq(f.pregunta, vistos));
+  ok(`${lang}: totes les preguntes tenen un id estable i únic`,
+    ids.length === new Set(ids).size && ids.every(id => contingutHtml.includes(`class="faq-item open" id="${id}"`)));
+  const idsSet = new Set(ids);
+  for (const clau of serveis.SERVEIS) {
+    const htmlServei = fs.readFileSync(path.join(DIST, `${carpeta}/${serveis.SLUG[lang][clau]}/index.html`), 'utf8');
+    const esperades = llista.filter(f => f.servei === clau);
+    const enllacos = [...htmlServei.matchAll(new RegExp(`href="${rutaFaq.replace(/\//g, '\\/')}#([a-z0-9-]+)"`, 'g'))].map(m => m[1]);
+    if (esperades.length) {
+      ok(`${lang}/${clau}: enllaça ${esperades.length} pregunta/es existent(s) a ${rutaFaq} sense FAQPage`,
+        enllacos.length === esperades.length
+        && enllacos.every(id => idsSet.has(id))
+        && !jsonld(htmlServei).some(j => j['@type'] === 'FAQPage'));
+    } else {
+      ok(`${lang}/${clau}: sense preguntes associades, cap bloc servei-faq`, !htmlServei.includes('servei-faq'));
+    }
+  }
+}
+
 // 2) Navegador
 const csp = (() => {
   let dins = false;

@@ -150,7 +150,7 @@ const sectorsVisibles = AMB_ESBORRANYS ? sectors : sectorsPublicats;
   const dades = JSON.parse(fs.readFileSync(path.join(ARREL, 'contingut/serveis.json'), 'utf8'));
   const eServeis = validarServeis(dades).map(e => `serveis.json: ${e}`);
   errors.push(...eServeis);
-  for (const [rel, html] of eServeis.length ? [] : paginesServei(lloc, dades, sectorsPublicats)) {
+  for (const [rel, html] of eServeis.length ? [] : paginesServei(lloc, dades, sectorsPublicats, { ca: faq, es: faqEs })) {
     if (!/^[a-z0-9/_-]+\.html$/.test(rel)) { errors.push(`ruta de servei no vàlida: ${rel}`); continue; }
     fs.mkdirSync(path.dirname(path.join(SORTIDA, rel)), { recursive: true });
     fs.writeFileSync(path.join(SORTIDA, rel), html);

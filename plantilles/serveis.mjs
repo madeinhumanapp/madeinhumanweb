@@ -4,6 +4,7 @@
 import { enriquit } from './text.mjs';
 import { markdown } from './markdown.mjs';
 import { menu, peu as peuComu } from './marc.mjs';
+import { idPreguntaFaq } from './blocs.mjs';
 import { t } from './textos.mjs';
 
 const CARPETA = { ca: 'serveis', es: 'es/servicios' };
@@ -132,9 +133,16 @@ ${JSON.stringify(ld, null, 2)}
   return { WEB, NAP, e, url_servei, zona_text, empresa_ld, cap, nav, peu, bloc_final };
 }
 
-export function paginesServei(lloc, dades, sectorsPublicats = []) {
+export function paginesServei(lloc, dades, sectorsPublicats = [], faqs = null) {
   const { COMU, ZONA, SERVEIS, SLUG, PAGINES, PORTADA_ES } = dades;
   const { WEB, NAP, e, url_servei, zona_text, empresa_ld, cap, nav, peu, bloc_final } = marcInterior(lloc, dades);
+
+  // Calcula els ids estables sobre la llista completa de cada idioma perquè coincideixin 100 % amb BLOCS.faq
+  const faqsAmbId = { ca: [], es: [] };
+  for (const lang of ['ca', 'es']) {
+    const vistos = new Set();
+    faqsAmbId[lang] = (faqs?.[lang] || []).map(f => ({ ...f, _id: idPreguntaFaq(f.pregunta, vistos) }));
+  }
 
   function pagina_servei(lang, clau) {
     const p = PAGINES[clau][lang];
@@ -158,6 +166,21 @@ export function paginesServei(lloc, dades, sectorsPublicats = []) {
         ${markdown(cos)}
       </section>
 `).join('');
+    const preguntesServei = faqsAmbId[lang].filter(f => f.servei === clau);
+    const rutaFaq = lang === 'es' ? '/es/preguntas-frecuentes/' : '/preguntes-frequents/';
+    const faqServei = preguntesServei.length ? `      <section class="pagina-seccio servei-faq">
+        <h2>${e(t(lang, 'serveis.faq_titol'))}</h2>
+        <div class="servei-faq-llista">
+${preguntesServei.map(f => `          <details class="servei-faq-item">
+            <summary>${e(f.pregunta)}</summary>
+            <div class="servei-faq-resposta">
+              <p>${enriquit(f.resposta)}</p>
+              <p class="servei-faq-enllac"><a href="${rutaFaq}#${f._id}">${e(t(lang, 'serveis.faq_veure'))} <span class="arrow" aria-hidden="true">&rarr;</span></a></p>
+            </div>
+          </details>`).join('\n')}
+        </div>
+      </section>
+` : '';
     const delServei = (sectorsPublicats || [])
       .filter(s => s.estat === 'publicat' && (s.idioma || 'ca') === lang && s.servei_relacionat === clau)
       .sort((a, b) => a.slug.localeCompare(b.slug));
@@ -174,7 +197,7 @@ export function paginesServei(lloc, dades, sectorsPublicats = []) {
       <span class="eyebrow">${e(p.eyebrow)}</span>
       <h1 class="section-title pagina-h1">${enriquit(p.h1)}</h1>
       <p class="pagina-lede">${e(p.lede)}</p>
-${seccions}${perSectors}${bloc_final(lang, clau)}    </div>
+${seccions}${faqServei}${perSectors}${bloc_final(lang, clau)}    </div>
   </main>
 `;
     return cap(lang, p.titol_seo, p.descripcio, url, alternates, ld) + nav(lang, url_altre) + cos + peu(lang);
