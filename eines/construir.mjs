@@ -13,6 +13,7 @@ import { llegirNoticia, publicades, esborranysActualitat, targeta, paginesActual
 import { paginesSectors, datesSectorsMapa, paginaTaulaEsborranys, scriptTaulaEsborranys } from '../plantilles/sectors.mjs';
 import { paginaReserva } from '../plantilles/reserva.mjs';
 import { paginesCerca } from '../plantilles/cerca.mjs';
+import { generarLlmsTxt } from '../plantilles/llms.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
@@ -298,6 +299,8 @@ for (const [lang, relIdx] of [['ca', 'cerca/index.json'], ['es', 'es/buscar/inde
   fs.mkdirSync(path.dirname(path.join(SORTIDA, relIdx)), { recursive: true });
   fs.writeFileSync(path.join(SORTIDA, relIdx), JSON.stringify(entrades, null, 2) + '\n');
 }
+// 2g. /llms.txt (WEB-G05e): només pàgines publicades i indexables (idèntic amb --esborranys).
+fs.writeFileSync(path.join(SORTIDA, 'llms.txt'), generarLlmsTxt(lloc, paginesIndexables));
 
 // 3. Vista prèvia del panell: les mateixes plantilles, servides al navegador
 const PREV = path.join(SORTIDA, '_previsualitzacio');
