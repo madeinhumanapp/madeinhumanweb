@@ -1,7 +1,7 @@
-// Regressió visual automàtica sense dependències (WEB-G06a):
+// Regressió visual automàtica sense dependències (WEB-G06a, resum Markdown a WEB-G07b):
 // compara píxel a píxel totes les pàgines HTML (llevat de _previsualitzacio/ i recollida.html)
 // entre --base i --actual a les amplades indicades, i genera captures/visual/informe.html.
-// Ús: node proves/visual.mjs --base <dist de referència> [--actual dist] [--amplades 375,768,1280] [--llindar 4] [--estricte]
+// Ús: node proves/visual.mjs --base <dist de referència> [--actual dist] [--amplades 375,768,1280] [--llindar 4] [--estricte] [--resum-markdown <fitxer>]
 import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
@@ -14,7 +14,7 @@ const opcio = (nom, defecte) => (args.includes(nom) ? args[args.indexOf(nom) + 1
 
 const baseArg = opcio('--base', null);
 if (!baseArg) {
-  console.error('Ús: node proves/visual.mjs --base <carpeta> [--actual dist] [--amplades 375,768,1280] [--llindar 4] [--estricte]');
+  console.error('Ús: node proves/visual.mjs --base <carpeta> [--actual dist] [--amplades 375,768,1280] [--llindar 4] [--estricte] [--resum-markdown <fitxer>]');
   process.exit(1);
 }
 const DIR_BASE = path.resolve(ARREL, baseArg);
@@ -22,6 +22,8 @@ const DIR_ACTUAL = path.resolve(ARREL, opcio('--actual', 'dist'));
 const AMPLADES = opcio('--amplades', '375,768,1280').split(',').map(Number).filter(n => Number.isFinite(n) && n > 0);
 const LLINDAR = Number(opcio('--llindar', '4'));
 const ESTRICTE = args.includes('--estricte');
+const RESUM_MD_ARG = opcio('--resum-markdown', null);
+const RESUM_MD = RESUM_MD_ARG ? path.resolve(ARREL, RESUM_MD_ARG) : null;
 const SORTIDA = path.join(ARREL, 'captures/visual');
 const SORTIDA_IMG = path.join(SORTIDA, 'img');
 
@@ -327,10 +329,45 @@ ${targetesDiff || '  <p class="estat-ok">Cap diferència visual detectada.</p>'}
 `;
 fs.writeFileSync(path.join(SORTIDA, 'informe.html'), informe);
 
+if (RESUM_MD) {
+  const identiques = resultats.length - ambDiferencies;
+  const paginesAmbDiff = new Set(resultats.filter(r => r.esDiferent).map(r => r.rel)).size;
+  const paginesIdentiques = comunes.length - paginesAmbDiff;
+  const linies = [
+    '## Regressió visual',
+    '',
+    `- **Amplades:** ${AMPLADES.join(', ')} px · **Llindar:** ${LLINDAR}`,
+    `- **Pàgines comunes:** ${comunes.length} (${paginesIdentiques} idèntiques, ${paginesAmbDiff} amb diferències)`,
+    `- **Captures comparades:** ${resultats.length} (${identiques} idèntiques, ${ambDiferencies} amb diferències)`,
+  ];
+  if (nomesActual.length) linies.push(`- **Pàgines noves (només a la branca actual, ${nomesActual.length}):** ${nomesActual.map(p => `\`${p}\``).join(', ')}`);
+  if (nomesBase.length) linies.push(`- **Pàgines eliminades (només a \`main\`, ${nomesBase.length}):** ${nomesBase.map(p => `\`${p}\``).join(', ')}`);
+  linies.push('');
+
+  const diferents = resultats
+    .filter(r => r.esDiferent)
+    .sort((a, b) => a.rel.localeCompare(b.rel) || a.amplada - b.amplada);
+
+  if (diferents.length) {
+    linies.push('| Pàgina | Amplada | Diferència | Mida |');
+    linies.push('|---|---:|---:|---|');
+    for (const r of diferents) {
+      const mida = r.midaDiferent ? `${r.wA}×${r.hA} → ${r.wB}×${r.hB}` : 'igual';
+      linies.push(`| \`${r.rel}\` | ${r.amplada} px | ${r.pct.toFixed(2)}% | ${mida} |`);
+    }
+  } else {
+    linies.push(`Cap diferència visual detectada en les ${resultats.length} captures comparades.`);
+  }
+  linies.push('');
+  fs.mkdirSync(path.dirname(RESUM_MD), { recursive: true });
+  fs.writeFileSync(RESUM_MD, linies.join('\n'), 'utf8');
+}
+
 const totalDiff = ambDiferencies + nomesBase.length;
 console.log(ambDiferencies ? `${ambDiferencies} captures amb diferències` : 'cap diferència visual');
 if (nomesActual.length) console.log(`pàgines noves (no eren a base): ${nomesActual.join(', ')}`);
 if (nomesBase.length) console.log(`pàgines eliminades (només a base): ${nomesBase.join(', ')}`);
 console.log(`informe: captures/visual/informe.html (${resultats.length} captures comparades)`);
+if (RESUM_MD) console.log(`resum markdown: ${RESUM_MD}`);
 
 process.exit(ESTRICTE && totalDiff > 0 ? 1 : 0);
