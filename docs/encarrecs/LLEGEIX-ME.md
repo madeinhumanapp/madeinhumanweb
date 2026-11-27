@@ -33,9 +33,10 @@ Estat: ▶ a punt · ◐ en curs · ☑ integrat · ☐ encara no (depèn d'una 
 | WEB-T11 | [Llistes numerades i paràgraf destacat al Markdown](WEB-T11-markdown.md) (Gemini) | ☑ | `gemini/WEB-T11` | WEB-T06 integrat | T09 |
 | WEB-T12 | [«¿Necesito un DPO?» en castellà](WEB-T12-necesito-dpo.md) (Mistral) — no es fusiona sense validació | ▶ | `mistral/WEB-T12` | — | T11, T13 |
 | WEB-T13 | [Pàgina 404 bilingüe](WEB-T13-404-bilingue.md) (Mistral) | ◐ revisat | `mistral/WEB-T13` | — | T11, T12 |
-| WEB-G01 | [Pàgines de sector per a SEO local: motor + 5 esborranys](WEB-G01-pagines-sector.md) (Gemini, gran) | ▶ | `gemini/WEB-G01` | WEB-T06 i T11 integrats | T12 |
+| WEB-G01 | [Pàgines de sector per a SEO local: motor + 5 esborranys](WEB-G01-pagines-sector.md) (Gemini, gran) | ☑ (esborranys pendents de validació) | `gemini/WEB-G01` | WEB-T06 i T11 integrats | T12 |
+| WEB-G02 | [Resultat del diagnòstic en semàfor + enllaçat intern dels sectors](WEB-G02-semafor-i-sectors.md) (Gemini, gran) | ▶ | `gemini/WEB-G02` | WEB-G01 integrat | T12 |
 
-Ordre recomanat ara: **Gemini** WEB-G01; **Mistral** correcció de WEB-T08 → WEB-T12. Un sol encàrrec obert per sessió
+Ordre recomanat ara: **Gemini** WEB-G02; **Mistral** correcció de WEB-T08 → WEB-T12. Un sol encàrrec obert per sessió
 (de Vibe o d'Antigravity). Branca base: `main`.
 
 Quan un encàrrec queda integrat, Claude n'actualitza l'estat aquí i, si cal, escriu el següent.
