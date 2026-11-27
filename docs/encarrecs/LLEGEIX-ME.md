@@ -31,15 +31,16 @@ Estat: ▶ a punt · ◐ en curs · ☑ integrat · ☐ encara no (depèn d'una 
 | WEB-T09 | [Textos legals en castellà](WEB-T09-legal-castella.md) (Mistral) | ☑ | `mistral/WEB-T09` | — | T06 |
 | WEB-T10 | [Títols i descripcions dins dels límits](WEB-T10-titols.md) (Mistral) | ☑ | `mistral/WEB-T10` | — | T06 |
 | WEB-T11 | [Llistes numerades i paràgraf destacat al Markdown](WEB-T11-markdown.md) (Gemini) | ☑ | `gemini/WEB-T11` | WEB-T06 integrat | T09 |
-| WEB-T12 | [«¿Necesito un DPO?» en castellà](WEB-T12-necesito-dpo.md) (Mistral) — no es fusiona sense validació | ▶ | `mistral/WEB-T12` | — | T11, T13 |
+| WEB-T12 | [«¿Necesito un DPO?» en castellà](WEB-T12-necesito-dpo.md) (Mistral) — no es fusiona sense validació | ◐ lliurat, pendent de revisió | `mistral/WEB-T12` | — | T11, T13 |
 | WEB-T13 | [Pàgina 404 bilingüe](WEB-T13-404-bilingue.md) (Mistral) | ☑ | `mistral/WEB-T13` | — | T11, T12 |
 | WEB-G01 | [Pàgines de sector per a SEO local: motor + 5 esborranys](WEB-G01-pagines-sector.md) (Gemini, gran) | ☑ (esborranys pendents de validació) | `gemini/WEB-G01` | WEB-T06 i T11 integrats | T12 |
 | WEB-G02 | [Resultat del diagnòstic en semàfor + enllaçat intern dels sectors](WEB-G02-semafor-i-sectors.md) (Gemini, gran) | ☑ | `gemini/WEB-G02` | WEB-G01 integrat | T12 |
 | WEB-G03 | [Paquet: esborranys d'articles a la vista prèvia, sectors en castellà, 5 sectors i 5 articles](WEB-G03-paquet-contingut.md) (Gemini, molt gran) | ☑ (esborranys pendents de validació) | `gemini/WEB-G03` | WEB-G02 integrat | T12 |
 | WEB-G04 | [Megapaquet: taula de validació, actualitat en castellà, enllaçat intern i controls de qualitat](WEB-G04-megapaquet.md) (Gemini, molt gran) | ☑ (esborranys pendents de validació) | `gemini/WEB-G04` | WEB-G03 integrat | T12 |
 | WEB-G05 | [Megapaquet: selector de reserves, taula de validació 2.0, textos centralitzats, cerca, llms.txt i etiquetes dels formularis](WEB-G05-megapaquet.md) (Gemini, molt gran) | ▶ | `gemini/WEB-G05` | WEB-G04 integrat | T12 |
+| WEB-T14 | [Revisió lingüística i de to dels 25 esborranys](WEB-T14-revisio-esborranys.md) (Mistral) | ▶ | `mistral/WEB-T14` | — | G05 (no toquen els mateixos fitxers) |
 
-Ordre recomanat ara: **Gemini** WEB-G05; **Mistral** correcció de WEB-T08 → WEB-T12. Un sol encàrrec obert per sessió
+Ordre recomanat ara: **Gemini** WEB-G05; **Mistral** correcció de WEB-T08 → WEB-T14. Un sol encàrrec obert per sessió
 (de Vibe o d'Antigravity). Branca base: `main`.
 
 Quan un encàrrec queda integrat, Claude n'actualitza l'estat aquí i, si cal, escriu el següent.
