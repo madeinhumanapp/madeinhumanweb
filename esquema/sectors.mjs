@@ -8,8 +8,10 @@ export const SECTORS = ['salut', 'educacio', 'comerc', 'serveis', 'hostaleria', 
 export const PATRO_SLUG_SECTOR = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
 export const CAMPS_SECTOR = {
-  slug: text('Slug (adreça)', 80, { ajuda: 'Igual que el nom del fitxer, en minúscules, sense accents i amb guions: /sectors/<slug>/' }),
-  idioma: { tipus: 'seleccio', etiqueta: 'Idioma', opcions: ['ca'], obligatori: true, ajuda: 'De moment, només català' },
+  slug: text('Slug (adreça)', 80, { ajuda: 'Igual que el nom del fitxer, en minúscules, sense accents i amb guions: /sectors/<slug>/ o /es/sectores/<slug>/' }),
+  idioma: { tipus: 'seleccio', etiqueta: 'Idioma', opcions: ['ca', 'es'], obligatori: true, ajuda: 'ca (/sectors/…) o es (/es/sectores/…)' },
+  grup_hreflang: { tipus: 'text', etiqueta: 'Grup hreflang', max: 60,
+    ajuda: 'Opcional: mateix identificador curt (minúscules i guions) a les versions ca i es d\'una mateixa pàgina' },
   estat: { tipus: 'seleccio', etiqueta: 'Estat', opcions: ['esborrany', 'publicat'], obligatori: true,
     ajuda: 'esborrany: només surt a les vistes prèvies · publicat: surt a la web i al mapa del lloc' },
   sector: { tipus: 'seleccio', etiqueta: 'Sector', opcions: SECTORS, obligatori: true },
@@ -41,7 +43,7 @@ export const CAMPS_SECTOR = {
   servei_relacionat: { tipus: 'seleccio', etiqueta: 'Servei relacionat', opcions: SERVEIS_NOTICIA,
     ajuda: 'Enllaç «Et pot interessar» (obligatori si cta_desti és servei)' },
   cta_desti: { tipus: 'seleccio', etiqueta: 'Crida a l\'acció (destí)', opcions: CTA_DESTI_NOTICIA, obligatori: true,
-    ajuda: 'diagnostic (/diagnostic), contacte (/#contacte) o servei (el servei relacionat)' },
+    ajuda: 'diagnostic (/diagnostic), contacte (/#contacte o /es/#contacto) o servei (el servei relacionat)' },
   cta_text: { tipus: 'text', etiqueta: 'Text del botó de crida', max: 80,
     ajuda: 'Opcional: si és buit, es fa servir el text per defecte del destí' },
   data_revisio: { tipus: 'data', etiqueta: 'Data de revisió jurídica',
@@ -72,6 +74,9 @@ export function validarSector(s, fitxer = '') {
       errors.push(`slug: «${s.slug}» ha de coincidir amb el nom del fitxer «${fitxer.replace(/\.json$/, '')}»`);
     }
   }
+  if (typeof s.grup_hreflang === 'string' && s.grup_hreflang && !PATRO_SLUG_SECTOR.test(s.grup_hreflang)) {
+    errors.push('grup_hreflang: només minúscules, números i guions');
+  }
   if (Array.isArray(s.seccions)) {
     s.seccions.forEach((sec, i) => {
       if (typeof sec?.titol === 'string' && sec.titol.trim() && !sec.titol.trim().endsWith('?')) {
@@ -91,6 +96,22 @@ export function validarSector(s, fitxer = '') {
   }
   if (s.estat === 'publicat' && /\[REVISAR/.test(JSON.stringify(s))) {
     errors.push('té marques [REVISAR]: no es pot publicar fins que es resolguin');
+  }
+  return errors;
+}
+
+/** Comprova regles entre pàgines de sector: cap grup_hreflang pot tenir dues pàgines del mateix idioma. */
+export function validarConjuntSectors(sectors) {
+  const errors = [];
+  const grups = new Map();
+  for (const s of sectors || []) {
+    if (!s?.grup_hreflang) continue;
+    const clau = `${s.grup_hreflang}::${s.idioma}`;
+    if (grups.has(clau)) {
+      errors.push(`sectors/${s.slug}.json: grup_hreflang «${s.grup_hreflang}» ja té una altra pàgina en idioma «${s.idioma}» (${grups.get(clau)})`);
+    } else {
+      grups.set(clau, s.slug);
+    }
   }
   return errors;
 }

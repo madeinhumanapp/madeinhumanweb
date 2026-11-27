@@ -1,6 +1,7 @@
 {
   "slug": "escoles-casals-clubs-girona",
   "idioma": "ca",
+  "grup_hreflang": "escoles-casals-clubs-girona",
   "estat": "esborrany",
   "sector": "educacio",
   "titol_seo": "RGPD per a escoles, casals i clubs a Girona · Madeinhuman",
@@ -19,7 +20,7 @@
     },
     {
       "titol": "Quan cal un delegat de protecció de dades (DPO) en l'àmbit educatiu?",
-      "cos": "Depèn del tipus de centre i de si impartiu ensenyament reglat o activitats no reglades.\n\n- **Centres docents que ofereixen ensenyaments reglats:** la LOPDGDD preveu la designació d'un delegat de protecció de dades (DPO) per a determinats centres docents [REVISAR: confirmar abast exacte de l'article 34.1.n de la LOPDGDD sobre centres docents i ensenyaments previstos a la legislació educativa].\n- **Acadèmies, casals i clubs esportius:** normalment cal valorar el volum d'infants, el tractament de dades de salut i les plataformes que utilitzeu per decidir si és obligatori o convenient comptar amb suport extern.\n\nPodeu fer una primera comprovació orientativa a [Necessito un DPO?](/necessito-dpo/) i revisar el cas concret amb el nostre equip."
+      "cos": "Depèn del tipus de centre i de si impartiu ensenyament reglat o activitats no reglades.\n\n- **Centres docents que ofereixen ensenyaments reglats:** la LOPDGDD preveu la designació d'un delegat de protecció de dades (DPO) per a determinats centres docents [REVISAR: confirmar abast exacte de l'article 34.1.b de la LOPDGDD sobre centres docents i ensenyaments previstos a la legislació educativa].\n- **Acadèmies, casals i clubs esportius:** normalment cal valorar el volum d'infants, el tractament de dades de salut i les plataformes que utilitzeu per decidir si és obligatori o convenient comptar amb suport extern.\n\nPodeu fer una primera comprovació orientativa a [Necessito un DPO?](/necessito-dpo/) i revisar el cas concret amb el nostre equip."
     },
     {
       "titol": "Com podeu gestionar plataformes digitals, menjador i proveïdors?",

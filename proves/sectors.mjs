@@ -7,7 +7,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { validarSector } from '../esquema/sectors.mjs';
+import { validarSector, validarConjuntSectors } from '../esquema/sectors.mjs';
 
 const ARREL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'sectors-'));
@@ -87,7 +87,8 @@ const amb = (canvi, fitxer = `${basePublicat.slug}.json`) => {
 const casos = [
   ['slug diferent del nom del fitxer', () => {}, 'un-altre-slug.json', /coincidir amb el nom del fitxer/],
   ['slug amb majúscules o accents', c => { c.slug = 'Clínica'; }, 'Clínica.json', /nom del fitxer|slug/],
-  ['idioma diferent de ca', c => { c.idioma = 'es'; }, undefined, /no és cap de/],
+  ['idioma desconegut (ni ca ni es)', c => { c.idioma = 'fr'; }, undefined, /no és cap de/],
+  ['grup_hreflang amb majúscules o espais', c => { c.grup_hreflang = 'Grup Mal'; }, undefined, /grup_hreflang/],
   ['estat desconegut', c => { c.estat = 'arxivat'; }, undefined, /no és cap de/],
   ['sector desconegut', c => { c.sector = 'industria'; }, undefined, /no és cap de/],
   ['titol_seo de més de 60 caràcters', c => { c.titol_seo = 'a'.repeat(61); }, undefined, /màxim 60/],
@@ -293,6 +294,119 @@ const igualsSensePublicats = rSense.ok && slugsServeisCa.every(sl => {
   return a === b && !a.includes('Per sectors');
 });
 ok('sense sectors publicats, les pàgines de servei no tenen «Per sectors» i són idèntiques', igualsSensePublicats);
+
+// 8. Sectors en castellà, hreflang recíproc, validació de grups, índex /es/sectores/ i enllaçat en castellà (WEB-G03b)
+const basePublicatEs = {
+  ...structuredClone(basePublicat),
+  slug: 'clinicas-prueba-girona',
+  idioma: 'es',
+  grup_hreflang: 'cliniques-prova-girona',
+  titol_seo: 'RGPD para clínicas en Girona · Madeinhuman',
+  descripcio: 'Guía práctica de protección de datos para clínicas y consultas de salud en Girona.',
+  h1: 'Protección de datos para clínicas en Girona',
+  entradeta: 'Cómo organizar datos de pacientes, consentimientos y proveedores en una clínica.',
+  capsula: 'Las clínicas y consultas de salud tratan datos de categoría especial y necesitan base jurídica clara, registro de actividades, contratos con proveedores y medidas de seguridad adecuadas.',
+  seccions: [
+    { titol: '¿Qué datos trata una clínica?', cos: 'Habitualmente historias clínicas, citas y facturación.' },
+    { titol: '¿Qué proveedores hay que regular?', cos: 'Cualquier programa de gestión, laboratorio o gestoría.' },
+  ],
+  documents: ['Registro de actividades de tratamiento'],
+  faq: [{ pregunta: '¿Hace falta un DPO?', resposta: 'Depende del volumen y tipo de tratamiento.' }],
+  servei_relacionat: 'dpo',
+  cta_desti: 'servei',
+  cta_text: 'Ver el servicio de DPO externo',
+  data_revisio: '2026-07-15',
+};
+const basePublicatCaGrup = { ...structuredClone(basePublicat), grup_hreflang: 'cliniques-prova-girona' };
+const esborranyEs = {
+  ...structuredClone(basePublicatEs),
+  slug: 'borrador-prueba-girona',
+  grup_hreflang: 'esborrany-prova-girona',
+  estat: 'esborrany',
+  h1: 'Protección de datos para escuelas en Girona',
+  entradeta: 'Borrador de prueba con [REVISAR: confirmar criterio].',
+  servei_relacionat: 'adequacio',
+  cta_desti: 'contacte',
+};
+delete esborranyEs.cta_text;
+delete esborranyEs.revisat_per;
+
+ok('esquema accepta una pàgina de sector en castellà amb grup_hreflang',
+  validarSector(basePublicatEs, `${basePublicatEs.slug}.json`).length === 0);
+ok('validarConjuntSectors rebutja dues pàgines del mateix grup_hreflang i idioma',
+  validarConjuntSectors([basePublicatCaGrup, { ...structuredClone(basePublicatCaGrup), slug: 'altra-clinica-ca' }]).length === 1);
+ok('validarConjuntSectors accepta una parella ca + es amb el mateix grup_hreflang',
+  validarConjuntSectors([basePublicatCaGrup, basePublicatEs]).length === 0);
+
+const dirDup = path.join(TMP, 'sectors-dup');
+fs.mkdirSync(dirDup);
+fs.writeFileSync(path.join(dirDup, `${basePublicatCaGrup.slug}.json`), JSON.stringify(basePublicatCaGrup, null, 2));
+fs.writeFileSync(path.join(dirDup, 'altra-clinica-ca.json'), JSON.stringify({ ...structuredClone(basePublicatCaGrup), slug: 'altra-clinica-ca' }, null, 2));
+const rDup = construir({ DIR_SECTORS: dirDup }, path.join(TMP, 'dist-dup'));
+ok('construir.mjs atura la construcció si un grup_hreflang té dues pàgines del mateix idioma',
+  !rDup.ok && /grup_hreflang/.test(rDup.sortida), rDup.sortida.slice(0, 200));
+
+const dirBilingue = path.join(TMP, 'sectors-bilingue');
+fs.mkdirSync(dirBilingue);
+fs.writeFileSync(path.join(dirBilingue, `${basePublicatCaGrup.slug}.json`), JSON.stringify(basePublicatCaGrup, null, 2));
+fs.writeFileSync(path.join(dirBilingue, `${basePublicatEs.slug}.json`), JSON.stringify(basePublicatEs, null, 2));
+fs.writeFileSync(path.join(dirBilingue, `${esborranyEs.slug}.json`), JSON.stringify(esborranyEs, null, 2));
+const esborranyCaGrup = { ...structuredClone(baseEsborrany), grup_hreflang: 'esborrany-prova-girona' };
+fs.writeFileSync(path.join(dirBilingue, `${esborranyCaGrup.slug}.json`), JSON.stringify(esborranyCaGrup, null, 2));
+
+const outBil = path.join(TMP, 'dist-bilingue');
+const rBil = construir({ DIR_SECTORS: dirBilingue }, outBil, ['--esborranys']);
+ok('construeix sectors bilingües (ca + es) amb esborranys sense errors', rBil.ok, rBil.sortida);
+
+const htmlEsPub = fs.readFileSync(path.join(outBil, `es/sectores/${basePublicatEs.slug}/index.html`), 'utf8');
+const htmlCaPub = fs.readFileSync(path.join(outBil, `sectors/${basePublicatCaGrup.slug}/index.html`), 'utf8');
+const htmlEsIdx = fs.readFileSync(path.join(outBil, 'es/sectores/index.html'), 'utf8');
+const htmlCaIdx = fs.readFileSync(path.join(outBil, 'sectors/index.html'), 'utf8');
+const htmlEsDraft = fs.readFileSync(path.join(outBil, `es/sectores/${esborranyEs.slug}/index.html`), 'utf8');
+const urlCaGrup = `https://madeinhuman.cat/sectors/${basePublicatCaGrup.slug}/`;
+const urlEsGrup = `https://madeinhuman.cat/es/sectores/${basePublicatEs.slug}/`;
+const ldEsService = jsonld(htmlEsPub).find(x => x['@type'] === 'Service');
+
+ok('pàgina en castellà: lang="es", textos fixos, molles Inicio › Sectores, /es/servicios/ i JSON-LD inLanguage es',
+  htmlEsPub.includes('<html lang="es">')
+  && htmlEsPub.includes('<a href="/es/">Inicio</a> › <a href="/es/sectores/">Sectores</a>')
+  && htmlEsPub.includes('<h2>Documentos que suelen hacer falta</h2>')
+  && htmlEsPub.includes('Te puede interesar: <a href="/es/servicios/dpo-externo/">DPO externo</a>')
+  && htmlEsPub.includes('<h2>Fuentes</h2>')
+  && ldEsService?.inLanguage === 'es'
+  && htmlEsPub.includes('15 de julio de 2026'));
+ok('hreflang recíproc ca ↔ es i x-default → catalana a les dues versions',
+  htmlCaPub.includes(`<link rel="alternate" hreflang="ca" href="${urlCaGrup}" />`)
+  && htmlCaPub.includes(`<link rel="alternate" hreflang="es" href="${urlEsGrup}" />`)
+  && htmlCaPub.includes(`<link rel="alternate" hreflang="x-default" href="${urlCaGrup}" />`)
+  && htmlEsPub.includes(`<link rel="alternate" hreflang="ca" href="${urlCaGrup}" />`)
+  && htmlEsPub.includes(`<link rel="alternate" hreflang="es" href="${urlEsGrup}" />`)
+  && htmlEsPub.includes(`<link rel="alternate" hreflang="x-default" href="${urlCaGrup}" />`));
+ok('índex /es/sectores/ llista només publicades en castellà i té hreflang recíproc amb /sectors/',
+  htmlEsIdx.includes('<html lang="es">')
+  && htmlEsIdx.includes(basePublicatEs.h1)
+  && !htmlEsIdx.includes(esborranyEs.h1)
+  && !htmlEsIdx.includes(basePublicatCaGrup.h1)
+  && htmlEsIdx.includes('<link rel="alternate" hreflang="ca" href="https://madeinhuman.cat/sectors/" />')
+  && htmlCaIdx.includes('<link rel="alternate" hreflang="es" href="https://madeinhuman.cat/es/sectores/" />'));
+ok('esborrany en castellà té noindex, franja «Borrador: pendiente de validación» i CTA a /es/#contacto',
+  htmlEsDraft.includes('<meta name="robots" content="noindex, nofollow" />')
+  && htmlEsDraft.includes('Borrador: pendiente de validación')
+  && htmlEsDraft.includes('href="/es/#contacto">Habla con nosotros</a>'));
+
+const srvDpoEs = fs.readFileSync(path.join(outBil, 'es/servicios/dpo-externo/index.html'), 'utf8');
+const srvAdeqEs = fs.readFileSync(path.join(outBil, 'es/servicios/adecuacion-rgpd-girona/index.html'), 'utf8');
+ok('pàgina de servei en castellà mostra «Por sectores» amb els sectors publicats en castellà i cap esborrany ni català',
+  srvDpoEs.includes('<h2>Por sectores</h2>')
+  && srvDpoEs.includes(`<li><a href="/es/sectores/${basePublicatEs.slug}/">${basePublicatEs.h1}</a></li>`)
+  && !srvDpoEs.includes(basePublicatCaGrup.slug)
+  && !srvAdeqEs.includes('Por sectores'));
+
+const mapaBil = fs.readFileSync(path.join(outBil, 'sitemap.xml'), 'utf8');
+ok('mapa del lloc inclou /es/sectores/ i el sector publicat en castellà amb lastmod, sense esborranys',
+  mapaBil.includes(`<loc>${urlEsGrup}</loc>\n    <lastmod>2026-07-15</lastmod>`)
+  && mapaBil.includes('<loc>https://madeinhuman.cat/es/sectores/</loc>\n    <lastmod>2026-07-15</lastmod>')
+  && !mapaBil.includes(esborranyEs.slug));
 
 fs.rmSync(TMP, { recursive: true, force: true });
 console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions de les pàgines de sector correctes');

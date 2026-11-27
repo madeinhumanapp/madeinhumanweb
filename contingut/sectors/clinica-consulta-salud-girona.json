@@ -1,0 +1,81 @@
+{
+  "slug": "clinica-consulta-salud-girona",
+  "idioma": "es",
+  "grup_hreflang": "clinica-consulta-salut-girona",
+  "estat": "esborrany",
+  "sector": "salut",
+  "titol_seo": "RGPD para clínicas y consultas en Girona · Madeinhuman",
+  "descripcio": "Guía práctica de protección de datos para clínicas, dentistas, fisioterapeutas y psicólogos en Girona: documentos, errores habituales y primeros pasos.",
+  "h1": "Protección de datos para clínicas y consultas en Girona",
+  "entradeta": "Clínicas dentales, centros de fisioterapia, psicología o medicina privada en Girona: cómo ordenar historias clínicas, citas, consentimientos y proveedores sin frenar la actividad.",
+  "capsula": "Las clínicas y consultas de salud tratan datos de salud, que tienen una protección reforzada según el RGPD y la LOPDGDD. Normalmente hace falta mantener un registro de actividades, informar bien a los pacientes, regular a los proveedores tecnológicos, aplicar medidas de seguridad y valorar si debéis designar un delegado de protección de datos (DPO).",
+  "seccions": [
+    {
+      "titol": "¿Qué datos tratáis habitualmente en una clínica o consulta?",
+      "cos": "En un centro sanitario privado de Girona no solo tratáis la historia clínica. En la práctica, los datos personales se reparten en varios circuitos:\n\n- **Pacientes:** datos identificativos, historia clínica, diagnósticos, pruebas, consentimientos informados e imágenes clínicas.\n- **Agenda y comunicaciones:** recordatorios de cita por teléfono, correo o mensajería, y consultas recibidas por el formulario web.\n- **Equipo y colaboradores:** nóminas, titulaciones, registros de acceso al programa de gestión y profesionales externos.\n- **Proveedores y facturación:** laboratorios, mutuas, programa en la nube, gestoría y cámaras de videovigilancia si las hay.\n\nComo los datos de salud son una categoría especial de datos, cualquier descuido en el acceso o la comunicación tiene un impacto mucho más alto que en otras actividades."
+    },
+    {
+      "titol": "¿Qué errores habituales vemos en consultas y centros de salud?",
+      "cos": "Cuando hacemos un diagnóstico en clínicas pequeñas y medianas, suelen repetirse los mismos puntos débiles:\n\n- **Enviar informes o recordatorios por canales no controlados:** compartir diagnósticos o pruebas por WhatsApp personal o correo sin cifrar.\n- **Cuentas compartidas en el programa de gestión:** varios profesionales entrando con el mismo usuario, sin poder saber quién ha consultado cada historia.\n- **Proveedores sin contrato de encargo:** software de citas, laboratorios externos o servicios informáticos que acceden a datos sin contrato de tratamiento.\n- **Cláusulas genéricas:** hojas de alta copiadas que no explican bien quién trata los datos, cuánto tiempo se conservan ni con quién se comparten.\n- **Conservación sin criterio:** archivos antiguos en papel o carpetas compartidas sin control de acceso ni plazo definido [REVISAR: confirmar plazos de conservación de historia clínica aplicables en Cataluña según normativa sanitaria autonómica y estatal]."
+    },
+    {
+      "titol": "¿Hay que designar un delegado de protección de datos (DPO) en una clínica?",
+      "cos": "Depende del tipo de centro y de si trabajáis como consulta individual o como centro sanitario obligado legalmente a mantener historias clínicas. La LOPDGDD prevé casos en los que los centros sanitarios deben designar un delegado de protección de datos (DPO), con excepciones para profesionales que ejercen a título individual [REVISAR: confirmar redacción exacta de la excepción del artículo 34.1.l de la LOPDGDD y criterio vigente de la Agencia Española de Protección de Datos (AEPD)].\n\nTambién conviene valorar si hacéis tratamientos a gran escala o si combináis datos clínicos con otras tecnologías. Si tenéis dudas sobre vuestro caso concreto, podéis revisar los criterios generales en nuestro cuestionario [¿Necesito un DPO?](/necessito-dpo/) y contrastarlo en una revisión específica."
+    },
+    {
+      "titol": "¿Qué debéis tener en cuenta con el software, las mutuas y la IA?",
+      "cos": "Muchas consultas dependen de programas en la nube para citas, historias clínicas o telemedicina, y cada vez más se exploran herramientas de inteligencia artificial (IA) para transcribir visitas o resumir notas.\n\n- **Proveedores tecnológicos:** normalmente hace falta verificar dónde se alojan los datos, qué medidas de seguridad ofrecen y firmar un contrato de encargo de tratamiento.\n- **Cesiones a mutuas o laboratorios:** debéis tener clara la base jurídica e informar previamente al paciente.\n- **Herramientas de IA en la consulta:** antes de introducir datos de pacientes en una herramienta de IA, hace falta valorar la base jurídica, el riesgo para los derechos de las personas y si se requiere una evaluación de impacto [REVISAR: confirmar encaje con el Reglamento europeo de IA y guías de la Agencia Española de Protección de Datos (AEPD) y la Autoridad Catalana de Protección de Datos (APDCat) sobre IA en salud]."
+    },
+    {
+      "titol": "¿Por dónde podéis empezar esta semana?",
+      "cos": "No hace falta parar la consulta para poner orden. Un punto de partida realista es seguir estos pasos:\n\n1. Haced un inventario breve de los programas, carpetas y proveedores donde hay datos de pacientes.\n2. Asignad un usuario individual y contraseñas propias a cada persona del equipo.\n3. Revisad la hoja de alta de nuevos pacientes y el formulario web para que informen con claridad.\n4. Comprobad si tenéis firmado el contrato de encargo con el programa de gestión, el soporte informático y la gestoría.\n5. Valorad si vuestro centro necesita un DPO y revisad el protocolo para responder solicitudes de acceso a la historia clínica."
+    }
+  ],
+  "documents": [
+    "Registro de actividades de tratamiento (RAT) adaptado a la actividad sanitaria",
+    "Cláusulas informativas de primera y segunda capa para el alta de pacientes",
+    "Contratos de encargo de tratamiento con software, laboratorios, informática y gestoría",
+    "Compromiso de confidencialidad y normas de uso para todo el equipo y colaboradores",
+    "Análisis de riesgos y, si procede, evaluación de impacto en protección de datos (EIPD)",
+    "Protocolo de atención de derechos de los pacientes y de notificación de brechas de seguridad",
+    "Documento de designación de DPO y comunicación a la autoridad competente, si aplica"
+  ],
+  "faq": [
+    {
+      "pregunta": "¿Podemos enviar recordatorios de cita por WhatsApp a los pacientes?",
+      "resposta": "Conviene valorarlo con prudencia. En mensajería instantánea es recomendable evitar cualquier dato clínico (especialidad sensible, prueba o diagnóstico), informar previamente al paciente del canal y revisar las condiciones del servicio utilizado [REVISAR: confirmar criterio actualizado de la AEPD sobre uso de WhatsApp en consultas sanitarias]."
+    },
+    {
+      "pregunta": "¿Un fisioterapeuta o psicólogo autónomo que trabaja solo debe tener DPO?",
+      "resposta": "Normalmente la LOPDGDD contempla una excepción para los profesionales sanitarios que ejercen a título individual, pero conviene revisar siempre el volumen y el tipo de tratamiento que hacéis [REVISAR: confirmar supuestos exactos del artículo 34.1.l de la LOPDGDD]. Podéis hacer una primera comprobación en [¿Necesito un DPO?](/necessito-dpo/)."
+    },
+    {
+      "pregunta": "¿Cómo debemos actuar si un paciente pide una copia de su historia clínica?",
+      "resposta": "Debéis verificar la identidad de quien la solicita, facilitarle la información dentro del plazo legal aplicable y dejar constancia de la entrega. Conviene tener un protocolo interno claro para que recepción sepa cómo tramitarlo sin improvisar [REVISAR: confirmar interacción entre plazo del RGPD y normativa de autonomía del paciente]."
+    },
+    {
+      "pregunta": "Si ya tenemos consentimientos informados médicos, ¿también hace falta cláusula de protección de datos?",
+      "resposta": "Sí, son dos cosas distintas. El consentimiento informado sanitario cubre el acto asistencial; la información de protección de datos explica cómo tratáis los datos personales, cuál es la base jurídica, cuánto tiempo los conserváis y cómo ejercer los derechos."
+    }
+  ],
+  "servei_relacionat": "dpo",
+  "cta_desti": "diagnostic",
+  "fonts": [
+    {
+      "nom": "Reglamento (UE) 2016/679 (RGPD) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "nom": "Ley Orgánica 3/2018 (LOPDGDD) — BOE",
+      "url": "https://www.boe.es/eli/es/lo/2018/12/05/3/con"
+    },
+    {
+      "nom": "Agencia Española de Protección de Datos (AEPD)",
+      "url": "https://www.aepd.es/"
+    },
+    {
+      "nom": "Autoridad Catalana de Protección de Datos (APDCat)",
+      "url": "https://apdcat.gencat.cat/"
+    }
+  ]
+}

@@ -180,6 +180,52 @@ ok('article amb valors per defecte: text de revisió i botons de diagnòstic i c
   && guiaDef.includes('href="/diagnostic">Fer el diagnòstic gratuït</a>')
   && guiaContacte.includes('href="/#contacte">Parla amb nosaltres</a>'));
 
+// 6. Esborranys d'actualitat a la vista prèvia (WEB-G03a)
+const construirAmb = (env, sortida, extraArgs = []) => {
+  try {
+    return { ok: true, sortida: execFileSync('node', ['eines/construir.mjs', '--sortida', sortida, ...extraArgs],
+      { cwd: ARREL, env: { ...process.env, CF_PAGES_BRANCH: '', ...env }, encoding: 'utf8', stdio: 'pipe' }) };
+  } catch (e) { return { ok: false, sortida: String(e.stderr) + String(e.stdout) }; }
+};
+ok('producció: no genera ni /actualitat/esborranys/ ni la pàgina de l\'esborrany',
+  !fs.existsSync(path.join(OUT, 'actualitat/esborranys/index.html'))
+  && !fs.existsSync(path.join(OUT, 'actualitat/esborrany/index.html')));
+
+// Afegeix un esborrany sense cos (no ha de generar pàgina ni sortir a /actualitat/esborranys/)
+fs.writeFileSync(path.join(dir, '2026-01-16-esborrany-breu.md'), cap({ titol: '"Esborrany breu"', ...base, estat: 'esborrany', data: '2026-01-16' }));
+const outDraft = path.join(TMP, 'dist-draft');
+const rDraft = construirAmb({ DIR_ACTUALITAT: dir, DATA_CONSTRUCCIO: '2026-06-01' }, outDraft, ['--esborranys']);
+ok('--esborranys construeix amb esborranys d\'actualitat', rDraft.ok, rDraft.sortida);
+const idxEsb = fs.readFileSync(path.join(outDraft, 'actualitat/esborranys/index.html'), 'utf8');
+const pagEsb = fs.readFileSync(path.join(outDraft, 'actualitat/esborrany/index.html'), 'utf8');
+ok('--esborranys genera /actualitat/esborranys/ amb noindex, franja i enllaç només a l\'esborrany amb cos',
+  idxEsb.includes('<meta name="robots" content="noindex, nofollow" />')
+  && idxEsb.includes('Esborrany: pendent de validació')
+  && idxEsb.includes('href="/actualitat/esborrany/"')
+  && !idxEsb.includes('esborrany-breu')
+  && !fs.existsSync(path.join(outDraft, 'actualitat/esborrany-breu/index.html')));
+ok('--esborranys genera la pàgina de l\'esborrany amb noindex, nofollow i franja visible',
+  pagEsb.includes('<meta name="robots" content="noindex, nofollow" />')
+  && pagEsb.includes('Esborrany: pendent de validació')
+  && pagEsb.includes('Text amb [REVISAR].'));
+ok('--esborranys manté els esborranys fora de /actualitat/, RSS, mapa del lloc i portada',
+  !fs.readFileSync(path.join(outDraft, 'actualitat/index.html'), 'utf8').includes('Esborrany')
+  && !fs.readFileSync(path.join(outDraft, 'actualitat/rss.xml'), 'utf8').includes('Esborrany')
+  && !fs.readFileSync(path.join(outDraft, 'sitemap.xml'), 'utf8').includes('esborrany')
+  && !fs.readFileSync(path.join(outDraft, 'index.html'), 'utf8').includes('Esborrany'));
+
+const outCfPrev = path.join(TMP, 'dist-cf-prev');
+const rCfPrev = construirAmb({ DIR_ACTUALITAT: dir, DATA_CONSTRUCCIO: '2026-06-01', CF_PAGES_BRANCH: 'gemini/WEB-G03' }, outCfPrev);
+ok('CF_PAGES_BRANCH != main genera /actualitat/esborranys/ i l\'esborrany',
+  rCfPrev.ok && fs.existsSync(path.join(outCfPrev, 'actualitat/esborranys/index.html'))
+  && fs.existsSync(path.join(outCfPrev, 'actualitat/esborrany/index.html')));
+
+const outCfMain = path.join(TMP, 'dist-cf-main');
+const rCfMain = construirAmb({ DIR_ACTUALITAT: dir, DATA_CONSTRUCCIO: '2026-06-01', CF_PAGES_BRANCH: 'main' }, outCfMain);
+ok('CF_PAGES_BRANCH=main NO genera esborranys d\'actualitat',
+  rCfMain.ok && !fs.existsSync(path.join(outCfMain, 'actualitat/esborranys/index.html'))
+  && !fs.existsSync(path.join(outCfMain, 'actualitat/esborrany/index.html')));
+
 fs.rmSync(TMP, { recursive: true, force: true });
 console.log(fallades ? `\n${fallades} comprovacions fallides` : '\ntotes les comprovacions de l\'actualitat correctes');
 process.exit(fallades ? 1 : 0);

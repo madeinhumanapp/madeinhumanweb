@@ -1,0 +1,81 @@
+{
+  "slug": "escuelas-casales-clubes-girona",
+  "idioma": "es",
+  "grup_hreflang": "escoles-casals-clubs-girona",
+  "estat": "esborrany",
+  "sector": "educacio",
+  "titol_seo": "RGPD para escuelas, casales y clubes en Girona · Madeinhuman",
+  "descripcio": "Cómo gestionar datos de menores, autorizaciones de imagen, alergias y monitores en escuelas, academias, casales y clubes deportivos de Girona.",
+  "h1": "Protección de datos para escuelas, casales y clubes en Girona",
+  "entradeta": "Academias, escuelas privadas, casales de verano, extraescolares y clubes deportivos de Girona: cómo tratar datos de menores, imágenes y datos de salud con rigor y sin líos.",
+  "capsula": "Las escuelas, academias, casales y clubes que trabajan con menores tratan datos especialmente sensibles, como alergias, autorizaciones de imagen y datos familiares. Normalmente hace falta recoger autorizaciones claras, controlar quién accede a los datos de salud, regular plataformas educativas y valorar si el centro necesita un delegado de protección de datos (DPO).",
+  "seccions": [
+    {
+      "titol": "¿Qué datos tratáis habitualmente en un centro educativo, casal o club?",
+      "cos": "Aunque la entidad sea pequeña o estacional, el volumen de datos sensibles que se mueve en inscripciones y actividades con menores suele ser alto:\n\n- **Alumnado o niños:** datos identificativos, edad, centro escolar, asistencia y datos de los progenitores o tutores legales.\n- **Datos de salud:** alergias, intolerancias, medicación, informes médicos o tarjeta sanitaria para salidas y colonias.\n- **Imágenes y comunicación:** fotografías y vídeos de actividades para familias, web o redes sociales.\n- **Equipo y colaboradores:** monitores, entrenadores, docentes, voluntariado y certificados necesarios para trabajar con menores.\n- **Gestión y pagos:** cuotas, subvenciones, seguros, plataformas digitales y grupos de comunicación con familias."
+    },
+    {
+      "titol": "¿Qué errores habituales se repiten en inscripciones, fotos y grupos?",
+      "cos": "En revisiones de academias, casales y clubes deportivos suelen aparecer los mismos riesgos prácticos:\n\n- **Consentimiento de imagen mezclado con la inscripción:** incluir las fotos para redes dentro de una casilla única obligatoria, sin separar usos internos y difusión pública.\n- **Grupos de WhatsApp abiertos entre familias:** exponer teléfonos de todos los progenitores o compartir fotos de otros niños sin control.\n- **Fichas de alergias accesibles a todo el mundo:** listados en papel o documentos compartidos en la nube sin restricción de acceso ni borrado al acabar el curso o el casal.\n- **Monitores con móviles personales:** hacer fotos de las actividades con dispositivos privados sin norma sobre cómo guardarlas y borrarlas.\n- **Edad de consentimiento de los menores:** asumir la misma regla para todas las edades sin verificar cuándo hace falta la autorización de los progenitores o tutores [REVISAR: confirmar referencia exacta a la edad de 14 años del artículo 7 de la LOPDGDD y supuestos en los que se aplica]."
+    },
+    {
+      "titol": "¿Cuándo hace falta un delegado de protección de datos (DPO) en el ámbito educativo?",
+      "cos": "Depende del tipo de centro y de si impartís enseñanza reglada o actividades no regladas.\n\n- **Centros docentes que ofrecen enseñanzas regladas:** la LOPDGDD prevé la designación de un delegado de protección de datos (DPO) para determinados centros docentes [REVISAR: confirmar alcance exacto del artículo 34.1.b de la LOPDGDD sobre centros docentes y enseñanzas previstas en la legislación educativa].\n- **Academias, casales y clubes deportivos:** normalmente conviene valorar el volumen de menores, el tratamiento de datos de salud y las plataformas que utilizáis para decidir si es obligatorio o conveniente contar con apoyo externo.\n\nPodéis hacer una primera comprobación orientativa en [¿Necesito un DPO?](/necessito-dpo/) y revisar el caso concreto con nuestro equipo."
+    },
+    {
+      "titol": "¿Cómo podéis gestionar plataformas digitales, comedor y proveedores?",
+      "cos": "Las actividades con menores a menudo implican terceros que reciben o gestionan datos personales: empresas de cátering o comedor, transporte escolar, aseguradoras, federaciones deportivas y aplicaciones de comunicación con familias.\n\n- **Contratos de encargo de tratamiento:** hace falta regular la relación con cada proveedor que trate datos por cuenta vuestra (plataformas, gestoría, aplicaciones de inscripción).\n- **Comunicaciones necesarias a terceros:** cuando haga falta comunicar datos a aseguradoras o federaciones, informad con transparencia en el formulario de inscripción.\n- **Datos de salud del comedor o colonias:** limitad el acceso estrictamente al personal que los necesita para velar por la seguridad de los menores y definid cuándo se eliminan una vez terminada la actividad."
+    },
+    {
+      "titol": "¿Qué podéis revisar antes de la próxima campaña de inscripciones?",
+      "cos": "Antes de abrir matrículas, inscripciones de casal o temporada deportiva, os recomendamos este orden:\n\n1. Separad la cláusula informativa de la inscripción de las autorizaciones opcionales de imagen (web, redes, álbum interno).\n2. Definid un canal oficial para comunicaros con las familias que no exponga teléfonos personales.\n3. Revisad quién tiene acceso a las fichas médicas y de alergias y cómo se custodian en salidas.\n4. Entregad unas pautas claras y un compromiso de confidencialidad a monitores, entrenadores y docentes.\n5. Comprobad los contratos con las aplicaciones de inscripción, cobro y comunicación que utilizáis."
+    }
+  ],
+  "documents": [
+    "Registro de actividades de tratamiento (RAT) para alumnado, familias, equipo y actividades",
+    "Cláusula informativa para los formularios de inscripción y matrícula",
+    "Autorizaciones de imagen separadas por finalidad (difusión interna, web, redes sociales)",
+    "Protocolo de gestión y custodia de datos de salud y alergias en actividades y salidas",
+    "Normas de uso de dispositivos, fotografía y confidencialidad para monitores, docentes y voluntariado",
+    "Contratos de encargo de tratamiento con plataformas digitales, cátering y gestoría",
+    "Política de conservación y supresión de datos al terminar el curso o el casal"
+  ],
+  "faq": [
+    {
+      "pregunta": "Si una familia autoriza las fotos en septiembre, ¿puede retirar el permiso más adelante?",
+      "resposta": "Sí. El consentimiento para el uso de imágenes se puede retirar en cualquier momento, sin que esto afecte a la participación del menor en la actividad. Conviene tener un procedimiento sencillo para dejar de utilizar la imagen y retirarla de los canales que controláis."
+    },
+    {
+      "pregunta": "¿Podemos publicar listados de admitidos o grupos con nombre y apellidos en la puerta o en la web?",
+      "resposta": "En general conviene evitar la publicación abierta de datos identificativos de menores. Normalmente es más prudente utilizar comunicaciones privadas a cada familia o códigos de inscripción [REVISAR: confirmar guía de la Agencia Española de Protección de Datos (AEPD) y la Autoridad Catalana de Protección de Datos (APDCat) sobre publicación de listados en centros educativos]."
+    },
+    {
+      "pregunta": "¿Qué debemos hacer con las fichas de salud cuando termina el casal de verano?",
+      "resposta": "Los datos de salud solo deben conservarse mientras dure la finalidad para la cual se recogieron o durante el plazo en que puedan derivarse responsabilidades legales, bloqueados y con acceso restringido [REVISAR: confirmar plazos de bloqueo y prescripción aplicables a actividades de ocio educativo]."
+    },
+    {
+      "pregunta": "Si somos un club deportivo sin ánimo de lucro, ¿también debemos cumplir el RGPD?",
+      "resposta": "Sí. La normativa de protección de datos se aplica tanto a empresas como a asociaciones y clubes deportivos siempre que traten datos personales de socios, deportistas, familias o monitores. En Cataluña, las autoridades de referencia son la Agencia Española de Protección de Datos (AEPD) y, en el ámbito público catalán, la Autoridad Catalana de Protección de Datos (APDCat)."
+    }
+  ],
+  "servei_relacionat": "dpo",
+  "cta_desti": "diagnostic",
+  "fonts": [
+    {
+      "nom": "Reglamento (UE) 2016/679 (RGPD) — EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"
+    },
+    {
+      "nom": "Ley Orgánica 3/2018 (LOPDGDD) — BOE",
+      "url": "https://www.boe.es/eli/es/lo/2018/12/05/3/con"
+    },
+    {
+      "nom": "Agencia Española de Protección de Datos (AEPD)",
+      "url": "https://www.aepd.es/"
+    },
+    {
+      "nom": "Autoridad Catalana de Protección de Datos (APDCat)",
+      "url": "https://apdcat.gencat.cat/"
+    }
+  ]
+}
