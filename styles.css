@@ -2159,4 +2159,281 @@ mark.revisar {
   .guia-index { padding: 16px 18px; }
 }
 
+/* ===== Selector de reserves propi (/reserva/ i diagnòstic, WEB-G05a) ===== */
+.reserva-contenidor { margin-top: 24px; }
+.reserva-widget {
+  padding: 24px;
+  border: 1px solid var(--border-strong);
+  border-radius: 16px;
+  background: var(--bg-card);
+}
+.legal-content .reserva-titol {
+  margin: 0 0 8px;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.25;
+  color: var(--crema);
+}
+.reserva-titol:focus { outline: none; }
+.reserva-zona {
+  margin: 0 0 20px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--gris-clar);
+}
+.reserva-estat { margin-bottom: 14px; font-size: 14.5px; color: var(--gris-clar); }
+.reserva-estat:empty { display: none; }
+.reserva-estat-err {
+  padding: 12px 16px;
+  border: 1px solid var(--risc-alt);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--risc-alt) 14%, transparent);
+  color: var(--risc-alt-clar);
+}
+.reserva-dia { margin-bottom: 20px; }
+.legal-content .reserva-dia-titol {
+  margin: 0 0 10px;
+  font-family: var(--font-sans);
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--crema);
+  text-transform: capitalize;
+}
+.reserva-franges { display: flex; flex-wrap: wrap; gap: 10px; }
+.reserva-franja {
+  min-height: 44px;
+  min-width: 88px;
+  padding: 10px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--bg-elev);
+  color: var(--crema);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  cursor: pointer;
+}
+.reserva-franja:hover,
+.reserva-franja[aria-pressed="true"] {
+  border-color: var(--daurat);
+  background: color-mix(in srgb, var(--daurat) 16%, transparent);
+  color: var(--daurat-clar);
+}
+.reserva-franja:focus-visible { outline: 2px solid var(--daurat-clar); outline-offset: 2px; }
+.reserva-accions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.reserva-accio { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+.legal-content .reserva-accions .btn-primary { color: var(--text-sobre-daurat); text-decoration: none; }
+.legal-content .reserva-accions .btn-ghost { text-decoration: none; }
+.reserva-exit-detall { font-size: 16.5px; font-weight: 600; color: var(--daurat-clar); margin: 0 0 6px; }
+.reserva-exit-correu { font-size: 15px; color: var(--gris-clar); margin: 0; }
+@media (max-width: 767px) {
+  .reserva-widget { padding: 18px; }
+}
+
+/* ===== Taula de validació d'esborranys 2.0 (WEB-G05b) ===== */
+.esborranys-accions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 18px;
+}
+.esborranys-accio { min-height: 44px; }
+.esborranys-avis {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--daurat-clar);
+}
+.esborranys-filtres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  margin: 0 0 22px;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-card);
+}
+.esborranys-filtres-grup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.esborranys-filtres-etiqueta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gris-clar);
+  margin-right: 4px;
+}
+.esborranys-filtre {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--crema);
+  text-decoration: none;
+  font-size: 13.5px;
+}
+.esborranys-filtre:hover { border-color: var(--daurat); color: var(--daurat-clar); }
+.esborranys-filtre[aria-current="true"] {
+  border-color: var(--daurat);
+  background: color-mix(in srgb, var(--daurat) 16%, transparent);
+  color: var(--daurat-clar);
+  font-weight: 600;
+}
+.esborranys-fitxer code {
+  white-space: nowrap;
+  word-break: normal;
+}
+.esborranys-detall {
+  margin-top: 8px;
+  font-size: 13.5px;
+}
+.esborranys-detall summary {
+  cursor: pointer;
+  color: var(--ambre-clar);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+}
+.esborranys-marques-llista {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+  color: var(--crema);
+}
+.esborranys-guia {
+  margin-top: 32px;
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--daurat);
+  border-radius: 0 12px 12px 0;
+  background: var(--bg-card);
+}
+.legal-content .esborranys-guia h2 {
+  margin: 0 0 12px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--daurat);
+}
+.esborranys-guia ol {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 8px;
+}
+@media (max-width: 767px) {
+  .esborranys-filtres { padding: 12px 14px; }
+  .esborranys-guia { padding: 16px 18px; }
+}
+
+/* ===== Cerca interna (/cerca/, /es/buscar/ i 404, WEB-G05d) ===== */
+.cerca-form {
+  margin: 24px 0 20px;
+}
+.cerca-form-404 {
+  margin: 20px 0 28px;
+}
+.cerca-label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gris-clar);
+}
+.cerca-fila {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+.cerca-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 46px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--bg-card);
+  color: var(--crema);
+  font-family: var(--font-sans);
+  font-size: 16px;
+}
+.cerca-input:focus {
+  outline: 2px solid var(--daurat-clar);
+  outline-offset: 2px;
+  border-color: var(--daurat);
+}
+.cerca-boto {
+  min-height: 46px;
+  flex-shrink: 0;
+}
+.cerca-estat {
+  margin: 12px 0 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gris-clar);
+}
+.cerca-estat:empty { display: none; }
+.cerca-resultats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+.cerca-resultat {
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-card);
+}
+.cerca-resultat-titol {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 21px;
+  line-height: 1.3;
+  color: var(--daurat-clar);
+  text-decoration: none;
+  margin-bottom: 4px;
+}
+.cerca-resultat-titol:hover { text-decoration: underline; }
+.cerca-resultat-url {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gris-clar);
+  margin-bottom: 8px;
+}
+.cerca-resultat-desc {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--crema);
+}
+.cerca-buit {
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-card);
+}
+.cerca-buit-titol {
+  margin: 0 0 8px;
+  font-weight: 600;
+  color: var(--crema);
+}
+@media (max-width: 600px) {
+  .cerca-fila { flex-direction: column; }
+  .cerca-boto { width: 100%; justify-content: center; }
+}
+
+
 

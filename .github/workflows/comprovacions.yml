@@ -55,6 +55,12 @@ jobs:
         run: npm run qualitat-esborranys
       - name: Pàgina 404 bilingüe
         run: npm run pagina-404
+      - name: Cerca interna
+        run: npm run cerca
+      - name: llms.txt
+        run: npm run llms
+      - name: Textos d'interfície (ca i es)
+        run: npm run textos
       - name: Notícies (actualitat)
         run: npm run actualitat
       - name: Esquema de les pàgines de servei
@@ -65,6 +71,8 @@ jobs:
         run: npm run contractes
       - name: Resultat del diagnòstic (semàfor)
         run: npm run diagnostic-resultat
+      - name: Selector de reserves (API simulada)
+        run: npm run reserva
       - name: Vista prèvia del panell
         run: npm run previsualitzacio
       - name: Seguretat de contingut (CSP)

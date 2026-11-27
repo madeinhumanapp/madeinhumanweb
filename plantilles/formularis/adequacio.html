@@ -49,36 +49,36 @@
           <div class="form-section-body">
             <div class="field-row">
               <div class="field">
-                <label>Raó social <span class="req">*</span></label>
-                <input class="input" name="empresa" placeholder="Nom legal o comercial" required="">
+                <label for="adequacio-empresa">Raó social <span class="req">*</span></label>
+                <input class="input" id="adequacio-empresa" name="empresa" placeholder="Nom legal o comercial" required="">
               </div>
               <div class="field">
-                <label>NIF / CIF <span class="req">*</span></label>
-                <input class="input" name="nif" placeholder="Ex: BXXXXXXXX" required="">
+                <label for="adequacio-nif">NIF / CIF <span class="req">*</span></label>
+                <input class="input" id="adequacio-nif" name="nif" placeholder="Ex: BXXXXXXXX" required="">
               </div>
             </div>
             <div class="field">
-              <label>Activitat principal <span class="req">*</span></label>
-              <input class="input" name="activitat" placeholder="Ex: Clínica dental, assessoria laboral, distribució de materials..." required="">
+              <label for="adequacio-activitat">Activitat principal <span class="req">*</span></label>
+              <input class="input" id="adequacio-activitat" name="activitat" placeholder="Ex: Clínica dental, assessoria laboral, distribució de materials..." required="">
             </div>
             <div class="field-row">
               <div class="field">
-                <label>Correu electrònic <span class="req">*</span></label>
-                <input class="input" type="email" name="email" placeholder="contacte@empresa.cat" required="">
+                <label for="adequacio-email">Correu electrònic <span class="req">*</span></label>
+                <input class="input" id="adequacio-email" type="email" name="email" placeholder="contacte@empresa.cat" required="">
               </div>
               <div class="field">
-                <label>Telèfon <span class="req">*</span></label>
-                <input class="input" type="tel" name="telefon" placeholder="Ex: 972123456" required="">
+                <label for="adequacio-telefon">Telèfon <span class="req">*</span></label>
+                <input class="input" id="adequacio-telefon" type="tel" name="telefon" placeholder="Ex: 972123456" required="">
               </div>
             </div>
             <div class="field-row">
               <div class="field">
-                <label>Persona de contacte <span class="req">*</span></label>
-                <input class="input" name="personaContacte" placeholder="Nom i cognoms" required="">
+                <label for="adequacio-personaContacte">Persona de contacte <span class="req">*</span></label>
+                <input class="input" id="adequacio-personaContacte" name="personaContacte" placeholder="Nom i cognoms" required="">
               </div>
               <div class="field">
-                <label>Adreça completa <span class="req">*</span></label>
-                <input class="input" name="adreca" placeholder="Carrer, número, CP, municipi" required="">
+                <label for="adequacio-adreca">Adreça completa <span class="req">*</span></label>
+                <input class="input" id="adequacio-adreca" name="adreca" placeholder="Carrer, número, CP, municipi" required="">
               </div>
             </div>
           </div>
@@ -96,55 +96,55 @@
           <div class="form-section-body">
             <div class="field-row">
               <div class="field">
-                <label>Nombre total de treballadors <span class="req">*</span></label>
-                <input class="input" type="number" name="numTreballadors" placeholder="Inclou-hi els de temps parcial i col·laboradors" min="0" required="">
+                <label for="adequacio-numTreballadors">Nombre total de treballadors <span class="req">*</span></label>
+                <input class="input" id="adequacio-numTreballadors" type="number" name="numTreballadors" placeholder="Inclou-hi els de temps parcial i col·laboradors" min="0" required="">
               </div>
               <div class="field">
-                <label>Proveïdors externs amb accés a dades <span class="req">*</span></label>
-                <input class="input" type="number" name="numET" placeholder="Gestor laboral, informàtic, cloud..." min="0" required="">
+                <label for="adequacio-numET">Proveïdors externs amb accés a dades <span class="req">*</span></label>
+                <input class="input" id="adequacio-numET" type="number" name="numET" placeholder="Gestor laboral, informàtic, cloud..." min="0" required="">
               </div>
             </div>
 
             <div class="field">
               <label>Tracteu dades de salut, ideologia, sindicats o similars? <span class="req">*</span></label>
-              <div class="radio-row" id="riscArt9Group">
-                <label class="radio"><input type="radio" name="riscArt9" value="Sí" required=""><span class="dot"></span><span>Sí</span></label>
-                <label class="radio"><input type="radio" name="riscArt9" value="No"><span class="dot"></span><span>No</span></label>
+              <div class="radio-row" id="riscArt9Group" aria-describedby="adequacio-riscArt9-ajuda">
+                <label class="radio"><input type="radio" name="riscArt9" value="Sí" required="" aria-describedby="adequacio-riscArt9-ajuda"><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="riscArt9" value="No" aria-describedby="adequacio-riscArt9-ajuda"><span class="dot"></span><span>No</span></label>
               </div>
-              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Historials mèdics, discapacitats, orientació sindical, opinions polítiques, creences religioses...</div>
+              <div id="adequacio-riscArt9-ajuda" style="font-size:12px;color:var(--text-faint);margin-top:6px">Historials mèdics, discapacitats, orientació sindical, opinions polítiques, creences religioses...</div>
             </div>
 
             <div class="field">
               <label>Feu servir eines amb servidors fora de la Unió Europea? <span class="req">*</span></label>
-              <div class="radio-row" id="riscCloudGroup">
-                <label class="radio"><input type="radio" name="riscCloud" value="Sí" required=""><span class="dot"></span><span>Sí</span></label>
-                <label class="radio"><input type="radio" name="riscCloud" value="No"><span class="dot"></span><span>No</span></label>
-                <label class="radio"><input type="radio" name="riscCloud" value="No ho sé"><span class="dot"></span><span>No ho sé</span></label>
+              <div class="radio-row" id="riscCloudGroup" aria-describedby="adequacio-riscCloud-ajuda">
+                <label class="radio"><input type="radio" name="riscCloud" value="Sí" required="" aria-describedby="adequacio-riscCloud-ajuda"><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="riscCloud" value="No" aria-describedby="adequacio-riscCloud-ajuda"><span class="dot"></span><span>No</span></label>
+                <label class="radio"><input type="radio" name="riscCloud" value="No ho sé" aria-describedby="adequacio-riscCloud-ajuda"><span class="dot"></span><span>No ho sé</span></label>
               </div>
-              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">WhatsApp (Meta/EUA), Mailchimp (EUA), Canva (Austràlia), Dropbox (EUA), Google Analytics, TikTok...</div>
+              <div id="adequacio-riscCloud-ajuda" style="font-size:12px;color:var(--text-faint);margin-top:6px">WhatsApp (Meta/EUA), Mailchimp (EUA), Canva (Austràlia), Dropbox (EUA), Google Analytics, TikTok...</div>
             </div>
 
             <div class="field">
               <label>Feu servir eines d'intel·ligència artificial? <span class="req">*</span></label>
-              <div class="radio-row" id="riscIAGroup">
-                <label class="radio"><input type="radio" name="riscIA" value="Sí" required=""><span class="dot"></span><span>Sí</span></label>
-                <label class="radio"><input type="radio" name="riscIA" value="No"><span class="dot"></span><span>No</span></label>
+              <div class="radio-row" id="riscIAGroup" aria-describedby="adequacio-riscIA-ajuda">
+                <label class="radio"><input type="radio" name="riscIA" value="Sí" required="" aria-describedby="adequacio-riscIA-ajuda"><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="riscIA" value="No" aria-describedby="adequacio-riscIA-ajuda"><span class="dot"></span><span>No</span></label>
               </div>
-              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">ChatGPT, Microsoft Copilot, Google Gemini, Claude, eines d'IA en CRM o ERP, chatbots, generadors d'imatges...</div>
+              <div id="adequacio-riscIA-ajuda" style="font-size:12px;color:var(--text-faint);margin-top:6px">ChatGPT, Microsoft Copilot, Google Gemini, Claude, eines d'IA en CRM o ERP, chatbots, generadors d'imatges...</div>
             </div>
 
             <div class="field">
               <label>Teniu videovigilància o sistemes de control biomètric? <span class="req">*</span></label>
-              <div class="radio-row" id="riscBioGroup">
-                <label class="radio"><input type="radio" name="riscBio" value="Sí" required=""><span class="dot"></span><span>Sí</span></label>
-                <label class="radio"><input type="radio" name="riscBio" value="No"><span class="dot"></span><span>No</span></label>
+              <div class="radio-row" id="riscBioGroup" aria-describedby="adequacio-riscBio-ajuda">
+                <label class="radio"><input type="radio" name="riscBio" value="Sí" required="" aria-describedby="adequacio-riscBio-ajuda"><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="riscBio" value="No" aria-describedby="adequacio-riscBio-ajuda"><span class="dot"></span><span>No</span></label>
               </div>
-              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Càmeres de seguretat, control d'accés per empremta dactilar, reconeixement facial...</div>
+              <div id="adequacio-riscBio-ajuda" style="font-size:12px;color:var(--text-faint);margin-top:6px">Càmeres de seguretat, control d'accés per empremta dactilar, reconeixement facial...</div>
             </div>
 
             <div class="field">
-              <label>Sector d'activitat <span class="req">*</span></label>
-              <select class="select" name="riscSector" required="">
+              <label for="adequacio-riscSector">Sector d'activitat <span class="req">*</span></label>
+              <select class="select" id="adequacio-riscSector" name="riscSector" required="">
                 <option value="">Selecciona el sector…</option>
                 <option value="Salut i serveis sanitaris">Salut i serveis sanitaris</option>
                 <option value="Educació i formació">Educació i formació</option>
@@ -178,8 +178,8 @@
               </div>
             </div>
             <div class="field" id="webUrlField" style="display:none">
-              <label>URL de la pàgina web</label>
-              <input class="input" name="urlWeb" placeholder="https://www.empresa.cat">
+              <label for="adequacio-urlWeb">URL de la pàgina web</label>
+              <input class="input" id="adequacio-urlWeb" name="urlWeb" placeholder="https://www.empresa.cat">
             </div>
             <div id="webExtras" style="display:none">
               <div class="field">
@@ -225,11 +225,11 @@
             </div>
             <div class="field">
               <label>Envieu comunicacions comercials per correu o WhatsApp? <span class="req">*</span></label>
-              <div class="radio-row" id="enviaComunicacionsGroup">
-                <label class="radio"><input type="radio" name="enviaComunicacions" value="si" required=""><span class="dot"></span><span>Sí</span></label>
-                <label class="radio"><input type="radio" name="enviaComunicacions" value="no"><span class="dot"></span><span>No</span></label>
+              <div class="radio-row" id="enviaComunicacionsGroup" aria-describedby="adequacio-enviaComunicacions-ajuda">
+                <label class="radio"><input type="radio" name="enviaComunicacions" value="si" required="" aria-describedby="adequacio-enviaComunicacions-ajuda"><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="enviaComunicacions" value="no" aria-describedby="adequacio-enviaComunicacions-ajuda"><span class="dot"></span><span>No</span></label>
               </div>
-              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Newsletters, ofertes, novetats, recordatoris...</div>
+              <div id="adequacio-enviaComunicacions-ajuda" style="font-size:12px;color:var(--text-faint);margin-top:6px">Newsletters, ofertes, novetats, recordatoris...</div>
             </div>
           </div>
         </div>
@@ -246,23 +246,23 @@
           <div class="form-section-body">
             <div class="field">
               <label>Formeu part d'un grup empresarial? <span class="req">*</span></label>
-              <div class="radio-row" id="grupEmpresarialGroup">
-                <label class="radio"><input type="radio" name="grupEmpresarial" value="si" required=""><span class="dot"></span><span>Sí</span></label>
-                <label class="radio"><input type="radio" name="grupEmpresarial" value="no"><span class="dot"></span><span>No</span></label>
+              <div class="radio-row" id="grupEmpresarialGroup" aria-describedby="adequacio-grupEmpresarial-ajuda">
+                <label class="radio"><input type="radio" name="grupEmpresarial" value="si" required="" aria-describedby="adequacio-grupEmpresarial-ajuda"><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="grupEmpresarial" value="no" aria-describedby="adequacio-grupEmpresarial-ajuda"><span class="dot"></span><span>No</span></label>
               </div>
-              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Societats matriu, filials o empreses germanes amb la mateixa propietat.</div>
+              <div id="adequacio-grupEmpresarial-ajuda" style="font-size:12px;color:var(--text-faint);margin-top:6px">Societats matriu, filials o empreses germanes amb la mateixa propietat.</div>
             </div>
             <div class="field">
               <label>Teniu diverses seus o centres de treball? <span class="req">*</span></label>
-              <div class="radio-row" id="diversesSeuseGroup">
-                <label class="radio"><input type="radio" name="diversesSeus" value="si" required=""><span class="dot"></span><span>Sí</span></label>
-                <label class="radio"><input type="radio" name="diversesSeus" value="no"><span class="dot"></span><span>No</span></label>
+              <div class="radio-row" id="diversesSeuseGroup" aria-describedby="adequacio-diversesSeus-ajuda">
+                <label class="radio"><input type="radio" name="diversesSeus" value="si" required="" aria-describedby="adequacio-diversesSeus-ajuda"><span class="dot"></span><span>Sí</span></label>
+                <label class="radio"><input type="radio" name="diversesSeus" value="no" aria-describedby="adequacio-diversesSeus-ajuda"><span class="dot"></span><span>No</span></label>
               </div>
-              <div style="font-size:12px;color:var(--text-faint);margin-top:6px">Oficines, magatzems, botigues o instal·lacions en ubicacions diferents.</div>
+              <div id="adequacio-diversesSeus-ajuda" style="font-size:12px;color:var(--text-faint);margin-top:6px">Oficines, magatzems, botigues o instal·lacions en ubicacions diferents.</div>
             </div>
             <div class="field">
-              <label>Observacions addicionals</label>
-              <textarea class="textarea" name="observacions" placeholder="Qualsevol informació que considereu rellevant: auditories prèvies, incidents passats, dubtes concrets, urgència..." style="min-height:140px"></textarea>
+              <label for="adequacio-observacions">Observacions addicionals</label>
+              <textarea class="textarea" id="adequacio-observacions" name="observacions" placeholder="Qualsevol informació que considereu rellevant: auditories prèvies, incidents passats, dubtes concrets, urgència..." style="min-height:140px"></textarea>
             </div>
           </div>
         </div>
