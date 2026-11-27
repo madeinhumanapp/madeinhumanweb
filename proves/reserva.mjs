@@ -43,7 +43,8 @@ if (!fs.existsSync(path.join(DIST, 'reserva/index.html')) || !fs.existsSync(path
 const htmlReserva = fs.readFileSync(path.join(DIST, 'reserva/index.html'), 'utf8');
 const jsReal = fs.readFileSync(path.join(DIST, 'reserva.js'), 'utf8');
 const mapaReal = fs.readFileSync(path.join(DIST, 'sitemap.xml'), 'utf8');
-ok('dist/reserva.js té ACTIVA = false a producció', /\bvar\s+ACTIVA\s*=\s*false\s*;/.test(jsReal));
+const ACTIVA_REAL = /\bvar\s+ACTIVA\s*=\s*true\s*;/.test(jsReal);
+ok(`dist/reserva.js declara l'interruptor ACTIVA (ara: ${ACTIVA_REAL})`, /\bvar\s+ACTIVA\s*=\s*(true|false)\s*;/.test(jsReal));
 ok('/reserva/ té noindex, nofollow, enllaços a /diagnostic i /#contacte i queda fora del mapa del lloc',
   htmlReserva.includes('<meta name="robots" content="noindex, nofollow" />')
   && htmlReserva.includes('href="/diagnostic"')
@@ -98,8 +99,12 @@ const DIST_ACTIVA = path.join(TMP, 'dist');
 fs.cpSync(DIST, DIST_ACTIVA, { recursive: true });
 fs.writeFileSync(
   path.join(DIST_ACTIVA, 'reserva.js'),
-  jsReal.replace(/\bvar\s+ACTIVA\s*=\s*false\s*;/, 'var ACTIVA = true;'),
+  jsReal.replace(/\bvar\s+ACTIVA\s*=\s*(true|false)\s*;/, 'var ACTIVA = true;'),
 );
+// Còpia amb ACTIVA = false: amb l'interruptor apagat no s'ha de fer cap petició
+const DIST_INACTIVA = path.join(TMP, 'dist-inactiva');
+fs.cpSync(DIST, DIST_INACTIVA, { recursive: true });
+fs.writeFileSync(path.join(DIST_INACTIVA, 'reserva.js'), jsReal.replace(/\bvar\s+ACTIVA\s*=\s*(true|false)\s*;/, 'var ACTIVA = false;'));
 fs.mkdirSync(path.join(DIST_ACTIVA, 'es/reserva'), { recursive: true });
 fs.writeFileSync(
   path.join(DIST_ACTIVA, 'es/reserva/index.html'),
@@ -482,17 +487,17 @@ try {
   ok('/diagnostic (ACTIVA=true sense tokenReserva) manté #reserva ocult i el botó de CALENDARI_URL visible',
     diagSense.reservaOcult && !diagSense.ctaOcult && diagSense.peticionsApi.filter(x => x.url.includes('/reserva')).length === 0);
 
-  // 9. Sobre el dist/ REAL (ACTIVA = false): cap petició a l'API de reserves ni a /diagnostic ni a /reserva/
-  const diagReal = await ferDiagnostic(DIST, true);
-  ok('dist/ real (ACTIVA=false): /diagnostic amb tokenReserva NO fa cap petició de reserva',
+  // 9. Amb l'interruptor apagat (ACTIVA = false): cap petició a l'API de reserves ni a /diagnostic ni a /reserva/
+  const diagReal = await ferDiagnostic(DIST_INACTIVA, true);
+  ok('ACTIVA=false: /diagnostic amb tokenReserva NO fa cap petició de reserva',
     diagReal.reservaOcult && !diagReal.ctaOcult && diagReal.peticionsApi.filter(x => x.url.includes('/reserva')).length === 0);
 
-  const rReal = await ambPagina(DIST, {}, async ({ p, peticionsApi }) => {
+  const rReal = await ambPagina(DIST_INACTIVA, {}, async ({ p, peticionsApi }) => {
     await p.goto(`${ORIGEN}/reserva/?t=tok_real`, { waitUntil: 'load' });
     await p.waitForTimeout(150);
     return { txt: await p.textContent('#reserva-pagina'), peticionsApi };
   });
-  ok('dist/ real (ACTIVA=false): /reserva/?t=… mostra el missatge alternatiu i NO fa cap petició a l\'API',
+  ok('ACTIVA=false: /reserva/?t=… mostra el missatge alternatiu i NO fa cap petició a l\'API',
     rReal.peticionsApi.length === 0 && rReal.txt.includes('Per reservar una trucada, feu el diagnòstic gratuït o escriviu-nos'));
 } finally {
   if (navegador) { try { await navegador.close(); } catch {} }

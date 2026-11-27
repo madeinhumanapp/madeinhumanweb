@@ -2198,7 +2198,6 @@ mark.revisar {
   font-size: 15.5px;
   font-weight: 600;
   color: var(--crema);
-  text-transform: capitalize;
 }
 .reserva-franges { display: flex; flex-wrap: wrap; gap: 10px; }
 .reserva-franja {
@@ -2485,5 +2484,7 @@ main#contingut:focus {
   border: 0;
 }
 
-
-
+/* Selector de reserves: el dia només amb la inicial en majúscula («Dimarts 1 de desembre») i sense marc
+   quan el focus es mou al títol per programa (no és un control interactiu) */
+.legal-content .reserva-dia-titol::first-letter { text-transform: uppercase; }
+.reserva-titol:focus-visible { outline: none; }
