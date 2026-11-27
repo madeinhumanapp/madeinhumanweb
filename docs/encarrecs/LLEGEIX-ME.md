@@ -39,10 +39,11 @@ Estat: ▶ a punt · ◐ en curs · ☑ integrat · ☐ encara no (depèn d'una 
 | WEB-G04 | [Megapaquet: taula de validació, actualitat en castellà, enllaçat intern i controls de qualitat](WEB-G04-megapaquet.md) (Gemini, molt gran) | ☑ (esborranys pendents de validació) | `gemini/WEB-G04` | WEB-G03 integrat | T12 |
 | WEB-G05 | [Megapaquet: selector de reserves, taula de validació 2.0, textos centralitzats, cerca, llms.txt i etiquetes dels formularis](WEB-G05-megapaquet.md) (Gemini, molt gran) | ☑ (reserves desactivades fins a l'API) | `gemini/WEB-G05` | WEB-G04 integrat | T12 |
 | WEB-G06 | [Megapaquet: regressió visual, teclat i contrast, textos centralitzats, preguntes per servei, JSON-LD i autotest SaaS](WEB-G06-megapaquet.md) (Gemini, enorme) | ☑ (autotest SaaS pendent de validació; només a les vistes prèvies) | `gemini/WEB-G06` | WEB-G05 integrat | T08, T14 |
+| WEB-G07 | [Megapaquet: reserves amb confirmació, regressió visual a la CI i informe de registre](WEB-G07-megapaquet.md) (Gemini, gran) | ▶ | `gemini/WEB-G07` | WEB-G06 integrat | T12, T15 |
 | WEB-T14 | [Revisió lingüística i de to dels 25 esborranys](WEB-T14-revisio-esborranys.md) (Mistral) | ☑ | `mistral/WEB-T14` | — | G05 (no toquen els mateixos fitxers) |
 | WEB-T15 | «Necessito un DPO?» en registre «vosaltres» (Mistral, encàrrec directe sense fitxer; canvi visible) | ◐ encarregat | `mistral/WEB-T15` | — | T12 |
 
-Ordre recomanat ara: **Gemini** RGPD-G01 (reserves, repositori rgpdtool) i després WEB-G07; **Mistral** WEB-T12 i WEB-T15. Un sol encàrrec obert per sessió
+Ordre recomanat ara: **Gemini** WEB-G07; **Mistral** WEB-T12 i WEB-T15. Un sol encàrrec obert per sessió
 (de Vibe o d'Antigravity). Branca base: `main`.
 
 Quan un encàrrec queda integrat, Claude n'actualitza l'estat aquí i, si cal, escriu el següent.
