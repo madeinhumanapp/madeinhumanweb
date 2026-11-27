@@ -4,6 +4,7 @@
 import { esc, attr } from './text.mjs';
 import { renderBloc } from './blocs.mjs';
 import { menu, peu } from './marc.mjs';
+import { t } from './textos.mjs';
 
 const meta = (nom, valor) => (valor == null ? '' : `\n  <meta name="${nom}" content="${esc(valor)}" />`);
 const prop = (nom, valor) => (valor == null ? '' : `\n  <meta property="${nom}" content="${esc(valor)}" />`);
@@ -66,7 +67,7 @@ ${JSON.stringify(j, null, 2)}
 function flotants(lloc, ctx) {
   const tel = lloc.contacte.telefon.replace(/\D/g, '');
   return `
-<a href="#top" class="back-to-top" id="backToTop" aria-label="Tornar a dalt">
+<a href="#top" class="back-to-top" id="backToTop" aria-label="${esc(t('ca', 'comu.tornar_dalt'))}">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
 </a>
 <a href="https://wa.me/${tel}" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="${esc(lloc.menu[ctx.idioma].whatsappEtiqueta)}">

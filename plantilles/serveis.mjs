@@ -4,10 +4,9 @@
 import { enriquit } from './text.mjs';
 import { markdown } from './markdown.mjs';
 import { menu, peu as peuComu } from './marc.mjs';
+import { t } from './textos.mjs';
 
 const CARPETA = { ca: 'serveis', es: 'es/servicios' };
-// Peu de les pàgines en castellà (WEB-T05): la zona de treball en lloc del domicili
-const ZONA_ES = 'Girona · Presencial en la demarcación y en remoto en toda España';
 
 // Marc comú de les pàgines interiors (cap, menú, peu, bloc final): també el fan servir les notícies
 export function marcInterior(lloc, dades) {
@@ -28,12 +27,12 @@ export function marcInterior(lloc, dades) {
   }
 
   // html.escape(t, quote=True) de Python: també converteix l'apòstrof en &#x27;
-  function e(t) {
-    return String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;' }[c]));
+  function e(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;' }[c]));
   }
 
   function zona_text(lang) {
-    const llista = ZONA.slice(1, -1).join(', ') + (lang === 'ca' ? ' i ' : ' y ') + ZONA[ZONA.length - 1];
+    const llista = ZONA.slice(1, -1).join(', ') + t(lang, 'comu.conjuncio_i') + ZONA[ZONA.length - 1];
     return COMU[lang].zona_text.replace('{zona}', () => llista);
   }
 
@@ -95,7 +94,7 @@ ${JSON.stringify(ld, null, 2)}
   }
 
   function peu(lang) {
-    return `${peuComu(lloc, { idioma: lang, ruta: null, zona: lang === 'es' ? ZONA_ES : lloc.contacte.zona })}
+    return `${peuComu(lloc, { idioma: lang, ruta: null, zona: lang === 'es' ? t('es', 'serveis.zona_peu') : lloc.contacte.zona })}
 <script src="/menu.js" defer></script>
 </body>
 </html>
@@ -104,7 +103,7 @@ ${JSON.stringify(ld, null, 2)}
 
   function bloc_final(lang, clau_actual = null) {
     const c = COMU[lang];
-    const passos = c.metode.map(({ titol: t, text: d }, i) => `<li><span class="pas-num">${String(i + 1).padStart(2, '0')}</span><strong>${e(t)}</strong><span>${e(d)}</span></li>`).join('');
+    const passos = c.metode.map(({ titol: tit, text: d }, i) => `<li><span class="pas-num">${String(i + 1).padStart(2, '0')}</span><strong>${e(tit)}</strong><span>${e(d)}</span></li>`).join('');
     const altres = SERVEIS.filter(k => k !== clau_actual)
       .map(k => `<li><a href="${url_servei(lang, k)}">${e(PAGINES[k][lang].curt)}</a></li>`).join('');
     return `      <section class="pagina-seccio">
@@ -154,24 +153,24 @@ export function paginesServei(lloc, dades, sectorsPublicats = []) {
         { '@type': 'ListItem', position: 2, name: c.serveis, item: WEB + c.breadcrumb_serveis },
         { '@type': 'ListItem', position: 3, name: p.curt, item: WEB + url }] },
     ] };
-    const seccions = p.seccions.map(({ titol: t, cos }) => `      <section class="pagina-seccio">
-        <h2>${e(t)}</h2>
+    const seccions = p.seccions.map(({ titol: tit, cos }) => `      <section class="pagina-seccio">
+        <h2>${e(tit)}</h2>
         ${markdown(cos)}
       </section>
 `).join('');
     const delServei = (sectorsPublicats || [])
       .filter(s => s.estat === 'publicat' && (s.idioma || 'ca') === lang && s.servei_relacionat === clau)
       .sort((a, b) => a.slug.localeCompare(b.slug));
-    const titolSectors = lang === 'es' ? 'Por sectores' : 'Per sectors';
+    const titolSectors = t(lang, 'serveis.per_sectors');
     const prefixSectors = lang === 'es' ? '/es/sectores/' : '/sectors/';
-    const perSectors = delServei.length ? `      <nav class="pagina-seccio" aria-label="${titolSectors}">
-        <h2>${titolSectors}</h2>
+    const perSectors = delServei.length ? `      <nav class="pagina-seccio" aria-label="${e(titolSectors)}">
+        <h2>${e(titolSectors)}</h2>
         <ul class="pagina-altres">${delServei.map(s => `<li><a href="${prefixSectors}${s.slug}/">${e(s.h1)}</a></li>`).join('')}</ul>
       </nav>
 ` : '';
     const cos = `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut legal-content">
-      <nav class="molles" aria-label="${lang === 'ca' ? 'Ruta' : 'Ruta'}"><a href="${c.home}">${e(c.inici)}</a> › <a href="${c.breadcrumb_serveis}">${e(c.serveis)}</a> › <span aria-current="page">${e(p.curt)}</span></nav>
+      <nav class="molles" aria-label="${e(t(lang, 'comu.ruta'))}"><a href="${c.home}">${e(c.inici)}</a> › <a href="${c.breadcrumb_serveis}">${e(c.serveis)}</a> › <span aria-current="page">${e(p.curt)}</span></nav>
       <span class="eyebrow">${e(p.eyebrow)}</span>
       <h1 class="section-title pagina-h1">${enriquit(p.h1)}</h1>
       <p class="pagina-lede">${e(p.lede)}</p>
@@ -186,45 +185,45 @@ ${seccions}${perSectors}${bloc_final(lang, clau)}    </div>
     const c = COMU.ca;
     const cos = `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut legal-content">
-      <span class="eyebrow">Error 404</span>
-      <h1 class="section-title pagina-h1">Aquesta pàgina <em>no existeix.</em></h1>
-      <p class="pagina-lede">Potser l'adreça ha canviat o té algun error. Podeu tornar a l'inici o anar directament on volíeu.</p>
+      <span class="eyebrow">${e(t('ca', '404.eyebrow'))}</span>
+      <h1 class="section-title pagina-h1">${t('ca', '404.h1')}</h1>
+      <p class="pagina-lede">${t('ca', '404.lede')}</p>
       <form class="cerca-form cerca-form-404" role="search" method="get" action="/cerca/">
-        <label class="cerca-label" for="cerca-404-ca">Cerca al web</label>
+        <label class="cerca-label" for="cerca-404-ca">${e(t('ca', '404.cerca_label'))}</label>
         <div class="cerca-fila">
-          <input id="cerca-404-ca" class="cerca-input" type="search" name="q" autocomplete="off" placeholder="p. ex. DPO, RGPD, diagnòstic…" />
-          <button type="submit" class="btn btn-primary cerca-boto">Cercar</button>
+          <input id="cerca-404-ca" class="cerca-input" type="search" name="q" autocomplete="off" placeholder="${e(t('ca', '404.cerca_placeholder'))}" />
+          <button type="submit" class="btn btn-primary cerca-boto">${e(t('ca', '404.cerca_boto'))}</button>
         </div>
       </form>
       <ul class="pagina-altres">
-        <li><a href="/">Inici</a></li>
-        <li><a href="/#serveis">Serveis</a></li>
+        <li><a href="/">${e(t('ca', '404.enllac_inici'))}</a></li>
+        <li><a href="/#serveis">${e(t('ca', '404.enllac_serveis'))}</a></li>
         <li><a href="/diagnostic.html">${e(c.cta_1[0])}</a></li>
-        <li><a href="/actualitat/">Actualitat</a></li>
-        <li><a href="/#contacte">Contacte</a></li>
-        <li><a href="/es/" lang="es" hreflang="es">Versión en castellano</a></li>
+        <li><a href="/actualitat/">${e(t('ca', '404.enllac_actualitat'))}</a></li>
+        <li><a href="/#contacte">${e(t('ca', '404.enllac_contacte'))}</a></li>
+        <li><a href="/es/" lang="es" hreflang="es">${e(t('ca', '404.altre_idioma'))}</a></li>
       </ul>
       <section class="pagina-seccio" lang="es">
-        <h2>Esta página no existe.</h2>
-        <p class="pagina-lede">Quizás la dirección ha cambiado o tiene algún error. Podéis volver al inicio o ir directamente a donde queríais.</p>
+        <h2>${e(t('es', '404.h1'))}</h2>
+        <p class="pagina-lede">${t('es', '404.lede')}</p>
         <form class="cerca-form cerca-form-404" role="search" method="get" action="/es/buscar/">
-          <label class="cerca-label" for="cerca-404-es">Buscar en la web</label>
+          <label class="cerca-label" for="cerca-404-es">${e(t('es', '404.cerca_label'))}</label>
           <div class="cerca-fila">
-            <input id="cerca-404-es" class="cerca-input" type="search" name="q" autocomplete="off" placeholder="p. ej. DPO, RGPD, diagnóstico…" />
-            <button type="submit" class="btn btn-primary cerca-boto">Buscar</button>
+            <input id="cerca-404-es" class="cerca-input" type="search" name="q" autocomplete="off" placeholder="${e(t('es', '404.cerca_placeholder'))}" />
+            <button type="submit" class="btn btn-primary cerca-boto">${e(t('es', '404.cerca_boto'))}</button>
           </div>
         </form>
         <ul class="pagina-altres">
-          <li><a href="/es/">Inicio</a></li>
-          <li><a href="/es/#servicios">Servicios</a></li>
-          <li><a href="/es/#contacto">Contacto</a></li>
-          <li><a href="/es/preguntas-frecuentes/">Preguntas frecuentes</a></li>
+          <li><a href="/es/">${e(t('es', '404.enllac_inici'))}</a></li>
+          <li><a href="/es/#servicios">${e(t('es', '404.enllac_serveis'))}</a></li>
+          <li><a href="/es/#contacto">${e(t('es', '404.enllac_contacte'))}</a></li>
+          <li><a href="/es/preguntas-frecuentes/">${e(t('es', '404.enllac_faq'))}</a></li>
         </ul>
       </section>
     </div>
   </main>
 `;
-    return cap('ca', "Pàgina no trobada · Madeinhuman", "Aquesta pàgina no existeix.", '/404.html', [], { '@context': 'https://schema.org', '@graph': [empresa_ld()] },
+    return cap('ca', t('ca', '404.titol_seo'), t('ca', '404.desc'), '/404.html', [], { '@context': 'https://schema.org', '@graph': [empresa_ld()] },
       { comentari: false, robots: 'noindex', ambCanonica: false }) + nav('ca', '/es/') + cos + peu('ca');
   }
 
@@ -236,7 +235,7 @@ ${seccions}${perSectors}${bloc_final(lang, clau)}    </div>
       k => `<li><a href="${url_servei('es', k)}"><strong>${e(PAGINES[k].es.curt)}</strong><span>${e(PAGINES[k].es.lede)}</span></a></li>`)
       .join('');
     const c = COMU.es;
-    const passos = c.metode.map(({ titol: t, text: d }, i) => `<li><span class="pas-num">${String(i + 1).padStart(2, '0')}</span><strong>${e(t)}</strong><span>${e(d)}</span></li>`).join('');
+    const passos = c.metode.map(({ titol: tit, text: d }, i) => `<li><span class="pas-num">${String(i + 1).padStart(2, '0')}</span><strong>${e(tit)}</strong><span>${e(d)}</span></li>`).join('');
     const cos = `  <main id="contingut" class="pagina" tabindex="-1">
     <div class="container pagina-contingut legal-content">
       <span class="eyebrow">${e(p.eyebrow)}</span>
@@ -257,10 +256,10 @@ ${seccions}${perSectors}${bloc_final(lang, clau)}    </div>
       <aside class="pagina-cta" id="contacto">
         <h2>${e(p.contacte_titol)}</h2>
         <p>${e(p.contacte_text)}</p>
-        <p><a href="mailto:${NAP.correu}">${NAP.correu}</a> · <a href="tel:${NAP.telefon}">${NAP.telefon_visible}</a> · ${e(ZONA_ES)}</p>
+        <p><a href="mailto:${NAP.correu}">${NAP.correu}</a> · <a href="tel:${NAP.telefon}">${NAP.telefon_visible}</a> · ${e(t('es', 'serveis.zona_peu'))}</p>
         <div class="pagina-cta-botons">
-          <a class="btn btn-primary" href="mailto:${NAP.correu}">Escríbenos</a>
-          <a class="btn btn-ghost" href="https://wa.me/${NAP.telefon.replace(/^\++/, '')}" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn btn-primary" href="mailto:${NAP.correu}">${e(t('es', 'serveis.escriu_nos'))}</a>
+          <a class="btn btn-ghost" href="https://wa.me/${NAP.telefon.replace(/^\++/, '')}" target="_blank" rel="noopener">${e(t('es', 'comu.whatsapp'))}</a>
         </div>
       </aside>
     </div>
