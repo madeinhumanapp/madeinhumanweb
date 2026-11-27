@@ -14,11 +14,9 @@ if (!fs.existsSync(ARREL) || !fs.statSync(ARREL).isDirectory()) {
   process.exit(1);
 }
 
-// Excepcions en fitxers protegits que Gemini no pot tocar (aplicacions JS i plantilles/formularis/): surten com a avís
+// Excepcions en fitxers protegits que Gemini no pot tocar (recollida.html): surten com a avís
 const PENDENTS_DE_CLAUDE = [
   { pagina: 'recollida.html', patro: /falta element <main>|s'esperava 1 <h1>/ },
-  { pagina: 'necessito-dpo/index.html', patro: /s'esperava 1 <h1>/ },
-  { pagina: 'index.html', patro: /^camp <(input|select|textarea)\b.*sense label ni aria-label$/ },
 ];
 
 const esPendent = (pagina, detall) => PENDENTS_DE_CLAUDE.some(x => x.pagina === pagina && x.patro.test(detall));
